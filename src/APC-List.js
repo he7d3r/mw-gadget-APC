@@ -1,4 +1,3 @@
-//<pre>
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /*global $, mw */
 /**
@@ -68,7 +67,6 @@ name: 'Trimming de DEFAULTSORT 2',
 find: /(\{\{DEFAULTSORT\:.*) +\}\}/i,
 replace: '$1}}',
 num: 100
-}]
 }]
 },
 {
@@ -4396,7 +4394,7 @@ name: 'Categorizando',
 find: '',
 replace: '',
 num: 1,
-ifnot: '[[Categoria:' // FIXME: /[[Categoria:/i ?,
+ifnot: '[[Categoria:', // FIXME: /[[Categoria:/i ?
 sub: [{
 name: '+cat do tipo Arte',
 find: '',
@@ -4550,7 +4548,7 @@ num: 10
 },
 {
 name: '&lt;br /&gt; antes predef',
-find: /&lt;br \/&gt;(\r?\n)+{{/i,
+find: /&lt;br \/&gt;(\r?\n)+\{\{/i,
 replace: '\n\n{{',
 num: 100
 },
@@ -4651,14 +4649,14 @@ name: '&lt;/div&gt;',
 find: /&lt;\/div&gt;/i,
 replace: '',
 num: 10,
-ifnot: '&lt;div', // FIXME: /&lt;div/i ?
+ifnot: '&lt;div' // FIXME: /&lt;div/i ?
 },
 {
 name: '&lt;/gallery&gt;',
 find: /&lt;\/gallery&gt;/i,
 replace: '',
 num: 10,
-ifnot: '&lt;gallery', // FIXME: /&lt;gallery/i ?
+ifnot: '&lt;gallery' // FIXME: /&lt;gallery/i ?
 }]
 },
 {
@@ -4677,7 +4675,7 @@ name: '&lt;pre&gt;',
 find: /&lt;pre&gt;/i,
 replace: '',
 num: 1,
-ifnot: '&lt;/pre&gt;', // FIXME: /&lt;/pre&gt;/i ?
+ifnot: '&lt;/pre&gt;' // FIXME: /&lt;/pre&gt;/i ?
 },
 {
 name: '&lt;/small&gt;',
@@ -4912,7 +4910,7 @@ num: 1
 },
 {
 name: '[[{{CURRENTYEAR}}|atual]]',
-find: '[[{{subst:CURRENTYEAR}}|atual]]',
+find: '[[2012|atual]]',
 replace: 'atual',
 num: 10
 }]
@@ -4941,7 +4939,7 @@ name: 'Ligações internas',
 find: '',
 replace: '',
 num: 1,
-ifhas: /[[/i,
+ifhas: /\[\[/i,
 sub: [{
 name: 'Data - mês',
 find: /\[\[((?:jan|fever)eiro|março|abril|maio|ju[nl]ho|agosto|(?:setem|outu|novem|dezem)bro)\]\]/i,
@@ -5050,11 +5048,11 @@ num: 1,
 ifhas: /\{\{/i,
 sub: [{
 name: '{{ }',
-find: /([^{])\{\{([^{}\r\n]+)}([^}])/i,
+find: /([^{])\{\{([^{}\r\n]+)\}([^}])/i,
 replace: '$1{{$2}}$3',
 num: 1
 }]
-}
+}]
 }]
 },
 {
@@ -5206,7 +5204,7 @@ find: /╦/i,
 replace: '╦\n{{sem infocaixa}}',
 num: 1,
 ifhas: /(\[\[Categoria:((Aldeia|Bailiado|Bairro|Beatos|Borough|Cantão|Cidade|Circunscrição|Comuna|Condado|Concelho|Departamento|Distrito|Estado|Freguesia|Município|Periferia|Posto administrativo|Povoação|Povoado|Prefeitura|Província|Território|Unidade Residencial|Vila|Voivodia)s?|Bandas|Castelos|Filmes|Jogos|Jornais|Livros|Revistas|Santos|Singles|Associaç(ão|ões))[ \|\]][^ ])/i,
-ifnot: /(\n *\| *(nome|local|país|nascimento|site)|{{Sem infocaixa|\| \]\]|{{Info/)/i
+ifnot: /(\n *\| *(nome|local|país|nascimento|site)|\{\{Sem infocaixa|\| \]\]|\{\{Info\/)/i
 },
 {
 name: '{{Sem infocaixa}}',
@@ -5267,7 +5265,7 @@ ifnot: /\{\{Wikificação[\|}]/i,
 sub: [{
 name: '+{{Wikificação}}',
 find: '╦',
-replace: '╦\n{{Wikificação|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}\n',
+replace: '╦\n{{Wikificação|data=July de 2012}}\n',
 num: 1,
 ifnot: /[^\n]\[\[/i
 }]
@@ -5293,7 +5291,7 @@ num: 1,
 sub: [{
 name: 'Título na introdução',
 find: /(▓([^\(╦\n]*)(?: \([^╦\n]*)?╦\r?\n[^╚]*╚)(é|são|foi|foram|era|eram) um/i,
-replace: '$1\'\'\'$2\'\'\' {{subst:lcfirst:$3}} um',
+replace: '$1\'\'\'$2\'\'\' $3 um',
 num: 1
 },
 {
@@ -5588,14 +5586,14 @@ num: 1,
 sub: [{
 name: '{{dni | si}}',
 find: /(\{\{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/i,
-replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4|si}}\n<',
+replace: '$1{{dni|$2||$4|si}}\n<',
 num: 1,
 ifhas: '{{falecimento|' // FIXME: /\{\{falecimento|/i ?
 },
 {
 name: '{{dni}}',
 find: /(\{\{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/i,
-replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4}}\n',
+replace: '$1{{dni|$2||$4}}\n',
 num: 1
 },
 {
@@ -5611,7 +5609,7 @@ find: /(\{\{dni[^{}]+)\}\}/i,
 replace: '$1|sem idade}}',
 num: 1,
 ifhas: /\{\{(falecimento|morte)/i,
-ifnot: /\{\{dni[^\{\}]*(sem idade|si)}}/i
+ifnot: /\{\{dni[^\{\}]*(sem idade|si)\}\}/i
 },
 {
 name: '??? em infobox',
@@ -5675,7 +5673,7 @@ find: /(\{\{Info\/[^╣]*\n *\| *[^=╣]+)=([^ \r\n])/i,
 replace: '$1= $2',
 num: 100
 }]
-}
+}]
 }]
 },
 {
@@ -5752,7 +5750,7 @@ num: 10
 },
 {
 name: 'Título gerado por robô',
-find: '╔\-* Título gerado por robô *\-*╗',
+find: /╔\-* Título gerado por robô *\-*╗/,
 replace: '',
 num: 1
 },
@@ -5805,7 +5803,7 @@ num: 1
 {
 name: '{{Trivia}}',
 find: /(\n║\={2,} (?:Trivia|Curiosidades?) \={2,})(\r?\n)+([\*\#])/i,
-replace: '$1\n{{Trivia|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}\n$3',
+replace: '$1\n{{Trivia|data=July de 2012}}\n$3',
 num: 1
 },
 {
@@ -5835,7 +5833,7 @@ num: 10
 },
 {
 name: '[[Ficheiro:',
-find: /╠[^\:\n]*(?:\r?\n|[&lt;&gt;\[\]\{\}\|\r\n][^\[\]\n]*\]+([^\]]))/i,
+find: /╠[^:\n]*(?:\r?\n|[&lt;&gt;\[\]\{\}\|\r\n][^\[\]\n]*\]+([^\]]))/i,
 replace: '$1',
 num: 1
 },
@@ -5847,13 +5845,13 @@ num: 10
 },
 {
 name: 'url em Ficheiro',
-find: /╠[^\:\n]*:https?:\/\/[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:https?:\/\/[^▒\n]*▒\]\]/i,
 replace: '',
 num: 1
 },
 {
 name: '[[Ficheiro:[[Ficheiro:',
-find: /╠[^\:\n]*: *╠/,
+find: /╠[^:\n]*: *╠/,
 replace: '╠',
 num: 1
 },
@@ -5868,124 +5866,124 @@ name: 'Flag of',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of [^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of [^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: 'A',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of A[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of A[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{ABWb}}',
-find: /╠[^\:\n]*:Flag of Aruba\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Aruba\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ABWb}}',
 num: 100
 },
 {
 name: '{{AFGb}}',
-find: /╠[^\:\n]*:Flag of Afghanistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Afghanistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AFGb}}',
 num: 100
 },
 {
 name: '{{AGOb}}',
-find: /╠[^\:\n]*:Flag of Angola\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Angola\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AGOb}}',
 num: 100
 },
 {
 name: '{{AHEb}}',
-find: /╠[^\:\n]*:Flag of Austria-Hungary_1869-1918\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Austria-Hungary_1869-1918\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AHEb}}',
 num: 100
 },
 {
 name: '{{AIAb}}',
-find: /╠[^\:\n]*:Flag of Anguilla\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Anguilla\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AIAb}}',
 num: 100
 },
 {
 name: '{{ALAb}}',
-find: /╠[^\:\n]*:Flag of Aaland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Aaland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ALAb}}',
 num: 100
 },
 {
 name: '{{ALBb}}',
-find: /╠[^\:\n]*:Flag of Albania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Albania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ALBb}}',
 num: 100
 },
 {
 name: '{{ANDb}}',
-find: /╠[^\:\n]*:Flag of Andorra.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Andorra.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ANDb}}',
 num: 100
 },
 {
 name: '{{ANZb}}',
-find: /╠[^\:\n]*:Flag of Australasian team for Olympic games.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Australasian team for Olympic games.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ANZb}}',
 num: 100
 },
 {
 name: '{{ARGb}}',
-find: /╠[^\:\n]*:Flag of Argentina\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Argentina\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ARGb}}',
 num: 100
 },
 {
 name: '{{ARMb}}',
-find: /╠[^\:\n]*:Flag of Armenia.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Armenia.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ARMb}}',
 num: 100
 },
 {
 name: '{{ASMb}}',
-find: /╠[^\:\n]*:Flag of American Samoa.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of American Samoa.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ASMb}}',
 num: 100
 },
 {
 name: '{{ATAb}}',
-find: /╠[^\:\n]*:Flag of Antarctica.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Antarctica.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ATAb}}',
 num: 100
 },
 {
 name: '{{ATGb}}',
-find: /╠[^\:\n]*:Flag of Antigua and Barbuda.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Antigua and Barbuda.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ATGb}}',
 num: 100
 },
 {
 name: '{{AUSb}}',
-find: /╠[^\:\n]*:Flag of Australia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Australia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AUSb}}',
 num: 100
 },
 {
 name: '{{AUTb}}',
-find: /╠[^\:\n]*:Flag of Austria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Austria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AUTb}}',
 num: 100
 },
 {
 name: '{{AZEb}}',
-find: /╠[^\:\n]*:Flag of Azerbaijan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Azerbaijan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AZEb}}',
 num: 100
 },
 {
 name: '{{AZOb}}',
-find: /╠[^\:\n]*:Flag of Azores.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Azores.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AZOb}}',
 num: 100
 },
 {
 name: '{{DZAb}}',
-find: /╠[^\:\n]*:Flag of Algeria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Algeria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DZAb}}',
 num: 100
 }]
@@ -5995,118 +5993,118 @@ name: 'B',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of B[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of B[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{BDIb}}',
-find: /╠[^\:\n]*:Flag of Burundi\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Burundi\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BDIb}}',
 num: 100
 },
 {
 name: '{{BELb}}',
-find: /╠[^\:\n]*:Flag of Belgium( \(civil\))?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Belgium( \(civil\))?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BELb}}',
 num: 100
 },
 {
 name: '{{BENb}}',
-find: /╠[^\:\n]*:Flag of Benin\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Benin\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BENb}}',
 num: 100
 },
 {
 name: '{{BFAb}}',
-find: /╠[^\:\n]*:Flag of Burkina Faso\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Burkina Faso\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BFAb}}',
 num: 100
 },
 {
 name: '{{BGDb}}',
-find: /╠[^\:\n]*:Flag of Bangladesh\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bangladesh\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BGDb}}',
 num: 100
 },
 {
 name: '{{BGRb}}',
-find: /╠[^\:\n]*:Flag of Bulgaria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bulgaria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BGRb}}',
 num: 100
 },
 {
 name: '{{BHRb}}',
-find: /╠[^\:\n]*:Flag of Bahrain\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bahrain\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BHRb}}',
 num: 100
 },
 {
 name: '{{BHSb}}',
-find: /╠[^\:\n]*:Flag of Bahamas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bahamas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BHSb}}',
 num: 100
 },
 {
 name: '{{BIHb}}',
-find: /╠[^\:\n]*:Flag of Bosnia and Herzegovina\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bosnia and Herzegovina\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BIHb}}',
 num: 100
 },
 {
 name: '{{BLRb}}',
-find: /╠[^\:\n]*:Flag of Belarus\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Belarus\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BLRb}}',
 num: 100
 },
 {
 name: '{{BLZb}}',
-find: /╠[^\:\n]*:Flag of Belize\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Belize\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BLZb}}',
 num: 100
 },
 {
 name: '{{BMUb}}',
-find: /╠[^\:\n]*:Flag of Bermuda\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bermuda\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BMUb}}',
 num: 100
 },
 {
 name: '{{BOHb}}',
-find: /╠[^\:\n]*:Flag of Bohemia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bohemia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BOHb}}',
 num: 100
 },
 {
 name: '{{BOLb}}',
-find: /╠[^\:\n]*:Flag of Bolivia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bolivia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BOLb}}',
 num: 100
 },
 {
 name: '{{BRAb}}',
-find: /╠[^\:\n]*:Flag of Brazil\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Brazil\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BRAb}}',
 num: 100
 },
 {
 name: '{{BRBb}}',
-find: /╠[^\:\n]*:Flag of Barbados\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Barbados\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BRBb}}',
 num: 100
 },
 {
 name: '{{BRNb}}',
-find: /╠[^\:\n]*:Flag of Brunei\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Brunei\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BRNb}}',
 num: 100
 },
 {
 name: '{{BTNb}}',
-find: /╠[^\:\n]*:Flag of Bhutan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Bhutan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BTNb}}',
 num: 100
 },
 {
 name: '{{BWAb}}',
-find: /╠[^\:\n]*:Flag of Botswana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Botswana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BWAb}}',
 num: 100
 }]
@@ -6116,124 +6114,124 @@ name: 'C',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of C[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of C[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{Catalunhab}}',
-find: /╠[^\:\n]*:Flag of Catalonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Catalonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{Catalunhab}}',
 num: 100
 },
 {
 name: '{{CANb}}',
-find: /╠[^\:\n]*:Flag of Canada\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Canada\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CANb}}',
 num: 100
 },
 {
 name: '{{CATb}}',
-find: /╠[^\:\n]*:Flag of Catalonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Catalonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CANb}}',
 num: 100
 },
 {
 name: '{{CECb}}',
-find: /╠[^\:\n]*:Flag of Czechoslovakia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Czechoslovakia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CECb}}',
 num: 100
 },
 {
 name: '{{CEYb}}',
-find: /╠[^\:\n]*:Flag of Ceylon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Ceylon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CEYb}}',
 num: 100
 },
 {
 name: '{{CHLb}}',
-find: /╠[^\:\n]*:Flag of Chile\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Chile\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CHLb}}',
 num: 100
 },
 {
 name: '{{CIVb}}',
-find: /╠[^\:\n]*:Flag of Cote d'Ivoire\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Cote d'Ivoire\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CIVb}}',
 num: 100
 },
 {
 name: '{{CMRb}}',
-find: /╠[^\:\n]*:Flag of Cameroon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Cameroon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CMRb}}',
 num: 100
 },
 {
 name: '{{COLb}}',
-find: /╠[^\:\n]*:Flag of Colombia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Colombia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{COLb}}',
 num: 100
 },
 {
 name: '{{CPVb}}',
-find: /╠[^\:\n]*:Flag of Cape Verde\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Cape Verde\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CPVb}}',
 num: 100
 },
 {
 name: '{{CRIb}}',
-find: /╠[^\:\n]*:Flag of Costa Rica\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Costa Rica\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CRIb}}',
 num: 100
 },
 {
 name: '{{CUBb}}',
-find: /╠[^\:\n]*:Flag of Cuba\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Cuba\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CUBb}}',
 num: 100
 },
 {
 name: '{{CURb}}',
-find: /╠[^\:\n]*:Flag of Curaçao\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Curaçao\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CURb}}',
 num: 100
 },
 {
 name: '{{CXRb}}',
-find: /╠[^\:\n]*:Flag of Christmas Island\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Christmas Island\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CXRb}}',
 num: 100
 },
 {
 name: '{{CYPb}}',
-find: /╠[^\:\n]*:Flag of Cyprus\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Cyprus\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CYPb}}',
 num: 100
 },
 {
 name: '{{HRVb}}',
-find: /╠[^\:\n]*:Flag of Croatia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Croatia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{HRVb}}',
 num: 1
 },
 {
 name: '{{KHMb}}',
-find: /╠[^\:\n]*:Flag of Cambodia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Cambodia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KHMb}}',
 num: 1
 },
 {
 name: '{{TCDb}}',
-find: /╠[^\:\n]*:Flag of Chad\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Chad\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TCDb}}',
 num: 100
 },
 {
 name: '{{TCHb}}',
-find: /╠[^\:\n]*:Flag of Czechoslovakia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Czechoslovakia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TCHb}}',
 num: 100
 },
 {
 name: '{{TPEb}}',
-find: /╠[^\:\n]*:Flag of Chinese Taipei for Olympic games\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Chinese Taipei for Olympic games\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TPEb}}',
 num: 100
 }]
@@ -6243,22 +6241,22 @@ name: 'D',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of D[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of D[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{DJIb}}',
-find: /╠[^\:\n]*:Flag of Djibouti\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Djibouti\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DJIb}}',
 num: 100
 },
 {
 name: '{{DMAb}}',
-find: /╠[^\:\n]*:Flag of Dominica\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Dominica\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DMAb}}',
 num: 100
 },
 {
 name: '{{DNKb}}',
-find: /╠[^\:\n]*:Flag of Denmark\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Denmark\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DNKb}}',
 num: 100
 }]
@@ -6268,76 +6266,76 @@ name: 'E',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of E[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of E[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{TLSb}}',
-find: /╠[^\:\n]*:Flag of East Timor\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of East Timor\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TLSb}}',
 num: 100
 },
 {
 name: '{{SLVb}}',
-find: /╠[^\:\n]*:Flag of El Salvador\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of El Salvador\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SLVb}}',
 num: 100
 },
 {
 name: '{{GNQb}}',
-find: /╠[^\:\n]*:Flag of Equatorial Guinea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Equatorial Guinea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GNQb}}',
 num: 100
 },
 {
 name: '{{DDRb}}',
-find: /╠[^\:\n]*:Flag of East Germany\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of East Germany\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DDRb}}',
 num: 100
 },
 {
 name: '{{EURb}}',
-find: /╠[^\:\n]*:Flag of Europe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Europe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{EURb}}',
 num: 100
 },
 {
 name: '{{ECUb}}',
-find: /╠[^\:\n]*:Flag of Ecuador\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Ecuador\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ECUb}}',
 num: 100
 },
 {
 name: '{{EGYb}}',
-find: /╠[^\:\n]*:Flag of Egypt\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Egypt\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{EGYb}}',
 num: 100
 },
 {
 name: '{{ENGb}}',
-find: /╠[^\:\n]*:Flag of England\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of England\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ENGb}}',
 num: 100
 },
 {
 name: '{{ERIb}}',
-find: /╠[^\:\n]*:Flag of Eritrea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Eritrea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ERIb}}',
 num: 100
 },
 {
 name: '{{ESTb}}',
-find: /╠[^\:\n]*:Flag of Estonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Estonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ESTb}}',
 num: 100
 },
 {
 name: '{{ETHb}}',
-find: /╠[^\:\n]*:Flag of Ethiopia\.(?:svg|png) *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Ethiopia\.(?:svg|png) *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ETHb}}',
 num: 100
 },
 {
 name: '{{ESHb}}',
-find: /╠[^\:\n]*:Flag of Western Sahara\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Western Sahara\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ESHb}}',
 num: 100
 }]
@@ -6347,64 +6345,64 @@ name: 'F',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of F[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of F[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{PYFb}}',
-find: /╠[^\:\n]*:Flag of French Polynesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of French Polynesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PYFb}}',
 num: 100
 },
 {
 name: '{{GUFb}}',
-find: /╠[^\:\n]*:Flag of French Guiana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of French Guiana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GUFb}}',
 num: 100
 },
 {
 name: '{{FINb}}',
-find: /╠[^\:\n]*:Flag of Finland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Finland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FINb}}',
 num: 100
 },
 {
 name: '{{FJIb}}',
-find: /╠[^\:\n]*:Flag of Fiji\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Fiji\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FJIb}}',
 num: 100
 },
 {
 name: '{{NCLb}}',
-find: /╠[^\:\n]*:Flag of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*Nova Caledônia[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*Nova Caledônia[^▒\n]*▒\]\]/i,
 replace: '{{NCLb}}',
 num: 100
 },
 {
 name: '{{FRAb}}',
-find: /╠[^\:\n]*:Flag of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb}}',
 num: 100
 },
 {
 name: '{{FRAb|antiga}}',
-find: /╠[^\:\n]*:Flag of France (XII-XIII)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of France (XII-XIII)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|antiga}}',
 num: 100
 },
 {
 name: '{{FRAb|moderna}}',
-find: /╠[^\:\n]*:Flag of France (XIV-XVI)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of France (XIV-XVI)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|moderna}}',
 num: 100
 },
 {
 name: '{{FRAb|livre}}',
-find: /╠[^\:\n]*:Flag of Free France 1940-1944\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Free France 1940-1944\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|livre}}',
 num: 100
 },
 {
 name: '{{FSMb}}',
-find: /╠[^\:\n]*:Flag of Federated States of Micronesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Federated States of Micronesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FSMb}}',
 num: 100
 }]
@@ -6414,124 +6412,124 @@ name: 'G',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of G[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of G[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{GABb}}',
-find: /╠[^\:\n]*:Flag of Gabon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Gabon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GABb}}',
 num: 100
 },
 {
 name: '{{GALb}}',
-find: /╠[^\:\n]*:Flag of Galicia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Galicia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GALb}}',
 num: 100
 },
 {
 name: '{{GHAb}}',
-find: /╠[^\:\n]*:Flag of Ghana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Ghana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GHAb}}',
 num: 100
 },
 {
 name: '{{GEOb}}',
-find: /╠[^\:\n]*:Flag of Georgia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Georgia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GEOb}}',
 num: 100
 },
 {
 name: '{{GEOb|1990}}',
-find: /╠[^\:\n]*:Flag of Georgia \(1990\-2004\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Georgia \(1990\-2004\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GEOb|1990}}',
 num: 100
 },
 {
 name: '{{GIBb}}',
-find: /╠[^\:\n]*:Flag of Gibraltar(?: \(bordered\))?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Gibraltar(?: \(bordered\))?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GIBb}}',
 num: 100
 },
 {
 name: '{{DEUb}}',
-find: /╠[^\:\n]*:Flag of Germany\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Germany\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DEUb}}',
 num: 100
 },
 {
 name: '{{GLPb}}',
-find: /╠[^\:\n]*:Flag of Guadeloupe \(local\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guadeloupe \(local\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GLPb}}',
 num: 100
 },
 {
 name: '{{GGYb}}',
-find: /╠[^\:\n]*:Flag of Guernsey\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guernsey\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GGYb}}',
 num: 100
 },
 {
 name: '{{GINb}}',
-find: /╠[^\:\n]*:Flag of Guinea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guinea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GINb}}',
 num: 100
 },
 {
 name: '{{GNBb}}',
-find: /╠[^\:\n]*:Flag of Guinea-Bissau\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guinea-Bissau\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GNBb}}',
 num: 100
 },
 {
 name: '{{GRCb}}',
-find: /╠[^\:\n]*:Flag of Greece\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Greece\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRCb}}',
 num: 100
 },
 {
 name: '{{GRCb|1828-1978}}',
-find: /╠[^\:\n]*:Flag of Greece (1828-1978)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Greece (1828-1978)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRCb|1828-1978}}',
 num: 100
 },
 {
 name: '{{GRCb|old}}',
-find: /╠[^\:\n]*:Flag of Greece (1828-1978)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Greece (1828-1978)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRCb|old}}',
 num: 100
 },
 {
 name: '{{GRCb|1970}}',
-find: /╠[^\:\n]*:Flag of Greece (1970-1975)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Greece (1970-1975)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRCb|1970}}',
 num: 100
 },
 {
 name: '{{GRDb}}',
-find: /╠[^\:\n]*:Flag of Grenada\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Grenada\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRDb}}',
 num: 100
 },
 {
 name: '{{GRLb}}',
-find: /╠[^\:\n]*:Flag of Greenland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Greenland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRLb}}',
 num: 100
 },
 {
 name: '{{GTMb}}',
-find: /╠[^\:\n]*:Flag of Guatemala\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guatemala\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GTMb}}',
 num: 100
 },
 {
 name: '{{GUMb}}',
-find: /╠[^\:\n]*:Flag of Guam\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guam\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GUMb}}',
 num: 100
 },
 {
 name: '{{GUYb}}',
-find: /╠[^\:\n]*:Flag of Guyana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Guyana\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GUYb}}',
 num: 100
 }]
@@ -6541,34 +6539,34 @@ name: 'H',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of H[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of H[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{HKGb}}',
-find: /╠[^\:\n]*:Flag of Hong Kong\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Hong Kong\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{HKGb}}',
 num: 1
 },
 {
 name: '{{HNDb}}',
-find: /╠[^\:\n]*:Flag of Honduras\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Honduras\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{HNDb}}',
 num: 1
 },
 {
 name: '{{HTIb}}',
-find: /╠[^\:\n]*:Flag of Haiti\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Haiti\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{HTIb}}',
 num: 1
 },
 {
 name: '{{HUNb}}',
-find: /╠[^\:\n]*:Flag of Hungary\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Hungary\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{HUNb}}',
 num: 1
 },
 {
 name: '{{HAWb}}',
-find: /╠[^\:\n]*:Flag of Hawaii\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Hawaii\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{HAWb}}',
 num: 1
 }]
@@ -6578,58 +6576,58 @@ name: 'I',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of I[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of I[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{IDNb}}',
-find: /╠[^\:\n]*:Flag of Indonesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Indonesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IDNb}}',
 num: 1
 },
 {
 name: '{{INDb}}',
-find: /╠[^\:\n]*:Flag of India\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of India\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{INDb}}',
 num: 1
 },
 {
 name: '{{IRLb}}',
-find: /╠[^\:\n]*:Flag of Ireland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Ireland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IRLb}}',
 num: 100
 },
 {
 name: '{{IRNb}}',
-find: /╠[^\:\n]*:Flag of Iran\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Iran\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IRNb}}',
 num: 1
 },
 {
 name: '{{IRQb}}',
-find: /╠[^\:\n]*:Flag of Iraq\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Iraq\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IRQb}}',
 num: 1
 },
 {
 name: '{{ISLb}}',
-find: /╠[^\:\n]*:Flag of Iceland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Iceland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ISLb}}',
 num: 1
 },
 {
 name: '{{ISRb}}',
-find: /╠[^\:\n]*:Flag of Israel\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Israel\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ISRb}}',
 num: 1
 },
 {
 name: '{{ITAb}}',
-find: /╠[^\:\n]*:Flag of Italy\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Italy\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ITAb}}',
 num: 100
 },
 {
 name: '{{Italy (1861-1946)b}}',
-find: /╠[^\:\n]*:Flag of Italy (1861-1946)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Italy (1861-1946)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{Italy (1861-1946)b}}',
 num: 1
 }]
@@ -6639,28 +6637,28 @@ name: 'J',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of J[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of J[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{JAMb}}',
-find: /╠[^\:\n]*:Flag of Jamaica\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Jamaica\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{JAMb}}',
 num: 1
 },
 {
 name: '{{JEYb}}',
-find: /╠[^\:\n]*:Flag of Jersey\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Jersey\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{JEYb}}',
 num: 1
 },
 {
 name: '{{JORb}}',
-find: /╠[^\:\n]*:Flag of Jordan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Jordan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{JORb}}',
 num: 1
 },
 {
 name: '{{JPNb}}',
-find: /╠[^\:\n]*:Flag of Japan( \(bordered\))?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Japan( \(bordered\))?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{JPNb}}',
 num: 100
 }]
@@ -6670,40 +6668,40 @@ name: 'K',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of K[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of K[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{KAZb}}',
-find: /╠[^\:\n]*:Flag of Kazakhstan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Kazakhstan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KAZb}}',
 num: 1
 },
 {
 name: '{{KENb}}',
-find: /╠[^\:\n]*:Flag of Kenya\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Kenya\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KENb}}',
 num: 1
 },
 {
 name: '{{KGZb}}',
-find: /╠[^\:\n]*:Flag of Kyrgyzstan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Kyrgyzstan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KGZb}}',
 num: 1
 },
 {
 name: '{{KIRb}}',
-find: /╠[^\:\n]*:Flag of Kiribati\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Kiribati\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KIRb}}',
 num: 1
 },
 {
 name: '{{KOSb}}',
-find: /╠[^\:\n]*:Flag of Kosovo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Kosovo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KOSb}}',
 num: 1
 },
 {
 name: '{{KWTb}}',
-find: /╠[^\:\n]*:Flag of Kuwait\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Kuwait\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KWTb}}',
 num: 1
 }]
@@ -6713,58 +6711,58 @@ name: 'L',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of L[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of L[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{LAOb}}',
-find: /╠[^\:\n]*:Flag of Laos\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Laos\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LAOb}}',
 num: 1
 },
 {
 name: '{{LBNb}}',
-find: /╠[^\:\n]*:Flag of Lebanon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Lebanon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LBNb}}',
 num: 1
 },
 {
 name: '{{LBRb}}',
-find: /╠[^\:\n]*:Flag of Liberia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Liberia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LBRb}}',
 num: 1
 },
 {
 name: '{{LBYb}}',
-find: /╠[^\:\n]*:Flag of Libya\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Libya\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LBYb}}',
 num: 1
 },
 {
 name: '{{LIEb}}',
-find: /╠[^\:\n]*:Flag of Liechtenstein\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Liechtenstein\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LIEb}}',
 num: 1
 },
 {
 name: '{{LSOb}}',
-find: /╠[^\:\n]*:Flag of Lesotho\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Lesotho\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LSOb}}',
 num: 1
 },
 {
 name: '{{LTUb}}',
-find: /╠[^\:\n]*:Flag of Lithuania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Lithuania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LTUb}}',
 num: 1
 },
 {
 name: '{{LUXb}}',
-find: /╠[^\:\n]*:Flag of Luxembourg\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Luxembourg\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LUXb}}',
 num: 1
 },
 {
 name: '{{LVAb}}',
-find: /╠[^\:\n]*:Flag of Latvia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Latvia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LVAb}}',
 num: 1
 }]
@@ -6774,154 +6772,154 @@ name: 'M',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of M[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of M[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{MEXb}}',
-find: /╠[^\:\n]*:Flag of Mexico\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mexico\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MEXb}}',
 num: 100
 },
 {
 name: '{{MACb}}',
-find: /╠[^\:\n]*:Flag of Macau\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Macau\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MACb}}',
 num: 1
 },
 {
 name: '{{MARb}}',
-find: /╠[^\:\n]*:Flag of Morocco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Morocco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MARb}}',
 num: 1
 },
 {
 name: '{{MCOb}}',
-find: /╠[^\:\n]*:Flag of Monaco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Monaco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MCOb}}',
 num: 1
 },
 {
 name: '{{MDAb}}',
-find: /╠[^\:\n]*:Flag of Moldova\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Moldova\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MDAb}}',
 num: 1
 },
 {
 name: '{{MDGb}}',
-find: /╠[^\:\n]*:Flag of Madagascar\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Madagascar\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MDGb}}',
 num: 1
 },
 {
 name: '{{MDRb}}',
-find: /╠[^\:\n]*:Flag of Madeira\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Madeira\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MDRb}}',
 num: 1
 },
 {
 name: '{{MDVb}}',
-find: /╠[^\:\n]*:Flag of Maldives\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Maldives\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MDVb}}',
 num: 1
 },
 {
 name: '{{MKDb}}',
-find: /╠[^\:\n]*:Flag of Macedonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Macedonia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MKDb}}',
 num: 1
 },
 {
 name: '{{MLIb}}',
-find: /╠[^\:\n]*:Flag of Mali\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mali\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MLIb}}',
 num: 1
 },
 {
 name: '{{MLTb}}',
-find: /╠[^\:\n]*:Flag of Malta\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Malta\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MLTb}}',
 num: 1
 },
 {
 name: '{{MMRb}}',
-find: /╠[^\:\n]*:Flag of Myanmar\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Myanmar\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MMRb}}',
 num: 1
 },
 {
 name: '{{MNEb}}',
-find: /╠[^\:\n]*:Flag of Montenegro\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Montenegro\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MNEb}}',
 num: 1
 },
 {
 name: '{{MNEb|1910}}',
-find: /╠[^\:\n]*:Flag of Montenegro (1941-1944)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Montenegro (1941-1944)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MNEb|1910}}',
 num: 1
 },
 {
 name: '{{MNEb|1993}}',
-find: /╠[^\:\n]*:Flag of Montenegro (1993-2004)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Montenegro (1993-2004)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MNEb|1993}}',
 num: 1
 },
 {
 name: '{{MNGb}}',
-find: /╠[^\:\n]*:Flag of Mongolia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mongolia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MNGb}}',
 num: 1
 },
 {
 name: '{{MONb}}',
-find: /╠[^\:\n]*:Flag of Monaco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Monaco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MONb}}',
 num: 1
 },
 {
 name: '{{MOZb}}',
-find: /╠[^\:\n]*:Flag of Mozambique\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mozambique\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MOZb}}',
 num: 1
 },
 {
 name: '{{MRTb}}',
-find: /╠[^\:\n]*:Flag of Mauritania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mauritania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MRTb}}',
 num: 1
 },
 {
 name: '{{MSRb}}',
-find: /╠[^\:\n]*:Flag of Montserrat\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Montserrat\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MSRb}}',
 num: 1
 },
 {
 name: '{{MTQb}}',
-find: /╠[^\:\n]*:Flag of Martinique\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Martinique\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MTQb}}',
 num: 1
 },
 {
 name: '{{MUSb}}',
-find: /╠[^\:\n]*:Flag of Mauritius\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mauritius\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MUSb}}',
 num: 1
 },
 {
 name: '{{MWIb}}',
-find: /╠[^\:\n]*:Flag of Malawi\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Malawi\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MWIb}}',
 num: 1
 },
 {
 name: '{{MYSb}}',
-find: /╠[^\:\n]*:Flag of Malaysia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Malaysia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MYSb}}',
 num: 1
 },
 {
 name: '{{MYTb}}',
-find: /╠[^\:\n]*:Flag of Mayotte \(local\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Mayotte \(local\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MYTb}}',
 num: 1
 }]
@@ -6931,100 +6929,100 @@ name: 'N',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of N[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of N[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{DEUNb}}',
-find: /╠[^\:\n]*:Flag of Nazi Germany \(1933\-1945\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Nazi Germany \(1933\-1945\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DEUNb}}',
 num: 100
 },
 {
 name: '{{TKLb}}',
-find: /╠[^\:\n]*:Flag of New Zealand\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of New Zealand\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TKLb}}',
 num: 100
 },
 {
 name: '{{SJMb}}',
-find: /╠[^\:\n]*:Flag of Norway\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Norway\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SJMb}}',
 num: 100
 },
 {
 name: '{{PRKb}}',
-find: /╠[^\:\n]*:Flag of North Korea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of North Korea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PRKb}}',
 num: 100
 },
 {
 name: '{{NAMb}}',
-find: /╠[^\:\n]*:Flag of Namibia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Namibia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NAMb}}',
 num: 1
 },
 {
 name: '{{ND}}',
-find: /╠[^\:\n]*:Flag of None\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of None\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ND}}',
 num: 100
 },
 {
 name: '{{NERb}}',
-find: /╠[^\:\n]*:Flag of Niger(?: 3!2)?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Niger(?: 3!2)?\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NERb}}',
 num: 100
 },
 {
 name: '{{NFKb}}',
-find: /╠[^\:\n]*:Flag of Norfolk Island\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Norfolk Island\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NFKb}}',
 num: 100
 },
 {
 name: '{{NGAb}}',
-find: /╠[^\:\n]*:Flag of Nigeria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Nigeria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NGAb}}',
 num: 100
 },
 {
 name: '{{NICb}}',
-find: /╠[^\:\n]*:Flag of Nicaragua\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Nicaragua\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NICb}}',
 num: 100
 },
 {
 name: '{{NIUb}}',
-find: /╠[^\:\n]*:Flag of Niue\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Niue\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NIUb}}',
 num: 100
 },
 {
 name: '{{NKORb}}',
-find: /╠[^\:\n]*:Flag of North Korea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of North Korea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NKORb}}',
 num: 100
 },
 {
 name: '{{NORb}}',
-find: /╠[^\:\n]*:Flag of Norway\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Norway\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NORb}}',
 num: 100
 },
 {
 name: '{{NPLb}}',
-find: /╠[^\:\n]*:Flag of Nepal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Nepal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NPLb}}',
 num: 100
 },
 {
 name: '{{NRUb}}',
-find: /╠[^\:\n]*:Flag of Nauru\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Nauru\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NRUb}}',
 num: 100
 },
 {
 name: '{{NZLb}}',
-find: /╠[^\:\n]*:Flag of New Zealand\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of New Zealand\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NZLb}}',
 num: 100
 }]
@@ -7034,10 +7032,10 @@ name: 'O',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of O[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of O[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{OMNb}}',
-find: /╠[^\:\n]*:Flag of Oman\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Oman\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{OMNb}}',
 num: 100
 }]
@@ -7047,70 +7045,70 @@ name: 'P',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of P[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of P[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{PRTb}}',
-find: /╠[^\:\n]*:Flag of Portugal*\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Portugal*\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PRTb}}',
 num: 100
 },
 {
 name: '{{PAKb}}',
-find: /╠[^\:\n]*:Flag of Pakistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Pakistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PAKb}}',
 num: 100
 },
 {
 name: '{{PANb}}',
-find: /╠[^\:\n]*:Flag of Panama\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Panama\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PANb}}',
 num: 100
 },
 {
 name: '{{PERb}}',
-find: /╠[^\:\n]*:Flag of Peru\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Peru\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PERb}}',
 num: 100
 },
 {
 name: '{{PLWb}}',
-find: /╠[^\:\n]*:Flag of Palau\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Palau\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PLWb}}',
 num: 100
 },
 {
 name: '{{PNGb}}',
-find: /╠[^\:\n]*:Flag of Papua New Guinea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Papua New Guinea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PNGb}}',
 num: 100
 },
 {
 name: '{{POLb}}',
-find: /╠[^\:\n]*:Flag of Poland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Poland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{POLb}}',
 num: 100
 },
 {
 name: '{{PRIb}}',
-find: /╠[^\:\n]*:Flag of Puerto Rico\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Puerto Rico\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PRIb}}',
 num: 100
 },
 {
 name: '{{PRTb}}',
-find: /╠[^\:\n]*:Flag of Portugal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Portugal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PRTb}}',
 num: 100
 },
 {
 name: '{{PRYb}}',
-find: /╠[^\:\n]*:Flag of Paraguay\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Paraguay\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PRYb}}',
 num: 100
 },
 {
 name: '{{PSEb}}',
-find: /╠[^\:\n]*:Flag of Palestine\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Palestine\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PSEb}}',
 num: 100
 }]
@@ -7120,10 +7118,10 @@ name: 'Q',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of Q[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of Q[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{QATb}}',
-find: /╠[^\:\n]*:Flag of Qatar\.svg*\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Qatar\.svg*\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{QATb}}',
 num: 100
 }]
@@ -7133,34 +7131,34 @@ name: 'R',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of R[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of R[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{RUSb}}',
-find: /╠[^\:\n]*:Flag of Russia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Russia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{RUSb}}',
 num: 100
 },
 {
 name: '{{RUSb|1991}}',
-find: /╠[^\:\n]*:Flag of Russia 1991\-1993\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Russia 1991\-1993\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{RUSb|1991}}',
 num: 100
 },
 {
 name: '{{RHOb}}',
-find: /╠[^\:\n]*:Flag of Rhodesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Rhodesia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{RHOb}}',
 num: 100
 },
 {
 name: '{{ROUb}}',
-find: /╠[^\:\n]*:Flag of Romania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Romania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ROUb}}',
 num: 100
 },
 {
 name: '{{RWAb}}',
-find: /╠[^\:\n]*:Flag of Rwanda\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Rwanda\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{RWAb}}',
 num: 100
 }]
@@ -7170,256 +7168,256 @@ name: 'S',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of S[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of S[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{ZAFb}}',
-find: /╠[^\:\n]*:Flag of South Africa\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of South Africa\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ZAFb}}',
 num: 100
 },
 {
 name: '{{YUGb}}',
-find: /╠[^\:\n]*:Flag of SFR Yugoslavia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of SFR Yugoslavia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{YUGb}}',
 num: 100
 },
 {
 name: '{{WSMb}}',
-find: /╠[^\:\n]*:Flag of Samoa\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Samoa\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{WSMb}}',
 num: 100
 },
 {
 name: '{{VCTb}}',
-find: /╠[^\:\n]*:Flag of Saint Vincent and the Grenadines\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint Vincent and the Grenadines\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VCTb}}',
 num: 100
 },
 {
 name: '{{MNEb|1945}}',
-find: /╠[^\:\n]*:Flag of SR Montenegro\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of SR Montenegro\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MNEb|1945}}',
 num: 1
 },
 {
 name: '{{MAFb}}',
-find: /╠[^\:\n]*:Flag of Saint-Martin (local)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint-Martin (local)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MAFb}}',
 num: 1
 },
 {
 name: '{{LKAb}}',
-find: /╠[^\:\n]*:Flag of Sri Lanka\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sri Lanka\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LKAb}}',
 num: 1
 },
 {
 name: '{{LCAb}}',
-find: /╠[^\:\n]*:Flag of Saint Lucia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint Lucia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{LCAb}}',
 num: 1
 },
 {
 name: '{{KORb}}',
-find: /╠[^\:\n]*:Flag of South Korea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of South Korea\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KORb}}',
 num: 1
 },
 {
 name: '{{KNAb}}',
-find: /╠[^\:\n]*:Flag of Saint Kitts and Nevis\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint Kitts and Nevis\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{KNAb}}',
 num: 1
 },
 {
 name: '{{ESPb}}',
-find: /╠[^\:\n]*:Flag of Spain\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Spain\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ESPb}}',
 num: 100
 },
 {
 name: '{{CHEb}}',
-find: /╠[^\:\n]*:Flag of Switzerland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Switzerland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CHEb}}',
 num: 100
 },
 {
 name: '{{SARKb}}',
-find: /╠[^\:\n]*:Flag of Sark\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sark\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SARKb}}',
 num: 100
 },
 {
 name: '{{SARb}}',
-find: /╠[^\:\n]*:Flag of Sardinia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sardinia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SARb}}',
 num: 100
 },
 {
 name: '{{SAUb}}',
-find: /╠[^\:\n]*:Flag of Saudi Arabia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saudi Arabia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SAUb}}',
 num: 100
 },
 {
 name: '{{SCGb}}',
-find: /╠[^\:\n]*:Flag of Serbia and Montenegro\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia and Montenegro\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SCGb}}',
 num: 100
 },
 {
 name: '{{SCOb}}',
-find: /╠[^\:\n]*:Flag of Scotland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Scotland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SCOb}}',
 num: 100
 },
 {
 name: '{{SDNb}}',
-find: /╠[^\:\n]*:Flag of Sudan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sudan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SDNb}}',
 num: 100
 },
 {
 name: '{{SENb}}',
-find: /╠[^\:\n]*:Flag of Senegal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Senegal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SENb}}',
 num: 100
 },
 {
 name: '{{SGPb}}',
-find: /╠[^\:\n]*:Flag of Singapore\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Singapore\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SGPb}}',
 num: 100
 },
 {
 name: '{{SGSb}}',
-find: /╠[^\:\n]*:Flag of South Georgia and the South Sandwich Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of South Georgia and the South Sandwich Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SGSb}}',
 num: 100
 },
 {
 name: '{{SHNb}}',
-find: /╠[^\:\n]*:Flag of Saint Helena\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint Helena\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SHNb}}',
 num: 100
 },
 {
 name: '{{SLEb}}',
-find: /╠[^\:\n]*:Flag of Sierra Leone\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sierra Leone\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SLEb}}',
 num: 100
 },
 {
 name: '{{SXMb}}',
-find: /╠[^\:\n]*:Flag of Sint Maarten\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sint Maarten\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SXMb}}',
 num: 100
 },
 {
 name: '{{SMRb}}',
-find: /╠[^\:\n]*:Flag of San Marino\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of San Marino\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SMRb}}',
 num: 100
 },
 {
 name: '{{SOMb}}',
-find: /╠[^\:\n]*:Flag of Somalia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Somalia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SOMb}}',
 num: 100
 },
 {
 name: '{{SPMb}}',
-find: /╠[^\:\n]*:Flag of Saint-Pierre and Miquelon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint-Pierre and Miquelon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SPMb}}',
 num: 100
 },
 {
 name: '{{STPb}}',
-find: /╠[^\:\n]*:Flag of Sao Tome and Principe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sao Tome and Principe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{STPb}}',
 num: 100
 },
 {
 name: '{{SURb}}',
-find: /╠[^\:\n]*:Flag of Suriname\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Suriname\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SURb}}',
 num: 100
 },
 {
 name: '{{SVKb}}',
-find: /╠[^\:\n]*:Flag of Slovakia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Slovakia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SVKb}}',
 num: 100
 },
 {
 name: '{{SVNb}}',
-find: /╠[^\:\n]*:Flag of Slovenia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Slovenia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SVNb}}',
 num: 100
 },
 {
 name: '{{SWEb}}',
-find: /╠[^\:\n]*:Flag of Sweden\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Sweden\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SWEb}}',
 num: 100
 },
 {
 name: '{{SWZb}}',
-find: /╠[^\:\n]*:Flag of Swaziland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Swaziland\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SWZb}}',
 num: 100
 },
 {
 name: '{{SYRb}}',
-find: /╠[^\:\n]*:Flag of Syria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Syria\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SYRb}}',
 num: 100
 },
 {
 name: '{{SRBb}}',
-find: /╠[^\:\n]*:Flag of Serbia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb}}',
 num: 100
 },
 {
 name: '{{SRBb|1815}}',
-find: /╠[^\:\n]*:Flag of Serbia \(national\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia \(national\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb|1815}}',
 num: 100
 },
 {
 name: '{{SRBb|1882}}',
-find: /╠[^\:\n]*:Flag of Serbia \(1882\-1918\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia \(1882\-1918\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb|1882}}',
 num: 100
 },
 {
 name: '{{SRBb|1941}}',
-find: /╠[^\:\n]*:Flag of Serbia \(national\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia \(national\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb|1941}}',
 num: 100
 },
 {
 name: '{{SRBb|1945}}',
-find: /╠[^\:\n]*:Flag of SR Serbia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of SR Serbia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb|1945}}',
 num: 100
 },
 {
 name: '{{SRBb|1991}}',
-find: /╠[^\:\n]*:Flag of Serbia 1991\-2004\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia 1991\-2004\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb|1991}}',
 num: 100
 },
 {
 name: '{{SRBb|civil}}',
-find: /╠[^\:\n]*:Flag of Serbia \(national\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Serbia \(national\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SRBb|civil}}',
 num: 100
 },
 {
 name: '{{MAFb}}',
-find: /╠[^\:\n]*:Flag of Saint-Martin \(local\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Saint-Martin \(local\)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MAFb}}',
 num: 100
 }]
@@ -7429,82 +7427,82 @@ name: 'T',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of T[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of T[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{TAIb}}',
-find: /╠[^\:\n]*:Flag of Taiwan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Taiwan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TAIb}}',
 num: 100
 },
 {
 name: '{{TGOb}}',
-find: /╠[^\:\n]*:Flag of Togo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Togo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TGOb}}',
 num: 100
 },
 {
 name: '{{THAb}}',
-find: /╠[^\:\n]*:Flag of Thailand\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Thailand\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{THAb}}',
 num: 100
 },
 {
 name: '{{TJKb}}',
-find: /╠[^\:\n]*:Flag of Tajikistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Tajikistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TJKb}}',
 num: 100
 },
 {
 name: '{{TKMb}}',
-find: /╠[^\:\n]*:Flag of Turkmenistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Turkmenistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TKMb}}',
 num: 100
 },
 {
 name: '{{TNDb}}',
-find: /╠[^\:\n]*:Flag of Tunisia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Tunisia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TNDb}}',
 num: 100
 },
 {
 name: '{{TONb}}',
-find: /╠[^\:\n]*:Flag of Tonga\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Tonga\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TONb}}',
 num: 100
 },
 {
 name: '{{TTOb}}',
-find: /╠[^\:\n]*:Flag of Trinidad and Tobago\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Trinidad and Tobago\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TTOb}}',
 num: 100
 },
 {
 name: '{{TUNb}}',
-find: /╠[^\:\n]*:Flag of Tunisia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Tunisia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TUNb}}',
 num: 100
 },
 {
 name: '{{TURb}}',
-find: /╠[^\:\n]*:Flag of Turkey\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Turkey\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TURb}}',
 num: 100
 },
 {
 name: '{{TUVb}}',
-find: /╠[^\:\n]*:Flag of Tuvalu\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Tuvalu\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TUVb}}',
 num: 100
 },
 {
 name: '{{TZAb}}',
-find: /╠[^\:\n]*:Flag of Tanzania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Tanzania\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TZAb}}',
 num: 100
 },
 {
 name: '{{Texasb}}',
-find: /╠[^\:\n]*:Flag of Texas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Texas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{Texasb}}',
 num: 100
 }]
@@ -7514,40 +7512,40 @@ name: 'U',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of U[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of U[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{RAUb}}',
-find: /╠[^\:\n]*:Flag of United Arab Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of United Arab Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{RAUb}}',
 num: 100
 },
 {
 name: '{{UKRb}}',
-find: /╠[^\:\n]*:Flag of Ukraine\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Ukraine\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{UKRb}}',
 num: 100
 },
 {
 name: '{{USAb}}',
-find: /╠[^\:\n]*:Flag of United States\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of United States\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{USAb}}',
 num: 100
 },
 {
 name: '{{UGAb}}',
-find: /╠[^\:\n]*:Flag of Uganda\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Uganda\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{UGAb}}',
 num: 100
 },
 {
 name: '{{URYb}}',
-find: /╠[^\:\n]*:Flag of Uruguay\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Uruguay\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{URYb}}',
 num: 100
 },
 {
 name: '{{UZBb}}',
-find: /╠[^\:\n]*:Flag of Uzbekistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Uzbekistan\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{UZBb}}',
 num: 100
 }]
@@ -7557,22 +7555,22 @@ name: 'V',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of V[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of V[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{VENb}}',
-find: /╠[^\:\n]*:Flag of Venezuela\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Venezuela\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VENb}}',
 num: 100
 },
 {
 name: '{{VNMb}}',
-find: /╠[^\:\n]*:Flag of Vietnam\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Vietnam\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VNMb}}',
 num: 100
 },
 {
 name: '{{VUTb}}',
-find: /╠[^\:\n]*:Flag of Vanuatu\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Vanuatu\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VUTb}}',
 num: 100
 }]
@@ -7582,10 +7580,10 @@ name: 'W',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of W[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of W[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{WALb}}',
-find: /╠[^\:\n]*:Flag of Wales 2\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Wales 2\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{WALb}}',
 num: 100
 }]
@@ -7595,10 +7593,10 @@ name: 'Y',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of Y[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of Y[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{YEMb}}',
-find: /╠[^\:\n]*:Flag of Yemen\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Yemen\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{YEMb}}',
 num: 100
 }]
@@ -7608,28 +7606,28 @@ name: 'Z',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of Z[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of Z[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{ZAIb}}',
-find: /╠[^\:\n]*:Flag of Zaire\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Zaire\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ZAIb}}',
 num: 100
 },
 {
 name: '{{ZANb}}',
-find: /╠[^\:\n]*:Flag of Zanzibar\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Zanzibar\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ZANb}}',
 num: 100
 },
 {
 name: '{{ZMBb}}',
-find: /╠[^\:\n]*:Flag of Zambia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Zambia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ZMBb}}',
 num: 100
 },
 {
 name: '{{ZWEb}}',
-find: /╠[^\:\n]*:Flag of Zimbabwe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of Zimbabwe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ZWEb}}',
 num: 100
 }]
@@ -7639,100 +7637,100 @@ name: 'The A-J',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of the [A-J][^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of the [A-J][^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{BHSb}}',
-find: /╠[^\:\n]*:Flag of the Bahamas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Bahamas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BHSb}}',
 num: 100
 },
 {
 name: '{{IOTb}}',
-find: /╠[^\:\n]*:Flag of the British Indian Ocean Territory\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the British Indian Ocean Territory\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOTb}}',
 num: 100
 },
 {
 name: '{{VGBb}}',
-find: /╠[^\:\n]*:Flag of the British Virgin Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the British Virgin Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VGBb}}',
 num: 100
 },
 {
 name: '{{CYMb}}',
-find: /╠[^\:\n]*:Flag of the Cayman Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Cayman Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CYMb}}',
 num: 100
 },
 {
 name: '{{CAFb}}',
-find: /╠[^\:\n]*:Flag of the Central African Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Central African Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CAFb}}',
 num: 100
 },
 {
 name: '{{CCKb}}',
-find: /╠[^\:\n]*:Flag of the Cocos (Keeling) Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Cocos (Keeling) Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CCKb}}',
 num: 100
 },
 {
 name: '{{COKb}}',
-find: /╠[^\:\n]*:Flag of the Cook Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Cook Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{COKb}}',
 num: 100
 },
 {
 name: '{{COMb}}',
-find: /╠[^\:\n]*:Flag of the Comoros\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Comoros\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{COMb}}',
 num: 100
 },
 {
 name: '{{CZEb}}',
-find: /╠[^\:\n]*:Flag of the Czech Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Czech Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CZEb}}',
 num: 100
 },
 {
 name: '{{CODb}}',
-find: /╠[^\:\n]*:Flag of the Democratic Republic of the Congo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Democratic Republic of the Congo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CODb}}',
 num: 100
 },
 {
 name: '{{DOMb}}',
-find: /╠[^\:\n]*:Flag of the Dominican Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Dominican Republic\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{DOMb}}',
 num: 100
 },
 {
 name: '{{FLKb}}',
-find: /╠[^\:\n]*:Flag of the Falkland Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Falkland Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FLKb}}',
 num: 100
 },
 {
 name: '{{FROb}}',
-find: /╠[^\:\n]*:Flag of the Faroe Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Faroe Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FROb}}',
 num: 100
 },
 {
 name: '{{GMBb}}',
-find: /╠[^\:\n]*:Flag of The Gambia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of The Gambia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GMBb}}',
 num: 100
 },
 {
 name: '{{IAb}}',
-find: /╠[^\:\n]*:Flag of the German Empire\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the German Empire\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IAb}}',
 num: 1
 },
 {
 name: '{{IMNb}}',
-find: /╠[^\:\n]*:Flag of the Isle of Man\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Isle of Man\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IMNb}}',
 num: 1
 }]
@@ -7742,46 +7740,46 @@ name: 'The K-O',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of the [K-O][^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of the [K-O][^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{NLDb}}',
-find: /╠[^\:\n]*:Flag of the Netherlands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Netherlands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NLDb}}',
 num: 100
 },
 {
 name: '{{ANTb}}',
-find: /╠[^\:\n]*:Flag of the Netherlands Antilles.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Netherlands Antilles.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ANTb}}',
 num: 100
 },
 {
 name: '{{IOb|1453}}',
-find: /╠[^\:\n]*:Flag of the Ottoman Empire (1453-1844)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Ottoman Empire (1453-1844)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOb|1453}}',
 num: 1
 },
 {
 name: '{{IOb|1383}}',
-find: /╠[^\:\n]*:Flag of the Ottoman Sultanate (1299-1453)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Ottoman Sultanate (1299-1453)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOb|1383}}',
 num: 1
 },
 {
 name: '{{MHLb}}',
-find: /╠[^\:\n]*:Flag of the Marshall Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Marshall Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MHLb}}',
 num: 1
 },
 {
 name: '{{MNPb}}',
-find: /╠[^\:\n]*:Flag of the Northern Mariana Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Northern Mariana Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MNPb}}',
 num: 1
 },
 {
 name: '{{VALb}}',
-find: /╠[^\:\n]*:Flag of the Land of Valencia (official)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Land of Valencia (official)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VALb}}',
 num: 100
 }]
@@ -7791,112 +7789,112 @@ name: 'The P-Z',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Flag of the [P-Z][^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
+ifhas: /╠[^:\n]*:Flag of the [P-Z][^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{ESPb|1977-1981}}',
-find: /╠[^\:\n]*:Flag of the Spain Under Franco\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Spain Under Franco\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ESPb|1977-1981}}',
 num: 100
 },
 {
 name: '{{CHNb}}',
-find: /╠[^\:\n]*:Flag of the People's Republic of China\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the People's Republic of China\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{CHNb}}',
 num: 100
 },
 {
 name: '{{PRCb}}',
-find: /╠[^\:\n]*:Flag of the People's Republic of China\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the People's Republic of China\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PRCb}}',
 num: 100
 },
 {
 name: '{{PHLb}}',
-find: /╠[^\:\n]*:Flag of the Philippines\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Philippines\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PHLb}}',
 num: 100
 },
 {
 name: '{{PCNb}}',
-find: /╠[^\:\n]*:Flag of the Pitcairn Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Pitcairn Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{PCNb}}',
 num: 100
 },
 {
 name: '{{TWNb}}',
-find: /╠[^\:\n]*:Flag of the Republic of China\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Republic of China\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TWNb}}',
 num: 100
 },
 {
 name: '{{COGb}}',
-find: /╠[^\:\n]*:Flag of the Republic of the Congo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Republic of the Congo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{COGb}}',
 num: 100
 },
 {
 name: '{{SLBb}}',
-find: /╠[^\:\n]*:Flag of the Solomon Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Solomon Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SLBb}}',
 num: 100
 },
 {
 name: '{{SYCb}}',
-find: /╠[^\:\n]*:Flag of the Seychelles\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Seychelles\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{SYCb}}',
 num: 100
 },
 {
 name: '{{URSb}}',
-find: /╠[^\:\n]*:Flag of the Soviet Union\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Soviet Union\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{URSb}}',
 num: 100
 },
 {
 name: '{{TCAb}}',
-find: /╠[^\:\n]*:Flag of the Turks and Caicos Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Turks and Caicos Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TCAb}}',
 num: 100
 },
 {
 name: '{{TRNCb}}',
-find: /╠[^\:\n]*:Flag of the Turkish Republic of Northern Cyprus\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Turkish Republic of Northern Cyprus\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TRNCb}}',
 num: 100
 },
 {
 name: '{{AREb}}',
-find: /╠[^\:\n]*:Flag of the United Arab Emirates.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the United Arab Emirates.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{AREb}}',
 num: 100
 },
 {
 name: '{{GBRb}}',
-find: /╠[^\:\n]*:Flag of the United Kingdom\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the United Kingdom\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GBRb}}',
 num: 100
 },
 {
 name: '{{USAb}} 2',
-find: /╠[^\:\n]*:Flag of the United States\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the United States\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{USAb}}',
 num: 100
 },
 {
 name: '{{VIRb}}',
-find: /╠[^\:\n]*:Flag of the United States Virgin Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the United States Virgin Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VIRb}}',
 num: 100
 },
 {
 name: '{{IVAb}}',
-find: /╠[^\:\n]*:Flag of the United States Virgin Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the United States Virgin Islands\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IVAb}}',
 num: 1
 },
 {
 name: '{{VATb}}',
-find: /╠[^\:\n]*:Flag of the Vatican City\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Flag of the Vatican City\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{VATb}}',
 num: 100
 }]
@@ -7907,34 +7905,34 @@ name: 'Bandeira de',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] [^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] [^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: 'A',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] A[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] A[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-ACb}}',
-find: /╠[^\:\n]*:Bandeira do Acre\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Acre\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-ACb}}',
 num: 100
 },
 {
 name: '{{BR-ALb}}',
-find: /╠[^\:\n]*:Bandeira de Alagoas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Alagoas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-ALb}}',
 num: 100
 },
 {
 name: '{{BR-AMb}}',
-find: /╠[^\:\n]*:Bandeira do Amazonas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Amazonas\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-AMb}}',
 num: 100
 },
 {
 name: '{{BR-APb}}',
-find: /╠[^\:\n]*:Bandeira do Amapá\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Amapá\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-APb}}',
 num: 100
 }]
@@ -7944,10 +7942,10 @@ name: 'B',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] B[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] B[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-BAb}}',
-find: /╠[^\:\n]*:Bandeira da Bahia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira da Bahia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-BAb}}',
 num: 100
 }]
@@ -7957,10 +7955,10 @@ name: 'E',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] E[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] E[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-ESb}}',
-find: /╠[^\:\n]*:Bandeira do Espírito Santo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Espírito Santo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-ESb}}',
 num: 100
 }]
@@ -7970,10 +7968,10 @@ name: 'G',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] G[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] G[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-GOb}}',
-find: /╠[^\:\n]*:Bandeira de Goiás\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Goiás\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-GOb}}',
 num: 100
 }]
@@ -7983,28 +7981,28 @@ name: 'M',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] M[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] M[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-MGb}}',
-find: /╠[^\:\n]*:Bandeira de Minas Gerais\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Minas Gerais\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-MGb}}',
 num: 100
 },
 {
 name: '{{BR-MAb}}',
-find: /╠[^\:\n]*:Bandeira do Maranhão\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Maranhão\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-MAb}}',
 num: 100
 },
 {
 name: '{{BR-MTb}}',
-find: /╠[^\:\n]*:Bandeira de Mato Grosso\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Mato Grosso\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-MTb}}',
 num: 100
 },
 {
 name: '{{BR-MSb}}',
-find: /╠[^\:\n]*:Bandeira de Mato Grosso do Sul\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Mato Grosso do Sul\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-MSb}}',
 num: 100
 }]
@@ -8014,34 +8012,34 @@ name: 'P',
 find: '',
 replace: '',
 num: 1,
-ifhas: '╠[^\:\n]*:Bandeira d[aoe] P[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]',
+ifhas: /╠[^:\n]*:Bandeira d[aoe] P[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{BR-PAb}}',
-find: /╠[^\:\n]*:Bandeira do Pará\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Pará\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-PAb}}',
 num: 100
 },
 {
 name: '{{BR-PBb}}',
-find: /╠[^\:\n]*:Bandeira da Paraíba\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira da Paraíba\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-PBb}}',
 num: 100
 },
 {
 name: '{{BR-PEb}}',
-find: /╠[^\:\n]*:Bandeira de Pernambuco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Pernambuco\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-PEb}}',
 num: 100
 },
 {
 name: '{{BR-PIb}}',
-find: /╠[^\:\n]*:Bandeira do Piauí\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Piauí\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-PIb}}',
 num: 100
 },
 {
 name: '{{BR-PRb}}',
-find: /╠[^\:\n]*:Bandeira do Paraná\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Paraná\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-PRb}}',
 num: 100
 }]
@@ -8051,22 +8049,22 @@ name: 'R',
 find: '',
 replace: '',
 num: 1,
-ifhas: '╠[^\:\n]*:Bandeira d[aoe] R[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]',
+ifhas: /╠[^:\n]*:Bandeira d[aoe] R[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/,
 sub: [{
 name: '{{BR-RNb}}',
-find: /╠[^\:\n]*:Bandeira do Rio Grande do Norte\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Rio Grande do Norte\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-RNb}}',
 num: 100
 },
 {
 name: '{{BR-ROb}}',
-find: /╠[^\:\n]*:Bandeira de Rondônia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Rondônia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-ROb}}',
 num: 100
 },
 {
 name: '{{BR-RRb}}',
-find: /╠[^\:\n]*:Bandeira de Roraima\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Roraima\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-RRb}}',
 num: 100
 }]
@@ -8076,22 +8074,22 @@ name: 'S',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] S[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] S[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-SCb}}',
-find: /╠[^\:\n]*:Bandeira de Santa Catarina\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Santa Catarina\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-SCb}}',
 num: 100
 },
 {
 name: '{{BR-SEb}}',
-find: /╠[^\:\n]*:Bandeira de Sergipe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira de Sergipe\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-SEb}}',
 num: 100
 },
 {
 name: '{{BR-SPb}}',
-find: /╠[^\:\n]*:Bandeira do Estado de São Paulo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Estado de São Paulo\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-SPb}}',
 num: 100
 }]
@@ -8101,10 +8099,10 @@ name: 'T',
 find: '',
 replace: '',
 num: 1,
-ifhas: /╠[^\:\n]*:Bandeira d[aoe] T[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+ifhas: /╠[^:\n]*:Bandeira d[aoe] T[^\|\]\n]+ *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 sub: [{
 name: '{{BR-TOb}}',
-find: /╠[^\:\n]*:Bandeira do Tocantins\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Tocantins\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-TOb}}',
 num: 100
 }]
@@ -8118,181 +8116,181 @@ num: 1,
 ifhas: /╠/i,
 sub: [{
 name: '{{BR-RSb}}',
-find: /╠[^\:\n]*:Bandeira Estado RioGrandedoSul Brasil\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira Estado RioGrandedoSul Brasil\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-RSb}}',
 num: 100
 },
 {
 name: '{{BR-RJb}}',
-find: /╠[^\:\n]*:Bandeira Estado RiodeJaneiro Brasil2\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira Estado RiodeJaneiro Brasil2\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-RJb}}',
 num: 100
 },
 {
 name: '{{BR-GBb}}',
-find: /╠[^\:\n]*:Bandeira Guanabara\.jpg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira Guanabara\.jpg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-GBb}}',
 num: 100
 },
 {
 name: '{{FNb}}',
-find: /╠[^\:\n]*:Bandeira-fernandodenoronha\.gif *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira-fernandodenoronha\.gif *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FNb}}',
 num: 100
 },
 {
 name: '{{BR-CEb}}',
-find: /╠[^\:\n]*:Bandeira Estado Ceara Brasil\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira Estado Ceara Brasil\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-CEb}}',
 num: 100
 },
 {
 name: '{{TPEb|Universíada}}',
-find: /╠[^\:\n]*:Chinese Taipei University Sports Flag\.PNG *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Chinese Taipei University Sports Flag\.PNG *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{TPEb|Universíada}}',
 num: 100
 },
 {
 name: '{{RUSb|naval}}',
-find: /╠[^\:\n]*:Naval Ensign of Russia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Naval Ensign of Russia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{RUSb|naval}}',
 num: 100
 },
 {
 name: '{{NAb}}',
-find: /╠[^\:\n]*:Norteamerica\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Norteamerica\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NAb}}',
 num: 100
 },
 {
 name: '{{NIRb}}',
-find: /╠[^\:\n]*:Ulster banner\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Ulster banner\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{NIRb}}',
 num: 100
 },
 {
 name: '{{MSULb}}',
-find: /╠[^\:\n]*:Mercosul_flag\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Mercosul_flag\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{MSULb}}',
 num: 1
 },
 {
 name: '{{BGRb|1941}}',
-find: /╠[^\:\n]*:Cs-cg rs\.PNG *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Cs-cg rs\.PNG *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BGRb|1941}}',
 num: 1
 },
 {
 name: '{{BGRb|1876}}',
-find: /╠[^\:\n]*:Old Flag of Montenegro\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Old Flag of Montenegro\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BGRb|1876}}',
 num: 1
 },
 {
 name: '{{IRb|1858}}',
-find: /╠[^\:\n]*:Romanov Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Romanov Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IRb|1858}}',
 num: 1
 },
 {
 name: '{{IRb|1914}}',
-find: /╠[^\:\n]*:Russian Empire 1914 17\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Russian Empire 1914 17\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IRb|1914}}',
 num: 1
 },
 {
 name: '{{IOb}}',
-find: /╠[^\:\n]*:Ottoman Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Ottoman Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOb}}',
 num: 1
 },
 {
 name: '{{IOb|1798}}',
-find: /╠[^\:\n]*:Ottoman1798.png\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Ottoman1798.png\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOb|1798}}',
 num: 1
 },
 {
 name: '{{IOb|naval}}',
-find: /╠[^\:\n]*:Ottoman Naval Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Ottoman Naval Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOb|naval}}',
 num: 1
 },
 {
 name: '{{IOPb}}',
-find: /╠[^\:\n]*:Olympic flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Olympic flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IOPb}}',
 num: 1
 },
 {
 name: '{{IAb|naval}}',
-find: /╠[^\:\n]*:War Ensign of Germany 1903-1918.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:War Ensign of Germany 1903-1918.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{IAb|naval}}',
 num: 1
 },
 {
 name: '{{GEOb|naval}}',
-find: /╠[^\:\n]*:Naval Ensign of Georgia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Naval Ensign of Georgia\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GEOb|naval}}',
 num: 100
 },
 {
 name: '{{GEOb|aérea}}',
-find: /╠[^\:\n]*:Georgian Air Force flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Georgian Air Force flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GEOb|aérea}}',
 num: 100
 },
 {
 name: '{{GRC|royal}}',
-find: /╠[^\:\n]*:Kingdom of Greece Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Kingdom of Greece Flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRC|royal}}',
 num: 100
 },
 {
 name: '{{GRCb|otto}}',
-find: /╠[^\:\n]*:Kingdom of Greece Flag (1833-1862)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Kingdom of Greece Flag (1833-1862)\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRCb|otto}}',
 num: 100
 },
 {
 name: '{{GRCb|royalnavy}}',
-find: /╠[^\:\n]*:Hellenic Naval Ensign 1935\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Hellenic Naval Ensign 1935\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{GRCb|royalnavy}}',
 num: 100
 },
 {
 name: '{{FRAb|marinha}}',
-find: /╠[^\:\n]*:Civil and Naval Ensign of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Civil and Naval Ensign of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|marinha}}',
 num: 100
 },
 {
 name: '{{FRAb|vichy}}',
-find: /╠[^\:\n]*:VichyFlag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:VichyFlag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|vichy}}',
 num: 100
 },
 {
 name: '{{FRAb|restauração}}',
-find: /╠[^\:\n]*:Pavillon royal de France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Pavillon royal de France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|restauração}}',
 num: 100
 },
 {
 name: '{{FRAb|real}}',
-find: /╠[^\:\n]*:Naval Ensign of the Kingdom of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Naval Ensign of the Kingdom of France\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{FRAb|real}}',
 num: 100
 },
 {
 name: '{{ZZXb}}',
-find: /╠[^\:\n]*:Olympic flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Olympic flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{ZZXb}}',
 num: 100
 },
 {
 name: '{{EUNb}}',
-find: /╠[^\:\n]*:Olympic flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Olympic flag\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{EUNb}}',
 num: 100
 }]
@@ -8305,25 +8303,25 @@ num: 1,
 ifhas: /╠[^\|\n\]]+\| *(border *\| *)?[1-3]?[0-9] *px/i,
 sub: [{
 name: '{{BR-RJ-Riob}}',
-find: /╠[^\:\n]*:Bandeira do Município do Rio de Janeiro\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Bandeira do Município do Rio de Janeiro\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BR-RJ-Riob}}',
 num: 100
 },
 {
 name: '{{BRAb}}',
-find: /╠[^\:\n]*:BRAlogo1\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:BRAlogo1\.png *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{BRAb}}',
 num: 100
 },
 {
 name: '{{Ícone/Medalha Nobel}}',
-find: /╠[^\:\n]*:Nobel prize medal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Nobel prize medal\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{Ícone/Medalha Nobel}}',
 num: 100
 },
 {
 name: '{{Ícone/Golden Globe}}',
-find: /╠[^\:\n]*:Golden Globe icon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
+find: /╠[^:\n]*:Golden Globe icon\.svg *\| *(border *\| *)?[1-3]?[0-9] *px[^▒\n]*▒\]\]/i,
 replace: '{{Ícone/Golden Globe}}',
 num: 100
 }]
@@ -14538,7 +14536,7 @@ num: 100
 {
 name: 'Caixa alta em categoria',
 find: /\[\[Categoria *\: *([a-z])/,
-replace: '[[Categoria:{{subst:ucfirst:$1}}',
+replace: '[[Categoria:$1',
 num: 100
 },
 {
@@ -15878,7 +15876,7 @@ num: 1
 {
 name: 'Datando',
 find: /\{\{(┴[^\|{}\n]*\|[^├{}\n]*)\}\}/i,
-replace: '{{$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}',
+replace: '{{$1|data=July de 2012}}',
 num: 1
 },
 {
@@ -15896,13 +15894,13 @@ num: 1
 {
 name: 'Datando 1',
 find: /\{\{(┴[^\|{}\n]*)(\|seção)?\}\}/i,
-replace: '{{$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$2}}',
+replace: '{{$1|data=July de 2012$2}}',
 num: 1
 },
 {
 name: 'Datando 3',
 find: /\{\{Revisão\-sobre\|([^\|\n{}]+)\}\}/i,
-replace: '{{Revisão-sobre|$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}',
+replace: '{{Revisão-sobre|$1|data=July de 2012}}',
 num: 1
 }]
 },
@@ -17166,7 +17164,7 @@ num: 1,
 sub: [{
 name: 'Rule',
 find: /(\{\{ *Info\/[^╣]*\n *\| *)(Símbolo|Atribuições|Dependência[1-9]|Critérios|Imagem|Inscrição|Legenda|Localização|País|Preposição|Título)( *=)/,
-replace: '$1{{subst:lcfirst:$2}}$3',
+replace: '$1$2$3',
 num: 100
 }]
 },
@@ -18347,14 +18345,14 @@ num: 1,
 sub: [{
 name: 'Aplicando lang-xx inicial',
 find: /(╚.*\()(em \[\[(?:[^\n\|\[\]\:\.\)]+\|([^\n\|\[\]\:\.\)]*)|([^\n\|\[\]\:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,\:\;\n\(\)\[\]]*))/i,
-replace: '$1{{subst:Bots/Lang|$3$4|$5|$2}}',
+replace: '$1$2',
 num: 1
 },
 {
 disabled: true,
 name: 'Aplicando lang-xx seguintes',
 find: /(\}\}[\;\,] *)(em \[\[(?:[^\n\|\[\]\:\.\)]+\|([^\n\|\[\]\:\.\)]*)|([^\n\|\[\]\:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,\:\;\n\(\)\[\]]*))/i,
-replace: '$1{{subst:Bots/Lang|$3$4|$5|$2}}',
+replace: '$1$2',
 num: 1
 },
 {
@@ -18581,19 +18579,19 @@ sub: [{
 disabled: true,
 name: 'Quantidade por extenso - após',
 find: /(\n[^\*\#].* )(1?[0-9]|[1-9]0+)( (ano|m[êe]s|dia|real|reais|jogo)e?s?[^a-z])/i,
-replace: '$1{{subst:Número2palavra2|$2}}$3',
+replace: '$1$2$3',
 num: 10
 },
 {
 name: 'Quantidade por extenso - antes',
 find: /(com) ([2-9]|1[1-9]|[1-9]0+) ([^0-9])/i,
-replace: '$1 {{subst:Número2palavra2|$2}} $3',
+replace: '$1 $2 $3',
 num: 1
 },
 {
 name: 'Quantidade por extenso - havia',
 find: /([\n ]haviam) ([2-9]+) ([^0-9])/i,
-replace: '$1 {{subst:Número2palavra2|$2}} $3',
+replace: '$1 $2 $3',
 num: 1
 }]
 },
@@ -19449,7 +19447,7 @@ num: 1
 {
 name: 'Minuscula',
 find: /(\{\{Info\/Episódio de série[^╣]* *\| *)(Título|Série|Imagem|Caption|Temporada|Episódio|Data[ _]original|Produção|Escrito[ _]por|Diretor|Convidados|Lista[ _]de[ _]episódios|Ant|Prox)( *=)/i,
-replace: '$1{{subst:lcfirst:$2}}$3',
+replace: '$1$2$3',
 num: 100
 }]
 }
@@ -19789,7 +19787,7 @@ num: 1
 {
 name: 'Datar',
 find: /(\{\{Multitag[^\n]*)(\}\}\r?\n)/i,
-replace: '$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$2',
+replace: '$1|data=July de 2012$2',
 num: 1,
 ifhas: /\{\{Multitag/i,
 ifnot: /\{\{Multitag[^\n]*\| *data *=/i
@@ -21730,7 +21728,7 @@ sub: [{
 disabled: true,
 name: 'Geral',
 find: /(Esboço\-geo([a-z][a-z])\}\}.*[^░]*)\{\{Portal3\|\}\}/i, // FIXME: Singleline?
-replace: '$1{{Portal3|{{subst:Iso2país2|{{subst:uc:$2}} }}|}}',
+replace: '$1{{Portal3|$2|}}',
 num: 1,
 ifhas: /Esboço\-geo(ar|ao|cl|fr|ht|lx|sw)}/i,
 ifnot: /\{\{Portal3.*\|(Argentina|Angola|Chile|França|Haiti|Luxemburgo|Suécia)[ \|\}]/i
@@ -21741,7 +21739,7 @@ ifnot: /\{\{Portal3.*\|(Argentina|Angola|Chile|França|Haiti|Luxemburgo|Suécia)
 disabled: true,
 name: 'Geral',
 find: /(Esboço\-geo([a-z][a-z])\}\}.*[^░]*)\{\{Portal3\|\}\}/i, // FIXME: Singleline?
-replace: '$1{{Portal3|{{subst:Iso2país2|{{subst:uc:$2}} }}|}}',
+replace: '$1{{Portal3|$2|}}',
 num: 1,
 ifhas: /Esboço\-geo(ar|ao|cl|fr|ht|lx|sw)}/i,
 ifnot: /\{\{Portal3.*\|(Argentina|Angola|Chile|França|Haiti|Luxemburgo|Suécia)[ \|\}]/i
@@ -22217,7 +22215,7 @@ num: 1
 {
 name: '{{morte}}',
 find: /(\{\{Info\/[^╣]*\| *morte_data *= *)\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de \[\[([0-9]{3,4})\]\]\r?\n/i,
-replace: '$1{{morte|$2|{{subst:Mês2número|$3}}|$4}}\n',
+replace: '$1{{morte|$2||$4}}\n',
 num: 1,
 sub: [{
 name: '{{morte}} ano',
@@ -22229,7 +22227,7 @@ num: 1
 {
 name: '{{nascimento}}',
 find: /(\{\{Info\/[^╣]*\| *nascimento_data *= *)\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de \[\[([0-9]{3,4})\]\]\r?\n/i,
-replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4}}\n',
+replace: '$1{{dni|$2||$4}}\n',
 num: 1,
 sub: [{
 name: '{{nascimento}} ano',
@@ -23164,7 +23162,7 @@ num: 1,
 sub: [{
 name: 'iconebandeira em paisnatal',
 find: /(\| *paisnatal *= *)(?:\[\[)?([^ {}\[\]\r\n][^{}\[\]\r\n]*)(?:\]\])?\r?\n/,
-replace: '$1{{subst:chaves-abre}}{{subst:ISO2|$2}}{{subst:chaves-fecha}}\n',
+replace: '$1{{$2}}\n',
 num: 1
 },
 {
@@ -24154,9 +24152,9 @@ replace: '',
 num: 1,
 sub: [{
 disabled: true,
-name: '{{subst:Páginas curtas}}',
+name: '{{manutenção de páginas curtas}}<!-- Este comentário longo foi incluído na página para prevenir que ela apareça na [[Especial:Páginas curtas]]. Tanto ele quanto a predefinição de monitoramento foram gerados por meio da Predefinição:Páginas curtas. Por favor, não remova a predefinição {{manutenção de páginas curtas}} sem remover o comentário e adicionar algum texto válido à página. -->',
 find: /\n\[\[Categoria:Desambiguaç/i,
-replace: '\n\n{{subst:Páginas curtas}}\n[[Categoria:Desambiguaç',
+replace: '\n\n{{manutenção de páginas curtas}}<!-- Este comentário longo foi incluído na página para prevenir que ela apareça na [[Especial:Páginas curtas]]. Tanto ele quanto a predefinição de monitoramento foram gerados por meio da Predefinição:Páginas curtas. Por favor, não remova a predefinição {{manutenção de páginas curtas}} sem remover o comentário e adicionar algum texto válido à página. -->\n[[Categoria:Desambiguaç',
 num: 1,
 ifnot: /Páginas curtas\}\}/i,
 sub: [{
@@ -24281,7 +24279,7 @@ num: 100
 {
 name: 'Sem-fontes-bpv',
 find: /\{\{Sem\-fontes([^{}]*)\|biografia=sim([^\n]*)\|data=[^\|\}]*([|}])/i,
-replace: '{{Sem-fontes-bpv$1$2|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$3',
+replace: '{{Sem-fontes-bpv$1$2|data=July de 2012$3',
 num: 1
 }]
 },
@@ -24451,7 +24449,7 @@ replace: '',
 num: 1,
 sub: [{
 name: 'Ponto final em ficheiro 1',
-find: /(╠[^\:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.&gt;}])(\]\])? *▒/i,
+find: /(╠[^:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.&gt;}])(\]\])? *▒/i,
 replace: '$1$2$3.▒',
 num: 1
 },
@@ -24558,4 +24556,3 @@ replace: '',
 num: 1
 }
 }];
-//</pre>
