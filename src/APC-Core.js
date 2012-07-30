@@ -20,7 +20,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.6',
+	version: '0.7',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -177,7 +177,7 @@ AWB.getRulesHTML = function (rules) {
  * Execute the script when in edit mode
  */
 AWB.run = function () {
-	var $someWhere;
+	var $someWhere, versionHTML;
 
 	if (mw.config.get('wgAction') === 'edit') {
 		AWB.$target = $('#wpTextbox1');
@@ -212,7 +212,9 @@ AWB.run = function () {
 			if(!$someWhere.length) {
 				$someWhere = $('#mw-content-text');
 			}
-			$someWhere.html(AWB.getRulesHTML(AWB.rules));
+			versionHTML = '<p>Observação: esta é a versão ' + AWB.rulesVersion +
+				' da lista de regras (gerada pela versão ' + AWB.version + ' do script).</p>';
+			$someWhere.html( versionHTML + AWB.getRulesHTML(AWB.rules));
 		}
 	}
 };
