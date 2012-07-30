@@ -20,7 +20,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.7',
+	version: '0.8',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -214,7 +214,8 @@ AWB.run = function () {
 			}
 			versionHTML = '<p>Observação: esta é a versão ' + AWB.rulesVersion +
 				' da lista de regras (gerada pela versão ' + AWB.version + ' do script).</p>';
-			$someWhere.html( versionHTML + AWB.getRulesHTML(AWB.rules));
+			$someWhere.html( AWB.getRulesHTML(AWB.rules) )
+				.prepend( versionHTML );
 		}
 	}
 };
