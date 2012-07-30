@@ -9,7 +9,7 @@
  * - [[w:User:!Silent/correções.js]]
  * - [[w:WP:Projetos/Check Wikipedia/AWB]]
  * - [[w:WP:Projetos/AWB]]
- * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB-SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB-SearchAndReplace.js]])
+ * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
