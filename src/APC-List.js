@@ -1,3 +1,4 @@
+//<pre>
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /*global $, mw */
 /**
@@ -58,10 +59,8 @@ window.AWB.rules = [{
 	num: 1,
 	sub: {
 	name: 'Trimming de DEFAULTSORT 1',
-	find: /\{\{ *DEFAULTSORT *\: *(.+)\}\}
-/i,
-	replace: '{{DEFAULTSORT:$1}}
-',
+	find: /\{\{ *DEFAULTSORT *\: *(.+)\}\}\n/i,
+	replace: '{{DEFAULTSORT:$1}}\n',
 	num: 100
 },
 {
@@ -4407,8 +4406,7 @@ window.AWB.rules = [{
 	sub: {
 	name: '+cat Música',
 	find: '░',
-	replace: '┼Categoria:Música]]
-░',
+	replace: '┼Categoria:Música]]\n░',
 	num: 1,
 	ifhas: /({{Info/(música|Single|Turnê|Álbum)|{{Portal3.*\|Música|'''"* *(é|foi)? *(o|a|uma?)? *([^ ]*) *\[?\[?(álbum|banda|canção|disco|dj|single|turne)|▓[^╦]+\((álbum|banda|canção|disco|dj|single|turne)|Faixas do disco|é [ao] [0-9]° (álbum|banda|canção|disco|dj|single|turne))/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4416,8 +4414,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Literatura',
 	find: '░',
-	replace: '┼Categoria:Literatura]]
-░',
+	replace: '┼Categoria:Literatura]]\n░',
 	num: 1,
 	ifhas: /{{Info/Livro/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4425,8 +4422,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Televisão',
 	find: '░',
-	replace: '┼Categoria:Televisão]]
-░',
+	replace: '┼Categoria:Televisão]]\n░',
 	num: 1,
 	ifhas: /({{Info/Televisão|{{Esboço\-tv|▓[^╦]+\((novela))/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4434,8 +4430,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Jogos eletrônicos',
 	find: '░',
-	replace: '┼Categoria:Jogos eletrônicos]]
-░',
+	replace: '┼Categoria:Jogos eletrônicos]]\n░',
 	num: 1,
 	ifhas: /({{(Info/Jogo|Infobox VG)|{{Portal3.*\| *Games)/,
 	ifnot: /\[\[Categoria:/,
@@ -4443,8 +4438,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Cinema',
 	find: '░',
-	replace: '┼Categoria:Cinema]]
-░',
+	replace: '┼Categoria:Cinema]]\n░',
 	num: 1,
 	ifhas: /({{(Info/Filme|Info/Cineasta)[ \|\]\r\n]|{{Portal3.*\| *Cinema|▓[^╦]+\(filme|'''''\) é (um)? *filme)/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4452,8 +4446,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Banda desenhada',
 	find: '░',
-	replace: '┼Categoria:Banda desenhada]]
-░',
+	replace: '┼Categoria:Banda desenhada]]\n░',
 	num: 1,
 	ifhas: /{{(Info/Graphic Novel|Esboço\-bd|Portal BD|Portal3.*\| *Banda desenhada)/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4461,8 +4454,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Arte',
 	find: '░',
-	replace: '┼Categoria:Arte]]
-░',
+	replace: '┼Categoria:Arte]]\n░',
 	num: 1,
 	ifhas: /({{Info/(Bleach|Naruto)|{{Portal3.*\| *Animangá|▓[^╦]+\((Lista de episódios)|Sinopse|Episódios *==|== *Atore?s?)/i,
 	ifnot: /(\[\[Categoria:|┼)/i,
@@ -4471,8 +4463,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Desportos',
 	find: '░',
-	replace: '┼Categoria:Desportos]]
-░',
+	replace: '┼Categoria:Desportos]]\n░',
 	num: 1,
 	ifhas: /({{ *Portal3.*\| *(Wrestling|Desporto|Futebol)|{{Info/Campeonato de futebo)/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4480,8 +4471,7 @@ window.AWB.rules = [{
 {
 	name: '+cat Biografia',
 	find: '░',
-	replace: '┼Categoria:Pessoas]]
-░',
+	replace: '┼Categoria:Pessoas]]\n░',
 	num: 1,
 	ifhas: /(%%title%%(''')? [\(\,]? *\[?\[?([0-9]{1,2} de |(nascid[ao]|nasceu)|(Rio de Janeiro|São Paulo))|║== Biografia ==)/i,
 	ifnot: /\[\[Categoria:/i,
@@ -4496,12 +4486,7 @@ window.AWB.rules = [{
 },
 {
 	name: 'Modo bot',
-	find: '*****
-Regras bem testadas e que não possuem erros
- podendo ser usadas por bots
-
-Não necessitam de revisão
-*****',
+	find: '*****\nRegras bem testadas e que não possuem erros\n podendo ser usadas por bots\n\nNão necessitam de revisão\n*****',
 	replace: '',
 	num: 1,
 	ifnot: /({{desambiguação}}|\[\[Categoria:Desambiguaç(ão|ões))/i,
@@ -4643,11 +4628,10 @@ Não necessitam de revisão
 	replace: '',
 	num: 1,
 	sub: {
+	// Nem sempre é para juntar, como em &lt;ref&gt;.
 	disabled: true,
 	name: 'tag fecha - abre',
-	find: /&lt;/([^&lt;&gt;\n]+)&gt; *(?:\r?\n)* *&lt;\1&gt;
-
-nem sempre é para juntar, como em &lt;ref&gt;./i,
+	find: /&lt;/([^&lt;&gt;\n]+)&gt; *(?:\r?\n)* *&lt;\1&gt;/i,
 	replace: '',
 	num: 10,
 },
@@ -4706,13 +4690,13 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 {
 	name: '&lt;i&gt;',
 	find: /\&lt;\/? *i */?\&gt;/i,
-	replace: '''',
+	replace: '\'\'',
 	num: 10
 },
 {
 	name: '&lt;b&gt; e &lt;strong&gt;',
 	find: /\&lt;\/? *(b|strong) */?\&gt;/i,
-	replace: ''''',
+	replace: '\'\'\'',
 	num: 10
 },
 {
@@ -4738,9 +4722,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 {
 	name: '&lt;p&gt; 3',
 	find: /\&lt;\/? *p *\/?\&gt;/i,
-	replace: '
-
-',
+	replace: '\n\n',
 	num: 10
 },
 {
@@ -4851,13 +4833,13 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 {
 	name: 'Rule',
 	find: /'''&lt;big&gt;([^\r\n&lt;&gt;]*)&lt;/big&gt;'''/i,
-	replace: ''''$1'''',
+	replace: '\'\'\'$1\'\'\'',
 	num: 1
 },
 {
 	name: 'Rule',
 	find: /&lt;big&gt;'''([^\r\n&lt;&gt;]*)'''&lt;/big&gt;/i,
-	replace: ''''$1'''',
+	replace: '\'\'\'$1\'\'\'',
 	num: 1
 },
 },
@@ -4931,7 +4913,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 },
 {
 	name: '[[{{CURRENTYEAR}}|atual]]',
-	find: '[[2012|atual]]',
+	find: '[[{{subst:CURRENTYEAR}}|atual]]',
 	replace: 'atual',
 	num: 10
 },
@@ -5154,8 +5136,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	num: 1,
 	sub: {
 	name: '{{Ver desambiguação2}}',
-	find: /\:+\'+(''Nota *\: *''')?Este artigo é sobre ([^\.\n]+)\. Se procura ([^\,\n]+), consulte \[\[([^\]\.\n]+)\]\]\.( Para outros significados, consulte )?\[?\[?
-([^\]\.\n]+)?\]?\]?\.?\'+\r?\n/i,
+	find: /\:+\'+(''Nota *\: *''')?Este artigo é sobre ([^\.\n]+)\. Se procura ([^\,\n]+), consulte \[\[([^\]\.\n]+)\]\]\.( Para outros significados, consulte )?\[?\[?\n([^\]\.\n]+)?\]?\]?\.?\'+\r?\n/i,
 	replace: '{{Ver desambiguação2|$2|$3|$4|$6}}\n',
 	num: 1
 },
@@ -5287,7 +5268,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	sub: {
 	name: '+{{Wikificação}}',
 	find: '╦',
-	replace: '╦\n{{Wikificação|data=July de 2012}}\n',
+	replace: '╦\n{{Wikificação|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}\n',
 	num: 1,
 	ifnot: /[^\n]\[\[/i
 },
@@ -5313,7 +5294,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	sub: {
 	name: 'Título na introdução',
 	find: /(▓([^\(╦\n]*)(?: \([^╦\n]*)?╦\r?\n[^╚]*╚)(é|são|foi|foram|era|eram) um/i,
-	replace: '$1'''$2''' $3 um',
+	replace: '$1\'\'\'$2\'\'\' {{subst:lcfirst:$3}} um',
 	num: 1
 },
 {
@@ -5608,14 +5589,14 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	sub: {
 	name: '{{dni | si}}',
 	find: /({{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/i,
-	replace: '$1{{dni|$2||$4|si}}\n<',
+	replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4|si}}\n<',
 	num: 1,
 	ifhas: '{{falecimento|' // FIXME: /{{falecimento|/i ?
 },
 {
 	name: '{{dni}}',
 	find: /({{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/i,
-	replace: '$1{{dni|$2||$4}}\n',
+	replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4}}\n',
 	num: 1
 },
 {
@@ -5784,17 +5765,16 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 },
 {
 	name: 'PASSO 2',
-	find: '╔ PASSO 2: Todos os artigos devem citar pelo menos uma fonte PUBLICADA,       ╗
-╔         ESPECÍFICA, escrita por TERCEIROS para a informação, tais como um   ╗
-╔         livro ou página de uma fonte reputada. Por favor forneça um URL ou  ╗
-╔         ligação se quiser usar uma fonte da internet. NÓS PRECISAMOS DE     ╗
-╔         SER CAPAZES DE VERIFICAR A SUA FONTE, por isso fontes como "Google" ╗
-╔         "conhecimento pessoal" serão rejeitadas.                            ╗
-╔         SE NÃO INCLUIR PELO MENOS UMA FONTE VÁLIDA,                         ╗
-╔         O SEU ARTIGO SERÁ REJEITADO.                                        ╗
-╔                                                                             ╗
-╔         Por favor, adicione a(s) sua(s) fonte(s) abaixo desta linha.        ╗
-',
+	find: '╔ PASSO 2: Todos os artigos devem citar pelo menos uma fonte PUBLICADA,       ╗\n' +
+'╔         ESPECÍFICA, escrita por TERCEIROS para a informação, tais como um   ╗\n' +
+'╔         livro ou página de uma fonte reputada. Por favor forneça um URL ou  ╗\n' +
+'╔         ligação se quiser usar uma fonte da internet. NÓS PRECISAMOS DE     ╗\n' +
+'╔         SER CAPAZES DE VERIFICAR A SUA FONTE, por isso fontes como "Google" ╗\n' +
+'╔         "conhecimento pessoal" serão rejeitadas.                            ╗\n' +
+'╔         SE NÃO INCLUIR PELO MENOS UMA FONTE VÁLIDA,                         ╗\n' +
+'╔         O SEU ARTIGO SERÁ REJEITADO.                                        ╗\n' +
+'╔                                                                             ╗\n' +
+'╔         Por favor, adicione a(s) sua(s) fonte(s) abaixo desta linha.        ╗\n',
 	replace: '',
 	num: 1
 },
@@ -5826,7 +5806,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 {
 	name: '{{Trivia}}',
 	find: /(\n║\={2,} (?:Trivia|Curiosidades?) \={2,})(\r?\n)+([\*\#])/i,
-	replace: '$1\n{{Trivia|data=July de 2012}}\n$3',
+	replace: '$1\n{{Trivia|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}\n$3',
 	num: 1
 },
 {
@@ -8398,9 +8378,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 },
 {
 	name: 'link=',
-	find: /(╠[^▒]+)\|link=
-
-/,
+	find: /(╠[^▒]+)\|link=\n\n/,
 	replace: '$1|ligação=',
 	num: 1,
 },
@@ -10685,7 +10663,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	num: 100
 },
 {
-	name: '{{CIV}} - Côte d'Ivoire',
+	name: '{{CIV}} - Côte d\'Ivoire',
 	find: /\{\{Flag\|(Côte d'Ivoire)\}\}/i,
 	replace: '{{CIV}}',
 	num: 100
@@ -10746,7 +10724,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	num: 100
 },
 {
-	name: '{{PRK}} - Democratic People's Republic of Korea',
+	name: '{{PRK}} - Democratic People\'s Republic of Korea',
 	find: /\{\{Flag\|(Democratic People's Republic of Korea)\}\}/i,
 	replace: '{{PRK}}',
 	num: 100
@@ -12969,8 +12947,7 @@ nem sempre é para juntar, como em &lt;ref&gt;./i,
 	sub: {
 	name: '0 após \n :',
 	find: /\r?\n(:+) +/i,
-	replace: '
-$1',
+	replace: '\n$1',
 	num: 100
 },
 {
@@ -12994,8 +12971,7 @@ $1',
 {
 	name: 'Fim de parag',
 	find: / +\r?\n/,
-	replace: '
-',
+	replace: '\n',
 	num: 100,
 },
 },
@@ -13322,8 +13298,7 @@ $1',
 {
 	name: 'Rule',
 	find: /╗║== Falecimentos ==(\n*(?:{[^\|]|\[))/i,
-	replace: '║== Falecimentos ==
-╗$1',
+	replace: '║== Falecimentos ==\n╗$1',
 	num: 1
 },
 {
@@ -13340,11 +13315,8 @@ $1',
 },
 {
 	name: 'Rule',
-	find: '╔
-║==',
-	replace: '╔
-
-║==',
+	find: '╔\n║==',
+	replace: '╔\n\n║==',
 	num: 1,
 },
 },
@@ -13391,7 +13363,7 @@ $1',
 	num: 10,
 },
 {
-	name: ''''Inserir texto não-formatado aqui'''',
+	name: '\'\'\'Inserir texto não-formatado aqui\'\'\'',
 	find: /(''+|&lt;[^&gt;\n]+&gt;)Inserir texto não\-formatado aqui(&lt;/[^&gt;\n]+&gt;|''+)?(\r?\n)?/i,
 	replace: '',
 	num: 10,
@@ -13410,11 +13382,7 @@ $1',
 },
 {
 	name: '&lt;gallery&gt; exemplo',
-	find: /&lt;gallery&gt;
-Ficheiro:Air.canada.b767-300.c-ggfj.2.jpg|[[Avião]]
-Ficheiro:Mona Lisa.jpg|[[Mona Lisa]]
-Ficheiro:Albert Einstein Head.jpg|[[Albert Einstein ]]
-&lt;/gallery&gt;(\r?\n)?/i,
+	find: /&lt;gallery&gt;\nFicheiro:Air.canada.b767-300.c-ggfj.2.jpg|[[Avião]]\nFicheiro:Mona Lisa.jpg|[[Mona Lisa]]\nFicheiro:Albert Einstein Head.jpg|[[Albert Einstein ]]\n&lt;/gallery&gt;(\r?\n)?/i,
 	replace: '',
 	num: 10,
 },
@@ -13935,8 +13903,7 @@ Ficheiro:Albert Einstein Head.jpg|[[Albert Einstein ]]
 },
 {
 	name: 'Passando para {{Notas}}',
-	find: /║== *Notas? *== *(?:\r?\n)* *&lt;references group=nota/&gt;
-/i,
+	find: /║== *Notas? *== *(?:\r?\n)* *&lt;references group=nota/&gt;\n/i,
 	replace: '{{Notas}}',
 	num: 1
 },
@@ -14211,9 +14178,7 @@ Ficheiro:Albert Einstein Head.jpg|[[Albert Einstein ]]
 {
 	name: 'Quebra de linha em LE',
 	find: /\r?\n(\* |\[)(https?://.*)\r?\n\r?\n([(\* |\[])/i,
-	replace: '
-$1$2
-$3',
+	replace: '\n$1$2\n$3',
 	num: 10
 },
 {
@@ -14242,9 +14207,7 @@ $3',
 	sub: {
 	name: 'Passando para lista 1',
 	find: /\r?\n(\[https?://.*)/,
-	replace: '
-* $1
-',
+	replace: '\n* $1\n',
 	num: 10,
 },
 {
@@ -14294,8 +14257,7 @@ $3',
 	sub: {
 	name: 'Lista para {{Link}}',
 	find: /\r?\n(\{\{Link\|)/i,
-	replace: '
-* $1',
+	replace: '\n* $1',
 	num: 10
 },
 {
@@ -14496,18 +14458,13 @@ $3',
 	sub: {
 	name: 'Antes DEFAULTSORT',
 	find: /([^\n])\r?\n{{DEFAULTSORT/,
-	replace: '$1
-
-{{DEFAULTSORT',
+	replace: '$1\n\n{{DEFAULTSORT',
 	num: 1,
 },
 {
 	name: 'Após DEFAULTSORT',
-	find: /(\{\{DEFAULTSORT:.*\}\})
-
-/i,
-	replace: '$1
-',
+	find: /(\{\{DEFAULTSORT:.*\}\})\n\n/i,
+	replace: '$1\n',
 	num: 1
 },
 },
@@ -14582,7 +14539,7 @@ $3',
 {
 	name: 'Caixa alta em categoria',
 	find: /\[\[Categoria *\: *([a-z])/,
-	replace: '[[Categoria:$1',
+	replace: '[[Categoria:{{subst:ucfirst:$1}}',
 	num: 100
 },
 {
@@ -14621,44 +14578,35 @@ $3',
 	sub: {
 	name: 'Sem seção REF - seção Ref',
 	find: /║== Referências ==/i,
-	replace: '{{Referências}}
-',
+	replace: '{{Referências}}\n',
 	num: 1,
 	ifnot: /({{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
 },
 {
 	name: 'Sem seção REF - VT',
 	find: /║== Ver também ==/i,
-	replace: '{{Referências}}
-
-║== Ver também ==',
+	replace: '{{Referências}}\n\n║== Ver também ==',
 	num: 1,
 	ifnot: /({{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
 },
 {
 	name: 'Sem seção REF - LE',
 	find: /║== Ligações externas ==/i,
-	replace: '{{Referências}}
-
-║== Ligações externas ==',
+	replace: '{{Referências}}\n\n║== Ligações externas ==',
 	num: 1,
 	ifnot: /({{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
 },
 {
 	name: 'Sem seção REF - Bloco nav',
 	find: /{{Bloco de navegação/i,
-	replace: '{{Referências}}
-
-{{Bloco de navegação',
+	replace: '{{Referências}}\n\n{{Bloco de navegação',
 	num: 1,
 	ifnot: /({{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
 },
 {
 	name: 'Sem seção REF - Portal3',
 	find: /{{Portal3/i,
-	replace: '{{Referências}}
-
-{{Portal3',
+	replace: '{{Referências}}\n\n{{Portal3',
 	num: 1,
 	ifnot: /({{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
 },
@@ -14691,9 +14639,7 @@ $3',
 {
 	disabled: true,
 	name: 'Defaultsort por sobrenome',
-	find: 'Só arruma se não tiver defaultsort, e se tiver {{Biografias}}
-
-Desabilitando, ainda problemas, com artigos de grupos/duplas por exemplo',
+	find: 'Só arruma se não tiver defaultsort, e se tiver {{Biografias}}\n\nDesabilitando, ainda problemas, com artigos de grupos/duplas por exemplo',
 	replace: '',
 	num: 1,
 	ifhas: /{{Biografias}}/i,
@@ -15021,12 +14967,9 @@ Desabilitando, ainda problemas, com artigos de grupos/duplas por exemplo',
 },
 },
 {
-	disabled: true,
+	disabled: true,// desab, não sei se ainda é necessário
 	name: 'Trocando por espaço',
-	find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[^\]\}\n]*)[\-\–\—_]([^\]\}\n]*[\}\]])
-
-
-desab, não sei se ainda é necessário/i,
+	find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[^\]\}\n]*)[\-\–\—_]([^\]\}\n]*[\}\]])/i,
 	replace: '$1 $2',
 	num: 100,
 },
@@ -15359,7 +15302,7 @@ desab, não sei se ainda é necessário/i,
 },
 },
 {
-	name: 'Remove '',
+	name: 'Remove \'',
 	find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\}\]\n]*)'([^\}\]\n]*[\}\]])/i,
 	replace: '$1$2',
 	num: 100
@@ -15478,8 +15421,7 @@ desab, não sei se ainda é necessário/i,
 	replace: '{{Portal3|Educação|',
 	num: 1,
 	ifhas: /\[\[Categoria:(Universidade|Professores|Instituições de ensino)[ \|\]]/i,
-	ifnot: /({{Portal3.*\|Educação[ \|\}]|\[\[Categoria:(.* )?(Ex\-alunos)[ \|\]])
-/i,
+	ifnot: /({{Portal3.*\|Educação[ \|\}]|\[\[Categoria:(.* )?(Ex\-alunos)[ \|\]])\n/i,
 },
 {
 	name: 'Sociedade',
@@ -15937,7 +15879,7 @@ desab, não sei se ainda é necessário/i,
 {
 	name: 'Datando',
 	find: /{{(┴[^\|{}\n]*\|[^├{}\n]*)}}/i,
-	replace: '{{$1|data=July de 2012}}',
+	replace: '{{$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}',
 	num: 1
 },
 {
@@ -15955,13 +15897,13 @@ desab, não sei se ainda é necessário/i,
 {
 	name: 'Datando 1',
 	find: /{{(┴[^\|{}\n]*)(\|seção)?}}/i,
-	replace: '{{$1|data=July de 2012$2}}',
+	replace: '{{$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$2}}',
 	num: 1
 },
 {
 	name: 'Datando 3',
 	find: /{{Revisão\-sobre\|([^\|\n{}]+)}}/i,
-	replace: '{{Revisão-sobre|$1|data=July de 2012}}',
+	replace: '{{Revisão-sobre|$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}',
 	num: 1
 },
 },
@@ -16442,16 +16384,14 @@ desab, não sei se ainda é necessário/i,
 },
 {
 	name: 'Marca ref group=nota',
-	find: /║== Notas? ==
-&lt;references group=nota/&gt;/,
+	find: /║== Notas? ==\n&lt;references group=nota/&gt;/,
 	replace: '┴',
 	num: 1,
 	ifnot: /┼(\r?\n)*&lt;/references&gt;/i
 },
 {
 	name: 'Marca gallery 1',
-	find: /║== (Galeria de )?image(ns|m) ==
-&lt;gallery&gt;/i,
+	find: /║== (Galeria de )?image(ns|m) ==\n&lt;gallery&gt;/i,
 	replace: '┐',
 	num: 1
 },
@@ -16471,9 +16411,7 @@ desab, não sei se ainda é necessário/i,
 	sub: {
 	name: 'Nota &amp; LE',
 	find: /(┬[^┴╔╗]*)\r?\n(┴.*)/i,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1
 },
 },
@@ -16487,17 +16425,13 @@ $1',
 	sub: {
 	name: 'REF &amp; LE 1',
 	find: /(┬[^┤╔╗]*)\r?\n(┤.*}})/i,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1
 },
 {
 	name: 'REF &amp; Nota 1',
 	find: /(┴[^┤╔╗]*)\r?\n(┤.*}})/i,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1
 },
 },
@@ -16510,11 +16444,7 @@ $1',
 	sub: {
 	name: 'REF &amp; Nota 2',
 	find: /(┴)\r?\n([^┤╔╗]*)\r?\n(┤.*}})\r?\n([^┼┬├╔╗]*)\r?\n([┼┬├])/i,
-	replace: '$3
-$4
-$1
-$2
-$5',
+	replace: '$3\n$4\n$1\n$2\n$5',
 	num: 1
 },
 },
@@ -16527,41 +16457,31 @@ $5',
 	sub: {
 	name: 'Gallery &amp; LE',
 	find: /(┬[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/i,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1
 },
 {
 	name: 'Gallery &amp; VT',
 	find: /(┼[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1,
 },
 {
 	name: 'Gallery &amp; Biblio',
 	find: /(├[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1,
 },
 {
 	name: 'Gallery &amp; Nota',
 	find: /(┴[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1,
 },
 {
 	name: 'Gallery &amp; REF',
 	find: /(┤.*}}[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
-	replace: '$2
-
-$1',
+	replace: '$2\n\n$1',
 	num: 1,
 },
 },
@@ -16573,8 +16493,7 @@ $1',
 	sub: {
 	name: 'Desmarca ref group=nota',
 	find: '┴',
-	replace: '║== Notas ==
-&lt;references group=nota/&gt;',
+	replace: '║== Notas ==\n&lt;references group=nota/&gt;',
 	num: 1,
 },
 {
@@ -16592,8 +16511,7 @@ $1',
 {
 	name: 'Desmarca gallery 1',
 	find: '┐',
-	replace: '║== Galeria de imagens ==
-&lt;gallery&gt;',
+	replace: '║== Galeria de imagens ==\n&lt;gallery&gt;',
 	num: 1,
 },
 {
@@ -16739,13 +16657,14 @@ $1',
 	num: 1,
 	ifnot: /(&lt;(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)&gt;|{{Citação)/i,
 	sub: {
-	name: 'Unicode',
-	find: '*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+	/* *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 Segundo [[Unicode]] há +100.000 códigos.
 A espera de uma idéia melhor para fazer isso.
 Aqui ficarão apenas os unicodes principais, que cobrirão quase todos os casos.
 Unicodes raramente usados devem ser consertados manualmente.
-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*',
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* */
+	name: 'Unicode',
+	find: '',
 	replace: '',
 	num: 1,
 	ifhas: '&amp;',
@@ -16963,7 +16882,7 @@ Unicodes raramente usados devem ser consertados manualmente.
 {
 	name: '&amp;#39;',
 	find: '&amp;#39;',
-	replace: ''',
+	replace: '\'',
 	num: 1
 },
 },
@@ -17248,7 +17167,7 @@ Unicodes raramente usados devem ser consertados manualmente.
 	sub: {
 	name: 'Rule',
 	find: /({{ *Info/[^╣]*\n *\| *)(Símbolo|Atribuições|Dependência[1-9]|Critérios|Imagem|Inscrição|Legenda|Localização|País|Preposição|Título)( *=)/,
-	replace: '$1$2$3',
+	replace: '$1{{subst:lcfirst:$2}}$3',
 	num: 100
 },
 },
@@ -17486,90 +17405,90 @@ Unicodes raramente usados devem ser consertados manualmente.
 	sub: {
 	name: '+ Info/Santos',
 	find: /({{sem infocaixa\|Santos)(}}\r?\n[^╠╚]*)(╠[^▒\n]+▒\]\])?([^╚]*╚)/i,
-	replace: '$1|parcial$2{{Info/Santos
- |nome               = %%title%%
- |imagem             = $3
- |imagem_tamanho     =
- |imagem_legenda     =
- |nascimento_data    =
- |nascimento_local   =
- |morte_data         =
- |morte_local        =
- |dia_consagrado     =
- |St_venerado_pela   =
- |títulos            =
- |data_beatificação  =
- |local_beatificação =
- |beatificado_por    =
- |data_canonização   =
- |local_canonização  =
- |canonizado_por     =
- |atribuições        =
- |patrono            =
- |patrona            =
- |principal_templo   =
- |data_supressão     =
- |polêmicas          =
- |passagem           =
- |autor_passagem     =
-╣}}\n$4',
+	replace: '$1|parcial$2{{Info/Santos\n'+
+' |nome               = %%title%%\n'+
+' |imagem             = $3\n'+
+' |imagem_tamanho     =\n'+
+' |imagem_legenda     =\n'+
+' |nascimento_data    =\n'+
+' |nascimento_local   =\n'+
+' |morte_data         =\n'+
+' |morte_local        =\n'+
+' |dia_consagrado     =\n'+
+' |St_venerado_pela   =\n'+
+' |títulos            =\n'+
+' |data_beatificação  =\n'+
+' |local_beatificação =\n'+
+' |beatificado_por    =\n'+
+' |data_canonização   =\n'+
+' |local_canonização  =\n'+
+' |canonizado_por     =\n'+
+' |atribuições        =\n'+
+' |patrono            =\n'+
+' |patrona            =\n'+
+' |principal_templo   =\n'+
+' |data_supressão     =\n'+
+' |polêmicas          =\n'+
+' |passagem           =\n'+
+' |autor_passagem     =\n'+
+'╣}}\n$4',
 	num: 1,
 	ifnot:'{{Info/',
 },
 {
 	name: '+ Info/Jornalista',
 	find: /({{sem infocaixa\|Jornalista)(}}\r?\n[^╠╚]*)(╠[^▒\n]+▒\]\])?([^╚]*╚)/i,
-	replace: '$1|parcial$2{{Info/Jornalista
- |nome             = %%title%%
- |imagem           = $3
- |imagem_tamanho   =
- |imagem_legenda   =
- |nome_nascimento  =
- |nascimento_data  =
- |nascimento_local =
- |morte_data       =
- |morte_local      =
- |educação         =
- |ocupação         =
- |outros_nomes     =
- |título           =
- |parentesco       =
- |cônjuge          =
- |parceiro         =
- |filhos           =
- |etnia            =
- |nacionalidade    =
- |religião         =
- |atividade        = &lt;!-- ano – presente --&gt;
- |trabalhos        =
- |agente           =
- |site             =
-╣}}\n$4',
+	replace: '$1|parcial$2{{Info/Jornalista\n'+
+' |nome             = %%title%%\n'+
+' |imagem           = $3\n'+
+' |imagem_tamanho   =\n'+
+' |imagem_legenda   =\n'+
+' |nome_nascimento  =\n'+
+' |nascimento_data  =\n'+
+' |nascimento_local =\n'+
+' |morte_data       =\n'+
+' |morte_local      =\n'+
+' |educação         =\n'+
+' |ocupação         =\n'+
+' |outros_nomes     =\n'+
+' |título           =\n'+
+' |parentesco       =\n'+
+' |cônjuge          =\n'+
+' |parceiro         =\n'+
+' |filhos           =\n'+
+' |etnia            =\n'+
+' |nacionalidade    =\n'+
+' |religião         =\n'+
+' |atividade        = &lt;!-- ano – presente --&gt;'+
+' |trabalhos        =\n'+
+' |agente           =\n'+
+' |site             =\n'+
+'╣}}\n$4',
 	num: 1,
 	ifnot:'{{Info/',
 },
 {
 	name: '+ Info/Biografia',
 	find: /({{sem infocaixa\|Biografia)(}}\r?\n[^╠╚]*)(╠[^▒\n]+▒\]\])?([^╚]*╚)/i,
-	replace: '$1|parcial$2{{Info/Biografia
- |nome                  = %%title%%
- |imagem                = $3
- |imagem_tamanho        =
- |imagem_legenda        =
- |nome_completo         =
- |nascimento_data       =
- |nascimento_local      =
- |morte_data            =
- |morte_local           =
- |residência            =
- |nacionalidade         =
- |ocupação              =
- |influências           =
- |influenciados         =
- |prémios               =
- |principais_trabalhos  =
- |website               =
-╣}}\n$4',
+	replace: '$1|parcial$2{{Info/Biografia\n'+
+' |nome                  = %%title%%\n'+
+' |imagem                = $3\n'+
+' |imagem_tamanho        =\n'+
+' |imagem_legenda        =\n'+
+' |nome_completo         =\n'+
+' |nascimento_data       =\n'+
+' |nascimento_local      =\n'+
+' |morte_data            =\n'+
+' |morte_local           =\n'+
+' |residência            =\n'+
+' |nacionalidade         =\n'+
+' |ocupação              =\n'+
+' |influências           =\n'+
+' |influenciados         =\n'+
+' |prémios               =\n'+
+' |principais_trabalhos  =\n'+
+' |website               =\n'+
+'╣}}\n$4',
 	num: 1,
 	ifnot:'{{Info/',
 },
@@ -17618,7 +17537,7 @@ Unicodes raramente usados devem ser consertados manualmente.
 	num: 1
 },
 {
-	name: '({{Imdb|'''xxx'''}}',
+	name: '({{Imdb|\'\'\'xxx\'\'\'}}',
 	find: /({{Imdb[^\{\}\n]*[^\'])'+([^\'][^\{\}\n]*})/i,
 	replace: '$1$2',
 	num: 2
@@ -17907,7 +17826,7 @@ Unicodes raramente usados devem ser consertados manualmente.
 {
 	name: 'Links',
 	find: /\* '''(PlayStation|PlayStation [23]|Xbox|GameCube|Game Boy Advance):?''':?\r?\n/i,
-	replace: '* '''[[$1]]'''\n',
+	replace: '* \'\'\'[[$1]]\'\'\'\n',
 	num: 100
 },
 },
@@ -18189,8 +18108,7 @@ Unicodes raramente usados devem ser consertados manualmente.
 },
 {
 	name: 'Rule',
-	find: '{{Info/Animangá/Rodapé
-╣}}',
+	find: '{{Info/Animangá/Rodapé\n╣}}',
 	replace: '{{Info/Animangá/Rodapé╣}}',
 	num: 1,
 },
@@ -18403,8 +18321,7 @@ Unicodes raramente usados devem ser consertados manualmente.
 ]
 },
 {
-	name: 'Modo semi-bot',
-	find: '*****
+	/* *****
 Regras que passaram no teste inicial
  estão razoavelmente estáveis
  mas precisam de ainda mais testes
@@ -18412,7 +18329,9 @@ Regras que passaram no teste inicial
  o modo bot
 
 Necessitam de revisão mínima
-*****',
+***** */
+	name: 'Modo semi-bot',
+	find: '',
 	replace: '',
 	num: 1,
 	ifnot: /({{desambiguação}}|\[\[Categoria:Desambiguaç(ão|ões))/i,
@@ -18429,23 +18348,20 @@ Necessitam de revisão mínima
 	sub: {
 	name: 'Aplicando lang-xx inicial',
 	find: /(╚.*\()(em \[\[(?:[^\n\|\[\]\:\.\)]+\|([^\n\|\[\]\:\.\)]*)|([^\n\|\[\]\:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,\:\;\n\(\)\[\]]*))/i,
-	replace: '$1$2',
+	replace: '$1{{subst:Bots/Lang|$3$4|$5|$2}}',
 	num: 1
 },
 {
 	disabled: true,
 	name: 'Aplicando lang-xx seguintes',
 	find: /(}}[\;\,] *)(em \[\[(?:[^\n\|\[\]\:\.\)]+\|([^\n\|\[\]\:\.\)]*)|([^\n\|\[\]\:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,\:\;\n\(\)\[\]]*))/i,
-	replace: '$1$2',
+	replace: '$1{{subst:Bots/Lang|$3$4|$5|$2}}',
 	num: 1,
 },
 {
-	disabled: true,
+	disabled: true, // desabilitando, testando a regra acima, mais genérica, e deve ser melhor que essa
 	name: 'Lang-xx para [[língua xxx|xxx]]',
-	find: /({{subst:Bots/Lang\|)língua [^\|\n]+(\|''[^\|\n]+''\|em \[\[língua [^\|\n]+\|([^\|\]\n]+)\]\])
-
-desabilitando, testando a regra acima,
-mais genérica, e deve ser melhor que essa/i,
+	find: /({{subst:Bots/Lang\|)língua [^\|\n]+(\|''[^\|\n]+''\|em \[\[língua [^\|\n]+\|([^\|\]\n]+)\]\])/i,
 	replace: '$1$3$2',
 	num: 1,
 },
@@ -18498,12 +18414,12 @@ mais genérica, e deve ser melhor que essa/i,
 	replace: '',
 	num: 1,
 	sub: {
-	disabled: true,
+	// É válido?
+	// Se tiver uma tag no início e outra em uma seção específica?
+	// Ou as duas dentro de seções? Pode?
+	disabled: true, 
 	name: '{{Wikificação}} duplicada',
-	find: /({{Wikificação\|[^\r\n]*}}\r?\n[^░]*){{Wikificação\|[^\r\n]*}}\r?\n
-
-É válido? Se tiver uma tag no início e outra em uma seção específica?
-Ou as duas dentro de seções? Pode?/i,
+	find: /({{Wikificação\|[^\r\n]*}}\r?\n[^░]*){{Wikificação\|[^\r\n]*}}\r?\n/i,
 	replace: '$1',
 	num: 1,
 },
@@ -18666,19 +18582,19 @@ Ou as duas dentro de seções? Pode?/i,
 	disabled: true,
 	name: 'Quantidade por extenso - após',
 	find: /(\n[^\*\#].* )(1?[0-9]|[1-9]0+)( (ano|m[êe]s|dia|real|reais|jogo)e?s?[^a-z])/i,
-	replace: '$1$2$3',
+	replace: '$1{{subst:Número2palavra2|$2}}$3',
 	num: 10,
 },
 {
 	name: 'Quantidade por extenso - antes',
 	find: /(com) ([2-9]|1[1-9]|[1-9]0+) ([^0-9])/i,
-	replace: '$1 $2 $3',
+	replace: '$1 {{subst:Número2palavra2|$2}} $3',
 	num: 1
 },
 {
 	name: 'Quantidade por extenso - havia',
 	find: /([\n ]haviam) ([2-9]+) ([^0-9])/i,
-	replace: '$1 $2 $3',
+	replace: '$1 {{subst:Número2palavra2|$2}} $3',
 	num: 1
 },
 },
@@ -19461,30 +19377,30 @@ Ou as duas dentro de seções? Pode?/i,
 	sub: {
 	name: '+{{Info/Organização',
 	find: /({{sem infocaixa\|Organização)(}}\r?\n)/i,
-	replace: '$1|parcial$2{{Info/Organização
- |nome            = %%title%%
- |imagem          =
- |imagem_legenda  =
- |sigla           =
- |lema            =
- |fundação        = {{dtlink|||}}
- |fundador_nome   =
- |extinção        = {{dtlink|||}}
- |filiação        =
- |tipo            = Associação
- |estado          =
- |sede            =
- |propósito       = &lt;!-- |propósito= ou |profissão= --&gt;
- |área_influência =
- |língua          =
- |membros         =
- |líder_título    =
- |líder_nome      =
- |pessoas_imp     =
- |num_empreg      =
- |voluntários     =
- |website         =
-}}\n',
+	replace: '$1|parcial$2{{Info/Organização\n'+
+' |nome            = %%title%%\n'+
+' |imagem          =\n'+
+' |imagem_legenda  =\n'+
+' |sigla           =\n'+
+' |lema            =\n'+
+' |fundação        = {{dtlink|||}}\n'+
+' |fundador_nome   =\n'+
+' |extinção        = {{dtlink|||}}\n'+
+' |filiação        =\n'+
+' |tipo            = Associação\n'+
+' |estado          =\n'+
+' |sede            =\n'+
+' |propósito       = &lt;!-- |propósito= ou |profissão= --&gt;\n'+
+' |área_influência =\n'+
+' |língua          =\n'+
+' |membros         =\n'+
+' |líder_título    =\n'+
+' |líder_nome      =\n'+
+' |pessoas_imp     =\n'+
+' |num_empreg      =\n'+
+' |voluntários     =\n'+
+' |website         =\n'+
+'}}\n',
 	num: 1,
 	ifhas: /\[\[Categoria:Associaç(ão|ões)[ \|\]]/i,
 	ifnot: /{{Info//i
@@ -19534,7 +19450,7 @@ Ou as duas dentro de seções? Pode?/i,
 {
 	name: 'Minuscula',
 	find: /({{Info/Episódio de série[^╣]* *\| *)(Título|Série|Imagem|Caption|Temporada|Episódio|Data[ _]original|Produção|Escrito[ _]por|Diretor|Convidados|Lista[ _]de[ _]episódios|Ant|Prox)( *=)/i,
-	replace: '$1$2$3',
+	replace: '$1{{subst:lcfirst:$2}}$3',
 	num: 100
 },
 },
@@ -19545,9 +19461,7 @@ Ou as duas dentro de seções? Pode?/i,
 ]
 },
 {
-	disabled: true,
-	name: 'Modo revisão',
-	find: '*****
+	/* *****
 Regras que precisam de alguma revisão
 - Nunca ficarão 100%
 -- imprecisões que o awb não pode detectar
@@ -19558,7 +19472,10 @@ Podem habilitar essas regras, desde que estejam dispostos
  a revisar bem o artigo pois essas regras sempre poderão dar erro.
 
  Sempre necessitam de revisão, pois há ocasiões que sempre dará erro
-*****',
+***** */
+	disabled: true,
+	name: 'Modo revisão',
+	find: '',
 	replace: '',
 	num: 1,
 	ifnot: /({{desambiguação}}|\[\[Categoria:Desambiguaç(ão|ões))/i,
@@ -19590,14 +19507,15 @@ Podem habilitar essas regras, desde que estejam dispostos
 ]
 },
 {
-	name: 'Modo teste',
-	find: '*****
+	/* *****
 Regras em teste
 - Novas regras
 - Regras antigas que tiveram algum bug recentemente descoberto
 
 Necessitam de muita revisão
-*****',
+***** */
+	name: 'Modo teste',
+	find: '',
 	replace: '',
 	num: 1,
 	ifnot: /({{desambiguação}}|\[\[Categoria:Desambiguaç(ão|ões))/i,
@@ -19872,7 +19790,7 @@ Necessitam de muita revisão
 {
 	name: 'Datar',
 	find: /({{Multitag[^\n]*)(}}\r?\n)/i,
-	replace: '$1|data=July de 2012$2',
+	replace: '$1|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$2',
 	num: 1,
 	ifhas: /{{Multitag/i,
 	ifnot: /{{Multitag[^\n]*\| *data *=/i
@@ -20279,7 +20197,7 @@ Necessitam de muita revisão
 	num: 100
 },
 {
-	name: '! '''xxx'''',
+	name: '! \'\'\'xxx\'\'\'',
 	find: /(\n! *(?:[^\|\n]*\|)? *)'''([^\'\n]+)'''(\r?\n)/i,
 	replace: '$1$2$3',
 	num: 2
@@ -20696,15 +20614,13 @@ Necessitam de muita revisão
 },
 {
 	name: 'editora',
-	find: /(┌[^┌┘]*\| *)(?:editor|publisher)( *=[^┌┘]*┘)
-/i,
+	find: /(┌[^┌┘]*\| *)(?:editor|publisher)( *=[^┌┘]*┘)\n/i,
 	replace: '$1editora$2',
 	num: 1
 },
 {
 	name: 'páginas',
-	find: /(┌[^┌┘]*\| *)pages( *=[^┌┘]*┘)
-/i,
+	find: /(┌[^┌┘]*\| *)pages( *=[^┌┘]*┘)\n/i,
 	replace: '$1páginas$2',
 	num: 1
 },
@@ -20978,20 +20894,20 @@ Necessitam de muita revisão
 },
 {
 	name: 'Substitui campos',
-	find: ' |pessoas        = {{{people|}}}
- |data2          = {{{date2|}}}
- |mês2           = {{{month2|}}}
- |ano2           = {{{year2|}}}
- |título         = {{{title|}}}
- |formato        = {{{format|}}}
- |tipo           = {{{medium|}}}
- |publicado por  = {{{publisher|}}}
- |localização    = {{{location|}}}
- |data de acesso = {{{accessdate|}}}
- |mês de acesso  = {{{accessmonth|}}}
- |ano de acesso  = {{{accessyear|}}}
- |hora           = {{{time|}}}
- |citação        = {{{quote|}}}',
+	find: ' |pessoas        = {{{people|}}}\n'+
+' |data2          = {{{date2|}}}\n'+
+' |mês2           = {{{month2|}}}\n'+
+' |ano2           = {{{year2|}}}\n'+
+' |título         = {{{title|}}}\n'+
+' |formato        = {{{format|}}}\n'+
+' |tipo           = {{{medium|}}}\n'+
+' |publicado por  = {{{publisher|}}}\n'+
+' |localização    = {{{location|}}}\n'+
+' |data de acesso = {{{accessdate|}}}\n'+
+' |mês de acesso  = {{{accessmonth|}}}\n'+
+' |ano de acesso  = {{{accessyear|}}}\n'+
+' |hora           = {{{time|}}}\n'+
+' |citação        = {{{quote|}}}',
 	replace: '',
 	num: 1,
 	sub: {
@@ -21815,7 +21731,7 @@ Necessitam de muita revisão
 	disabled: true,
 	name: 'Geral',
 	find: /(Esboço\-geo([a-z][a-z])\}\}.*[^░]*)\{\{Portal3\|}}/i, // FIXME: Singleline?
-	replace: '$1{{Portal3|$2|}}',
+	replace: '$1{{Portal3|{{subst:Iso2país2|{{subst:uc:$2}} }}|}}',
 	num: 1,
 	ifhas: /Esboço\-geo(ar|ao|cl|fr|ht|lx|sw)}/i,
 	ifnot: /\{\{Portal3.*\|(Argentina|Angola|Chile|França|Haiti|Luxemburgo|Suécia)[ \|\}]/i
@@ -21826,7 +21742,7 @@ Necessitam de muita revisão
 	disabled: true,
 	name: 'Geral',
 	find: /(Esboço\-geo([a-z][a-z])\}\}.*[^░]*)\{\{Portal3\|}}/i, // FIXME: Singleline?
-	replace: '$1{{Portal3|$2|}}',
+	replace: '$1{{Portal3|{{subst:Iso2país2|{{subst:uc:$2}} }}|}}',
 	num: 1,
 	ifhas: /Esboço\-geo(ar|ao|cl|fr|ht|lx|sw)}/i,
 	ifnot: /\{\{Portal3.*\|(Argentina|Angola|Chile|França|Haiti|Luxemburgo|Suécia)[ \|\}]/i
@@ -21839,22 +21755,22 @@ Necessitam de muita revisão
 	num: 1,
 	ifhas: '{{Info/',
 	sub: {
+	// A espera de uma predef de subst para Iso2país
 	disabled: true,
 	name: 'Campo |país=',
-	find: /({{Info\/[^╣]*\| *pa[ií]s *= *{{([A-Z]+)[a-z]{0,2}}}[^░]*)(\{\{Portal3\|)}}
-
-A espera de uma predef de subst para Iso2país/,
+	find: /({{Info\/[^╣]*\| *pa[ií]s *= *{{([A-Z]+)[a-z]{0,2}}}[^░]*)(\{\{Portal3\|)}}/,
 	replace: '$1$3$2}}',
 	num: 1
 },
 },
 {
-	disabled: true,
-	name: 'Países (com cat)',
-	find: 'Usar cat para países
+	/* Usar cat para países
 pega mts artigos que
 não estão tão próximos
-do Portal',
+do Portal */
+	disabled: true,
+	name: 'Países (com cat)',
+	find: '',
 	replace: '',
 	num: 1,
 	ifnot: '{{Info/Armamento',// FIXME: /{{Info/Armamento/i ?
@@ -22302,7 +22218,7 @@ do Portal',
 {
 	name: '{{morte}}',
 	find: /({{Info\/[^╣]*\| *morte_data *= *)\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de \[\[([0-9]{3,4})\]\]\r?\n/i,
-	replace: '$1{{morte|$2||$4}}\n',
+	replace: '$1{{morte|$2|{{subst:Mês2número|$3}}|$4}}\n',
 	num: 1,
 	sub: {
 	name: '{{morte}} ano',
@@ -22314,7 +22230,7 @@ do Portal',
 {
 	name: '{{nascimento}}',
 	find: /({{Info\/[^╣]*\| *nascimento_data *= *)\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de \[\[([0-9]{3,4})\]\]\r?\n/i,
-	replace: '$1{{dni|$2||$4}}\n',
+	replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4}}\n',
 	num: 1,
 	sub: {
 	name: '{{nascimento}} ano',
@@ -22490,8 +22406,7 @@ do Portal',
 	ifhas: /{{Info/Filme/i,
 	sub:[{
 	name: '1',
-	find: /(\| *(código\-IMDB)) *=
-$1 =/i,
+	find: /(\| *(código\-IMDB)) *=\n$1 =/i,
 	replace: '$1 =',
 	num: 1
 },
@@ -22836,37 +22751,37 @@ $1 =/i,
 	sub: {
 	name: '+Info/Assentamento/Brasil',
 	find: /({{sem infocaixa\|Assentamento)(}}\r?\n[^╠╚]*)(╠[^▒\n]+▒\]\])?([^╚]*╚)/i,
-	replace: '$1|parcial$2{{Info/Assentamento/Brasil
-|bai
-|nome           = %%title%%
-|outro_nome     =
-|imagem         = $3
-|imagem_legenda =
-|mapa_imagem    =
-|mapa_legenda   =
-|mapa_alfinete  =
-|latd= |latm= |lats= |latNS=N |longd= |longm= |longs= |longEW=E
-|unidade federativa =
-|município          =
-|zona               =
-|bairro             =
-|governador  =
-|prefeito    =
-|fundação    =
-|área_total_km2   =
-|elevação_m       =
-|elevação_max_m   =
-|população_total  =
-|população_urbana =
-|população_em     =
-|população_notas  =
-|código_postal =
-|código_área   =
-|site       =
-|site_nome  =
-|site_nogov =
-|site_nobel =
-╣}}\n$4╚',
+	replace: '$1|parcial$2{{Info/Assentamento/Brasil\n'+
+'|bai\n'+
+'|nome           = %%title%%\n'+
+'|outro_nome     =\n'+
+'|imagem         = $3\n'+
+'|imagem_legenda =\n'+
+'|mapa_imagem    =\n'+
+'|mapa_legenda   =\n'+
+'|mapa_alfinete  =\n'+
+'|latd= |latm= |lats= |latNS=N |longd= |longm= |longs= |longEW=E\n'+
+'|unidade federativa =\n'+
+'|município          =\n'+
+'|zona               =\n'+
+'|bairro             =\n'+
+'|governador  =\n'+
+'|prefeito    =\n'+
+'|fundação    =\n'+
+'|área_total_km2   =\n'+
+'|elevação_m       =\n'+
+'|elevação_max_m   =\n'+
+'|população_total  =\n'+
+'|população_urbana =\n'+
+'|população_em     =\n'+
+'|população_notas  =\n'+
+'|código_postal =\n'+
+'|código_área   =\n'+
+'|site       =\n'+
+'|site_nome  =\n'+
+'|site_nogov =\n'+
+'|site_nobel =\n'+
+'╣}}\n$4╚',
 	num: 1,
 	ifhas: /{{Portal3.*\|Brasil/i,
 	ifnot: /{{Info//i
@@ -22983,13 +22898,13 @@ $1 =/i,
 	replace: '',
 	num: 1,
 	sub: {
-	name: ''''xxx''' é um [[bairro]]',
+	name: '\'\'\'xxx\'\'\' é um [[bairro]]',
 	find: /(╚O? ?'''[^\'\n]*''' é um )bairro/i,
 	replace: '$1[[bairro]]',
 	num: 1
 },
 {
-	name: ''''xxx''' é um [[bairro]] [[brasil]]eiro',
+	name: '\'\'\'xxx\'\'\' é um [[bairro]] [[brasil]]eiro',
 	find: /(╚'''[^\'\n]*''' é um \[\[bairro\]\] )/i,
 	replace: '$1[[brasil]]eiro ',
 	num: 1,
@@ -23250,7 +23165,7 @@ $1 =/i,
 	sub: {
 	name: 'iconebandeira em paisnatal',
 	find: /(\| *paisnatal *= *)(?:\[\[)?([^ {}\[\]\r\n][^{}\[\]\r\n]*)(?:\]\])?\r?\n/,
-	replace: '$1{{$2}}\n',
+	replace: '$1{{subst:chaves-abre}}{{subst:ISO2|$2}}{{subst:chaves-fecha}}\n',
 	num: 1
 },
 {
@@ -23535,10 +23450,10 @@ $1 =/i,
 },
 },
 {
+	// FIXME: Arrumar regras de |posição=, agora que temos regras de Ligações internas
 	disabled: true,
 	name: 'Melhorias',
-	find: '* Arrumar regras de |posição=, agora que temos regras de Ligações internas
-',
+	find: '',
 	replace: '',
 	num: 1
 },
@@ -23629,13 +23544,14 @@ $1 =/i,
 },
 },
 {
-	disabled: true,
-	name: 'Erro em colchetes',
-	find: '*****
+	/* *****
 só foi criada, é uma versão antiga, não cheguei a testar.
 está desabilitada pq deve ter mais bugs q as regras de teste normais
 quem quiser pode habilitar e ajudar a testar
-*****',
+***** */
+	disabled: true,
+	name: 'Erro em colchetes',
+	find: '',
 	replace: '',
 	num: 1,
 	ifnot: /(&lt;(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)|{{(Citação|Quim))/i,
@@ -23674,10 +23590,11 @@ quem quiser pode habilitar e ajudar a testar
 ]
 },
 {
+	// Regras específicas para outros domínios sem ser o principal
+	// Ainda em teste
 	disabled: true,
 	name: 'Outros domínios',
-	find: 'Regras específicas para outros domínios sem ser o principal
-Ainda em teste',
+	find: '',
 	replace: '',
 	num: 1,
 	sub: [{
@@ -23804,14 +23721,14 @@ Ainda em teste',
 	sub: {
 	name: 'Negrito do termo',
 	find: /(▓([^\n╦]+)╦[^░]*{{desambiguação}}\r?\n\r?\n(?:.* )?)\2 /i,
-	replace: '$1'''$2''' ',
+	replace: '$1\'\'\'$2\'\'\' ',
 	num: 1,
 	ifnot: /{{desambiguação}}\r?\n\r?\n[^\*\n]*'''/i
 },
 {
 	name: 'Ao procurar',
 	find: /\n'*(?:Ao procurar por|Pela sigla) '*([^'\n]+)'*,? (?:você )?pode estar à procura de:?'*\r?\n/i,
-	replace: '\n'''$1''' pode referir-se a:\n',
+	replace: '\n\'\'\'$1\'\'\' pode referir-se a:\n',
 	num: 1
 },
 {
@@ -23823,13 +23740,13 @@ Ainda em teste',
 {
 	name: 'é um [[acrónimo',
 	find: /''' é um (\[\[)?acrónimo(\]\])? (para|que pode significar):\r?\n/i,
-	replace: '''' pode referir-se a:\n',
+	replace: '\'\'\' pode referir-se a:\n',
 	num: 1
 },
 {
 	name: 'pode referir-se a',
 	find: /'',?(?: também)? (?:pode|possui)(m)? (?:definir|se referir|referir\-se|remeter|ser|ser uma sigla|significar|estar a referir-se|ser|ter diversos significados|ter os seguintes significados) *(às diferentes entradas|aos seguintes artigos)?( [dn]a Wikip[eé]dia)?( ao?|para)?\:?\r?\n/i,
-	replace: ''' pode$1 referir-se a:\n',
+	replace: '\'\' pode$1 referir-se a:\n',
 	num: 1,
 	sub: {
 	name: 'sigla',
@@ -23852,8 +23769,8 @@ Ainda em teste',
 },
 {
 	name: '- (desambiguação)',
-	find: ' (desambiguação)''' pode referir-se a:',
-	replace: '''' pode referir-se a:',
+	find: ' (desambiguação)\'\'\' pode referir-se a:',
+	replace: '\'\'\' pode referir-se a:',
 	num: 1
 },
 {
@@ -24238,14 +24155,14 @@ Ainda em teste',
 	num: 1,
 	sub: [{
 	disabled: true,
-	name: '{{manutenção de páginas curtas}}<!-- Este comentário longo foi incluído na página para prevenir que ela apareça na [[Especial:Páginas curtas]]. Tanto ele quanto a predefinição de monitoramento foram gerados por meio da Predefinição:Páginas curtas. Por favor, não remova a predefinição {{manutenção de páginas curtas}} sem remover o comentário e adicionar algum texto válido à página. -->',
+	name: '{{subst:Páginas curtas}}',
 	find: /\n\[\[Categoria:Desambiguaç/i,
-	replace: '\n\n{{manutenção de páginas curtas}}<!-- Este comentário longo foi incluído na página para prevenir que ela apareça na [[Especial:Páginas curtas]]. Tanto ele quanto a predefinição de monitoramento foram gerados por meio da Predefinição:Páginas curtas. Por favor, não remova a predefinição {{manutenção de páginas curtas}} sem remover o comentário e adicionar algum texto válido à página. -->\n[[Categoria:Desambiguaç',
+	replace: '\n\n{{subst:Páginas curtas}}\n[[Categoria:Desambiguaç',
 	num: 1,
 	ifnot: /Páginas curtas}}/i,
 	sub: [{
 		name: 'Rule',
-		find: /({{manutenção de páginas curtas}}<!-- Este comentário longo foi incluído na página para prevenir que ela apareça na [[Especial:Páginas curtas]]. Tanto ele quanto a predefinição de monitoramento foram gerados por meio da Predefinição:Páginas curtas. Por favor, não remova a predefinição {{manutenção de páginas curtas}} sem remover o comentário e adicionar algum texto válido à página. -->[^░]*){{manutenção de páginas curtas}}<!-- Este comentário longo foi incluído na página para prevenir que ela apareça na [[Especial:Páginas curtas]]. Tanto ele quanto a predefinição de monitoramento foram gerados por meio da Predefinição:Páginas curtas. Por favor, não remova a predefinição {{manutenção de páginas curtas}} sem remover o comentário e adicionar algum texto válido à página. -->\r?\n/i,
+		find: /({{subst:Páginas curtas}}[^░]*){{subst:Páginas curtas}}\r?\n/i,
 		replace: '$1',
 		num: 1
 	}]
@@ -24344,15 +24261,13 @@ Ainda em teste',
 },
 {
 	name: 'produção_executiva',
-	find: /({{Info/[^╣]*\n *\| *)(?:produtor_executivo|produção_executivo)( *=)
-/i,
+	find: /({{Info/[^╣]*\n *\| *)(?:produtor_executivo|produção_executivo)( *=)\n/i,
 	replace: '$1produção_executiva$2',
 	num: 1
 },
 {
 	name: 'lançamento',
-	find: /({{Info/[^╣]*\n *\| *)(?:data\(s\) de lançamento)( *=)
-/i,
+	find: /({{Info/[^╣]*\n *\| *)(?:data\(s\) de lançamento)( *=)\n/i,
 	replace: '$1lançamento$2',
 	num: 1
 },
@@ -24367,15 +24282,16 @@ Ainda em teste',
 {
 	name: 'Sem-fontes-bpv',
 	find: /{{Sem\-fontes([^{}]*)\|biografia=sim([^\n]*)\|data=[^\|\}]*([|}])/i,
-	replace: '{{Sem-fontes-bpv$1$2|data=July de 2012$3',
+	replace: '{{Sem-fontes-bpv$1$2|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$3',
 	num: 1
 }]
 },
 {
-	name: 'Temporário',
-	find: 'Ajuste nas regras para se adequar a nova padronização.
+	/* Ajuste nas regras para se adequar a nova padronização.
 É feito no final para facilitar, mas o correto é mudar todas as regras.
-Mas como estou com preguiça de revisar tudo, deixo por aqui por enquanto',
+Mas como estou com preguiça de revisar tudo, deixo por aqui por enquanto */
+	name: 'Temporário',
+	find: '',
 	replace: '',
 	num: 1,
 	sub: {
@@ -24386,8 +24302,7 @@ Mas como estou com preguiça de revisar tudo, deixo por aqui por enquanto',
 },
 },
 {
-	name: 'Finalizando',
-	find: '*****
+/* *****
 Finaliza a edição, preparando para salvar o artigo
 - Retira os simbolo usados em marcações
 - Lista de Ícones Usados nas marcações
@@ -24396,7 +24311,9 @@ Finaliza a edição, preparando para salvar o artigo
 
 erro no style:
 style="text-align:left;"|;"
-',
+*/
+	name: 'Finalizando',
+	find: '',
 	replace: '',
 	num: 1,
 	sub: {
@@ -24512,10 +24429,10 @@ style="text-align:left;"|;"
 	num: 1,
 },
 {
+	// regra não utilizada por enquanto
 	disabled: true,
 	name: 'Desmarca fim última seção',
-	find: /╬
-regra não utilizada por enquanto/i,
+	find: /╬/i,
 	replace: '',
 	num: 1,
 },
@@ -24560,9 +24477,8 @@ regra não utilizada por enquanto/i,
 	num: 100
 },
 {
-	disabled: true,
-	name: 'Ícones usados',
-	find: '▓  ┌┬┐    ╔╦╗
+/*
+▓  ┌┬┐    ╔╦╗
 ▒  ├┼┤─   ╠╬╣═
 ░  └┴┘│   ╚╩╝║
 
@@ -24634,8 +24550,13 @@ regra não utilizada por enquanto/i,
 
 == Teste ==
 === Parte REF VT LE ===
-┤ - ',
+┤ - 
+*/
+	disabled: true,
+	name: 'Ícones usados',
+	find: '',
 	replace: '',
 	num: 1
 },
 }];
+//</pre>
