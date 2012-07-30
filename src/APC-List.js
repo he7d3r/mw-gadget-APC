@@ -3,6 +3,7 @@
 /**
  * Lista de regras para correção de artigos da Wikipédia
  * Gerada a partir da versão 3.1.1 das configurações do AWB do [[w:User:Rjclaudio]]
+ * (http://code.google.com/p/rjclaudio-awb/downloads/list)
  * Ver também:
  * - [[WP:Projetos/AWB/Script]] (documentação?)
  * - [[w:User:!Silent/correções.js]]
@@ -11,7 +12,9 @@
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB-SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB-SearchAndReplace.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
-window.AWB = {};
+window.AWB = {
+	rulesVersion: '3.1.2'
+};
 window.AWB.rules = [{
 	name: 'Iniciando',
 	find: '',
