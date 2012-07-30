@@ -12,6 +12,7 @@
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
+debugger;
 window.AWB = {
 	rulesVersion: '3.1.2'
 };
