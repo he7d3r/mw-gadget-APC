@@ -12,7 +12,6 @@
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
 /*global jQuery, mediaWiki, AWB */
-debugger;
 
 if ( window.AWB === undefined ) {
 	window.AWB = {};
@@ -21,7 +20,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.4',
+	version: '0.6',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
