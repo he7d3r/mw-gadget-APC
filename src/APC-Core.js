@@ -19,8 +19,8 @@ if ( AWB === undefined ) {
 	AWB = {};
 }
 
-$.extend( AWB, {
-	version: '0.2',
+AWB = $.extend( {
+	version: '0.3',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -43,7 +43,7 @@ $.extend( AWB, {
 	 * having this JS module as dependency (check the toolbar API for examples)
 	 */
 	rules: []
-} );
+}, AWB );
 
 // AWB.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
 
