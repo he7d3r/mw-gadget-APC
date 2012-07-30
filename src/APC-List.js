@@ -16768,6 +16768,7 @@ Regras em teste
 
 Necessitam de muita revisão
 ***** */
+	enabled: false,
 	name: 'Modo teste',
 	find: '',
 	replace: '',
