@@ -5,7 +5,7 @@
  * Gerada a partir da versão 3.1.1 das configurações do AWB do [[w:User:Rjclaudio]]
  * (http://code.google.com/p/rjclaudio-awb/downloads/list)
  * Ver também:
- * - [[WP:Projetos/AWB/Script]] (documentação?)
+ * - [[WP:Projetos/AWB/Script]] (documentação)
  * - [[w:User:!Silent/correções.js]]
  * - [[w:WP:Projetos/Check Wikipedia/AWB]]
  * - [[w:WP:Projetos/AWB]]
@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.3'
+	rulesVersion: '3.1.4'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -78,22 +78,22 @@ window.AWB.rules = [{
 				find: '',
 				replace: '',
 				num: 1,
-				ifhas: /&lt;/i,
-				ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/,
+				ifhas: /</i,
+				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/,
 				sub: [{
 					// FIXME: Remove HTML entities from rule's names
 					name: 'Trimming em <tag>',
-					find: /\&lt; *([^\n&gt;]+) *\&gt;/,
+					find: /< *([^\n>]+) *\>/,
 					replace: '&lt;$1&gt;',
 					num: 100
 				}, {
 					name: 'Trimming em </tag>',
-					find: /([^ ]) *\&lt;\/ *([^\n&gt;]+) *\&gt;/i,
+					find: /([^ ]) *<\/ *([^\n>]+) *\>/i,
 					replace: '$1&lt;/$2&gt;',
 					num: 100
 				}, {
 					name: '<ref | <br />',
-					find: / +(&lt;ref|&lt;br \/&gt;)/i,
+					find: / +(<ref|<br \/>)/i,
 					replace: '$1',
 					num: 100
 				}]
@@ -129,7 +129,7 @@ window.AWB.rules = [{
 				find: /\[ *([^\]\n]+) *\]/i,
 				replace: '[$1]',
 				num: 100,
-				ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i
+				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i
 			}, {
 				name: 'Arrumando trimming em ligação',
 				find: /(\[\[Categoria:[^\|])+\|\]\]/,
@@ -140,7 +140,7 @@ window.AWB.rules = [{
 				find: /\{\{ *(\r?\n)* */,
 				replace: '{{',
 				num: 100,
-				ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i
+				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i
 			}, {
 				name: 'Trimming em seções',
 				find: /^(==+) *([^\=\n]*?\w[^\=\n]*?) *(==+) *\r?\n[\r\n ]*/im,
@@ -158,7 +158,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Trimming em ref',
-				find: /(&lt;ref[^\&gt;]*&gt;) +/,
+				find: /(<ref[^\>]*>) +/,
 				replace: '$1',
 				num: 100
 			}, {
@@ -305,7 +305,7 @@ window.AWB.rules = [{
 			}]
 		}, {
 			name: 'Etiqueta HTML mal formatada',
-			find: /\&lt;([a-z]+) *[a-z]* *\=+\&gt;/i,
+			find: /<([a-z]+) *[a-z]* *\=+\>/i,
 			replace: '&lt;$1&gt;',
 			num: 10
 		}, {
@@ -316,7 +316,7 @@ window.AWB.rules = [{
 			ifhas: '&lt;',
 			sub: [{
 				name: '<br /> nome do código',
-				find: /\&lt; *\/? *br *\/? *.?.? *\&gt;/i,
+				find: /< *\/? *br *\/? *.?.? *\>/i,
 				replace: '&lt;br /&gt;',
 				num: 100
 			}, {
@@ -324,41 +324,41 @@ window.AWB.rules = [{
 				find: '',
 				replace: '',
 				num: 1,
-				ifhas: /&lt;h[0-9]&gt;/i,
+				ifhas: /<h[0-9]>/i,
 				sub: [{
 					name: '<h1>',
-					find: /&lt;h1&gt;/i,
+					find: /<h1>/i,
 					replace: '=',
 					num: 1
 				}, {
 					name: '<h2>',
-					find: /&lt;h2&gt;/i,
+					find: /<h2>/i,
 					replace: '==',
 					num: 1
 				}, {
 					name: '<h3>',
-					find: /&lt;h3&gt;/i,
+					find: /<h3>/i,
 					replace: '===',
 					num: 1
 				}, {
 					name: '<h4>',
-					find: /&lt;h4&gt;/i,
+					find: /<h4>/i,
 					replace: '====',
 					num: 1
 				}, {
 					name: '<h5>',
-					find: /&lt;h5&gt;/i,
+					find: /<h5>/i,
 					replace: '=====',
 					num: 1
 				}, {
 					name: '<h6>',
-					find: /&lt;h6&gt;/i,
+					find: /<h6>/i,
 					replace: '======',
 					num: 1
 				}]
 			}, {
 				name: 'Rule',
-				find: /&lt;center\/&gt;/i,
+				find: /<center\/>/i,
 				replace: '&lt;/center&gt;',
 				num: 10
 			}]
@@ -916,7 +916,7 @@ window.AWB.rules = [{
 								num: 1
 							}, {
 								name: 'Eleição Presidencial Brasileira',
-								find: /\{\{Info(?:box|caixa)?[ _\-\/:]Eleição Presidencial Brasileira *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Info(?:box|caixa)?[ _\-\/:]Eleição Presidencial Brasileira *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Eleição Presidencial Brasileira$1',
 								num: 1
 							}, {
@@ -986,12 +986,12 @@ window.AWB.rules = [{
 								num: 1
 							}, {
 								name: 'Estação Metro do Porto',
-								find: /\{\{Info(?:box|caixa)?[ _\-\/:]Estação Metro do Porto *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Info(?:box|caixa)?[ _\-\/:]Estação Metro do Porto *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Estação Metro do Porto$1',
 								num: 1
 							}, {
 								name: 'Estação de metro',
-								find: /\{\{Info(?:box|caixa)?[ _\-\/:]estação de metro *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Info(?:box|caixa)?[ _\-\/:]estação de metro *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Estação de metro$1',
 								num: 1
 							}, {
@@ -2152,92 +2152,92 @@ window.AWB.rules = [{
 							ifhas: /\{\{C/i,
 							sub: [{
 								name: '{{Campeonato de Futebol}}',
-								find: /\{\{Campeonato de Futebol *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Campeonato de Futebol *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Campeonato de futebol$1',
 								num: 1
 							}, {
 								name: '{{Cantata}}',
-								find: /\{\{Cantata *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Cantata *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Cantata$1',
 								num: 1
 							}, {
 								name: '{{Cavalo}}',
-								find: /\{\{Cavalo *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Cavalo *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Cavalo$1',
 								num: 1
 							}, {
 								name: '{{Celebridades da Internet}}',
-								find: /\{\{Celebridades da Internet *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Celebridades da Internet *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Celebridades da Internet$1',
 								num: 1
 							}, {
 								name: '{{Chefes da Casa Imperial do Brasil}}',
-								find: /\{\{Chefes da Casa Imperial do Brasil *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Chefes da Casa Imperial do Brasil *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Chefes da Casa Imperial do Brasil$1',
 								num: 1
 							}, {
 								name: '{{Chembox new}}',
-								find: /\{\{Chembox new *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Chembox new *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Química$1',
 								num: 1
 							}, {
 								name: '{{Cidade das Ilhas Faroés}}',
-								find: /\{\{Cidade das Ilhas Faroés *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Cidade das Ilhas Faroés *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Cidade das Ilhas Faroés$1',
 								num: 1
 							}, {
 								name: '{{CidadesIsraelitas}}',
-								find: /\{\{CidadesIsraelitas *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{CidadesIsraelitas *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Cidade de Israel$1',
 								num: 1
 							}, {
 								name: '{{CidadesMarroquinas}}',
-								find: /\{\{CidadesMarroquinas *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{CidadesMarroquinas *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Cidade de Marrocos$1',
 								num: 1
 							}, {
 								name: '{{Cinema/Ficha Técnica}}',
-								find: /\{\{Cinema\/Ficha Técnica *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Cinema\/Ficha Técnica *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Filme$1',
 								num: 1
 							}, {
 								name: '{{Cinema/Ficha Técnica Ampliada}}',
-								find: /\{\{Cinema\/Ficha Técnica Ampliada *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Cinema\/Ficha Técnica Ampliada *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Filme$1',
 								num: 1
 							}, {
 								name: '{{Classe de navio}}',
-								find: /\{\{Classe de navio *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Classe de navio *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Classe de navio$1',
 								num: 1
 							}, {
 								name: '{{Concurso de beleza}}',
-								find: /\{\{Concurso de beleza *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Concurso de beleza *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Concurso de beleza$1',
 								num: 1
 							}, {
 								name: '{{Condecorações}}',
-								find: /\{\{Condecorações *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Condecorações *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Condecorações$1',
 								num: 1
 							}, {
 								name: '{{Comuna Francesa}}',
-								find: /\{\{Comuna Francesa *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Comuna Francesa *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Comuna da França$1',
 								num: 1
 							}, {
 								name: '{{Console}}',
-								find: /\{\{Console *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Console *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Console$1',
 								num: 1
 							}, {
 								name: '{{CVG personagem}}',
-								find: /\{\{CVG personagem *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{CVG personagem *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de CVG$1',
 								num: 1
 							}, {
 								name: '{{CVG system}}',
-								find: /\{\{CVG system *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{CVG system *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Console$1',
 								num: 1
 							}]
@@ -2741,152 +2741,152 @@ window.AWB.rules = [{
 							ifhas: /\{\{P/i,
 							sub: [{
 								name: '{{Património Mundial}}',
-								find: /\{\{Património Mundial *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Património Mundial *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Património Mundial$1',
 								num: 1
 							}, {
 								name: '{{Personagem animangá}}',
-								find: /\{\{Personagem animangá *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem animangá *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem animangá$1',
 								num: 1
 							}, {
 								name: '{{Personagem de D&amp;D}}',
-								find: /\{\{Personagem de D&amp;D *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de D&amp;D *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de D&amp;D$1',
 								num: 1
 							}, {
 								name: '{{Personagem de Desperate Housewives}}',
-								find: /\{\{Personagem de Desperate Housewives *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de Desperate Housewives *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Desperate Housewives$1',
 								num: 1
 							}, {
 								name: '{{Personagem de Os Simpsons}}',
-								find: /\{\{Personagem de Os Simpsons *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de Os Simpsons *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Os Simpsons$1',
 								num: 1
 							}, {
 								name: '{{Personagem de Ursinho Pooh 2}}',
-								find: /\{\{Personagem de Ursinho Pooh 2 *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de Ursinho Pooh 2 *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Ursinho Pooh 2$1',
 								num: 1
 							}, {
 								name: '{{Personagem de Ursinho Pooh HD}}',
-								find: /\{\{Personagem de Ursinho Pooh HD *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de Ursinho Pooh HD *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Ursinho Pooh HD$1',
 								num: 1
 							}, {
 								name: '{{Personagem de Ursinho Puff}}',
-								find: /\{\{Personagem de Ursinho Puff *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de Ursinho Puff *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Ursinho Puff$1',
 								num: 1
 							}, {
 								name: '{{Personagem de Winnie-the-Pooh}}',
-								find: /\{\{Personagem de Winnie\-the\-Pooh *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem de Winnie\-the\-Pooh *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Ursinho Puff$1',
 								num: 1
 							}, {
 								name: '{{Personagem dos filmes Resident Evil}}',
-								find: /\{\{Personagem dos filmes Resident Evil *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem dos filmes Resident Evil *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem dos filmes Resident Evil$1',
 								num: 1
 							}, {
 								name: '{{Personagem Heroes}}',
-								find: /\{\{Personagem Heroes *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem Heroes *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem Heroes$1',
 								num: 1
 							}, {
 								name: '{{Personagem Lost}}',
-								find: /\{\{Personagem Lost *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem Lost *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem Lost$1',
 								num: 1
 							}, {
 								name: '{{Personagem Star Trek}}',
-								find: /\{\{Personagem Star Trek *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem Star Trek *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem Star Trek$1',
 								num: 1
 							}, {
 								name: '{{Personagem Star Wars}}',
-								find: /\{\{Personagem Star Wars *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem Star Wars *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem Star Wars$1',
 								num: 1
 							}, {
 								name: '{{Personagem-pokémon}}',
-								find: /\{\{Personagem\-pokémon *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagem\-pokémon *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Pokémon$1',
 								num: 1
 							}, {
 								name: '{{PersonagemHQ}}',
-								find: /\{\{PersonagemHQ *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{PersonagemHQ *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem fictícia$1',
 								num: 1
 							}, {
 								name: '{{Personagens Charmed}}',
-								find: /\{\{Personagens Charmed *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagens Charmed *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagens Charmed$1',
 								num: 1
 							}, {
 								name: '{{Personagens da Bíblia}}',
-								find: /\{\{Personagens da Bíblia *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagens da Bíblia *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem da Bíblia$1',
 								num: 1
 							}, {
 								name: '{{Personagens de Naruto}}',
-								find: /\{\{Personagens de Naruto *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Personagens de Naruto *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Naruto$1',
 								num: 1
 							}, {
 								name: '{{Peru departamento}}',
-								find: /\{\{Peru departamento *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Peru departamento *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Região do Peru$1',
 								num: 1
 							}, {
 								name: '{{Piloto de corrida}}',
-								find: /\{\{Piloto de corrida *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Piloto de corrida *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Piloto de corrida$1',
 								num: 1
 							}, {
 								name: '{{Pintura}}',
-								find: /\{\{Pintura *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Pintura *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Pintura$1',
 								num: 1
 							}, {
 								name: '{{Pista de aterrisagem}}',
-								find: /\{\{Pista de aterrisagem *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Pista de aterrisagem *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Aeroporto/Pista de aterrisagem$1',
 								num: 1
 							}, {
 								name: '{{Pokeinfo}}',
-								find: /\{\{Pokeinfo *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Pokeinfo *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Pokémon$1',
 								num: 1
 							}, {
 								name: '{{Político}}',
-								find: /\{\{Político *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Político *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Político$1',
 								num: 1
 							}, {
 								name: '{{Polónia/Comuna}}',
-								find: /\{\{Polónia\/Comuna *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Polónia\/Comuna *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Comuna da Polónia$1',
 								num: 1
 							}, {
 								name: '{{Polónia/Condado}}',
-								find: /\{\{Polónia\/Condado *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Polónia\/Condado *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Condado da Polónia$1',
 								num: 1
 							}, {
 								name: '{{Polónia/voivodia}}',
-								find: /\{\{Polónia\/voivodia *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Polónia\/voivodia *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Voivodias da Polónia$1',
 								num: 1
 							}, {
 								name: '{{Ponte}}',
-								find: /\{\{Ponte *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Ponte *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Ponte$1',
 								num: 1
 							}, {
 								name: '{{Portos}}',
-								find: /\{\{Portos *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Portos *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Porto$1',
 								num: 1
 							}]
@@ -2898,7 +2898,7 @@ window.AWB.rules = [{
 							ifhas: /\{\{R/i,
 							sub: [{
 								name: '{{Região}}',
-								find: /\{\{Região *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Região *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Região2$1',
 								num: 1
 							}]
@@ -2910,42 +2910,42 @@ window.AWB.rules = [{
 							ifhas: /\{\{S/i,
 							sub: [{
 								name: '{{Sábios chineses}}',
-								find: /\{\{Sábios chineses *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Sábios chineses *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Sábio chinês$1',
 								num: 1
 							}, {
 								name: '{{Senadores do Império do Brasil}}',
-								find: /\{\{Senadores do Império do Brasil *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Senadores do Império do Brasil *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Senador do Império do Brasil$1',
 								num: 1
 							}, {
 								name: '{{Star Trek character}}',
-								find: /\{\{Star Trek character *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Star Trek character *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem Star Trek$1',
 								num: 1
 							}, {
 								name: '{{Super-Herói}}',
-								find: /\{\{Super\-Herói *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Super\-Herói *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Super-Herói$1',
 								num: 1
 							}, {
 								name: '{{Supergrupo}}',
-								find: /\{\{Supergrupo *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Supergrupo *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Supergrupo$1',
 								num: 1
 							}, {
 								name: '{{SuperNomes}}',
-								find: /\{\{SuperNomes *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{SuperNomes *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Super-Nomes$1',
 								num: 1
 							}, {
 								name: '{{Supercomics}}',
-								find: /\{\{Supercomics *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Supercomics *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Supercomics$1',
 								num: 1
 							}, {
 								name: '{{Surfista}}',
-								find: /\{\{Surfista *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Surfista *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Surfista$1',
 								num: 1
 							}]
@@ -2957,17 +2957,17 @@ window.AWB.rules = [{
 							ifhas: /\{\{T/i,
 							sub: [{
 								name: '{{Tabela Shurato}}',
-								find: /\{\{Tabela Shurato *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela Shurato *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Shurato$1',
 								num: 1
 							}, {
 								name: '{{Tabela UNESCO}}',
-								find: /\{\{Tabela UNESCO *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela UNESCO *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Património Mundial$1',
 								num: 1
 							}, {
 								name: '{{Tabela-Bleach}}',
-								find: /\{\{Tabela\-Bleach *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela\-Bleach *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Bleach$1',
 								num: 1
 							}, {
@@ -2977,52 +2977,52 @@ window.AWB.rules = [{
 								num: 1
 							}, {
 								name: '{{Tabela-CDZ}}',
-								find: /\{\{Tabela\-CDZ *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela\-CDZ *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem CDZ$1',
 								num: 1
 							}, {
 								name: '{{Tabela-FMA}}',
-								find: /\{\{Tabela\-FMA *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela\-FMA *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Fullmetal Alchemist$1',
 								num: 1
 							}, {
 								name: '{{Tabela-naruto}}',
-								find: /\{\{Tabela\-naruto *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela\-naruto *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Naruto$1',
 								num: 1
 							}, {
 								name: '{{Tabela-One Piece}}',
-								find: /\{\{Tabela\-One Piece *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela\-One Piece *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem One Piece$1',
 								num: 1
 							}, {
 								name: '{{Tabela-pokémon}}',
-								find: /\{\{Tabela\-pokémon *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tabela\-pokémon *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Pokémon$1',
 								num: 1
 							}, {
 								name: '{{Taxobox}}',
-								find: /\{\{Taxobox *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Taxobox *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Taxonomia$1',
 								num: 1
 							}, {
 								name: '{{Taxocaixa}}',
-								find: /\{\{Taxocaixa *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Taxocaixa *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Taxonomia$1',
 								num: 1
 							}, {
 								name: '{{Temporada de Série}}',
-								find: /\{\{Temporada de Série *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Temporada de Série *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Temporada de série$1',
 								num: 1
 							}, {
 								name: '{{ToponímiaSãoPaulo}}',
-								find: /\{\{ToponímiaSãoPaulo *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{ToponímiaSãoPaulo *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Toponímia de São Paulo$1',
 								num: 1
 							}, {
 								name: '{{Tour de France class}}',
-								find: /\{\{Tour de France class *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Tour de France class *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Tour de France$1',
 								num: 1
 							}]
@@ -3034,7 +3034,7 @@ window.AWB.rules = [{
 							ifhas: /\{\{U/i,
 							sub: [{
 								name: '{{UsinasHidreletricas}}',
-								find: /\{\{UsinasHidreletricas *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{UsinasHidreletricas *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Usina Hidrelétrica$1',
 								num: 1
 							}]
@@ -3046,7 +3046,7 @@ window.AWB.rules = [{
 							ifhas: /\{\{W/i,
 							sub: [{
 								name: '{{Winnie-the-Pooh}}',
-								find: /\{\{Winnie\-the\-Pooh *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Winnie\-the\-Pooh *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Ursinho Puff$1',
 								num: 1
 							}]
@@ -3058,7 +3058,7 @@ window.AWB.rules = [{
 							ifhas: /\{\{X/i,
 							sub: [{
 								name: '{{Xiaolin1}}',
-								find: /\{\{Xiaolin1 *(\||\r?\n|&lt;!--)/i,
+								find: /\{\{Xiaolin1 *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem de Duelo Xaolin$1',
 								num: 1
 							}]
@@ -3421,7 +3421,7 @@ window.AWB.rules = [{
 				num: 1
 			}, {
 				name: '[[<br />',
-				find: /\[\[&lt;br \/&gt;/i,
+				find: /\[\[<br \/>/i,
 				replace: '&lt;br /&gt;[[',
 				num: 100
 			}]
@@ -3583,13 +3583,13 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'Marca p1 inicio 1 - fim info',
-					find: /(╣\}\}(?:\r?\n)+)([^\-╠&lt;\r\n])/,
+					find: /(╣\}\}(?:\r?\n)+)([^\-╠<\r\n])/,
 					replace: '$1╚$2',
 					num: 1,
 					ifnot: '╚'
 				}, {
 					name: 'Marca p1 inicio 2 - começa direto',
-					find: /▓([^\-&lt;╔{}\|]|\{\{(?:PBPE|PEPB))/i,
+					find: /▓([^\-<╔{}\|]|\{\{(?:PBPE|PEPB))/i,
 					replace: '>▓╚$1',
 					num: 1,
 					ifnot: '╚',
@@ -3612,7 +3612,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: 'retira os errados',
-						find: /╚([\-{╠╚╩&lt;\|\&amp;])/,
+						find: /╚([\-{╠╚╩<\|\&amp;])/,
 						replace: '\n$1',
 						num: 100
 					}, {
@@ -3673,7 +3673,7 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'Marca tag quebra linha',
-					find: /(&lt;p&gt;|&lt;\/p&gt;|&lt;br \/&gt;)/i,
+					find: /(<p>|<\/p>|<br \/>)/i,
 					replace: '┬$1',
 					num: 1
 				}, {
@@ -3870,75 +3870,75 @@ window.AWB.rules = [{
 			find: '',
 			replace: '',
 			num: 100,
-			ifhas: /\&lt;\/? *br *\/?\&gt;/i,
+			ifhas: /<\/? *br *\/?\>/i,
 			sub: [{
 				name: '<br /> em predef - remove br',
-				find: /(\n *\| *[^=\n]+=.*)&lt;br \/&gt;\r?\n( *\|)/i,
+				find: /(\n *\| *[^=\n]+=.*)<br \/>\r?\n( *\|)/i,
 				replace: '$1\n$2',
 				num: 100
 			}, {
 				name: '<br /> em predef - remove \n',
-				find: /(\n *\| *[^=\n]+=.*)&lt;br \/&gt;\r?\n/i,
+				find: /(\n *\| *[^=\n]+=.*)<br \/>\r?\n/i,
 				replace: '$1&lt;br /&gt;',
 				num: 10
 			}, {
 				name: '<br /> duplo',
-				find: /(\n *[^ \|].*)&lt;br \/&gt;&lt;br \/&gt;/i,
+				find: /(\n *[^ \|].*)<br \/><br \/>/i,
 				replace: '$1&lt;br /&gt;',
 				num: 100
 			}, {
 				name: 'Trimming antes de <br />',
-				find: / +&lt;br \/&gt;/i,
+				find: / +<br \/>/i,
 				replace: '&lt;br /&gt;',
 				num: 100
 			}, {
 				name: '<br /> entre quebra de linha',
-				find: /(\r?\n)+&lt;br \/&gt;(\r?\n)+/i,
+				find: /(\r?\n)+<br \/>(\r?\n)+/i,
 				replace: '\n\n',
 				num: 100
 			}, {
 				name: '<br /> entre <p>',
-				find: /(&lt;\/?p&gt;)&lt;br \/&gt;(&lt;\/?p&gt;)/i,
+				find: /(<\/?p>)<br \/>(<\/?p>)/i,
 				replace: '$1\n\n$2',
 				num: 1
 			}, {
 				name: 'Rule',
-				find: /&lt;br \/&gt;\r?\n([^\r?\n])/i,
+				find: /<br \/>\r?\n([^\r?\n])/i,
 				replace: '\n\n$1',
 				num: 10
 			}, {
 				name: 'Rule',
-				find: /&lt;br \/&gt;\r?\n\r?\n/i,
+				find: /<br \/>\r?\n\r?\n/i,
 				replace: '\n\n',
 				num: 10
 			}, {
 				name: '<br /> antes predef',
-				find: /&lt;br \/&gt;(\r?\n)+\{\{/i,
+				find: /<br \/>(\r?\n)+\{\{/i,
 				replace: '\n\n{{',
 				num: 100
 			}, {
 				name: '<br /> antes lista',
-				find: /&lt;br \/&gt;\r?\n([\*\#])/i,
+				find: /<br \/>\r?\n([\*\#])/i,
 				replace: '\n$1',
 				num: 100
 			}, {
 				name: '<br />]]',
-				find: /&lt;br \/&gt;(▒?)\]\]/i,
+				find: /<br \/>(▒?)\]\]/i,
 				replace: '$1]]',
 				num: 1
 			}, {
 				name: '\n<br />',
-				find: /([^\n])(\r?\n)+&lt;br \/&gt;/i,
+				find: /([^\n])(\r?\n)+<br \/>/i,
 				replace: '$1\n\n',
 				num: 10
 			}, {
 				name: '<br /> fim de lista',
-				find: /(\n\*.*)&lt;br \/&gt;(\r?\n)/,
+				find: /(\n\*.*)<br \/>(\r?\n)/,
 				replace: '$1\n',
 				num: 10
 			}, {
 				name: '<br /> no final do link / linktext',
-				find: /&lt;br \/&gt;(\||\]\])/i,
+				find: /<br \/>(\||\]\])/i,
 				replace: '$1',
 				num: 10
 			}]
@@ -3955,7 +3955,7 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: '<small />',
-					find: /&lt;small \/&gt;/i,
+					find: /<small \/>/i,
 					replace: '&lt;/small&gt;',
 					num: 10
 				}]
@@ -3966,12 +3966,12 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'tag abre-fecha',
-					find: /&lt;([^\&gt;\n\/]+)&gt; *(?:\r?\n)* *&lt;\/\1&gt;/i,
+					find: /<([^\>\n\/]+)> *(?:\r?\n)* *<\/\1>/i,
 					replace: '',
 					num: 10
 				}, {
 					name: '<div></div>',
-					find: /&lt;div[^&lt;&gt;\n\/]*&gt; *(?:\r?\n)* *&lt;\/div&gt;/i,
+					find: /<div[^<>\n\/]*> *(?:\r?\n)* *<\/div>/i,
 					replace: '',
 					num: 10
 				}]
@@ -3984,12 +3984,12 @@ window.AWB.rules = [{
 					// Nem sempre é para juntar, como em &lt;ref&gt;.
 					enabled: false,
 					name: 'tag fecha - abre',
-					find: /&lt;\/([^&lt;&gt;\n]+)&gt; *(?:\r?\n)* *&lt;\1&gt;/i,
+					find: /<\/([^<>\n]+)> *(?:\r?\n)* *<\1>/i,
 					replace: '',
 					num: 10
 				}, {
 					name: '</small></small>',
-					find: /&lt;\/small&gt; *(?:\r?\n)* *&lt;\/small&gt;/i,
+					find: /<\/small> *(?:\r?\n)* *<\/small>/i,
 					replace: '&lt;/small&gt;',
 					num: 1
 				}]
@@ -4000,13 +4000,13 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: '</div>',
-					find: /&lt;\/div&gt;/i,
+					find: /<\/div>/i,
 					replace: '',
 					num: 10,
 					ifnot: '&lt;div' // FIXME: /&lt;div/i ?
 				}, {
 					name: '</gallery>',
-					find: /&lt;\/gallery&gt;/i,
+					find: /<\/gallery>/i,
 					replace: '',
 					num: 10,
 					ifnot: '&lt;gallery' // FIXME: /&lt;gallery/i ?
@@ -4018,12 +4018,12 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: '<center>',
-					find: /(\n *\| *&lt;center&gt;[^&lt;&gt;\n]*)(\r?\n *\|)/i,
+					find: /(\n *\| *<center>[^<>\n]*)(\r?\n *\|)/i,
 					replace: '$1&lt;/center&gt;$2',
 					num: 10
 				}, {
 					name: '<pre>',
-					find: /&lt;pre&gt;/i,
+					find: /<pre>/i,
 					replace: '',
 					num: 1,
 					ifnot: '&lt;/pre&gt;' // FIXME: /&lt;/pre&gt;/i ?
@@ -4035,12 +4035,12 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: '<i>',
-				find: /\&lt;\/? *i *\/?\&gt;/i,
+				find: /<\/? *i *\/?\>/i,
 				replace: '\'\'',
 				num: 10
 			}, {
 				name: '<b> e <strong>',
-				find: /\&lt;\/? *(b|strong) *\/?\&gt;/i,
+				find: /<\/? *(b|strong) *\/?\>/i,
 				replace: '\'\'\'',
 				num: 10
 			}, {
@@ -4051,24 +4051,24 @@ window.AWB.rules = [{
 				ifhas: '&lt;p&gt;', // FIXME: /&lt;p&gt;/i ?
 				sub: [{
 					name: '<p> 1',
-					find: /&lt;p&gt;/i,
+					find: /<p>/i,
 					replace: '&lt;br /&gt;',
 					num: 10,
 					where: 'templates'
 				}, {
 					name: '<p> 2',
-					find: /&lt;\/p&gt;/i,
+					find: /<\/p>/i,
 					replace: '',
 					num: 9,
 					where: 'templates'
 				}, {
 					name: '<p> 3',
-					find: /\&lt;\/? *p *\/?\&gt;/i,
+					find: /<\/? *p *\/?\>/i,
 					replace: '\n\n',
 					num: 10
 				}, {
 					name: '<p align="justify">',
-					find: /&lt;p align="justify"&gt;/i,
+					find: /<p align="justify">/i,
 					replace: '',
 					num: 100
 				}, {
@@ -4084,12 +4084,12 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'Marca <small>',
-					find: /&lt;small&gt;/i,
+					find: /<small>/i,
 					replace: '┼',
 					num: 100
 				}, {
 					name: 'Marca </small>',
-					find: /&lt;\/small&gt;/i,
+					find: /<\/small>/i,
 					replace: '┤',
 					num: 100
 				}, {
@@ -4105,17 +4105,17 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '<small> para dentro de ref/sup/sub',
-						find: /┼ *(&lt;ref[^&gt;]*&gt;|&lt;sup&gt;|&lt;sub&gt;)/i,
+						find: /┼ *(<ref[^>]*>|<sup>|<sub>)/i,
 						replace: '$1┼',
 						num: 1
 					}, {
 						name: '</small> para dentro de ref/sup/sub',
-						find: /(&lt;ref[^&gt;\n]*&gt;|&lt;sup&gt;|&lt;sub&gt;)┼([^\n┤]*)(&lt;\/ref&gt;|&lt;\/sup&gt;|&lt;\/sub&gt;)┤/i,
+						find: /(<ref[^>\n]*>|<sup>|<sub>)┼([^\n┤]*)(<\/ref>|<\/sup>|<\/sub&gt;)┤/i,
 						replace: '$1┼$2┤$3',
 						num: 1
 					}, {
 						name: '<small> em ref/sup/sub substitui',
-						find: /(&lt;ref[^\/\n\&gt;]*&gt;|&lt;sup&gt;|&lt;sub&gt;)([^┼&lt;]*)┼([^┤&lt;]*)┤/i,
+						find: /(<ref[^\/\n\>]*>|<sup>|<sub>)([^┼<]*)┼([^┤<]*)┤/i,
 						replace: '$1$2$3',
 						num: 10
 					}, {
@@ -4138,7 +4138,7 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: '<br />}}',
-				find: / *&lt;br \/&gt; *(\r?\n)* *(╣?)\}\}/i,
+				find: / *<br \/> *(\r?\n)* *(╣?)\}\}/i,
 				replace: '\n$1}}',
 				num: 10,
 				sub: [{
@@ -4149,23 +4149,23 @@ window.AWB.rules = [{
 					ifhas: '&lt;big&gt;',
 					sub: [{
 						name: '<big> dentro predef',
-						find: /&lt;\/?big&gt;/i,
+						find: /<\/?big>/i,
 						replace: '',
 						num: 1,
 						where: 'templates'
 					}, {
 						name: 'Rule',
-						find: /; *&lt;big&gt;([^\r\n&lt;&gt;]*)&lt;\/big&gt;/i,
+						find: /; *<big>([^\r\n<>]*)<\/big>/i,
 						replace: '; $1',
 						num: 1
 					}, {
 						name: 'Rule',
-						find: /'''&lt;big&gt;([^\r\n&lt;&gt;]*)&lt;\/big&gt;'''/i,
+						find: /'''<big>([^\r\n<>]*)<\/big>'''/i,
 						replace: '\'\'\'$1\'\'\'',
 						num: 1
 					}, {
 						name: 'Rule',
-						find: /&lt;big&gt;'''([^\r\n&lt;&gt;]*)'''&lt;\/big&gt;/i,
+						find: /<big>'''([^\r\n<>]*)'''<\/big>/i,
 						replace: '\'\'\'$1\'\'\'',
 						num: 1
 					}]
@@ -4177,7 +4177,7 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: '<span class="plainlinks">',
-					find: /&lt;span class="plainlinks"&gt;([^\n&lt;&gt;]*)&lt;\/span&gt;/i,
+					find: /<span class="plainlinks">([^\n<>]*)<\/span>/i,
 					replace: '$1',
 					num: 1
 				}]
@@ -4281,7 +4281,7 @@ window.AWB.rules = [{
 			num: 1,
 			sub: [{
 				name: 'Rule',
-				find: /&lt;br \/&gt;\r?\n\|/i,
+				find: /<br \/>\r?\n\|/i,
 				replace: '\n|',
 				num: 10,
 				where: 'templates'
@@ -4307,7 +4307,7 @@ window.AWB.rules = [{
 					find: '',
 					replace: '',
 					num: 1,
-					ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
+					ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 					sub: [{
 						name: '[[ ]',
 						find: /([^\[])\[\[([^\[\]\{\}\r\n]+)\]([^\]])/i,
@@ -4340,7 +4340,7 @@ window.AWB.rules = [{
 				find: '',
 				replace: '',
 				num: 1,
-				ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
+				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 				sub: [{
 					name: '()',
 					find: '',
@@ -4685,7 +4685,7 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: '<small> em infobox',
-					find: /(\{\{Info[^╣]*\| *[^=\r\n{}]* *= *)&lt;small&gt;([^&lt;&gt;\n]*)&lt;\/small&gt;\r?\n/i,
+					find: /(\{\{Info[^╣]*\| *[^=\r\n{}]* *= *)<small>([^<>\n]*)<\/small>\r?\n/i,
 					replace: '$1$2\n',
 					num: 10,
 					ifhas: '╣'
@@ -4941,7 +4941,7 @@ window.AWB.rules = [{
 			ifhas: '╔', // FIXME: /╔/i ?
 			sub: [{
 				name: 'iw / cat',
-				find: /&lt;!\-\-+ *(Interwiki|Categorias)? *\-+\-&gt;/i,
+				find: /<!\-\-+ *(Interwiki|Categorias)? *\-+\->/i,
 				replace: '',
 				num: 100
 			}, {
@@ -5010,7 +5010,7 @@ window.AWB.rules = [{
 				num: 1
 			}, {
 				name: '<br clear="all">',
-				find: /&lt;br clear="all"&gt;/i,
+				find: /<br clear="all">/i,
 				replace: '{{-}}',
 				num: 1
 			}, {
@@ -5032,7 +5032,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: '[[Ficheiro:',
-				find: /╠[^:\n]*(?:\r?\n|[&lt;&gt;\[\]\{\}\|\r\n][^\[\]\n]*\]+([^\]]))/i,
+				find: /╠[^:\n]*(?:\r?\n|[<>\[\]\{\}\|\r\n][^\[\]\n]*\]+([^\]]))/i,
 				replace: '$1',
 				num: 1
 			}, {
@@ -5052,7 +5052,7 @@ window.AWB.rules = [{
 				num: 1
 			}, {
 				name: '<br /> em ficheiro',
-				find: /(╠[^▒\n]*)&lt;br \/&gt;/i,
+				find: /(╠[^▒\n]*)<br \/>/i,
 				replace: '$1',
 				num: 100
 			}, {
@@ -11040,7 +11040,7 @@ window.AWB.rules = [{
 				find: '',
 				replace: '',
 				num: 1,
-				ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
+				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 				sub: [{
 					name: 'Separando . \n Maiuscula',
 					find: /\.\r?\n((?:\[\[[^\|\[\]\n]\]+\|)?[A-Z])/,
@@ -11093,7 +11093,7 @@ window.AWB.rules = [{
 				find: '',
 				replace: '',
 				num: 1,
-				ifnot: /(&lt;(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
+				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 				sub: [{
 					name: 'Retirar espaçamento 1',
 					find: '',
@@ -11106,7 +11106,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '<ref | <br />',
-						find: / +(&lt;ref|&lt;br \/&gt;)/,
+						find: / +(<ref|<br \/>)/,
 						replace: '$1',
 						num: 100
 					}, {
@@ -11153,7 +11153,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '1 após pontuacao',
-						find: /(\,\.\!\?\:\;\&lt;) {2,}/,
+						find: /(\,\.\!\?\:\;<) {2,}/,
 						replace: '$1 ',
 						num: 100
 					}, {
@@ -11186,12 +11186,12 @@ window.AWB.rules = [{
 				ifhas: 'noinclude&gt;', // FIXME: /noinclude&gt;/i ?
 				sub: [{
 					name: 'Marca </noinclude>',
-					find: /&lt;\/noinclude&gt;/i,
+					find: /<\/noinclude>/i,
 					replace: '┼',
 					num: 5
 				}, {
 					name: 'Retira',
-					find: /&lt;noinclude&gt;[^┼]*┼/i,
+					find: /<noinclude>[^┼]*┼/i,
 					replace: '',
 					num: 5
 				}, {
@@ -11324,7 +11324,7 @@ window.AWB.rules = [{
 					num: 10
 				}, {
 					name: 'Big em títulos de seções',
-					find: /\r?\n(║\=+ )([^\n\=]*)&lt;big&gt;([^\n\=]*)&lt;\/big&gt;([^\n\=]*)( \=+)\r?\n/i,
+					find: /\r?\n(║\=+ )([^\n\=]*)<big>([^\n\=]*)<\/big>([^\n\=]*)( \=+)\r?\n/i,
 					replace: '\n$1$2$3$4$5\n',
 					num: 10
 				}]
@@ -11467,7 +11467,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: '\'\'\'Inserir texto não-formatado aqui\'\'\'',
-				find: /(''+|&lt;[^&gt;\n]+&gt;)Inserir texto não\-formatado aqui(&lt;\/[^&gt;\n]+&gt;|''+)?(\r?\n)?/i,
+				find: /(''+|<[^>\n]+>)Inserir texto não\-formatado aqui(<\/[^>\n]+>|''+)?(\r?\n)?/i,
 				replace: '',
 				num: 10
 			}, {
@@ -11477,12 +11477,12 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: '<math>Inserir fórmula aqui</math>',
-				find: /&lt;math&gt;Inserir fórmula aqui&lt;\/math&gt;(\r?\n)?/i,
+				find: /<math>Inserir fórmula aqui<\/math>(\r?\n)?/i,
 				replace: '',
 				num: 10
 			}, {
 				name: '<gallery> exemplo',
-				find: /&lt;gallery&gt;\nFicheiro:Air\.canada\.b767-300\.c-ggfj\.2\.jpg|\[\[Avião\]\]\nFicheiro:Mona Lisa\.jpg|\[\[Mona Lisa\]\]\nFicheiro:Albert Einstein Head\.jpg|\[\[Albert Einstein \]\]\n&lt;\/gallery&gt;(\r?\n)?/i,
+				find: /<gallery>\nFicheiro:Air\.canada\.b767-300\.c-ggfj\.2\.jpg|\[\[Avião\]\]\nFicheiro:Mona Lisa\.jpg|\[\[Mona Lisa\]\]\nFicheiro:Albert Einstein Head\.jpg|\[\[Albert Einstein \]\]\n<\/gallery>(\r?\n)?/i,
 				replace: '',
 				num: 10
 			}, {
@@ -11502,7 +11502,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: '<!-- Comentário -->',
-				find: /&lt;!\-\- Comentário \-\-&gt;(\r?\n)?/i,
+				find: /<!\-\- Comentário \-\->(\r?\n)?/i,
 				replace: '',
 				num: 10
 			}, {
@@ -11620,27 +11620,27 @@ window.AWB.rules = [{
 				num: 1
 			}, {
 				name: '({{en}})',
-				find: /((?:&lt;ref&gt;|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?inglês(\]\])?\)/i,
+				find: /((?:<ref>|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?inglês(\]\])?\)/i,
 				replace: '$1({{en}})',
 				num: 1
 			}, {
 				name: '({{es}})',
-				find: /((?:&lt;ref&gt;|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?espanhol(\]\])?\)/i,
+				find: /((?:<ref>|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?espanhol(\]\])?\)/i,
 				replace: '$1({{es}})',
 				num: 1
 			}, {
 				name: '({{pt}})',
-				find: /((?:&lt;ref&gt;|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?português(\]\])?\)/i,
+				find: /((?:<ref>|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?português(\]\])?\)/i,
 				replace: '$1({{pt}})',
 				num: 1
 			}, {
 				name: '({{de}})',
-				find: /((?:&lt;ref&gt;|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?alemão(\]\])?\)/i,
+				find: /((?:<ref>|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?alemão(\]\])?\)/i,
 				replace: '$1({{de}})',
 				num: 1
 			}, {
 				name: '({{de}})',
-				find: /((?:&lt;ref&gt;|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?italiano(\]\])?\)/i,
+				find: /((?:<ref>|[\*\#])[^┼\r\n]*[^\|])\((em )?(\[\[)?italiano(\]\])?\)/i,
 				replace: '$1({{it}})',
 				num: 1
 			}, {
@@ -11702,7 +11702,7 @@ window.AWB.rules = [{
 					num: 1
 				}, {
 					name: 'Retirando small',
-					find: /&lt;small&gt; *(ISBN *[^&lt;\n]{9,17}) *&lt;\/small&gt;/i,
+					find: /<small> *(ISBN *[^<\n]{9,17}) *<\/small>/i,
 					replace: '$1',
 					num: 1
 				}]
@@ -11720,7 +11720,7 @@ window.AWB.rules = [{
 				ifhas: '&lt;ref',
 				sub: [{
 					name: 'Arrow <ref name==>',
-					find: /&lt;ref name=*&gt;/i,
+					find: /<ref name=*>/i,
 					replace: '&lt;ref&gt;',
 					num: 100
 				}, {
@@ -11740,12 +11740,12 @@ window.AWB.rules = [{
 					num: 1
 				}, {
 					name: '</ref><ref>',
-					find: /┼\n+(&lt;ref&gt;|&lt;ref name=)/,
+					find: /┼\n+(<ref>|<ref name=)/,
 					replace: '┼$1',
 					num: 1
 				}, {
 					name: 'quebra de linha 1',
-					find: /&lt;ref&gt;(\r?\n)+/i,
+					find: /<ref>(\r?\n)+/i,
 					replace: '&lt;ref&gt;',
 					num: 1
 				}, {
@@ -11755,28 +11755,28 @@ window.AWB.rules = [{
 					num: 1
 				}, {
 					name: 'quebra de linha 3',
-					find: /(&lt;ref[^┼\r\n]*)(?:\r?\n)+([^&lt;&gt;┼\r\n]*┼)/i,
+					find: /(<ref[^┼\r\n]*)(?:\r?\n)+([^<>┼\r\n]*┼)/i,
 					replace: '$1 $2',
 					num: 100
 				}, {
 					name: '<ref>http',
-					find: /&lt;ref&gt;(http[^┼]*)┼/,
+					find: /<ref>(http[^┼]*)┼/,
 					replace: '&lt;ref&gt;[$1├┼',
 					num: 1
 				}, {
 					name: 'Ref 1 em cada linha, novo formato',
-					find: /┼&lt;ref name=/i,
+					find: /┼<ref name=/i,
 					replace: '┼\n&lt;ref name=',
 					num: 10,
-					ifhas: /(&lt;\/references&gt;|\{\{Referências[^{}]*\| *refs *=)/i
+					ifhas: /(<\/references>|\{\{Referências[^{}]*\| *refs *=)/i
 				}, {
 					name: '<ref name=xxx></ref>',
-					find: /(&lt;ref name=[^&gt;\n]+)&gt;&lt;\/ref&gt;/i,
+					find: /(<ref name=[^>\n]+)><\/ref>/i,
 					replace: '$1/&gt;',
 					num: 1
 				}, {
 					name: 'Inserindo ] no final de REF',
-					find: /(&lt;ref[^&gt;\n]*&gt;\[http:[^├┼\[\]\n]*)┼/i,
+					find: /(<ref[^>\n]*>\[http:[^├┼\[\]\n]*)┼/i,
 					replace: '$1├┼',
 					num: 1
 				}]
@@ -11787,12 +11787,12 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'Espaço após ref 1',
-					find: /(&lt;\/ref&gt;|&lt;ref name=[^&gt;\n]*\/&gt;)([^ &lt;\r\n\.\,\!\?\:\)\]\}▒])/i,
+					find: /(<\/ref>|<ref name=[^>\n]*\/>)([^ <\r\n\.\,\!\?\:\)\]\}▒])/i,
 					replace: '$1 $2',
 					num: 100
 				}, {
 					name: 'Espaço após ref 2',
-					find: /(&lt;\/ref&gt;|&lt;ref name=[^&gt;\n]*\/&gt;) +&lt;/i,
+					find: /(<\/ref>|<ref name=[^>\n]*\/>) +</i,
 					replace: '$1&lt;',
 					num: 100
 				}]
@@ -11824,13 +11824,13 @@ window.AWB.rules = [{
 					num: 1
 				}, {
 					name: '== Fontes ==',
-					find: /(║=+) Fontes (=+)\r?\n(&lt;refer|\{\{Referências|\{\{Ref-section|\{\{Reflist)/i,
+					find: /(║=+) Fontes (=+)\r?\n(<refer|\{\{Referências|\{\{Ref-section|\{\{Reflist)/i,
 					replace: '$1 Referências $2\n$3',
 					num: 1
 				}]
 			}, {
 				name: 'Rule',
-				find: /([^\r\n])(&lt;references \/&gt;|\{\{Reflist|\{\{Referências)/i,
+				find: /([^\r\n])(<references \/>|\{\{Reflist|\{\{Referências)/i,
 				replace: '$1\n$2',
 				num: 10
 			}, {
@@ -11840,22 +11840,22 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'Reflist 1',
-					find: /&lt;references *\/&gt;/i,
+					find: /<references *\/>/i,
 					replace: '{{Reflist}}',
 					num: 1
 				}, {
 					name: 'Reflist 2',
-					find: /\&lt; *small *\&gt;(?:\r?\n)*\{\{reflist\}\}(?:\r?\n)*\&lt; *\/small *\&gt;/i,
+					find: /< *small *>(?:\r?\n)*\{\{reflist\}\}(?:\r?\n)*< *\/small *>/i,
 					replace: '{{reflist}}',
 					num: 10
 				}, {
 					name: 'Reflist 3',
-					find: /&lt;div class='references-small'&gt;(\r?\n)*\{\{reflist\}\}\n*&lt;\/div&gt;/i,
+					find: /<div class='references-small'>(\r?\n)*\{\{reflist\}\}\n*<\/div>/i,
 					replace: '{{reflist}}',
 					num: 1
 				}, {
 					name: 'Reflist 4',
-					find: /&lt;div[^&lt;&gt;\n]*&gt;(?:\r?\n)*\{\{reflist\}\}(?:\r?\n)*&lt;\/div&gt;/i,
+					find: /<div[^<>\n]*>(?:\r?\n)*\{\{reflist\}\}(?:\r?\n)*<\/div>/i,
 					replace: '{{reflist}}',
 					num: 1
 				}]
@@ -11864,7 +11864,7 @@ window.AWB.rules = [{
 				find: '',
 				replace: '',
 				num: 1,
-				ifnot: /┼(\r?\n)*&lt;\/references&gt;/i,
+				ifnot: /┼(\r?\n)*<\/references>/i,
 				sub: [{
 					name: 'Seção com reflist',
 					find: '',
@@ -11872,7 +11872,7 @@ window.AWB.rules = [{
 					num: 1,
 					sub: [{
 						name: '<small>{{Reflist}}</small>',
-						find: /\&lt; *small *\&gt;(?:\r?\n)*\{\{reflist\}\}(?:\r?\n)*\&lt; *\/small *\&gt;/i,
+						find: /< *small *>(?:\r?\n)*\{\{reflist\}\}(?:\r?\n)*< *\/small *>/i,
 						replace: '{{Reflist}}',
 						num: 1
 					}, {
@@ -11924,18 +11924,18 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Seção de referências 1',
-					find: /║== *Referências? *==(\r?\n)* *\&lt; *references *\/?\&gt;/i,
+					find: /║== *Referências? *==(\r?\n)* *< *references *\/?>/i,
 					replace: '{{Ref-section}}',
 					num: 10
 				}]
 			}, {
 				name: '-small em <references group=nota/>',
-				find: /(?:\&lt;small\&gt;|\&lt;div class= *"references-small"\&gt;) *(?:\r?\n)* *&lt;references group=nota *\/ *&gt; *(?:\r?\n)*\ *(?:&lt;\/small\&gt;|\&lt;\/div\&gt;)/i,
+				find: /(?:<small>|<div class= *"references-small">) *(?:\r?\n)* *<references group=nota *\/ *> *(?:\r?\n)*\ *(?:<\/small>|<\/div>)/i,
 				replace: '&lt;references group=nota/&gt;',
 				num: 1
 			}, {
 				name: 'Passando para {{Notas}}',
-				find: /║== *Notas? *== *(?:\r?\n)* *&lt;references group=nota\/&gt;\n/i,
+				find: /║== *Notas? *== *(?:\r?\n)* *<references group=nota\/>\n/i,
 				replace: '{{Notas}}',
 				num: 1
 			}, {
@@ -11994,12 +11994,12 @@ window.AWB.rules = [{
 			num: 1,
 			sub: [{
 				name: 'Rule',
-				find: /(&lt;ref[^\&lt;\&gt;\n]*&gt;) *\'* *Fontes? *'* *:? *([^ s'\:\.])/i,
+				find: /(<ref[^<>\n]*>) *\'* *Fontes? *'* *:? *([^ s'\:\.])/i,
 				replace: '$1$2',
 				num: 1
 			}, {
 				name: '{{Link}} para {{Citar web}}',
-				find: /(&lt;ref[^\n\/\&gt;]*&gt;) *\{\{Link *\| *([a-z][a-z]) *\|(2=)? *([^\n\|]+) *\|(3=)? *([^\n\}]*) *\}\}/i,
+				find: /(<ref[^\n\/\>]*>) *\{\{Link *\| *([a-z][a-z]) *\|(2=)? *([^\n\|]+) *\|(3=)? *([^\n\}]*) *\}\}/i,
 				replace: '$1{{Citar web |autor= |url=$4 |título=$6 |língua2=$2 |obra= |data= |acessodata=}}',
 				num: 1,
 				ifhas: /\{\{Link/i
@@ -12284,7 +12284,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Link 4=',
-					find: /(\{\{Link\|[^┼{}\n]*)\}\} *([^ ┼&lt;\r\n][^┼\n]*)([┼\r\n])/i,
+					find: /(\{\{Link\|[^┼{}\n]*)\}\} *([^ ┼<\r\n][^┼\n]*)([┼\r\n])/i,
 					replace: '$1 |4=$2}}$3',
 					num: 10
 				}, {
@@ -12522,44 +12522,44 @@ window.AWB.rules = [{
 			find: '',
 			replace: '',
 			num: 1,
-			ifhas: /(&lt;ref name|&lt;ref&gt;|\{\{(Colocação\-carnaval|Grupo\-carnaval)\}|\| *rankingfifa = *[^ \r\n])/i,
-			ifnot: /(\{\{ref-?list|\{\{Referências|&lt;referen|▓(Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:)/i,
+			ifhas: /(<ref name|<ref>|\{\{(Colocação\-carnaval|Grupo\-carnaval)\}|\| *rankingfifa = *[^ \r\n])/i,
+			ifnot: /(\{\{ref-?list|\{\{Referências|<referen|▓(Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:)/i,
 			sub: [{
 				name: 'Sem seção REF - seção Ref',
 				find: /║== Referências ==/i,
 				replace: '{{Referências}}\n',
 				num: 1,
-				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
+				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - VT',
 				find: /║== Ver também ==/i,
 				replace: '{{Referências}}\n\n║== Ver também ==',
 				num: 1,
-				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
+				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - LE',
 				find: /║== Ligações externas ==/i,
 				replace: '{{Referências}}\n\n║== Ligações externas ==',
 				num: 1,
-				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
+				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - Bloco nav',
 				find: /\{\{Bloco de navegação/i,
 				replace: '{{Referências}}\n\n{{Bloco de navegação',
 				num: 1,
-				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
+				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - Portal3',
 				find: /\{\{Portal3/i,
 				replace: '{{Referências}}\n\n{{Portal3',
 				num: 1,
-				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
+				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - Cat Defaultsort',
 				find: /\r?\n\r?\n(\[\[Categoria\:|\{\{DEFAULTSORT\:)/i,
 				replace: '\n\n{{Referências}}\n\n$1',
 				num: 1,
-				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|&lt;referen)/i
+				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}]
 		}, {
 			name: 'DEFAULTSORT 2',
@@ -14101,18 +14101,18 @@ window.AWB.rules = [{
 						num: 1
 					}, {
 						name: 'Marca ref group=nota',
-						find: /║== Notas? ==\n&lt;references group=nota\/&gt;/,
+						find: /║== Notas? ==\n<references group=nota\/>/,
 						replace: '┴',
 						num: 1,
-						ifnot: /┼(\r?\n)*&lt;\/references&gt;/i
+						ifnot: /┼(\r?\n)*<\/references>/i
 					}, {
 						name: 'Marca gallery 1',
-						find: /║== (Galeria de )?image(ns|m) ==\n&lt;gallery&gt;/i,
+						find: /║== (Galeria de )?image(ns|m) ==\n<gallery>/i,
 						replace: '┐',
 						num: 1
 					}, {
 						name: 'Marca gallery 2',
-						find: /&lt;\/gallery&gt;/,
+						find: /<\/gallery>/,
 						replace: '└',
 						num: 1
 					}]
@@ -14338,7 +14338,7 @@ window.AWB.rules = [{
 			find: '',
 			replace: '',
 			num: 1,
-			ifnot: /(&lt;(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)&gt;|\{\{Citação)/i,
+			ifnot: /(<(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)>|\{\{Citação)/i,
 			sub: [{
 				/* *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 Segundo [[Unicode]] há +100.000 códigos.
@@ -14543,12 +14543,12 @@ Unicodes raramente usados devem ser consertados manualmente.
 				num: 1,
 				sub: [{
 					name: 'Arrow ==>',
-					find: /\=+\=\&gt;/i,
+					find: /\=+\=\>/i,
 					replace: '⇒',
 					num: 100
 				}, {
 					name: 'Arrow <==',
-					find: /\&lt;\=\=+/i,
+					find: /<\=\=+/i,
 					replace: '⇐',
 					num: 100
 				}, {
@@ -14558,22 +14558,22 @@ Unicodes raramente usados devem ser consertados manualmente.
 					num: 100
 				}, {
 					name: 'Arrow <--',
-					find: /&lt;\-+([^\-])/i,
+					find: /<\-+([^\-])/i,
 					replace: '←$1',
 					num: 100
 				}, {
 					name: 'Arrow ->',
-					find: /([^\-])\-\&gt;+/i,
+					find: /([^\-])\-\>+/i,
 					replace: '$1→',
 					num: 100
 				}, {
 					name: 'Arrow —>',
-					find: /([^\—])\—&gt;+/i,
+					find: /([^\—])\—>+/i,
 					replace: '$1→',
 					num: 1
 				}, {
 					name: 'Seta com > dupla',
-					find: /([↔→])&gt;([^&gt;])/i,
+					find: /([↔→])>([^>])/i,
 					replace: '$1$2',
 					num: 1
 				}, {
@@ -14588,12 +14588,12 @@ Unicodes raramente usados devem ser consertados manualmente.
 					num: 1
 				}, {
 					name: 'Arrow <==>',
-					find: /(⇐\=*&gt;|&lt;\=*⇒)/,
+					find: /(⇐\=*>|<\=*⇒)/,
 					replace: '⇐⇒',
 					num: 10
 				}, {
 					name: 'Arrow <-->',
-					find: /(←\-*\&gt;|&lt;\-*→)/i,
+					find: /(←\-*\>|<\-*→)/i,
 					replace: '↔',
 					num: 10
 				}]
@@ -15780,7 +15780,7 @@ Necessitam de revisão mínima
 			num: 1,
 			sub: [{
 				name: 'Rule',
-				find: /&lt;!\-\- *Legenda da imagem *-\-\&gt;/i,
+				find: /<!\-\- *Legenda da imagem *-\-\>/i,
 				replace: '',
 				num: 1
 			}]
@@ -16392,7 +16392,7 @@ Necessitam de revisão mínima
 			num: 1,
 			sub: [{
 				name: 'Marcando </ref>',
-				find: /&lt;\/ref&gt;/,
+				find: /<\/ref>/,
 				replace: '┼',
 				num: 1
 			}, {
@@ -16749,7 +16749,7 @@ Sempre necessitam de revisão, pois há ocasiões que sempre dará erro
 			num: 10
 		}, {
 			name: 'pt.wikipedia.org',
-			find: /&lt;ref[^\/\&gt;]*&gt;[^┼\n]*http:\/\/[a-z][a-z]\.wikipedia\.org[^┼\n]*┼/i,
+			find: /<ref[^\/\>]*>[^┼\n]*http:\/\/[a-z][a-z]\.wikipedia\.org[^┼\n]*┼/i,
 			replace: '',
 			num: 1
 		}]
@@ -16758,7 +16758,7 @@ Sempre necessitam de revisão, pois há ocasiões que sempre dará erro
 		find: /\{\{Referências.*\}\}(?:r?\n)*(\{|\[|║\=+ \{\{Ver também|║\=+ \{\{Ligações)/i,
 		replace: '$1',
 		num: 1,
-		ifnot: /(&lt;ref name|&lt;ref&gt;|\{\{(Colocação\-carnaval|Grupo\-carnaval)\}|\| *rankingfifa = *[^ \r\n])/i
+		ifnot: /(<ref name|<ref>|\{\{(Colocação\-carnaval|Grupo\-carnaval)\}|\| *rankingfifa = *[^ \r\n])/i
 	}]
 }, {
 	/* *****
@@ -16786,12 +16786,12 @@ Necessitam de muita revisão
 			num: 1,
 			sub: [{
 				name: 'Marca <small>',
-				find: /&lt;small&gt;/i,
+				find: /<small>/i,
 				replace: '┼',
 				num: 1
 			}, {
 				name: 'Marca </small>',
-				find: /&lt;\/small&gt;/i,
+				find: /<\/small>/i,
 				replace: '┤',
 				num: 1
 			}, {
@@ -17064,7 +17064,7 @@ Necessitam de muita revisão
 			num: 1,
 			sub: [{
 				name: 'font color para dentro do link',
-				find: /&lt;font color="#?([a-z0-9]*)"&gt;\[\[([^\[\]\n]*)\]\]&lt;\/font&gt;/,
+				find: /<font color="#?([a-z0-9]*)">\[\[([^\[\]\n]*)\]\]<\/font>/,
 				replace: '[[&lt;span style="color:#$1;"&gt;$2&lt;/span&gt;]]',
 				num: 1
 			}]
@@ -17081,12 +17081,12 @@ Necessitam de muita revisão
 				num: 1,
 				sub: [{
 					name: 'Marca <small>',
-					find: /&lt;small&gt;/i,
+					find: /<small>/i,
 					replace: '┼',
 					num: 1
 				}, {
 					name: 'Marca </small>',
-					find: /&lt;\/small&gt;/i,
+					find: /<\/small>/i,
 					replace: '┤',
 					num: 1
 				}, {
@@ -17204,7 +17204,7 @@ Necessitam de muita revisão
 						num: 1,
 						sub: [{
 							name: '<font ... <font>[[xxx]</font>',
-							find: /(&lt;font color="?(#?[a-z0-9]*)"?&gt;[^&lt;&gt;]*)&lt;font color="?\2"?&gt;\[\[([^\[\]\|\n]*\|)?([^\[\]\|\n]*)\]\]&lt;\/font&gt;/i,
+							find: /(<font color="?(#?[a-z0-9]*)"?>[^<>]*)<font color="?\2"?>\[\[([^\[\]\|\n]*\|)?([^\[\]\|\n]*)\]\]<\/font>/i,
 							replace: '$1[[$3&lt;span style="color:$2;"&gt;$4&lt;/span&gt;]]',
 							num: 1
 						}, {
@@ -17214,47 +17214,47 @@ Necessitam de muita revisão
 							num: 1
 						}, {
 							name: 'Rule',
-							find: /(&lt;font ([^\&lt;\&gt;\n]*)&gt;[^&lt;&gt;┼\[\]\n]*)&lt;font \2&gt;/,
+							find: /(<font ([^<>\n]*)>[^<>┼\[\]\n]*)<font \2>/,
 							replace: '$1',
 							num: 1
 						}, {
 							name: 'marca fim de célula com ref',
-							find: /( *(?:\{\{nota de rodapé\|[^\}\n]+\}\}|&lt;ref&gt;[^&lt;&gt;\n]*&lt;\/ref&gt;|&lt;ref name=[^&lt;&gt;\n]*&gt;)+\r?\n)/i,
+							find: /( *(?:\{\{nota de rodapé\|[^\}\n]+\}\}|<ref>[^<>\n]*<\/ref>|<ref name=[^<>\n]*>)+\r?\n)/i,
 							replace: '┘$1',
 							num: 1
 						}, {
 							name: 'fechando fonte',
-							find: /(&lt;font [^&lt;&gt;┼\n]*&gt;[^┼&lt;&gt;\n]*)(\r?[\n┘])/i,
+							find: /(<font [^<>┼\n]*>[^┼<>\n]*)(\r?[\n┘])/i,
 							replace: '$1┼$2',
 							num: 1
 						}, {
 							name: 'font com link dentro',
-							find: /(&lt;font color= *"?([^"&lt;&gt; ┼\n]*)"?&gt;[^\[\]\n┼]*\[\[)([^&lt;&gt;\[\]]*)(\]\].*┼)/i,
+							find: /(<font color= *"?([^"<> ┼\n]*)"?>[^\[\]\n┼]*\[\[)([^<>\[\]]*)(\]\].*┼)/i,
 							replace: '$1&lt;span style="color:$2;"&gt;$3&lt;/span&gt;$4',
 							num: 1
 						}, {
 							name: 'mais de um span/font da célula',
-							find: /\| *(\[\[(?:[^\|\[\]]*\|)?&lt;span style="color:(#?[a-z0-9]*);"&gt;[^&lt;&gt;\]\n]*&lt;\/span&gt;\]\](?:(?: *(?:&lt;br \/&gt; *)*(?:\[\[(?:[^\|\[\]]*\|)?&lt;span style="color:\2;"&gt;[^&lt;&gt;\]\n]*&lt;\/span&gt;\]\]|&lt;font color="?\2"?&gt;[^&lt;&gt;\n┼]*┼))+))( *\r?[\n┘])/i,
+							find: /\| *(\[\[(?:[^\|\[\]]*\|)?<span style="color:(#?[a-z0-9]*);">[^<>\]\n]*<\/span>\]\](?:(?: *(?:<br \/> *)*(?:\[\[(?:[^\|\[\]]*\|)?<span style="color:\2;">[^<>\]\n]*<\/span&gt;\]\]|&lt;font color="?\2"?&gt;[^&lt;&gt;\n┼]*┼))+))( *\r?[\n┘])/i,
 							replace: '| style="color:$2;"|$1$3',
 							num: 1
 						}, {
 							name: 'mais de um font/span da célula',
-							find: /\| *(&lt;font color *= *"?(#?[a-z0-9]*)"?&gt;[^&lt;&gt;\n┼\[]*(?:┼|\[)(?:(?: *(?:\[*(?:[^\|\[\]]*\|)?&lt;span style="color: *\2;"&gt;[^&lt;&gt;\]\n]*&lt;\/span&gt;\]\]|&lt;font color="?\2"?&gt;[^&lt;&gt;\n┼]*┼))+))( *\r?[\n┘])/i,
+							find: /\| *(<font color *= *"?(#?[a-z0-9]*)"?>[^<>\n┼\[]*(?:┼|\[)(?:(?: *(?:\[*(?:[^\|\[\]]*\|)?<span style="color: *\2;">[^<>\]\n]*<\/span>\]\]|<font color="?\2"?>[^<&gt;\n┼]*┼))+))( *\r?[\n┘])/i,
 							replace: '| style="color:$2;"|$1$3',
 							num: 1
 						}, {
 							name: 'fonte em toda a célula',
-							find: /\| *&lt;font color="?(#?[a-z0-9]{3,6})"?&gt;([^\n┼]*)┼?( *\r?[\n┘])/i,
+							find: /\| *<font color="?(#?[a-z0-9]{3,6})"?>([^\n┼]*)┼?( *\r?[\n┘])/i,
 							replace: '| style="color:$1;"|$2$3',
 							num: 10
 						}, {
 							name: 'span em toda a célula (apenas 1 link)',
-							find: /\|( *\[\[(?:[^\|\]\n]+\|)?&lt;span style="color:(#?[a-z0-9]*);"&gt;[^&lt;&gt;\[\]\n]*&lt;\/span&gt;\]\])( *\r?[\n┘])/i,
+							find: /\|( *\[\[(?:[^\|\]\n]+\|)?<span style="color:(#?[a-z0-9]*);">[^<>\[\]\n]*<\/span>\]\])( *\r?[\n┘])/i,
 							replace: '| style="color:$2;"|$1$3',
 							num: 1
 						}, {
 							name: 'remove fonte = célula',
-							find: /(style=[^\|\n]*[^\-]color:(#?[a-z0-9]*);"\| *)&lt;font color="\2"&gt;([^┼\n]*)┼/i,
+							find: /(style=[^\|\n]*[^\-]color:(#?[a-z0-9]*);"\| *)<font color="\2">([^┼\n]*)┼/i,
 							replace: '$1$3',
 							num: 1
 						}, {
@@ -17299,22 +17299,22 @@ Necessitam de muita revisão
 						num: 1
 					}, {
 						name: 'style na linha',
-						find: /(\|\-style[^\n\|]*[^\-]color:(#?[a-f0-6]*);"[^└]*\n[!\|](?:[^\[{&lt;\]\|]*\|)? *[^\|\n&lt;{]*)\[\[([^\[\]&lt;\n]+)\]\]/i,
+						find: /(\|\-style[^\n\|]*[^\-]color:(#?[a-f0-6]*);"[^└]*\n[!\|](?:[^\[{<\]\|]*\|)? *[^\|\n<{]*)\[\[([^\[\]<\n]+)\]\]/i,
 						replace: '$1[[&lt;span style="color:$2;"&gt;$3&lt;/span&gt;]]',
 						num: 1
 					}, {
 						name: 'style na célula',
-						find: /(\n[\!\|][^\|\n]*style[^\|\n]*[^\-]color:(#?[a-z0-6]*);[^\|\n]*\|[^\&lt;\{\n]*)\[\[([^\[\]\&lt;\n]*)\]\]/i,
+						find: /(\n[\!\|][^\|\n]*style[^\|\n]*[^\-]color:(#?[a-z0-6]*);[^\|\n]*\|[^<\{\n]*)\[\[([^\[\]<\n]*)\]\]/i,
 						replace: '$1[[&lt;span style="color:$2;"&gt;$3&lt;/span&gt;]]',
 						num: 10
 					}, {
 						name: 'arruma o span c/ pipelink',
-						find: /\[\[(&lt;span[^&gt;\n]*&gt;)([^\|\[\]]*)\|([^\|\[\]]*&lt;\/span&gt;)\]\]/,
+						find: /\[\[(<span[^>\n]*>)([^\|\[\]]*)\|([^\|\[\]]*<\/span>)\]\]/,
 						replace: '[[$2|$1$3]]',
 						num: 1
 					}, {
 						name: 'arruma o span s/ pipelink',
-						find: /\[\[(&lt;span[^&gt;\n]*&gt;)([^\|\[\]]*)(&lt;\/span&gt;)\]\]/i,
+						find: /\[\[(<span[^>\n]*>)([^\|\[\]]*)(<\/span>)\]\]/i,
 						replace: '[[$2|$1$2$3]]',
 						num: 1
 					}, {
@@ -17331,7 +17331,7 @@ Necessitam de muita revisão
 					ifhas: 'color', // FIXME: /color/i ?
 					sub: [{
 						name: 'arruma cor em style - # add',
-						find: /(style=".*color:)([0-9a-f]+[";&gt;])/i,
+						find: /(style=".*color:)([0-9a-f]+[";>])/i,
 						replace: '$1#$2',
 						num: 10
 					}, {
@@ -17341,12 +17341,12 @@ Necessitam de muita revisão
 						num: 10
 					}, {
 						name: 'arruma cor em font - # add',
-						find: /(&lt;font.*color *= *)([0-9a-f]+[ &gt;])/i,
+						find: /(<font.*color *= *)([0-9a-f]+[ >])/i,
 						replace: '$1#$2',
 						num: 10
 					}, {
 						name: 'arruma cor em font - # remove',
-						find: /(&lt;font.*color *= *)#([^g-z&gt; ]*[g-z]+[^g-z&gt; ]*[&gt; ])/,
+						find: /(<font.*color *= *)#([^g-z> ]*[g-z]+[^g-z> ]*[> ])/,
 						replace: '',
 						num: 10
 					}]
@@ -17382,7 +17382,7 @@ Necessitam de muita revisão
 				find: '',
 				replace: '',
 				num: 1,
-				ifhas: /(style|&lt;center)/i,
+				ifhas: /(style|<center)/i,
 				sub: [{
 					name: 'style para a linha toda',
 					find: '',
@@ -17400,7 +17400,7 @@ Necessitam de muita revisão
 						num: 100
 					}, {
 						name: 'text-align:xxx; na linha toda',
-						find: /(\|\-[^┌\n]*)(\r?\n[\|\!][^┼\-][^\|\n]*(center)[";&gt;].*(?:\r?\n|┼\|)(?:([\|\!][^\-].*(?:\3)[";&gt;].*(?:\r?\n|┼\|))+)\|[\-}])/i,
+						find: /(\|\-[^┌\n]*)(\r?\n[\|\!][^┼\-][^\|\n]*(center)[";>].*(?:\r?\n|┼\|)(?:([\|\!][^\-].*(?:\3)[";>].*(?:\r?\n|┼\|))+)\|[\-}])/i,
 						replace: '$1 ┌style="text-align:center;"$2',
 						num: 100
 					}, {
@@ -17437,7 +17437,7 @@ Necessitam de muita revisão
 						num: 100
 					}, {
 						name: '<center> nas células',
-						find: /(\|\-.*style="[^"\n]*text-align:center;.*\n(?:[\|\!][^\-\}].*(?:\r?\n|┬\|))*[\|\!][^\-\}](?:[^\|\!\n]*[\|\!]&lt;)?)\/?center&gt;([^&lt;&gt;\n]*)(?:&lt;\/center&gt;)?(?:\r?\n|┬\|)/i,
+						find: /(\|\-.*style="[^"\n]*text-align:center;.*\n(?:[\|\!][^\-\}].*(?:\r?\n|┬\|))*[\|\!][^\-\}](?:[^\|\!\n]*[\|\!]<)?)\/?center>([^<>\n]*)(?:<\/center>)?(?:\r?\n|┬\|)/i,
 						replace: '$1└$2\n',
 						num: 100,
 						sub: [{
@@ -17620,7 +17620,7 @@ Necessitam de muita revisão
 			num: 1,
 			sub: [{
 				name: 'Marcando </ref>',
-				find: /&lt;\/ref&gt;/,
+				find: /<\/ref>/,
 				replace: '┼',
 				num: 1
 			}, {
@@ -18104,7 +18104,7 @@ Necessitam de muita revisão
 					num: 1,
 					sub: [{
 						name: '-link data',
-						find: /(&lt;ref[^&lt;&gt;\n]*&gt;[^┼]*)\[\[([1-2][0-9]{3,3}|[1-3]?[0-9] de (?:(?:jan|fever)eiro|março|abril|maio|ju[nl]ho|agosto|(?:setem|outu|novem|dezem)bro))\]\]/i,
+						find: /(<ref[^<>\n]*>[^┼]*)\[\[([1-2][0-9]{3,3}|[1-3]?[0-9] de (?:(?:jan|fever)eiro|março|abril|maio|ju[nl]ho|agosto|(?:setem|outu|novem|dezem)bro))\]\]/i,
 						replace: '$1$2',
 						num: 100
 					}, {
@@ -19505,7 +19505,7 @@ do Portal */
 							num: 1
 						}, {
 							name: 'morte_local',
-							find: /(\{\{Info\/Música\/artista[^╣]*\| *morte_data( *= *)\{\{[^{}\n]+\}\})(?:&lt;br \/&gt;)?(.+)\r?\n/i,
+							find: /(\{\{Info\/Música\/artista[^╣]*\| *morte_data( *= *)\{\{[^{}\n]+\}\})(?:<br \/>)?(.+)\r?\n/i,
 							replace: '$1\n |morte_local        =$3',
 							num: 1
 						}, {
@@ -19820,7 +19820,7 @@ do Portal */
 							ifnot: /\n *\| *imagem_tamanho *= *[^ \r\n]/i
 						}, {
 							name: 'retirando <br /> do início do campo',
-							find: /(\| *imagem_legenda *= *)&lt;br \/&gt;/i,
+							find: /(\| *imagem_legenda *= *)<br \/>/i,
 							replace: '$1',
 							num: 10
 						}, {
@@ -20125,7 +20125,7 @@ do Portal */
 						num: 2
 					}, {
 						name: '- atualização',
-						find: /(&lt;small&gt; *'* *Até )\[\[([1-3]?[0-9] de (?:(?:jan|fever)eiro|março|abril|maio|ju[nl]ho|agosto|(?:setem|outu|novem|dezem)bro))\]\] de \[\[([1-2][0-9]{3,3})\]\]/i,
+						find: /(<small> *'* *Até )\[\[([1-3]?[0-9] de (?:(?:jan|fever)eiro|março|abril|maio|ju[nl]ho|agosto|(?:setem|outu|novem|dezem)bro))\]\] de \[\[([1-2][0-9]{3,3})\]\]/i,
 						replace: '$1$2 de $3',
 						num: 10
 					}]
@@ -20233,7 +20233,7 @@ do Portal */
 						num: 1
 					}, {
 						name: 'imagem_legenda tag',
-						find: /(imagem_legenda *= *)&lt;center&gt;([^\n]+)&lt;\/center&gt;\r?\n/i,
+						find: /(imagem_legenda *= *)<center>([^\n]+)<\/center>\r?\n/i,
 						replace: '$1$2\n',
 						num: 1
 					}, {
@@ -20267,7 +20267,7 @@ quem quiser pode habilitar e ajudar a testar
 		find: '',
 		replace: '',
 		num: 1,
-		ifnot: /(&lt;(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
+		ifnot: /(<(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 		sub: [{
 			name: 'sequencia 1',
 			find: /(\[\[[^\[\]\n▒]*\]\], )([^\[\] \n▒]+\]\])/,
@@ -21056,7 +21056,7 @@ style="text-align:left;"|;"
 			num: 1,
 			sub: [{
 				name: 'Ponto final em ficheiro 1',
-				find: /(╠[^:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.&gt;}])(\]\])? *▒/i,
+				find: /(╠[^:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.>}])(\]\])? *▒/i,
 				replace: '$1$2$3.▒',
 				num: 1
 			}, {
