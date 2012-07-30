@@ -20,7 +20,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.8',
+	version: '0.9',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -179,32 +179,31 @@ AWB.getRulesHTML = function (rules) {
 AWB.run = function () {
 	var $someWhere, versionHTML;
 
-	if (mw.config.get('wgAction') === 'edit') {
+	if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
 		AWB.$target = $('#wpTextbox1');
 		AWB.text = AWB.$target.val();
 
-		/* Check if we are in edit mode and the required modules are available and then customize the toolbar */
-		if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
-			mw.loader.using( 'user.options', function () {
-				if ( mw.user.options.get('usebetatoolbar') ) {
-					mw.loader.using( 'ext.wikiEditor.toolbar', AWB.addAWBToToolbar );
-				} else{
-					// TODO: Improve support for old toolbar?
-					$( mw.util.addPortletLink(
-						'p-tb',
-						'#',
-						'Formatar com AWB',
-						'#ca-awb',
-						'Formata o código wiki da página de acordo com as regras estabelecidas no código do script'
-					) ).click( function (e) {
-						e.preventDefault();
-						AWB.processRules(AWB.rules);
-						AWB.$target.val( AWB.text );
-					} );
-				}
-			} );
-		}
-	} else if (mw.config.get('wgAction') === 'view' && mw.config.get('wgPageName') === 'Wikipédia:Projetos/AWB/Script' ) {
+		/* Make sure the required modules are available and then customize the toolbar */
+		mw.loader.using( 'user.options', function () {
+			if ( mw.user.options.get('usebetatoolbar') ) {
+				mw.loader.using( 'ext.wikiEditor.toolbar', AWB.addAWBToToolbar );
+			} else{
+				// TODO: Improve support for old toolbar?
+				$( mw.util.addPortletLink(
+					'p-tb',
+					'#',
+					'Formatar com AWB',
+					'#ca-awb',
+					'Formata o código wiki da página de acordo com as regras estabelecidas no código do script'
+				) ).click( function (e) {
+					e.preventDefault();
+					AWB.processRules(AWB.rules);
+					AWB.$target.val( AWB.text );
+				} );
+			}
+		} );
+
+	} else if ($.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 && mw.config.get('wgPageName') === 'Wikipédia:Projetos/AWB/Script' ) {
 		// TODO: Implement a true user interface on this "special page"
 		if (AWB.hasUserInterface) {
 			mw.util.addCSS('.awb-disabled{ color: red;}');
