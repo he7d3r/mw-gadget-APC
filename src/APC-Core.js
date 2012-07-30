@@ -16,7 +16,7 @@
 'use strict';
 
 var AWB = {
-	version: 0.1,
+	version: '0.1',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
