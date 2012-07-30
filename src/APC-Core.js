@@ -11,12 +11,16 @@
  * @author: [[User:Helder.wiki]]
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
-/*global jQuery, mediaWiki */
-(function ($, mw) {
+/*global jQuery, mediaWiki, AWB */
+(function ($, mw, AWB) {
 'use strict';
 
-var AWB = {
-	version: '0.1',
+if ( AWB === undefined ) {
+	AWB = {};
+}
+
+$.extend( AWB, {
+	version: '0.2',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -39,7 +43,7 @@ var AWB = {
 	 * having this JS module as dependency (check the toolbar API for examples)
 	 */
 	rules: []
-};
+} );
 
 // AWB.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
 
@@ -213,11 +217,6 @@ AWB.run = function () {
 	}
 };
 
-if ( window.AWB === undefined ) {
-	window.AWB = {};
-}
-window.AWB = $.extend( {}, AWB, window.AWB );
-
 $(AWB.run);
 
-}(jQuery, mediaWiki));
+}(jQuery, mediaWiki, AWB));
