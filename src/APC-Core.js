@@ -201,11 +201,13 @@ AWB.run = function () {
 			} );
 		}
 	} else if (mw.config.get('wgAction') === 'view' && mw.config.get('wgPageName') === 'Wikipédia:Projetos/AWB/Script' ) {
-		// TODO: Use an element with id="awb-search-and-replace-rules" in the page
 		// TODO: Implement a true user interface on this "special page"
 		if (AWB.hasUserInterface) {
 			mw.util.addCSS('.awb-disabled{ color: red;}');
-			$someWhere = $('#mw-content-text');
+			$someWhere = $('#awb-search-and-replace-rules');
+			if(!$someWhere.length) {
+				$someWhere = $('#mw-content-text').first();
+			}
 			$someWhere.html(AWB.getRulesHTML(AWB.rules));
 		}
 	}
