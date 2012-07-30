@@ -4,12 +4,12 @@
  * por meio do processamento de listas de regras do tipo "localizar e substituir"
  * (análoga à existente no AutoWikiBrowser)
  * Ver também:
- ** [[WP:Projetos/AWB/Script]] (documentação?)
+ ** [[WP:Projetos/AWB/Script]] (documentação)
  ** [[w:User:!Silent/correções.js]]
  ** [[w:WP:Projetos/Check Wikipedia/AWB]]
  ** [[w:WP:Projetos/AWB]]
  * @author: [[User:Helder.wiki]]
- * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB-SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB-SearchAndReplace.js]])
+ * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
 /*global jQuery, mediaWiki */
 (function ($, mw) {
@@ -206,7 +206,7 @@ AWB.run = function () {
 			mw.util.addCSS('.awb-disabled{ color: red;}');
 			$someWhere = $('#awb-search-and-replace-rules');
 			if(!$someWhere.length) {
-				$someWhere = $('#mw-content-text').first();
+				$someWhere = $('#mw-content-text');
 			}
 			$someWhere.html(AWB.getRulesHTML(AWB.rules));
 		}
