@@ -11,16 +11,15 @@
  * @author: [[User:Helder.wiki]]
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
-/*global jQuery, mediaWiki, AWB */
+/*global jQuery, mediaWiki */
 
-if ( window.AWB === undefined ) {
-	window.AWB = {};
-}
-(function ($, mw, AWB) {
+var AWB = (function ($, mw) {
 'use strict';
 
-AWB = $.extend( {
-	version: '0.4',
+// AWB.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
+
+return {
+	version: '0.5',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -42,16 +41,13 @@ AWB = $.extend( {
 	 * so that the list of rules can be defined inside a mw.loader.using()
 	 * having this JS module as dependency (check the toolbar API for examples)
 	 */
-	rules: []
-}, AWB );
-
-// AWB.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
+	rules: [],
 
 /**
- * Loop over all rules and subrules, applying those which are enabled
- * @param rules The list of rules
- */
-AWB.processRules = function (rules) {
+	* Loop over all rules and subrules, applying those which are enabled
+	* @param rules The list of rules
+	*/
+processRules: function (rules) {
 	var i, length, r, times;
 	for (i = 0, length = rules.length; i < length; i++) {
 		r = rules[i];
@@ -94,9 +90,9 @@ AWB.processRules = function (rules) {
 			}
 		}
 	}
-};
+},
 
-AWB.addAWBToToolbar = function () {
+addAWBToToolbar: function () {
 	var	// i,
 		mainGroupsOfFixes = { // {}
 			'awb-fixes-all' : {
@@ -144,14 +140,14 @@ AWB.addAWBToToolbar = function () {
 			}
 		}
 	} );
-};
+},
 
 /**
- * Get an HTML representation of the list of rules and subrules
- * @param rules The list of rules
- * @return {jQuery} The jQuery object correspoding to the HTML of the requested
- */
-AWB.getRulesHTML = function (rules) {
+	* Get an HTML representation of the list of rules and subrules
+	* @param rules The list of rules
+	* @return {jQuery} The jQuery object correspoding to the HTML of the requested
+	*/
+getRulesHTML: function (rules) {
 	var i, length, r, $li,
 	$ul = $('<ul></ul>');
 
@@ -171,12 +167,12 @@ AWB.getRulesHTML = function (rules) {
 		$li.appendTo($ul);
 	}
 	return $ul;
-};
+},
 
 /**
- * Execute the script when in edit mode
- */
-AWB.run = function () {
+	* Execute the script when in edit mode
+	*/
+run: function () {
 	var $someWhere;
 
 	if (mw.config.get('wgAction') === 'edit') {
@@ -215,8 +211,13 @@ AWB.run = function () {
 			$someWhere.html(AWB.getRulesHTML(AWB.rules));
 		}
 	}
+}
 };
 
-$(AWB.run);
+}(jQuery, mediaWiki));
 
-}(jQuery, mediaWiki, window.AWB));
+// Attach to window (eventually merging with the already defined rules)
+window.AWB = jQuery.extend( {}, AWB, window.AWB || {} );
+
+// Execute the script
+jQuery(window.AWB.run);
