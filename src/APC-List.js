@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.8'
+	rulesVersion: '3.1.9'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -2139,9 +2139,9 @@ window.AWB.rules = [{
 								find: /\{\{Personagem animangá *(\||\r?\n|<!--)/i,
 								replace: '{{Info/Personagem animangá$1'
 							}, {
-								name: '{{Personagem de D&amp;D}}',
-								find: /\{\{Personagem de D&amp;D *(\||\r?\n|<!--)/i,
-								replace: '{{Info/Personagem de D&amp;D$1'
+								name: '{{Personagem de D&D}}',
+								find: /\{\{Personagem de D&D *(\||\r?\n|<!--)/i,
+								replace: '{{Info/Personagem de D&D$1'
 							}, {
 								name: '{{Personagem de Desperate Housewives}}',
 								find: /\{\{Personagem de Desperate Housewives *(\||\r?\n|<!--)/i,
@@ -2809,7 +2809,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: 'retira os errados',
-						find: /╚([\-{╠╚╩<\|\&amp;])/,
+						find: /╚([\-{╠╚╩<\|\&])/,
 						replace: '\n$1',
 						num: 100
 					}, {
@@ -9520,7 +9520,7 @@ window.AWB.rules = [{
 			}, {
 				name: 'kg',
 				find: /([0-9]) *Kgs?([^a-z])/i,
-				replace: '$1&amp;nbsp;kg$2',
+				replace: '$1&nbsp;kg$2',
 				num: 100
 			}, {
 				name: 'Vírgula em alturas',
@@ -12013,7 +12013,7 @@ window.AWB.rules = [{
 					name: 'Ordem do ref group=nota',
 					ifhas: /┴/i,
 					sub: [{
-						name: 'Nota &amp; LE',
+						name: 'Nota & LE',
 						find: /(┬[^┴╔╗]*)\r?\n(┴.*)/i,
 						replace: '$2\n\n$1'
 					}]
@@ -12022,11 +12022,11 @@ window.AWB.rules = [{
 					ifhas: /┤/i,
 					ifnot: /┤.*\}\}\n+===/,
 					sub: [{
-						name: 'REF &amp; LE 1',
+						name: 'REF & LE 1',
 						find: /(┬[^┤╔╗]*)\r?\n(┤.*\}\})/i,
 						replace: '$2\n\n$1'
 					}, {
-						name: 'REF &amp; Nota 1',
+						name: 'REF & Nota 1',
 						find: /(┴[^┤╔╗]*)\r?\n(┤.*\}\})/i,
 						replace: '$2\n\n$1'
 					}]
@@ -12034,7 +12034,7 @@ window.AWB.rules = [{
 					name: 'Ordem da {{referências}} 2',
 					ifhas: /┤.*\}\}\n+===/i,
 					sub: [{
-						name: 'REF &amp; Nota 2',
+						name: 'REF & Nota 2',
 						find: /(┴)\r?\n([^┤╔╗]*)\r?\n(┤.*\}\})\r?\n([^┼┬├╔╗]*)\r?\n([┼┬├])/i,
 						replace: '$3\n$4\n$1\n$2\n$5'
 					}]
@@ -12042,23 +12042,23 @@ window.AWB.rules = [{
 					name: 'Ordem gallery',
 					ifhas: '┐',
 					sub: [{
-						name: 'Gallery &amp; LE',
+						name: 'Gallery & LE',
 						find: /(┬[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/i,
 						replace: '$2\n\n$1'
 					}, {
-						name: 'Gallery &amp; VT',
+						name: 'Gallery & VT',
 						find: /(┼[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
 						replace: '$2\n\n$1'
 					}, {
-						name: 'Gallery &amp; Biblio',
+						name: 'Gallery & Biblio',
 						find: /(├[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
 						replace: '$2\n\n$1'
 					}, {
-						name: 'Gallery &amp; Nota',
+						name: 'Gallery & Nota',
 						find: /(┴[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
 						replace: '$2\n\n$1'
 					}, {
-						name: 'Gallery &amp; REF',
+						name: 'Gallery & REF',
 						find: /(┤.*\}\}[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
 						replace: '$2\n\n$1'
 					}]
@@ -12187,149 +12187,149 @@ window.AWB.rules = [{
 				* Unicodes raramente usados devem ser consertados manualmente.
 				**/
 				name: 'Unicode',
-				ifhas: '&amp;',
+				ifhas: '&',
 				sub: [{
-					name: '&amp;letra',
-					ifhas: /&amp;[a-z]/i,
+					name: '&letra',
+					ifhas: /&[a-z]/i,
 					sub: [{
-						name: '&amp;agrave;',
-						find: /&amp;agrave;/i,
+						name: '&agrave;',
+						find: /&agrave;/i,
 						replace: 'à'
 					}, {
-						name: '&amp;auml;',
-						find: /&amp;auml;/i,
+						name: '&auml;',
+						find: /&auml;/i,
 						replace: 'ä'
 					}, {
-						name: '&amp;bull;',
-						find: /&amp;bull;/i,
+						name: '&bull;',
+						find: /&bull;/i,
 						replace: '•'
 					}, {
-						name: '&amp;ccedil;',
-						find: /&amp;ccedil;/i,
+						name: '&ccedil;',
+						find: /&ccedil;/i,
 						replace: 'ç'
 					}, {
-						name: '&amp;copy;',
-						find: /&amp;copy;/i,
+						name: '&copy;',
+						find: /&copy;/i,
 						replace: '©'
 					}, {
-						name: '&amp;dagger;',
-						find: /&amp;dagger;/i,
+						name: '&dagger;',
+						find: /&dagger;/i,
 						replace: '†'
 					}, {
-						name: '&amp;ETH;',
-						find: /&amp;ETH;/i,
+						name: '&ETH;',
+						find: /&ETH;/i,
 						replace: 'Ð'
 					}, {
-						name: '&amp;gamma;',
-						find: /&amp;gamma;/i,
+						name: '&gamma;',
+						find: /&gamma;/i,
 						replace: 'γ'
 					}, {
-						name: '&amp;hellip;',
-						find: /&amp;hellip;/i,
+						name: '&hellip;',
+						find: /&hellip;/i,
 						replace: '…'
 					}, {
-						name: '&amp;lsquo;',
-						find: /&amp;lsquo;/i,
+						name: '&lsquo;',
+						find: /&lsquo;/i,
 						replace: '‘'
 					}, {
-						name: '&amp;mdash;',
-						find: /&amp;mdash;/i,
+						name: '&mdash;',
+						find: /&mdash;/i,
 						replace: '—'
 					}, {
-						name: '&amp;middot;',
-						find: /&amp;middot;/i,
+						name: '&middot;',
+						find: /&middot;/i,
 						replace: '·'
 					}, {
-						name: '&amp;minus;',
-						find: /&amp;minus;/i,
+						name: '&minus;',
+						find: /&minus;/i,
 						replace: '−'
 					}, {
-						name: '&amp;ndash;',
-						find: /&amp;ndash;/i,
+						name: '&ndash;',
+						find: /&ndash;/i,
 						replace: '–'
 					}, {
-						name: '&amp;otilde;',
-						find: /&amp;otilde;/i,
+						name: '&otilde;',
+						find: /&otilde;/i,
 						replace: 'õ'
 					}, {
-						name: '&amp;ouml;',
-						find: /&amp;ouml;/i,
+						name: '&ouml;',
+						find: /&ouml;/i,
 						replace: 'ö'
 					}, {
-						name: '&amp;quot;',
-						find: /&amp;quot;/i,
+						name: '&quot;',
+						find: /&quot;/i,
 						replace: '"'
 					}, {
-						name: '&amp;rarr;',
-						find: /&amp;rarr;/i,
+						name: '&rarr;',
+						find: /&rarr;/i,
 						replace: '→'
 					}, {
-						name: '&amp;reg;',
-						find: /&amp;reg;/i,
+						name: '&reg;',
+						find: /&reg;/i,
 						replace: '®'
 					}, {
-						name: '&amp;szlig;',
-						find: /&amp;szlig;/i,
+						name: '&szlig;',
+						find: /&szlig;/i,
 						replace: 'ß'
 					}, {
-						name: '&amp;trade',
-						find: /&amp;trade;/i,
+						name: '&trade',
+						find: /&trade;/i,
 						replace: '™'
 					}, {
-						name: '&amp;THORN;',
-						find: /&amp;THORN;/i,
+						name: '&THORN;',
+						find: /&THORN;/i,
 						replace: 'Þ'
 					}, {
-						name: '&amp;uuml;',
-						find: '&amp;uuml;',
+						name: '&uuml;',
+						find: '&uuml;',
 						replace: 'ü'
 					}]
 				}, {
-					name: '&amp;#',
-					ifhas: '&amp;#', // FIXME: /&amp;#/i ?
+					name: '&#',
+					ifhas: '&#',
 					sub: [{
-						name: '&amp;#257;',
-						find: '&amp;#257;',
+						name: '&#257;',
+						find: '&#257;',
 						replace: 'ā'
 					}, {
-						name: '&amp;#265;',
-						find: '&amp;#265;',
+						name: '&#265;',
+						find: '&#265;',
 						replace: 'ĉ'
 					}, {
-						name: '&amp;#269;',
-						find: '&amp;#269;',
+						name: '&#269;',
+						find: '&#269;',
 						replace: 'č'
 					}, {
-						name: '&amp;#285;',
-						find: '&amp;#285;',
+						name: '&#285;',
+						find: '&#285;',
 						replace: 'ĝ'
 					}, {
-						name: '&amp;#293;',
-						find: '&amp;#293;',
+						name: '&#293;',
+						find: '&#293;',
 						replace: 'ĥ'
 					}, {
-						name: '&amp;#306;',
-						find: '&amp;#306;',
+						name: '&#306;',
+						find: '&#306;',
 						replace: 'Ĳ'
 					}, {
-						name: '&amp;#309;',
-						find: '&amp;#309;',
+						name: '&#309;',
+						find: '&#309;',
 						replace: 'ĵ'
 					}, {
-						name: '&amp;#349;',
-						find: '&amp;#349;',
+						name: '&#349;',
+						find: '&#349;',
 						replace: 'ŝ'
 					}, {
-						name: '&amp;#365;',
-						find: '&amp;#365;',
+						name: '&#365;',
+						find: '&#365;',
 						replace: 'ŭ'
 					}, {
-						name: '&amp;#383;',
-						find: '&amp;#383;',
+						name: '&#383;',
+						find: '&#383;',
 						replace: 'ſ'
 					}, {
-						name: '&amp;#39;',
-						find: '&amp;#39;',
+						name: '&#39;',
+						find: '&#39;',
 						replace: '\''
 					}]
 				}]
@@ -12399,7 +12399,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Unicode 4',
-				find: '&amp;sup2;',
+				find: '&sup2;',
 				replace: '²',
 				num: 100
 			}]
@@ -12713,7 +12713,7 @@ window.AWB.rules = [{
 				replace: 'coadjuvante'
 			}, {
 				name: '{{Allmusic}}',
-				find: /\{\{link\|(?: *1?=? *[a-z]{2,2})?\|? *2?= *?http:\/\/allmusic\.com\/cg\/amg\.dll\?p=amg\&amp;sql\=([^\|\}\n]+)\/? *\| *3?=? *([^\|\}\n]*)(?: *(?:\| *4?=?|\}\}) *no \[?\[?Allmusic\]?\]?)?(?:\}\}\r?\n|\r?\n)/i,
+				find: /\{\{link\|(?: *1?=? *[a-z]{2,2})?\|? *2?= *?http:\/\/allmusic\.com\/cg\/amg\.dll\?p=amg\&sql\=([^\|\}\n]+)\/? *\| *3?=? *([^\|\}\n]*)(?: *(?:\| *4?=?|\}\}) *no \[?\[?Allmusic\]?\]?)?(?:\}\}\r?\n|\r?\n)/i,
 				replace: '{{Allmusic|$1|$2}}\n'
 			}, {
 				name: '({{Imdb',
@@ -16241,7 +16241,7 @@ do Portal */
 						replace: '$1$4$5$6$3'
 					}, {
 						name: '+área_total_km2',
-						find: /(\{\{Info\/Assentamento\/Brasil[^╣]*\| *município *= *\[\[([^\]\n]*)\]\]\r?\n[^╣]*\| *área_total_km2 *= )([\r\n][^░]*O \[\[bairro\]\] tem um território de ([0-9\.,])+&amp;nbsp;km²\.)/i,
+						find: /(\{\{Info\/Assentamento\/Brasil[^╣]*\| *município *= *\[\[([^\]\n]*)\]\]\r?\n[^╣]*\| *área_total_km2 *= )([\r\n][^░]*O \[\[bairro\]\] tem um território de ([0-9\.,])+&nbsp;km²\.)/i,
 						replace: '$1$4$3'
 					}, {
 						name: '+população_total',
