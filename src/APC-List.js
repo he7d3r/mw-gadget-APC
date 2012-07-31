@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.9'
+	rulesVersion: '3.1.10'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -17301,9 +17301,8 @@ style="text-align:left;"|;"
 				replace: ''
 			}, {
 				name: 'Desmarca seções',
-				find: '║',
-				replace: '',
-				num: 10
+				find: /║/g,
+				replace: ''
 			}]
 		}, {
 			name: 'Desmarca inicio',
