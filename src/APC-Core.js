@@ -8,6 +8,7 @@
  ** [[w:User:!Silent/correções.js]]
  ** [[w:WP:Projetos/Check Wikipedia/AWB]]
  ** [[w:WP:Projetos/AWB]]
+ ** http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/ReplaceSpecial/Rule.cs?view=markup
  * @author: [[User:Helder.wiki]]
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
  */
