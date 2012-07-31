@@ -13,11 +13,11 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.10'
+	rulesVersion: '3.1.11'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
-	ifnot: /(\{\{desambiguação\}\}|\[\[Categoria:Desambiguaç(ão|ões))/i,
+	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
 	sub: [{
 		name: 'Padronização',
 		sub: [{
@@ -44,12 +44,12 @@ window.AWB.rules = [{
 				name: 'Trimming de DEFAULTSORT',
 				sub: [{
 					name: 'Trimming de DEFAULTSORT 1',
-					find: /\{\{ *DEFAULTSORT *\: *(.+)\}\}\n/i,
+					find: /\{\{ *DEFAULTSORT *: *(.+)\}\}\n/i,
 					replace: '{{DEFAULTSORT:$1}}\n',
 					num: 100
 				}, {
 					name: 'Trimming de DEFAULTSORT 2',
-					find: /(\{\{DEFAULTSORT\:.*) +\}\}/i,
+					find: /(\{\{DEFAULTSORT:.*) +\}\}/i,
 					replace: '$1}}',
 					num: 100
 				}]
@@ -82,24 +82,23 @@ window.AWB.rules = [{
 				name: 'Trimming de categoria',
 				ifhas: /Cat/i,
 				sub: [{
-					name: 'Trimming de categoria',
-					find: /\[\[ *Category?í?i?a? *\: */i,
+					name: 'Trimming e tradução de categoria',
+					find: /\[\[ *Categor(?:[ií]a|y) *: */i,
 					replace: '[[Categoria:',
 					num: 100
 				}, {
 					name: 'Trimming de categoria 2',
-					find: /(\[\[Categoria\:.*\|.+) +\]\]\r?\n/i,
-					replace: '$1]]\n',
-					num: 100
+					find: /(\[\[Categoria:.*\|.+[^ ]) +\]\]\r?\n/ig,
+					replace: '$1]]\n'
 				}, {
 					name: 'Trimming de categoria 3',
-					find: /(\[\[Categoria\:.*[^\|]) +\]\]\r?\n/i,
+					find: /(\[\[Categoria:.*[^\|]) +\]\]\r?\n/i,
 					replace: '$1]]\n',
 					num: 100
 				}]
 			}, {
 				name: 'Trim. hor. Ficheiro',
-				find: /([\[\n\|\=]\[?)(Imagem?|File|Arquivo|Ficheiro) *\: *([^ ])/i,
+				find: /([\[\n\|\=]\[?)(Imagem?|File|Arquivo|Ficheiro) *: *([^ ])/i,
 				replace: '$1$2:$3',
 				num: 100
 			}, {
@@ -179,12 +178,12 @@ window.AWB.rules = [{
 				name: 'Quebra de linha em cats',
 				sub: [{
 					name: 'trim v+ antes cats 1',
-					find: /([^\r\n])(\[\[Categoria\:)/i,
+					find: /([^\r\n])(\[\[Categoria:)/i,
 					replace: '$1\n$2',
 					num: 10
 				}, {
 					name: 'trim v+ antes cats 2',
-					find: /([^\]\r\n])(?:\r?\n)\[\[Categoria\:/i,
+					find: /([^\]\r\n])(?:\r?\n)\[\[Categoria:/i,
 					replace: '$1\n\n[[Categoria:'
 				}, {
 					name: 'trim v+ antes cats 3',
@@ -192,11 +191,11 @@ window.AWB.rules = [{
 					replace: '$1\n$2'
 				}, {
 					name: 'trim v- entre cats',
-					find: /(\[\[Categoria\:[^\[\]\n]+\]\])(?:\r?\n){2,}(\[\[Categoria\:)/i,
+					find: /(\[\[Categoria:[^\[\]\n]+\]\])(?:\r?\n){2,}(\[\[Categoria:)/i,
 					replace: '$1\n$2'
 				}, {
 					name: 'trim v+ depois cats',
-					find: /(\[\[Categoria\:[^\[\]\n]+\]\])([^\r\n])/i,
+					find: /(\[\[Categoria:[^\[\]\n]+\]\])([^\r\n])/i,
 					replace: '$1\n$2'
 				}]
 			}, {
@@ -304,7 +303,7 @@ window.AWB.rules = [{
 				replace: '$1$2'
 			}, {
 				name: '{{Predefinição:',
-				find: /([\{\|]) *Predefinição *\:([^:\n]*\r?\n)/i,
+				find: /([\{\|]) *Predefinição *:([^:\n]*\r?\n)/i,
 				replace: '$1$2',
 				num: 100
 			}, {
@@ -2661,7 +2660,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: '[[w:',
-				find: /\[\[w\:(..[^\:])/i,
+				find: /\[\[w:(..[^:])/i,
 				replace: '[[$1'
 			}, {
 				name: '[[<br />',
@@ -2705,7 +2704,7 @@ window.AWB.rules = [{
 				name: 'Marca fim de ficheiro',
 				find: /(╠)((([^\n\[\]]*)(\[+[^\]\n]*\]{1,2})?)+)/i,
 				replace: '$1$2▒<',
-				ifhas: '╠' // FIXME: /╠/i ?
+				ifhas: '╠'
 			}, {
 				name: 'Marca seções',
 				sub: [{
@@ -3361,7 +3360,7 @@ window.AWB.rules = [{
 			name: 'Erro em { [ (',
 			sub: [{
 				name: 'Ligações internas',
-				ifhas: '[[', // FIXME: /[[/i ?
+				ifhas: '[[',
 				sub: [{
 					name: '|]]',
 					find: /\|(▒?)\]\]/i,
@@ -3459,39 +3458,39 @@ window.AWB.rules = [{
 				name: 'Desambig',
 				sub: [{
 					name: '{{Ver desambiguação2}}',
-					find: /\:+\'+(''Nota *\: *''')?Este artigo é sobre ([^\.\n]+)\. Se procura ([^\,\n]+), consulte \[\[([^\]\.\n]+)\]\]\.( Para outros significados, consulte )?\[?\[?\n([^\]\.\n]+)?\]?\]?\.?\'+\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Este artigo é sobre ([^\.\n]+)\. Se procura ([^\,\n]+), consulte \[\[([^\]\.\n]+)\]\]\.( Para outros significados, consulte )?\[?\[?\n([^\]\.\n]+)?\]?\]?\.?\'+\r?\n/i,
 					replace: '{{Ver desambiguação2|$2|$3|$4|$6}}\n'
 				}, {
 					name: '{{Ver desambiguação}}',
-					find: /\:+\'+(''Nota *\: *''')?Para outros significados( de )?([^\,\n]+)?, (ver|veja) \[\[([^\(\[\]\'\n]+) \(desambiguação\)\]\]\'+\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Para outros significados( de )?([^\,\n]+)?, (ver|veja) \[\[([^\(\[\]\'\n]+) \(desambiguação\)\]\]\'+\r?\n/i,
 					replace: '{{Ver desambiguação|$3|$5 (desambiguação)}}\n'
 				}, {
 					name: '{{Desambigexplicada2}}',
-					find: /\:+\'+(''Nota *\: *''')?Esta página é sobre ([^\.\n]+)\. Se procura ([^\,\n]+), consulte \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Esta página é sobre ([^\.\n]+)\. Se procura ([^\,\n]+), consulte \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Desambigexplicada2|$2|$3|$4}}\n'
 				}, {
 					name: '{{Desambigexplicada}}',
-					find: /\:+\'+(''Nota *\: *''')?Esta página é sobre ([^\.\n]+)\. Se procura outros significados da mesma expressão, consulte \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Esta página é sobre ([^\.\n]+)\. Se procura outros significados da mesma expressão, consulte \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Desambigexplicada|$2|$3}}\n'
 				}, {
 					name: '{{Minidesambig}}',
-					find: /\:+\'+(''Nota *\: *''')?Se procura ([^\,\n]+), consulte\: \[\[([^\[\]\n]+)\]\]. Ainda, se procura ([^\,\n]+), consulte: \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Se procura ([^\,\n]+), consulte: \[\[([^\[\]\n]+)\]\]. Ainda, se procura ([^\,\n]+), consulte: \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Minidesambig2|$2|$3|$4|$5}}\n'
 				}, {
 					name: '{{Minidesambig}}',
-					find: /\:+\'+(''Nota *\: *''')?Se procura ([^\,\n]+), consulte \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Se procura ([^\,\n]+), consulte \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Minidesambig|$2|$3}}\n'
 				}, {
 					name: '{{Desambiguação-redirect}}',
-					find: /\:+\'+(''Nota *\: *''')?Se foi (\[\[Wikipedia\:Redirecionamento\|)?redirecionado(\]\])? para esta página e não é a que procura, consulte\: \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Se foi (\[\[Wikipedia:Redirecionamento\|)?redirecionado(\]\])? para esta página e não é a que procura, consulte: \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Desambiguação-redirect|$4}}\n'
 				}, {
 					name: '{{Não confundir com}}',
-					find: /\:+\'+(''Nota *\: *''')?Não confundir com \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Não confundir com \[\[([^\[\]\n]+)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Não confundir com|$2}}\n'
 				}, {
 					name: '{{Outrosusos}}',
-					find: /\:+\'+(''Nota *\: *''')?Para outros usos deste termo, (veja|ver) \[\[([^\[\]\n]+) \(desambiguação\)\]\]\.?\'+\.?\r?\n/i,
+					find: /:+\'+(''Nota *: *''')?Para outros usos deste termo, (veja|ver) \[\[([^\[\]\n]+) \(desambiguação\)\]\]\.?\'+\.?\r?\n/i,
 					replace: '{{Outrosusos|$3}}'
 				}]
 			}]
@@ -3570,7 +3569,7 @@ window.AWB.rules = [{
 				name: 'retirando negrito da infobox',
 				find: /(\{\{Info[^╣]*\| *(?:título|nome|nome_do_shopping) *= *)'+([^'\r\n]+)'+\r?\n/i,
 				replace: '$1$2\n',
-				ifhas: '╣', // FIXME: /╣/i ?
+				ifhas: '╣',
 				ifnot: '{{Info/Taxonomia' // FIXME: /\{\{Info/Taxonomia/i ?
 			}, {
 				name: '- nascido em',
@@ -3853,7 +3852,7 @@ window.AWB.rules = [{
 			name: 'Ligações internas',
 			sub: [{
 				name: 'Redirects',
-				ifhas: '[[', // FIXME: /[[/i ?
+				ifhas: '[[',
 				sub: [{
 					name: 'Estados Unidos da América',
 					find: '[[Estados Unidos da América|',
@@ -3870,7 +3869,7 @@ window.AWB.rules = [{
 			}]
 		}, {
 			name: 'Msg oculta',
-			ifhas: '╔', // FIXME: /╔/i ?
+			ifhas: '╔',
 			sub: [{
 				name: 'iw / cat',
 				find: /<!\-\-+ *(Interwiki|Categorias)? *\-+\->/i,
@@ -3928,7 +3927,7 @@ window.AWB.rules = [{
 					replace: '{{Anexo|[[Anexo:Lista d'
 				}, {
 					name: 'Passando para {{Anexo}}',
-					find: /\r?\n\:'*ver: *\[\[Anexo\:([^\]\n]+)\]\] para maior?e?s detalhes?\.?'*\r?\n/i,
+					find: /\r?\n:'*ver: *\[\[Anexo:([^\]\n]+)\]\] para maior?e?s detalhes?\.?'*\r?\n/i,
 					replace: '\n{{Anexo|[[Anexo:$1]]}}\n'
 				}]
 			}, {
@@ -9580,7 +9579,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '0 antes de pontuação ]',
-						find: / +([\,\.\?\:\;\]\)])/,
+						find: / +([\,\.\?:\;\]\)])/,
 						replace: '$1',
 						num: 100
 					}, {
@@ -9595,7 +9594,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '1 após pontuacao',
-						find: /(\,\.\!\?\:\;<) {2,}/,
+						find: /(\,\.\!\?:\;<) {2,}/, // FIXME: /([,.!?:;<]) {2,}/ ?
 						replace: '$1 ',
 						num: 100
 					}, {
@@ -9739,7 +9738,7 @@ window.AWB.rules = [{
 				name: 'Retirando : e . de título',
 				sub: [{
 					name: 'Retirando dois pontos de título',
-					find: /(║\=+ .*[^\.][^\.])[\:\.]( *=+\r?\n)/i,
+					find: /(║\=+ .*[^\.][^\.])[:\.]( *=+\r?\n)/i,
 					replace: '$1$2',
 					num: 100
 				}]
@@ -9822,7 +9821,7 @@ window.AWB.rules = [{
 			num: 100,
 			sub: [{
 				name: 'Retirando : final de seção destaque',
-				find: /\n(;+) (.+)\:\r?\n/i,
+				find: /\n(;+) (.+):\r?\n/i,
 				replace: '\n$1 $2\n'
 			}, {
 				name: 'Seção destaque com linha antes',
@@ -9838,7 +9837,7 @@ window.AWB.rules = [{
 			num: 10,
 			sub: [{
 				name: 'Assinatura',
-				find: /\-\-\[\[Special\:Contributions\/.*\(UTC\)(\r?\n)?/i,
+				find: /\-\-\[\[Special:Contributions\/.*\(UTC\)(\r?\n)?/i,
 				replace: '',
 				num: 10
 			}, {
@@ -9898,7 +9897,7 @@ window.AWB.rules = [{
 			name: 'Colchetes em url',
 			sub: [{
 				name: 'Url sem título',
-				find: /\n([\*\#] )?(https?\:\/\/[^ \r\n]+)\r?\n/i,
+				find: /\n([\*\#] )?(https?:\/\/[^ \r\n]+)\r?\n/i,
 				replace: '\n$1[$2├\n',
 				num: 10
 			}]
@@ -9918,7 +9917,7 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: 'Commonscat',
-				find: /\{\{ *commons *\| *\:? *category *\:/i,
+				find: /\{\{ *commons *\| *:? *category *:/i,
 				replace: '{{commonscat|',
 				num: 100
 			}, {
@@ -9928,7 +9927,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Correlato',
-				find: /\{\{ *projec?to correlato *\|([^\|]*)\| *\:? *category?i?a?\:/i,
+				find: /\{\{ *projec?to correlato *\|([^\|]*)\| *:? *category?i?a?:/i,
 				replace: '{{correlato|$1cat|',
 				num: 100
 			}, {
@@ -9938,7 +9937,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Correlato categoria',
-				find: /\{\{ *correlato *[\|\/]([^\|]*)\| *\:? *category?i?a?\:/i,
+				find: /\{\{ *correlato *[\|\/]([^\|]*)\| *:? *category?i?a?:/i,
 				replace: '{{correlato|$1cat|',
 				num: 100
 			}, {
@@ -10035,7 +10034,7 @@ window.AWB.rules = [{
 					replace: '$1'
 				}, {
 					name: '(ISBN-10) ISBN n',
-					find: /(\(? *\[?\[?ISBN\]?\]? *[\-\:] *1[03] *\)? *\:? *)?\[?\[?ISBN?\]?\]? * *(1[03])? *?[\-\:]? *(1[03])? *[\-\:]? ([0-9\-x]{3,5})/,
+					find: /(\(? *\[?\[?ISBN\]?\]? *[\-:] *1[03] *\)? *:? *)?\[?\[?ISBN?\]?\]? * *(1[03])? *?[\-:]? *(1[03])? *[\-:]? ([0-9\-x]{3,5})/,
 					replace: 'ISBN $4'
 				}, {
 					name: 'Retirando small',
@@ -10105,7 +10104,7 @@ window.AWB.rules = [{
 				name: 'Espaço após ref',
 				sub: [{
 					name: 'Espaço após ref 1',
-					find: /(<\/ref>|<ref name=[^>\n]*\/>)([^ <\r\n\.\,\!\?\:\)\]\}▒])/i,
+					find: /(<\/ref>|<ref name=[^>\n]*\/>)([^ <\r\n\.\,\!\?:\)\]\}▒])/i,
 					replace: '$1 $2',
 					num: 100
 				}, {
@@ -10265,7 +10264,7 @@ window.AWB.rules = [{
 			name: 'Formatando referência',
 			sub: [{
 				name: 'Rule',
-				find: /(<ref[^<>\n]*>) *\'* *Fontes? *'* *:? *([^ s'\:\.])/i,
+				find: /(<ref[^<>\n]*>) *\'* *Fontes? *'* *:? *([^ s':\.])/i,
 				replace: '$1$2'
 			}, {
 				name: '{{Link}} para {{Citar web}}',
@@ -10397,7 +10396,7 @@ window.AWB.rules = [{
 					num: 10
 				}, {
 					name: 'Passando línguas para depois',
-					find: /(\n\*? *)(\{\{\(?\(?[a-z][a-z][a-z]?(?:\|[^\}\n]*)?\)?\)?\}\}) *\-? *(\[https?\:\/\/[^\n]+)\r?\n/i,
+					find: /(\n\*? *)(\{\{\(?\(?[a-z][a-z][a-z]?(?:\|[^\}\n]*)?\)?\)?\}\}) *\-? *(\[https?:\/\/[^\n]+)\r?\n/i,
 					replace: '$1$3 $2\n',
 					num: 10
 				}]
@@ -10628,7 +10627,7 @@ window.AWB.rules = [{
 				ifnot: /▓(Usuário|Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:/i,
 				sub: [{
 					name: '[[Categoria:!*]]',
-					find: /\[\[Categoria\:\!.*\]\]\r?\n/,
+					find: /\[\[Categoria:\!.*\]\]\r?\n/,
 					replace: '',
 					num: 100
 				}]
@@ -10637,7 +10636,7 @@ window.AWB.rules = [{
 				ifnot: /▓(Usuário|Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:/i,
 				sub: [{
 					name: 'Indice principal 1',
-					find: /(▓([^╦]*)╦[^░]*\n\[\[Categoria\:\2)\|?[*#!]?\]\]/,
+					find: /(▓([^╦]*)╦[^░]*\n\[\[Categoria:\2)\|?[*#!]?\]\]/,
 					replace: '$1| ]]',
 					num: 100
 				}, {
@@ -10647,13 +10646,13 @@ window.AWB.rules = [{
 					num: 100
 				}, {
 					name: 'Índice de cat = pagename',
-					find: /(▓([^╦]*)╦[^░]*\n\[\[Categoria\:[^\|\]\n]+)\|\2\]\]/i,
+					find: /(▓([^╦]*)╦[^░]*\n\[\[Categoria:[^\|\]\n]+)\|\2\]\]/i,
 					replace: '$1]]',
 					num: 100
 				}]
 			}, {
 				name: 'Caixa alta em categoria',
-				find: /\[\[Categoria *\: *([a-z])/,
+				find: /\[\[Categoria *: *([a-z])/,
 				replace: '[[Categoria:{{subst:ucfirst:$1}}',
 				num: 100
 			}, {
@@ -10671,7 +10670,7 @@ window.AWB.rules = [{
 				replace: '\n'
 			}, {
 				name: 'iw duplo',
-				find: /(\n\[\[([a-z][a-z][a-z]?\:[^\[\]\n]+)\]\][^░]*)\n\[\[\2\]\]\r?\n/,
+				find: /(\n\[\[([a-z][a-z][a-z]?:[^\[\]\n]+)\]\][^░]*)\n\[\[\2\]\]\r?\n/,
 				replace: '$1\n',
 				num: 100
 			}]
@@ -10706,7 +10705,7 @@ window.AWB.rules = [{
 				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - Cat Defaultsort',
-				find: /\r?\n\r?\n(\[\[Categoria\:|\{\{DEFAULTSORT\:)/i,
+				find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/i,
 				replace: '\n\n{{Referências}}\n\n$1',
 				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}]
@@ -10715,7 +10714,7 @@ window.AWB.rules = [{
 			ifnot: /▓(Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:/i,
 			sub: [{
 				name: 'Trimv de cat',
-				find: /([^\]])(\r?\n)\[\[Categoria\:/i,
+				find: /([^\]])(\r?\n)\[\[Categoria:/i,
 				replace: '$1\n\n[[Categoria:'
 			}, {
 				name: 'Trimv de defaultsort+cat',
@@ -10731,7 +10730,7 @@ window.AWB.rules = [{
 				ifnot: /\{\{DEFAULTSORT/i,
 				sub: [{
 					name: 'Insere',
-					find: /(?:\r?\n){2,2}\[\[Categoria\:/i,
+					find: /(?:\r?\n){2,2}\[\[Categoria:/i,
 					replace: '\n\n{{DEFAULTSORT:%%title%%}}\n[[Categoria:',
 					ifnot: /\{\{DEFAULTSORT:/i
 				}, {
@@ -10751,7 +10750,7 @@ window.AWB.rules = [{
 				ifnot: '{{DEFAULTSORT:',
 				sub: [{
 					name: 'Insere defaultsort',
-					find: /(?:\r?\n){2,2}\[\[Categoria\:/,
+					find: /(?:\r?\n){2,2}\[\[Categoria:/,
 					replace: '\n\n{{DEFAULTSORT:%%title%%}}\n[[Categoria:',
 					ifnot: /\{\{DEFAULTSORT:/i
 				}, {
@@ -10784,19 +10783,19 @@ window.AWB.rules = [{
 				}, {
 					enabled: false,
 					name: 'Remove de do da',
-					find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|).* )(?:D[eao]s?|E|D'|Of) /i,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|).* )(?:D[eao]s?|E|D'|Of) /i,
 					replace: '$1',
 					num: 100,
 					ifnot: /▓.* (D[eao]s?|E|D'|Of) /
 				}, {
 					name: 'As no final do DEFAULTSORT',
-					find: /(\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(As?|Os?|The) ([^\(\)\n\]\}]+)([\}\]])/,
+					find: /(\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(As?|Os?|The) ([^\(\)\n\]\}]+)([\}\]])/,
 					replace: '$1$3, $2$4',
 					ifhas: '▓',
 					ifnot: '▓À'
 				}, {
 					name: 'Arrumando espaço',
-					find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|).*,)([^ \n])/i,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|).*,)([^ \n])/i,
 					replace: '$1 $2',
 					num: 100
 				}, {
@@ -10805,466 +10804,468 @@ window.AWB.rules = [{
 					name: 'Caracteres especiais',
 					sub: [{
 						name: 'DEFAULTSORT a',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ãâáâàăåäą]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ãâáâàăåäą]([^\}\]\n]*[\}\]])/,
 						replace: '$1a$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT A',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÅÂÁÃÀÂÄĂÄÄĄ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÅÂÁÃÀÂÄĂÄÄĄ]([^\}\]\n]*[\}\]])/,
 						replace: '$1A$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT e',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[éèêëě]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[éèêëě]([^\}\]\n]*[\}\]])/,
 						replace: '$1e$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT E',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÉÊÈË]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÉÊÈË]([^\}\]\n]*[\}\]])/,
 						replace: '$1E$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT i',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[íïìîï]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[íïìîï]([^\}\]\n]*[\}\]])/,
 						replace: '$1i$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT I',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÍÌÎÏ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÍÌÎÏ]([^\}\]\n]*[\}\]])/,
 						replace: '$1I$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT o',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[óöøõôōò]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[óöøõôōò]([^\}\]\n]*[\}\]])/,
 						replace: '$1o$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT O',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÓÒÔÔÕØÖŌ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÓÒÔÔÕØÖŌ]([^\}\]\n]*[\}\]])/,
 						replace: '$1O$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT u',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[úùûüŭū]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[úùûüŭū]([^\}\]\n]*[\}\]])/,
 						replace: '$1u$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT U',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÚÙÛÜŬŪ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÚÙÛÜŬŪ]([^\}\]\n]*[\}\]])/,
 						replace: '$1U$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT B',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ß]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ß]([^\}\]\n]*[\}\]])/,
 						replace: '$1B$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT c',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[çćčĉ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[çćčĉ]([^\}\]\n]*[\}\]])/,
 						replace: '$1c$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT C',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÇČĆĈ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÇČĆĈ]([^\}\]\n]*[\}\]])/,
 						replace: '$1C$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT d',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[đď]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[đď]([^\}\]\n]*[\}\]])/,
 						replace: '$1d$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT D',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĎĐ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĎĐ]([^\}\]\n]*[\}\]])/,
 						replace: '$1D$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT g',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĝ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĝ]([^\}\]\n]*[\}\]])/,
 						replace: '$1g$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT G',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĝ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĝ]([^\}\]\n]*[\}\]])/,
 						replace: '$1G$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT h',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĥ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĥ]([^\}\]\n]*[\}\]])/,
 						replace: '$1h$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT H',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĥ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĥ]([^\}\]\n]*[\}\]])/,
 						replace: '$1H$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT j',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĵ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĵ]([^\}\]\n]*[\}\]])/,
 						replace: '$1j$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT J',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĵ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĵ]([^\}\]\n]*[\}\]])/,
 						replace: '$1J$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT l',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)ł([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)ł([^\}\]\n]*[\}\]])/,
 						replace: '$1l$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT L',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Ł([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Ł([^\}\]\n]*[\}\]])/,
 						replace: '$1L$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT n',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ñńňň]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ñńňň]([^\}\]\n]*[\}\]])/,
 						replace: '$1n$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT N',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÑŇŃŇ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÑŇŃŇ]([^\}\]\n]*[\}\]])/,
 						replace: '$1N$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT r',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ř]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ř]([^\}\]\n]*[\}\]])/,
 						replace: '$1r$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT R',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ř]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ř]([^\}\]\n]*[\}\]])/,
 						replace: '$1R$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT s',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŝšśş]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŝšśş]([^\}\]\n]*[\}\]])/,
 						replace: '$1s$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT S',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŠŚŞŜ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŠŚŞŜ]([^\}\]\n]*[\}\]])/,
 						replace: '$1S$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT t',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ťţ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ťţ]([^\}\]\n]*[\}\]])/,
 						replace: '$1t$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT T',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŤŤŢ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŤŤŢ]([^\}\]\n]*[\}\]])/,
 						replace: '$1T$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT z',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[žż]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[žż]([^\}\]\n]*[\}\]])/,
 						replace: '$1z$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT Z',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŽŻ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŽŻ]([^\}\]\n]*[\}\]])/,
 						replace: '$1Z$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT ae',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)æ([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)æ([^\}\]\n]*[\}\]])/,
 						replace: '$1ae$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT AE',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Æ([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Æ([^\}\]\n]*[\}\]])/,
 						replace: '$1AE$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT remover',
-						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ªº"]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ªº"]([^\}\]\n]*[\}\]])/,
 						replace: '$1$2',
 						num: 100
 					}]
 				}, {
 					enabled: false, // desab, não sei se ainda é necessário
 					name: 'Trocando por espaço',
-					find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[^\]\}\n]*)[\-\–\—_]([^\]\}\n]*[\}\]])/i,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[^\]\}\n]*)[\-\–\—_]([^\]\}\n]*[\}\]])/i,
 					replace: '$1 $2',
 					num: 100
 				}, {
-					// Atualização do mediawiki 1.1? não diferencia mais Maiúscula x Minúscula
+					// Desde o mediawiki 1.17 faz diferença usar maiúscula ou minúscula
+					// [[WP:Café dos programadores/Arquivo/2011/1#Categorias]]
 					enabled: false,
 					name: 'DEFAULTSORT para maiúscula',
-					ifhas: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[a-z]/,
+					ifhas: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[a-z]/,
 					sub: [{
 						name: 'A',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\]\}\n]+[ \-\(\/])?)a/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\]\}\n]+[ \-\(\/])?)a/,
 						replace: '$1A',
 						num: 100
 					}, {
 						name: 'B',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)b/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)b/,
 						replace: '$1B',
 						num: 100
 					}, {
 						name: 'C',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)c/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)c/,
 						replace: '$1C',
 						num: 100
 					}, {
 						name: 'D',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)d/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)d/,
 						replace: '$1D',
 						num: 100
 					}, {
 						name: 'E',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)e/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)e/,
 						replace: '$1E',
 						num: 100
 					}, {
 						name: 'F',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)f/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)f/,
 						replace: '$1F',
 						num: 100
 					}, {
 						name: 'G',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)g/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)g/,
 						replace: '$1G',
 						num: 100
 					}, {
 						name: 'H',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)h/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)h/,
 						replace: '$1H',
 						num: 100
 					}, {
 						name: 'I',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)i/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)i/,
 						replace: '$1I',
 						num: 100
 					}, {
 						name: 'J',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)j/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)j/,
 						replace: '$1J',
 						num: 100
 					}, {
 						name: 'K',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)k/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)k/,
 						replace: '$1K',
 						num: 100
 					}, {
 						name: 'L',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)l/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)l/,
 						replace: '$1L',
 						num: 100
 					}, {
 						name: 'M',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)m/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)m/,
 						replace: '$1M',
 						num: 100
 					}, {
 						name: 'N',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)n/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)n/,
 						replace: '$1N',
 						num: 100
 					}, {
 						name: 'O',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)o/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)o/,
 						replace: '$1O',
 						num: 100
 					}, {
 						name: 'P',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)p/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)p/,
 						replace: '$1P',
 						num: 100
 					}, {
 						name: 'Q',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)q/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)q/,
 						replace: '$1Q',
 						num: 100
 					}, {
 						name: 'R',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)r/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)r/,
 						replace: '$1R',
 						num: 100
 					}, {
 						name: 'S',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)s/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)s/,
 						replace: '$1S',
 						num: 100
 					}, {
 						name: 'T',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)t/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)t/,
 						replace: '$1T',
 						num: 100
 					}, {
 						name: 'U',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:.+[ \-\(\/])?)u/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:.+[ \-\(\/])?)u/,
 						replace: '$1U',
 						num: 100
 					}, {
 						name: 'V',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)v/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)v/,
 						replace: '$1V',
 						num: 100
 					}, {
 						name: 'W',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)w/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)w/,
 						replace: '$1W',
 						num: 100
 					}, {
 						name: 'X',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)x/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)x/,
 						replace: '$1X',
 						num: 100
 					}, {
 						name: 'Y',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)y/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)y/,
 						replace: '$1Y',
 						num: 100
 					}, {
 						name: 'Z',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)z/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)z/,
 						replace: '$1Z',
 						num: 100
 					}]
 				}, {
-					// Atualização do mediawiki 1.1? não diferencia mais Maiúscula x Minúscula
+					// Desde o mediawiki 1.17 faz diferença usar maiúscula ou minúscula
+					// [[WP:Café dos programadores/Arquivo/2011/1#Categorias]]
 					enabled: false,
 					name: 'DEFAULTSORT para minuscula',
-					ifhas: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[A-Z]/,
+					ifhas: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[A-Z]/,
 					sub: [{
 						name: 'A',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\]\}\n]*[^ \-\(\/])A/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\]\}\n]*[^ \-\(\/])A/,
 						replace: '$1a',
 						num: 100
 					}, {
 						name: 'B',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])B/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])B/,
 						replace: '$1b',
 						num: 100
 					}, {
 						name: 'C',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])C/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])C/,
 						replace: '$1c',
 						num: 100
 					}, {
 						name: 'D',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])D/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])D/,
 						replace: '$1d',
 						num: 100
 					}, {
 						name: 'E',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])E/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])E/,
 						replace: '$1e',
 						num: 100
 					}, {
 						name: 'F',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])F/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])F/,
 						replace: '$1f',
 						num: 100
 					}, {
 						name: 'G',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])G/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])G/,
 						replace: '$1g',
 						num: 100
 					}, {
 						name: 'H',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])H/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])H/,
 						replace: '$1h',
 						num: 100
 					}, {
 						name: 'I',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])I/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])I/,
 						replace: '$1i',
 						num: 100
 					}, {
 						name: 'J',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])J/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])J/,
 						replace: '$1j',
 						num: 100
 					}, {
 						name: 'K',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])K/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])K/,
 						replace: '$1k',
 						num: 100
 					}, {
 						name: 'L',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])L/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])L/,
 						replace: '$1l',
 						num: 100
 					}, {
 						name: 'M',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])M/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])M/,
 						replace: '$1m',
 						num: 100
 					}, {
 						name: 'N',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])N/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])N/,
 						replace: '$1n',
 						num: 100
 					}, {
 						name: 'O',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])O/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])O/,
 						replace: '$1o',
 						num: 100
 					}, {
 						name: 'P',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])P/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])P/,
 						replace: '$1p',
 						num: 100
 					}, {
 						name: 'Q',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Q/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Q/,
 						replace: '$1q',
 						num: 100
 					}, {
 						name: 'R',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])R/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])R/,
 						replace: '$1r',
 						num: 100
 					}, {
 						name: 'S',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])S/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])S/,
 						replace: '$1s',
 						num: 100
 					}, {
 						name: 'T',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])T/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])T/,
 						replace: '$1t',
 						num: 100
 					}, {
 						name: 'U',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])U/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])U/,
 						replace: '$1u',
 						num: 100
 					}, {
 						name: 'V',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])V/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])V/,
 						replace: '$1v',
 						num: 100
 					}, {
 						name: 'W',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])W/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])W/,
 						replace: '$1w',
 						num: 100
 					}, {
 						name: 'X',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])X/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])X/,
 						replace: '$1x',
 						num: 100
 					}, {
 						name: 'Y',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Y/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Y/,
 						replace: '$1y',
 						num: 100
 					}, {
 						name: 'Z',
-						find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Z/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Z/,
 						replace: '$1z',
 						num: 100
 					}]
 				}, {
 					name: 'Remove \'',
-					find: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)[^\}\]\n]*)'([^\}\]\n]*[\}\]])/i,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\}\]\n]*)'([^\}\]\n]*[\}\]])/i,
 					replace: '$1$2',
 					num: 100
 				}]
@@ -11316,7 +11317,7 @@ window.AWB.rules = [{
 					ifnot: /\{\{(Portal3|desambiguação)/i,
 					sub: [{
 						name: 'Geral vazia',
-						find: /\r?\n\r?\n(\[\[Categoria\:|\{\{DEFAULTSORT\:)/i,
+						find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/i,
 						replace: '\n\n{{Portal3|}}\n\n$1',
 						ifnot: /\{\{Portal3/i
 					}]
@@ -11619,7 +11620,7 @@ window.AWB.rules = [{
 						name: '{{seminterwiki}}',
 						find: /\{\{seminterwiki.*\}\}\r?\n/i,
 						replace: '',
-						ifhas: /\[\[\s*[a-z][a-z]\s*\:/
+						ifhas: /\[\[\s*[a-z][a-z]\s*:/
 					}]
 				}]
 			}]
@@ -12477,12 +12478,12 @@ window.AWB.rules = [{
 				replace: '$1\n\n$2'
 			}, {
 				name: 'Rule',
-				find: /([^\r\n])(\[\[Categoria\:)/i,
+				find: /([^\r\n])(\[\[Categoria:)/i,
 				replace: '$1\n$2',
 				num: 10
 			}, {
 				name: 'Rule',
-				find: /([^\]\r\n])(?:\r?\n)\[\[Categoria\:/i,
+				find: /([^\]\r\n])(?:\r?\n)\[\[Categoria:/i,
 				replace: '$1\n\n[[Categoria:',
 				num: 10
 			}, {
@@ -13275,12 +13276,12 @@ Necessitam de revisão mínima
 			name: '{{lang-xx}}',
 			sub: [{
 				name: 'Aplicando lang-xx inicial',
-				find: /(╚.*\()(em \[\[(?:[^\n\|\[\]\:\.\)]+\|([^\n\|\[\]\:\.\)]*)|([^\n\|\[\]\:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,\:\;\n\(\)\[\]]*))/i,
+				find: /(╚.*\()(em \[\[(?:[^\n\|\[\]:\.\)]+\|([^\n\|\[\]:\.\)]*)|([^\n\|\[\]:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,:\;\n\(\)\[\]]*))/i,
 				replace: '$1{{subst:Bots/Lang|$3$4|$5|$2}}'
 			}, {
 				enabled: false,
 				name: 'Aplicando lang-xx seguintes',
-				find: /(\}\}[\;\,] *)(em \[\[(?:[^\n\|\[\]\:\.\)]+\|([^\n\|\[\]\:\.\)]*)|([^\n\|\[\]\:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,\:\;\n\(\)\[\]]*))/i,
+				find: /(\}\}[\;\,] *)(em \[\[(?:[^\n\|\[\]:\.\)]+\|([^\n\|\[\]:\.\)]*)|([^\n\|\[\]:\;\.\)]+))\]\][,:; ] *(''+[^\'\)\n]+''+|[^\,:\;\n\(\)\[\]]*))/i,
 				replace: '$1{{subst:Bots/Lang|$3$4|$5|$2}}'
 			}, {
 				enabled: false, // desabilitando, testando a regra acima, mais genérica, e deve ser melhor que essa
@@ -13882,7 +13883,7 @@ Necessitam de revisão mínima
 				ifnot: /\{\{(Portal3|desambiguação)/i,
 				sub: [{
 					name: 'Geral vazia',
-					find: /\r?\n\r?\n(\[\[Categoria\:|\{\{DEFAULTSORT\:)/i,
+					find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/i,
 					replace: '\n\n{{Portal3|}}\n\n$1'
 				}]
 			}, {
@@ -15500,7 +15501,7 @@ Necessitam de muita revisão
 				ifnot: /\{\{(Portal3|desambiguação)/i,
 				sub: [{
 					name: 'Geral vazia',
-					find: /\r?\n\r?\n(\[\[Categoria\:|\{\{DEFAULTSORT\:)/i,
+					find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/i,
 					replace: '\n\n{{Portal3|}}\n\n$1'
 				}]
 			}, {
@@ -16861,7 +16862,7 @@ quem quiser pode habilitar e ajudar a testar
 				replace: '\'\'\' pode referir-se a:\n'
 			}, {
 				name: 'pode referir-se a',
-				find: /'',?(?: também)? (?:pode|possui)(m)? (?:definir|se referir|referir\-se|remeter|ser|ser uma sigla|significar|estar a referir-se|ser|ter diversos significados|ter os seguintes significados) *(às diferentes entradas|aos seguintes artigos)?( [dn]a Wikip[eé]dia)?( ao?|para)?\:?\r?\n/i,
+				find: /'',?(?: também)? (?:pode|possui)(m)? (?:definir|se referir|referir\-se|remeter|ser|ser uma sigla|significar|estar a referir-se|ser|ter diversos significados|ter os seguintes significados) *(às diferentes entradas|aos seguintes artigos)?( [dn]a Wikip[eé]dia)?( ao?|para)?:?\r?\n/i,
 				replace: '\'\' pode$1 referir-se a:\n',
 				sub: [{
 					name: 'sigla',
@@ -16910,7 +16911,7 @@ quem quiser pode habilitar e ajudar a testar
 			name: 'Entradas da lista',
 			sub: [{
 				name: 'tirando ponto final das entradas',
-				find: /(\n\*[^\r\n]+[^\.\:\;])[\.\:\;\,]\r?\n/i,
+				find: /(\n\*[^\r\n]+[^\.:\;])[\.:\;\,]\r?\n/i,
 				replace: '$1\n',
 				num: 10
 			}, {
