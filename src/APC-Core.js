@@ -20,7 +20,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.9',
+	version: '0.10',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -104,10 +104,27 @@ AWB.addAWBToToolbar = function () {
 				'action': {
 					'type': 'callback',
 					'execute': function() {
-						console.debug( 'Serão realizadas todas as correções.' );
+						mw.log( 'Serão realizadas todas as correções.' );
 						AWB.processRules(AWB.rules);
 						AWB.$target.val(AWB.text);
-						console.debug( 'Pronto!' );
+						mw.log( 'Pronto!' );
+					}
+				}
+			},
+			'awb-report-a-bug' : {
+				'label': 'Informar um erro',
+				'action': {
+					'type': 'callback',
+					'execute': function() {
+						var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Projetos/AWB/Script' ) + '?' +
+							$.param({
+								action: 'edit',
+								section: 'new',
+								preloadtitle: '[BUG] (v' + AWB.version + '/' +
+									AWB.rulesVersion + ') [[' + mw.config.get('wgPageName') + ']]',
+								preload: 'WP:Projetos/AWB/Script/Bug'
+							});
+						location.href = url;
 					}
 				}
 			}
@@ -120,7 +137,7 @@ AWB.addAWBToToolbar = function () {
 				'type': 'callback',
 				'execute': function() {
 					// FIXME: isso provavelmente executa sempre o último grupo de correções da lista
-					console.debug( 'Serão realizadas as correções do grupo ' + i );
+					mw.log( 'Serão realizadas as correções do grupo ' + i );
 					AWB.processRules(AWB.rules[i]);
 					AWB.$target.val(AWB.text);
 				}
@@ -128,14 +145,14 @@ AWB.addAWBToToolbar = function () {
 		}
 	}
 	*/
-	console.debug( 'Serão inseridos os botoes' );
+	mw.log( 'Serão inseridos os botões do AWB' );
 	$( '#wpTextbox1' ).wikiEditor( 'addToToolbar', {
 		'section': 'advanced',
 		'groups': {
 			'awb': {
 				'label': 'AWB',
 				'tools': {
-					'awb-fixes-geometry-heading': {
+					'awb-fixes-heading': {
 						'label': 'Correções',
 						'type': 'select',
 						'list': mainGroupsOfFixes
