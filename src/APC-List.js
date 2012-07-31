@@ -3293,12 +3293,12 @@ window.AWB.rules = [{
 					}, {
 						name: '{{Ligações externas}}',
 						find: /\{\{(Apontadores|Apontadores externos|Atalhos externos|Enlace externo|Enlaces externos|Elos externos|Link externo|Links|Links exteriores|Links externos|Links para o exterior|Links relacionados|Ligação exterior|Ligação externa|Ligações Externas|Ligações exteriores|Ligações para o exterior|Linque externo|Páginas externas|Página externa|Páginas da Internet|Recursos exteriores à Wikipédia|Referência externa|Referências externas|Sítios|Vínculos externos|Weblinks)\}\}/i,
-						replace: '{{Ligações externas}}',
+						replace: 'Ligações externas',
 						num: 1
 					}, {
 						name: '{{Ver também}}',
 						find: /\{\{((Ligações|Referências|Links) intern[ao]s|(Consultar|Veja|Ver|Vide) (mais|tamb[eé]m|ainda)|(Artigos|Assuntos|Páginas|Tópicos) relacionad[ao]s|Tópicos diversos)\}\}/i,
-						replace: '{{Ver também}}',
+						replace: 'Ver também',
 						num: 1
 					}, {
 						name: '{{Biografias}}',
@@ -11682,7 +11682,7 @@ window.AWB.rules = [{
 			num: 1,
 			sub: [{
 				name: 'Seção Bibliografia',
-				find: /\= \{\{ *Bibliografia *\}\} \=/i,
+				find: /\= *\{\{ *Bibliografia *\}\} *\=/i,
 				replace: '= Bibliografia =',
 				num: 1
 			}, {
@@ -12182,7 +12182,7 @@ window.AWB.rules = [{
 				num: 1,
 				sub: [{
 					name: 'Nome da seção LE',
-					find: /║\=+ *\{?\{? *(?:Apontadores|apontadore?s? externos?|links|links? externos?|ligaçã?o?õ?e?s? externas?|páginas? externas?|referências? externas?|enlaces externos?|External links|Weblinks?|Fontes e ligações externas) *\}?\}? *\=+\r?\n/i,
+					find: /║\=+ *(?:\{\{)? *(?:Apontadores|apontadore?s? externos?|links|links? externos?|ligaçã?o?õ?e?s? externas?|páginas? externas?|referências? externas?|enlaces externos?|External links|Weblinks?|Fontes e ligações externas) *(?:\}\})? *\=+\r?\n/i,
 					replace: '║== Ligações externas ==\n',
 					num: 1
 				}, {
