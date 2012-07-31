@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.11'
+	rulesVersion: '3.1.12'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -17245,7 +17245,7 @@ Mas como estou com preguiça de revisar tudo, deixo por aqui por enquanto */
 		replace: '$1'
 	}]
 }, {
-	/* *****
+/******
 Finaliza a edição, preparando para salvar o artigo
 - Retira os simbolo usados em marcações
 - Lista de Ícones Usados nas marcações
@@ -17254,114 +17254,9 @@ Finaliza a edição, preparando para salvar o artigo
 
 erro no style:
 style="text-align:left;"|;"
-*/
-	name: 'Finalizando',
-	sub: [{
-		name: 'Desmarcando',
-		sub: [{
-			name: 'Desmarca Topo / Fim',
-			sub: [{
-				name: 'Desmarca fim de artigo',
-				find: /\n░/i,
-				replace: ''
-			}, {
-				name: 'Desmarca topo 1',
-				find: /▓[^╦]*╦\r?\n/i,
-				replace: '',
-				num: 10
-			}, {
-				name: 'Desmarca topo 2',
-				find: '▓',
-				replace: ''
-			}]
-		}, {
-			name: 'Desmarca meio',
-			sub: [{
-				name: 'Desmarca Comentários',
-				sub: [{
-					name: 'Desmarca <!--',
-					find: '╔',
-					replace: '<!--'
-				}, {
-					name: 'Desmarca -->',
-					find: '╗',
-					replace: '-->'
-				}]
-			}, {
-				name: 'Desmarca início Ficheiro',
-				find: '╠',
-				replace: '[[',
-				num: 100
-			}, {
-				name: 'Desmarca fim de ficheiro',
-				find: '▒', // FIXME: /▒/i ?
-				replace: ''
-			}, {
-				name: 'Desmarca primeira seção',
-				find: /╩\n/i,
-				replace: ''
-			}, {
-				name: 'Desmarca seções',
-				find: /║/g,
-				replace: ''
-			}]
-		}, {
-			name: 'Desmarca inicio',
-			sub: [{
-				name: 'Desmarca fim info',
-				find: '╣}}',
-				replace: '}}'
-			}, {
-				name: 'Desmarca parag 1 inicio',
-				find: /╚/,
-				replace: ''
-			}, {
-				name: 'Desmarca parag 1 fim',
-				find: '╝',
-				replace: ''
-			}]
-		}, {
-			name: 'Desmarca fim',
-			sub: [{
-				name: 'Desmarca fim de artigo',
-				find: /░/i,
-				replace: ''
-			}, {
-				// regra não utilizada por enquanto
-				enabled: false,
-				name: 'Desmarca fim última seção',
-				find: /╬/i,
-				replace: ''
-			}]
-		}]
-	}, {
-		enabled: false,
-		name: 'Removidas',
-		sub: [{
-			// Removendo, está adicionando ponto final em legendas curtas, o que não é desejado.
-			enabled: false,
-			name: 'Ponto final em ficheiro',
-			sub: [{
-				name: 'Ponto final em ficheiro 1',
-				find: /(╠[^:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.>}])(\]\])? *▒/i,
-				replace: '$1$2$3.▒'
-			}, {
-				name: 'Ponto final em ficheiro 2',
-				find: /(px|thumb|thumbnail|right|left|center|border|esquerda|direita)\.▒\]\]/i,
-				replace: '$1▒]]'
-			}, {
-				name: 'Ponto final em ficheiro 3',
-				find: /(\.'+)\.(▒\]\])/i,
-				replace: '$1$2'
-			}]
-		}]
-	}, {
-		name: '\r\n',
-		find: /\r\n/i,
-		replace: '\n',
-		num: 100
-	}, {
-		/*
+
+== Ícones usados ==
+
 ▓  ┌┬┐    ╔╦╗
 ▒  ├┼┤─   ╠╬╣═
 ░  └┴┘│   ╚╩╝║
@@ -17436,8 +17331,111 @@ style="text-align:left;"|;"
 === Parte REF VT LE ===
 ┤ -
 */
+	name: 'Finalizando',
+	sub: [{
+		name: 'Desmarcando',
+		sub: [{
+			name: 'Desmarca Topo / Fim',
+			sub: [{
+				name: 'Desmarca fim de artigo',
+				find: /\n░/,
+				replace: ''
+			}, {
+				name: 'Desmarca topo 1',
+				find: /▓[^╦]*╦\r?\n/i,
+				replace: '',
+				num: 10
+			}, {
+				name: 'Desmarca topo 2',
+				find: '▓',
+				replace: ''
+			}]
+		}, {
+			name: 'Desmarca meio',
+			sub: [{
+				name: 'Desmarca Comentários',
+				sub: [{
+					name: 'Desmarca <!--',
+					find: '╔',
+					replace: '<!--'
+				}, {
+					name: 'Desmarca -->',
+					find: '╗',
+					replace: '-->'
+				}]
+			}, {
+				name: 'Desmarca início Ficheiro',
+				find: '╠',
+				replace: '[[',
+				num: 100
+			}, {
+				name: 'Desmarca fim de ficheiro',
+				find: '▒',
+				replace: ''
+			}, {
+				name: 'Desmarca primeira seção',
+				find: /╩\n/,
+				replace: ''
+			}, {
+				name: 'Desmarca seções',
+				find: /║/g,
+				replace: ''
+			}]
+		}, {
+			name: 'Desmarca inicio',
+			sub: [{
+				name: 'Desmarca fim info',
+				find: '╣}}',
+				replace: '}}'
+			}, {
+				name: 'Desmarca parag 1 inicio',
+				find: /╚/,
+				replace: ''
+			}, {
+				name: 'Desmarca parag 1 fim',
+				find: '╝',
+				replace: ''
+			}]
+		}, {
+			name: 'Desmarca fim',
+			sub: [{
+				name: 'Desmarca fim de artigo',
+				find: /░/,
+				replace: ''
+			}, {
+				// regra não utilizada por enquanto
+				enabled: false,
+				name: 'Desmarca fim última seção',
+				find: /╬/,
+				replace: ''
+			}]
+		}]
+	}, {
 		enabled: false,
-		name: 'Ícones usados'
+		name: 'Removidas',
+		sub: [{
+			// Removendo, está adicionando ponto final em legendas curtas, o que não é desejado.
+			enabled: false,
+			name: 'Ponto final em ficheiro',
+			sub: [{
+				name: 'Ponto final em ficheiro 1',
+				find: /(╠[^:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.>}])(\]\])? *▒/i,
+				replace: '$1$2$3.▒'
+			}, {
+				name: 'Ponto final em ficheiro 2',
+				find: /(px|thumb|thumbnail|right|left|center|border|esquerda|direita)\.▒\]\]/i,
+				replace: '$1▒]]'
+			}, {
+				name: 'Ponto final em ficheiro 3',
+				find: /(\.'+)\.(▒\]\])/i,
+				replace: '$1$2'
+			}]
+		}]
+	}, {
+		name: '\r\n',
+		find: /\r\n/i,
+		replace: '\n',
+		num: 100
 	}]
 }];
 // </nowiki>, para facilitar o uso de "subst:" e assinaturas
