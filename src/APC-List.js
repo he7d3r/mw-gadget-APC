@@ -1,4 +1,3 @@
-
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /*global $, mw */
 /**
@@ -14,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.4'
+	rulesVersion: '3.1.7'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -3002,9 +3001,11 @@ window.AWB.rules = [{
 },
 
 {
+	/*Regras bem testadas e que não possuem erros
+	* podendo ser usadas por bots
+	* Não necessitam de revisão
+	*/
 	name: 'Modo bot',
-	find: '*****\nRegras bem testadas e que não possuem erros\n podendo ser usadas por bots\n\nNão necessitam de revisão\n*****',
-	replace: '',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categoria:Desambiguaç(ão|ões))/i,
 	sub: [{
 		name: 'Geral 1',
@@ -3904,7 +3905,16 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'PASSO 2',
-				find: '╔ PASSO 2: Todos os artigos devem citar pelo menos uma fonte PUBLICADA,       ╗\n' + '╔         ESPECÍFICA, escrita por TERCEIROS para a informação, tais como um   ╗\n' + '╔         livro ou página de uma fonte reputada. Por favor forneça um URL ou  ╗\n' + '╔         ligação se quiser usar uma fonte da internet. NÓS PRECISAMOS DE     ╗\n' + '╔         SER CAPAZES DE VERIFICAR A SUA FONTE, por isso fontes como "Google" ╗\n' + '╔         "conhecimento pessoal" serão rejeitadas.                            ╗\n' + '╔         SE NÃO INCLUIR PELO MENOS UMA FONTE VÁLIDA,                         ╗\n' + '╔         O SEU ARTIGO SERÁ REJEITADO.                                        ╗\n' + '╔                                                                             ╗\n' + '╔         Por favor, adicione a(s) sua(s) fonte(s) abaixo desta linha.        ╗\n',
+				find: '╔ PASSO 2: Todos os artigos devem citar pelo menos uma fonte PUBLICADA,       ╗\n' +
+					'╔         ESPECÍFICA, escrita por TERCEIROS para a informação, tais como um   ╗\n' +
+					'╔         livro ou página de uma fonte reputada. Por favor forneça um URL ou  ╗\n' +
+					'╔         ligação se quiser usar uma fonte da internet. NÓS PRECISAMOS DE     ╗\n' +
+					'╔         SER CAPAZES DE VERIFICAR A SUA FONTE, por isso fontes como "Google" ╗\n' +
+					'╔         "conhecimento pessoal" serão rejeitadas.                            ╗\n' +
+					'╔         SE NÃO INCLUIR PELO MENOS UMA FONTE VÁLIDA,                         ╗\n' +
+					'╔         O SEU ARTIGO SERÁ REJEITADO.                                        ╗\n' +
+					'╔                                                                             ╗\n' +
+					'╔         Por favor, adicione a(s) sua(s) fonte(s) abaixo desta linha.        ╗\n',
 				replace: ''
 			}]
 		},
@@ -10713,10 +10723,11 @@ window.AWB.rules = [{
 				find: /(\{\{DEFAULTSORT:.*\}\})(\r?\n){2,}(\[\[Categoria:)/i,
 				replace: '$1\n$3'
 			}, {
+				/* Só arruma se não tiver defaultsort, e se tiver {{Biografias}}
+				* Desabilitando, ainda problemas, com artigos de grupos/duplas por exemplo
+				*/
 				enabled: false,
 				name: 'Defaultsort por sobrenome',
-				find: 'Só arruma se não tiver defaultsort, e se tiver {{Biografias}}\n\nDesabilitando, ainda problemas, com artigos de grupos/duplas por exemplo',
-				replace: '',
 				ifhas: /\{\{Biografias\}\}/i,
 				ifnot: /\{\{DEFAULTSORT/i,
 				sub: [{
@@ -10790,10 +10801,9 @@ window.AWB.rules = [{
 					replace: '$1 $2',
 					num: 100
 				}, {
+					// desab, não sei se ainda é necessário
 					enabled: false,
 					name: 'Caracteres especiais',
-					find: 'desab, não sei se ainda é necessário',
-					replace: '',
 					sub: [{
 						name: 'DEFAULTSORT a',
 						find: /(\{\{DEFAULTSORT *\:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ãâáâàăåäą]([^\}\]\n]*[\}\]])/,
@@ -10982,10 +10992,9 @@ window.AWB.rules = [{
 					replace: '$1 $2',
 					num: 100
 				}, {
+					// Atualização do mediawiki 1.1? não diferencia mais Maiúscula x Minúscula
 					enabled: false,
 					name: 'DEFAULTSORT para maiúscula',
-					find: /atualização do mediawiki não diferencia mais Maiúscula x Minúscula/,
-					replace: '',
 					ifhas: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[a-z]/,
 					sub: [{
 						name: 'A',
@@ -11119,10 +11128,9 @@ window.AWB.rules = [{
 						num: 100
 					}]
 				}, {
+					// Atualização do mediawiki 1.1? não diferencia mais Maiúscula x Minúscula
 					enabled: false,
 					name: 'DEFAULTSORT para minuscula',
-					find: 'atualização do mediawiki não diferencia mais Maiúscula x Minúscula',
-					replace: '',
 					ifhas: /((?:\{\{DEFAULTSORT *\:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[A-Z]/,
 					sub: [{
 						name: 'A',
@@ -12173,12 +12181,12 @@ window.AWB.rules = [{
 			name: 'Caracteres individuais',
 			ifnot: /(<(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)>|\{\{Citação)/i,
 			sub: [{
-				/* *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-Segundo [[Unicode]] há +100.000 códigos.
-A espera de uma idéia melhor para fazer isso.
-Aqui ficarão apenas os unicodes principais, que cobrirão quase todos os casos.
-Unicodes raramente usados devem ser consertados manualmente.
-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* */
+				/*
+				* Segundo [[Unicode]] há +100.000 códigos.
+				* A espera de uma idéia melhor para fazer isso.
+				* Aqui ficarão apenas os unicodes principais, que cobrirão quase todos os casos.
+				* Unicodes raramente usados devem ser consertados manualmente.
+				**/
 				name: 'Unicode',
 				ifhas: '&amp;',
 				sub: [{
@@ -13349,9 +13357,8 @@ Necessitam de revisão mínima
 			replace: '$1\n$2',
 			num: 100
 		}, {
+			// Desambiguação de siglas
 			name: 'Aplicando {{Dn}}',
-			find: '** Desambiguação de siglas **',
-			replace: '',
 			sub: [{
 				name: 'siglas',
 				ifhas: /\[\[[A-Z][^ a-z]{1,}\]\]/,
@@ -14930,7 +14937,20 @@ Necessitam de muita revisão
 						replace: '$1┘}}'
 					}, {
 						name: 'Substitui campos',
-						find: ' |pessoas        = {{{people|}}}\n' + ' |data2          = {{{date2|}}}\n' + ' |mês2           = {{{month2|}}}\n' + ' |ano2           = {{{year2|}}}\n' + ' |título         = {{{title|}}}\n' + ' |formato        = {{{format|}}}\n' + ' |tipo           = {{{medium|}}}\n' + ' |publicado por  = {{{publisher|}}}\n' + ' |localização    = {{{location|}}}\n' + ' |data de acesso = {{{accessdate|}}}\n' + ' |mês de acesso  = {{{accessmonth|}}}\n' + ' |ano de acesso  = {{{accessyear|}}}\n' + ' |hora           = {{{time|}}}\n' + ' |citação        = {{{quote|}}}',
+						find: ' |pessoas        = {{{people|}}}\n' +
+							' |data2          = {{{date2|}}}\n' +
+							' |mês2           = {{{month2|}}}\n' +
+							' |ano2           = {{{year2|}}}\n' +
+							' |título         = {{{title|}}}\n' +
+							' |formato        = {{{format|}}}\n' +
+							' |tipo           = {{{medium|}}}\n' +
+							' |publicado por  = {{{publisher|}}}\n' +
+							' |localização    = {{{location|}}}\n' +
+							' |data de acesso = {{{accessdate|}}}\n' +
+							' |mês de acesso  = {{{accessmonth|}}}\n' +
+							' |ano de acesso  = {{{accessyear|}}}\n' +
+							' |hora           = {{{time|}}}\n' +
+							' |citação        = {{{quote|}}}',
 						replace: '',
 						sub: [{
 							name: 'pessoas',
@@ -17319,10 +17339,9 @@ style="text-align:left;"|;"
 		enabled: false,
 		name: 'Removidas',
 		sub: [{
+			// Removendo, está adicionando ponto final em legendas curtas, o que não é desejado.
 			enabled: false,
 			name: 'Ponto final em ficheiro',
-			find: 'removendo, está adicionando ponto final em legendas curtas, o que não é desejado.',
-			replace: '',
 			sub: [{
 				name: 'Ponto final em ficheiro 1',
 				find: /(╠[^:\n]*:|Ficheiro:)([^\|\]▒\n]+\|[^▒\n]*[^\.][^\|\.>}])(\]\])? *▒/i,
