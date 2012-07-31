@@ -20,7 +20,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.10',
+	version: '0.11',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -97,65 +97,67 @@ AWB.processRules = function (rules) {
 };
 
 AWB.addAWBToToolbar = function () {
-	var	// i,
+	var	i,
+		executeGroup = function( i ){
+			return function() {
+				AWB.processRules(AWB.rules[i]);
+				AWB.$target.val(AWB.text);
+			};
+		},
 		mainGroupsOfFixes = { // {}
 			'awb-fixes-all' : {
-				'label': 'Todas',
-				'action': {
-					'type': 'callback',
-					'execute': function() {
-						mw.log( 'Serão realizadas todas as correções.' );
+				label: 'Todas',
+				action: {
+					type: 'callback',
+					execute: function() {
 						AWB.processRules(AWB.rules);
 						AWB.$target.val(AWB.text);
-						mw.log( 'Pronto!' );
-					}
-				}
-			},
-			'awb-report-a-bug' : {
-				'label': 'Informar um erro',
-				'action': {
-					'type': 'callback',
-					'execute': function() {
-						var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Projetos/AWB/Script' ) + '?' +
-							$.param({
-								action: 'edit',
-								section: 'new',
-								preloadtitle: '[BUG] (v' + AWB.version + '/' +
-									AWB.rulesVersion + ') [[' + mw.config.get('wgPageName') + ']]',
-								preload: 'WP:Projetos/AWB/Script/Bug'
-							});
-						location.href = url;
 					}
 				}
 			}
 		};
-	/*
 	for(i=0;i<AWB.rules.length;i++){
 		mainGroupsOfFixes[ 'awb-fixes-' + i ] = {
-			'label': AWB.rules.length[i].name,
-			'action': {
-				'type': 'callback',
-				'execute': function() {
-					// FIXME: isso provavelmente executa sempre o último grupo de correções da lista
-					mw.log( 'Serão realizadas as correções do grupo ' + i );
-					AWB.processRules(AWB.rules[i]);
-					AWB.$target.val(AWB.text);
-				}
+			label: AWB.rules[i].name +
+				(AWB.rules[i].enabled === false? ' (desativada temporariamente)' : ''),
+			action: {
+				type: 'callback',
+				execute: executeGroup(i)
 			}
-		}
+		};
 	}
-	*/
+
 	mw.log( 'Serão inseridos os botões do AWB' );
 	$( '#wpTextbox1' ).wikiEditor( 'addToToolbar', {
-		'section': 'advanced',
-		'groups': {
-			'awb': {
-				'label': 'AWB',
-				'tools': {
+		section: 'advanced',
+		groups: {
+			awb: {
+				label: 'AWB',
+				tools: {
 					'awb-fixes-heading': {
-						'label': 'Correções',
-						'type': 'select',
-						'list': mainGroupsOfFixes
+						label: 'Correções',
+						type: 'select',
+						list: mainGroupsOfFixes
+					},
+					'awb-report-a-bug' : {
+						label: 'Informar um erro',
+						type: 'button',
+						// Icon by [[commons:User:Shizhao]] & [[commons:User:Linfocito B]]
+						icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Toolbaricon_hiddencomment.png',
+						action: {
+							type: 'callback',
+							execute: function() {
+								var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Projetos/AWB/Script' ) + '?' +
+									$.param({
+										action: 'edit',
+										section: 'new',
+										preloadtitle: '[BUG] (v' + AWB.version + '/' +
+											AWB.rulesVersion + ') [[' + mw.config.get('wgPageName') + ']]',
+										preload: 'WP:Projetos/AWB/Script/Bug'
+									});
+								location.href = url;
+							}
+						}
 					}
 				}
 			}
