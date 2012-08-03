@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.15'
+	rulesVersion: '3.1.16'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -24,9 +24,8 @@ window.AWB.rules = [{
 			name: 'Caracteres',
 			sub: [{
 				name: 'tab',
-				find: /([^ ]) *\t/ig,
-				replace: '$1 ',
-				num: 100
+				find: /([^ ])[ \t]*\t+/ig,
+				replace: '$1 '
 			}, {
 				name: '\r\n',
 				find: /\r\n/,
@@ -3281,7 +3280,7 @@ window.AWB.rules = [{
 			name: '----',
 			sub: [{
 				name: '---- antes de infobox',
-				find: /\n\-{3,}\r?\n\{\{Info\//ig,
+				find: /\n-{3,}\r?\n\{\{Info\//ig,
 				replace: '\n{{Info/'
 			}]
 		}, {
