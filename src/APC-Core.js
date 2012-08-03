@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.12',
+	version: '0.13',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -99,10 +99,15 @@ AWB.processRules = function (rules) {
 
 AWB.addAWBToToolbar = function () {
 	var	i,
+		$sum = $('#wpSummary'),
 		executeGroup = function( i ){
 			return function() {
 				AWB.processRules(AWB.rules[i]);
 				AWB.$target.val(AWB.text);
+				$sum.val(
+					$sum.val() + 'Correções (com [[WP:Projetos/AWB/Script|script AWB]], v' +
+						AWB.version + '/' + AWB.rulesVersion + ')'
+				);
 			};
 		},
 		mainGroupsOfFixes = { // {}
@@ -113,6 +118,10 @@ AWB.addAWBToToolbar = function () {
 					execute: function() {
 						AWB.processRules(AWB.rules);
 						AWB.$target.val(AWB.text);
+						$sum.val(
+							$sum.val() + 'Correções (com [[WP:Projetos/AWB/Script|script AWB]], v' +
+								AWB.version + '/' + AWB.rulesVersion + ')'
+						);
 					}
 				}
 			}
