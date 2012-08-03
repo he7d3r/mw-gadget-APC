@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.14'
+	rulesVersion: '3.1.15'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
