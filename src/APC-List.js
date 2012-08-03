@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.13'
+	rulesVersion: '3.1.14'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -3327,7 +3327,7 @@ window.AWB.rules = [{
 			sub: [{
 				enabled: false,
 				name: 'Itálico fora',
-				find: /([^'"])("|'+)\[(http:[^ \n]*) ([^\]\n]*)\]("|'+)([^'"])/i,
+				find: /([^'"])("|'+)\[(https?:[^ \n]*) ([^\]\n]*)\]("|'+)([^'"])/i,
 				replace: '$1[$3 $2$4$5]$6',
 				num: 10
 			}]
@@ -3864,7 +3864,7 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: 'url pt.wikipedia -> link interno',
-				find: /\[http:\/\/pt\.wikipedia\.org\/wiki\/([^ ]+) ([^\[\]\n]+)\]/i,
+				find: /\[(?:https?:)\/\/pt\.wikipedia\.org\/wiki\/([^ ]+) ([^\[\]\n]+)\]/i,
 				replace: '[[$1|$2]]'
 			}]
 		}, {
@@ -10006,8 +10006,8 @@ window.AWB.rules = [{
 				replace: '$1[$2]$3'
 			}, {
 				name: 'http://http://',
-				find: /http:\/\/ *http:\/\//,
-				replace: 'http://',
+				find: /(?:https?:)?\/\/ *(https?:)?\/\//,
+				replace: '$1//',
 				num: 100
 			}]
 		}, {
@@ -10088,7 +10088,7 @@ window.AWB.rules = [{
 					replace: '$1/>'
 				}, {
 					name: 'Inserindo ] no final de REF',
-					find: /(<ref[^>\n]*>\[http:[^├┼\[\]\n]*)┼/i,
+					find: /(<ref[^>\n]*>\[https?:[^├┼\[\]\n]*)┼/i,
 					replace: '$1├┼'
 				}]
 			}, {
@@ -10248,7 +10248,7 @@ window.AWB.rules = [{
 			name: 'Corrigindo ref',
 			sub: [{
 				name: 'Rule',
-				find: /\{\{Reflist\}\}(\[http:\/\/[^\[\]]*├)/i,
+				find: /\{\{Reflist\}\}(\[(?:https?:)?\/\/[^\[\]]*├)/i,
 				replace: '<ref>$1</ref>'
 			}]
 		}, {
