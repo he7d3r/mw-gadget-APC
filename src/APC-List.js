@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.18'
+	rulesVersion: '3.1.19'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -33,7 +33,7 @@ window.AWB.rules = [{
 			}, {
 				name: 'Itens sem conteúdo (nas listas)',
 				find: /^[*#]+\n/igm,
-				replace: '\n'
+				replace: ''
 			}]
 		}, {
 			name: 'Trim h',
