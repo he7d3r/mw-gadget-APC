@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.17'
+	rulesVersion: '3.1.18'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -21,21 +21,19 @@ window.AWB.rules = [{
 	sub: [{
 		name: 'Padronização',
 		sub: [{
-			name: 'Caracteres',
+			name: 'Remoção de caracteres desnecessários',
 			sub: [{
-				name: 'tab',
+				name: 'Tabulação',
 				find: /([^ ])[ \t]*\t+/ig,
 				replace: '$1 '
 			}, {
-				name: '\r\n',
+				name: 'Carriage return (\\r)',
 				find: /\r\n/g,
-				replace: '\n',
-				num: 100
+				replace: '\n'
 			}, {
-				name: 'Rule',
-				find: /\n[*#]\n/ig,
-				replace: '\n',
-				num: 10
+				name: 'Itens sem conteúdo (nas listas)',
+				find: /^[*#]+\n/igm,
+				replace: '\n'
 			}]
 		}, {
 			name: 'Trim h',
