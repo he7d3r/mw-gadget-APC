@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.12'
+	rulesVersion: '3.1.13'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -308,7 +308,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: '{{MSG:',
-				find: '{{MSG:',
+				find: /\{\{MSG:/g,
 				replace: '{{',
 				num: 100
 			}, {
@@ -2392,7 +2392,7 @@ window.AWB.rules = [{
 					name: 'Tag man',
 					sub: [{
 						name: '{{Esboço-videojogos}}',
-						find: '{{Esboço-videojogos}}',
+						find: /\{\{Esboço-videojogos\}\}/g,
 						replace: '{{Esboço-videogame}}'
 					}, {
 						name: '{{Trivia}}',
@@ -2482,7 +2482,7 @@ window.AWB.rules = [{
 						replace: '{{Revelações sobre o enredo}}',
 						sub: [{
 							name: '{{Enredo}}',
-							find: '{{Enredo}}',
+							find: /\{\{Enredo\}\}/g,
 							replace: '{{Revelações sobre o enredo}}'
 						}, {
 							name: '{{Spoilers}}',
@@ -2490,7 +2490,7 @@ window.AWB.rules = [{
 							replace: '{{Revelações sobre o enredo}}'
 						}, {
 							name: '{{Tema}}',
-							find: '{{Tema}}',
+							find: /\{\{Tema\}\}/g,
 							replace: '{{Revelações sobre o enredo}}'
 						}]
 					}, {
@@ -2682,12 +2682,12 @@ window.AWB.rules = [{
 				name: 'Marca comentários',
 				sub: [{
 					name: 'Marca <!--',
-					find: '<!--',
+					find: /<!--/g,
 					replace: '╔',
 					num: 100
 				}, {
 					name: 'Marca -->',
-					find: '-->',
+					find: /-->/g,
 					replace: '╗',
 					num: 100
 				}, {
@@ -2828,7 +2828,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: 'quebra de linha no primeiro',
-						find: '╚',
+						find: /╚/g,
 						replace: '\n╚'
 					}]
 				}, {
@@ -2870,13 +2870,13 @@ window.AWB.rules = [{
 					replace: '╝\n┬'
 				}, {
 					name: 'Rule',
-					find: '┬',
+					find: /┬/g,
 					replace: '',
 					num: 100
 				}]
 			}, {
 				name: 'Desmarca início sem fim',
-				find: '╚',
+				find: /╚/g,
 				replace: '',
 				ifnot: '╝'
 			}, {
@@ -2937,62 +2937,62 @@ window.AWB.rules = [{
 			name: '+cat do tipo Arte',
 			sub: [{
 				name: '+cat Música',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Música]]\n░',
 				ifhas: /(\{\{Info\/(música|Single|Turnê|Álbum)|\{\{Portal3.*\|Música|'''"* *(é|foi)? *(o|a|uma?)? *([^ ]*) *\[?\[?(álbum|banda|canção|disco|dj|single|turne)|▓[^╦]+\((álbum|banda|canção|disco|dj|single|turne)|Faixas do disco|é [ao] [0-9]° (álbum|banda|canção|disco|dj|single|turne))/i,
 				ifnot: /\[\[Categoria:/i
 			}, {
 				name: '+cat Literatura',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Literatura]]\n░',
 				ifhas: /\{\{Info\/Livro/i,
 				ifnot: /\[\[Categoria:/i
 			}, {
 				name: '+cat Televisão',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Televisão]]\n░',
 				ifhas: /(\{\{Info\/Televisão|\{\{Esboço\-tv|▓[^╦]+\((novela))/i,
 				ifnot: /\[\[Categoria:/i
 			}, {
 				name: '+cat Jogos eletrônicos',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Jogos eletrônicos]]\n░',
 				ifhas: /(\{\{(Info\/Jogo|Infobox VG)|\{\{Portal3.*\| *Games)/,
 				ifnot: /\[\[Categoria:/
 			}, {
 				name: '+cat Cinema',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Cinema]]\n░',
 				ifhas: /(\{\{(Info\/Filme|Info\/Cineasta)[ \|\]\r\n]|\{\{Portal3.*\| *Cinema|▓[^╦]+\(filme|'''''\) é (um)? *filme)/i,
 				ifnot: /\[\[Categoria:/i
 			}, {
 				name: '+cat Banda desenhada',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Banda desenhada]]\n░',
 				ifhas: /\{\{(Info\/Graphic Novel|Esboço\-bd|Portal BD|Portal3.*\| *Banda desenhada)/i,
 				ifnot: /\[\[Categoria:/i
 			}, {
 				name: '+cat Arte',
-				find: '░',
+				find: /░/g,
 				replace: '┼Categoria:Arte]]\n░',
 				ifhas: /(\{\{Info\/(Bleach|Naruto)|\{\{Portal3.*\| *Animangá|▓[^╦]+\((Lista de episódios)|Sinopse|Episódios *==|== *Atore?s?)/i,
 				ifnot: /(\[\[Categoria:|┼)/i
 			}]
 		}, {
 			name: '+cat Desportos',
-			find: '░',
+			find: /░/g,
 			replace: '┼Categoria:Desportos]]\n░',
 			ifhas: /(\{\{ *Portal3.*\| *(Wrestling|Desporto|Futebol)|\{\{Info\/Campeonato de futebo)/i,
 			ifnot: /\[\[Categoria:/i
 		}, {
 			name: '+cat Biografia',
-			find: '░',
+			find: /░/g,
 			replace: '┼Categoria:Pessoas]]\n░',
 			ifhas: /(%%title%%(''')? [\(\,]? *\[?\[?([0-9]{1,2} de |(nascid[ao]|nasceu)|(Rio de Janeiro|São Paulo))|║== Biografia ==)/i,
 			ifnot: /\[\[Categoria:/i
 		}, {
 			name: 'Rule',
-			find: '┼',
+			find: /┼/g,
 			replace: '[['
 		}]
 	}]
@@ -3233,12 +3233,12 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Desmarca <small>',
-					find: '┼',
+					find: /┼/g,
 					replace: '<small>',
 					num: 10
 				}, {
 					name: 'Desmarca </small>',
-					find: '┤',
+					find: /┤/g,
 					replace: '</small>',
 					num: 10
 				}]
@@ -3314,7 +3314,7 @@ window.AWB.rules = [{
 				replace: '{{subst:#$1:'
 			}, {
 				name: '[[{{CURRENTYEAR}}|atual]]',
-				find: '[[{{subst:CURRENTYEAR}}|atual]]',
+				find: /\[\[\{\{subst:CURRENTYEAR\}\}\|atual\]\]/g,
 				replace: 'atual',
 				num: 10
 			}]
@@ -3381,11 +3381,11 @@ window.AWB.rules = [{
 						num: 10
 					}, {
 						name: '[]',
-						find: '[]',
+						find: /\[\]/g,
 						replace: ''
 					}, {
 						name: ']]]]',
-						find: ']]]]',
+						find: /\]\]\]\]/g,
 						replace: ']]'
 					}]
 				}, {
@@ -3546,7 +3546,7 @@ window.AWB.rules = [{
 				ifnot: /\{\{Wikificação[\|}]/i,
 				sub: [{
 					name: '+{{Wikificação}}',
-					find: '╦',
+					find: /╦/g,
 					replace: '╦\n{{Wikificação|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}}}\n',
 					ifnot: /[^\n]\[\[/i
 				}]
@@ -3556,7 +3556,7 @@ window.AWB.rules = [{
 				replace: ''
 			}, {
 				name: 'Rule',
-				find: 'Este artigo ou se(c)ção',
+				find: /Este artigo ou se\(c\)ção/g,
 				replace: ''
 			}]
 		}, {
@@ -3855,11 +3855,11 @@ window.AWB.rules = [{
 				ifhas: '[[',
 				sub: [{
 					name: 'Estados Unidos da América',
-					find: '[[Estados Unidos da América|',
+					find: /\[\[Estados Unidos da América\|/g,
 					replace: '[[Estados Unidos|'
 				}, {
 					name: 'Rule',
-					find: '[[Estados Unidos|Estados Unidos]]',
+					find: /\[\[Estados Unidos\|Estados Unidos\]\]/g,
 					replace: '[[Estados Unidos]]'
 				}]
 			}, {
@@ -3903,16 +3903,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'PASSO 2',
-				find: '╔ PASSO 2: Todos os artigos devem citar pelo menos uma fonte PUBLICADA,       ╗\n' +
-					'╔         ESPECÍFICA, escrita por TERCEIROS para a informação, tais como um   ╗\n' +
-					'╔         livro ou página de uma fonte reputada. Por favor forneça um URL ou  ╗\n' +
-					'╔         ligação se quiser usar uma fonte da internet. NÓS PRECISAMOS DE     ╗\n' +
-					'╔         SER CAPAZES DE VERIFICAR A SUA FONTE, por isso fontes como "Google" ╗\n' +
-					'╔         "conhecimento pessoal" serão rejeitadas.                            ╗\n' +
-					'╔         SE NÃO INCLUIR PELO MENOS UMA FONTE VÁLIDA,                         ╗\n' +
-					'╔         O SEU ARTIGO SERÁ REJEITADO.                                        ╗\n' +
-					'╔                                                                             ╗\n' +
-					'╔         Por favor, adicione a(s) sua(s) fonte(s) abaixo desta linha.        ╗\n',
+				find: /╔ PASSO 2: Todos os artigos devem citar pelo menos uma fonte PUBLICADA, +╗\n╔ +ESPECÍFICA, escrita por TERCEIROS para a informação, tais como um +╗\n╔ +livro ou página de uma fonte reputada\. Por favor forneça um URL ou +╗\n╔ +ligação se quiser usar uma fonte da internet\. NÓS PRECISAMOS DE +╗\n╔ +SER CAPAZES DE VERIFICAR A SUA FONTE, por isso fontes como "Google" ╗\n╔ +"conhecimento pessoal" serão rejeitadas\. +╗\n╔ +SE NÃO INCLUIR PELO MENOS UMA FONTE VÁLIDA, +╗\n╔ +O SEU ARTIGO SERÁ REJEITADO. +╗\n╔ +╗\n╔ +Por favor, adicione a\(s\) sua\(s\) fonte\(s\) abaixo desta linha\. +╗\n/g,
 				replace: ''
 			}]
 		},
@@ -3923,7 +3914,7 @@ window.AWB.rules = [{
 				name: '{{Anexo}}',
 				sub: [{
 					name: '{{Anexo|[[Lista d',
-					find: '{{Anexo|[[Lista d',
+					find: /\{\{Anexo\|\[\[Lista d/g,
 					replace: '{{Anexo|[[Anexo:Lista d'
 				}, {
 					name: 'Passando para {{Anexo}}',
@@ -3948,7 +3939,7 @@ window.AWB.rules = [{
 			ifhas: /╠/i,
 			sub: [{
 				name: 'Flag of Germany 1933.svg',
-				find: 'Flag of Germany 1933.svg',
+				find: /Flag of Germany 1933\.svg/g,
 				replace: 'Flag of Nazi Germany (1933-1945).svg',
 				num: 10
 			}, {
@@ -9472,7 +9463,7 @@ window.AWB.rules = [{
 					name: '{{XXXn}}',
 					sub: [{
 						name: '{{USAn}}',
-						find: '{{USAb}} [[Estadunidense]]',
+						find: /\{\{USAb\}\} \[\[Estadunidense\]\]/g,
 						replace: '{{USAn}}'
 					}]
 				}]
@@ -9610,7 +9601,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: '|]]',
-					find: '|]]',
+					find: /\|\]\]/g,
 					replace: '| ]]'
 				}, {
 					name: '{{Lang - en|',
@@ -9632,7 +9623,7 @@ window.AWB.rules = [{
 					num: 5
 				}, {
 					name: 'Desmarca </noinclude>',
-					find: '┼',
+					find: /┼/g,
 					replace: '</noinclude>'
 				}]
 			}, {
@@ -9661,7 +9652,7 @@ window.AWB.rules = [{
 					num: 100
 				}, {
 					name: 'Rule',
-					find: 'Telefone:┼',
+					find: /Telefone:┼/g,
 					replace: '',
 					num: 100
 				}]
@@ -9746,7 +9737,7 @@ window.AWB.rules = [{
 				name: 'Nome',
 				sub: [{
 					name: '==Referências Bibliográficas==',
-					find: '║== Referências Bibliográficas ==',
+					find: /║== Referências Bibliográficas ==/g,
 					replace: '║== Referências bibliográficas =='
 				}]
 			}, {
@@ -9790,12 +9781,12 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Rule',
-					find: '╔╗',
+					find: /╔╗/g,
 					replace: '',
 					num: 100
 				}, {
 					name: 'Rule',
-					find: '║== Mortes ==',
+					find: /║== Mortes ==/g,
 					replace: '║== Falecimentos =='
 				}, {
 					name: 'Rule',
@@ -9812,7 +9803,7 @@ window.AWB.rules = [{
 					num: 10
 				}, {
 					name: 'Rule',
-					find: '╔\n║==',
+					find: /╔\n║==/g,
 					replace: '╔\n\n║=='
 				}]
 			}]
@@ -9955,7 +9946,7 @@ window.AWB.rules = [{
 			name: 'Marcando',
 			sub: [{
 				name: 'Marcando </ref>',
-				find: '</ref>',
+				find: /<\/ref>/g,
 				replace: '┼'
 			}, {
 				name: 'Marcando ] 1',
@@ -10054,15 +10045,15 @@ window.AWB.rules = [{
 					num: 100
 				}, {
 					name: '<ref><ref>',
-					find: '<ref><ref>',
+					find: /<ref><ref>/g,
 					replace: '<ref>'
 				}, {
 					name: '<ref></ref>',
-					find: '<ref>┼',
+					find: /<ref>┼/g,
 					replace: ''
 				}, {
 					name: '</ref></ref>',
-					find: '┼┼',
+					find: /┼┼/g,
 					replace: '┼'
 				}, {
 					name: '</ref><ref>',
@@ -10129,7 +10120,7 @@ window.AWB.rules = [{
 					replace: '{{Reflist}}'
 				}, {
 					name: 'Padronizando <references />',
-					find: '<references/>',
+					find: /<references\/>/g,
 					replace: '<references />'
 				}, {
 					name: '== Fontes ==',
@@ -10364,12 +10355,12 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Desmarca final',
-					find: '┘',
+					find: /┘/g,
 					replace: '',
 					num: 10
 				}, {
 					name: 'Desmarca início',
-					find: '┌',
+					find: /┌/g,
 					replace: '{{Citar web',
 					num: 10
 				}]
@@ -10571,16 +10562,16 @@ window.AWB.rules = [{
 			name: 'Desmarcando',
 			sub: [{
 				name: 'Desmarcando </ref>',
-				find: '┼',
+				find: /┼/g,
 				replace: '</ref>'
 			}, {
 				name: 'Desmarcando ]',
-				find: '├',
+				find: /├/g,
 				replace: ']'
 			}]
 		}, {
 			name: 'Rule',
-			find: 'Título ainda não informado (favor adicionar)',
+			find: /Título ainda não informado \(favor adicionar\)/g,
 			replace: '',
 			num: 10
 		}]
@@ -10591,7 +10582,7 @@ window.AWB.rules = [{
 			ifnot: /▓(Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:/i,
 			sub: [{
 				name: 'Rule',
-				find: '{{DEFAULTSORT:}}',
+				find: /\{\{DEFAULTSORT:\}\}/g,
 				replace: ''
 			}, {
 				name: 'Quebra de linha em DEFAULTSORT',
@@ -10616,7 +10607,7 @@ window.AWB.rules = [{
 					replace: '$2\n$1\n┼'
 				}, {
 					name: 'Desmarca cat',
-					find: '┼',
+					find: /┼/g,
 					replace: '[[Categoria:'
 				}]
 			}]
@@ -11335,13 +11326,13 @@ window.AWB.rules = [{
 					ifhas: '{{Portal3', // FIXME: /\{\{Portal3/i ?
 					sub: [{
 						name: 'Linguística',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Linguística|',
 						ifhas: /\[\[Categoria:(.* )?(Gramática|Línguas|Linguística|Alfabeto)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Linguística[ \|\}]/i
 					}, {
 						name: 'Educação',
-						find: '{{Portal3|', // FIXME: /\{\{Portal3|/i ?
+						find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
 						replace: '{{Portal3|Educação|',
 						ifhas: /\[\[Categoria:(Universidade|Professores|Instituições de ensino)[ \|\]]/i,
 						ifnot: /(\{\{Portal3.*\|Educação[ \|\}]|\[\[Categoria:(.* )?(Ex\-alunos)[ \|\]])\n/i
@@ -11349,19 +11340,19 @@ window.AWB.rules = [{
 						name: 'Sociedade',
 						sub: [{
 							name: 'Política',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Política|',
 							ifhas: /(\[\[Categoria:(.* )?(Política|Políticos|Senadores|Deputados|Governadores|Ministros)[ \|\]]|\{\{Info\/Político)/i,
 							ifnot: /\{\{Portal3.*\|Política[ \|\}]/i
 						}, {
 							name: 'Futebol',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Futebol|',
 							ifhas: /\[\[Categoria:(.* )?(futebol|futebolistas)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Futebol[ \|\}]/i
 						}, {
 							name: 'Desporto',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Desporto|',
 							ifhas: /\[\[Categoria:(.* )?(Desportos|Esportes|Desportistas)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|(Desporto|Futebol)[ \|\}]/i
@@ -11370,7 +11361,7 @@ window.AWB.rules = [{
 						name: 'Países (com predef)',
 						sub: [{
 							name: '{{esboço-geofr}}',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|França|',
 							ifhas: /\{\{esboço-geofr\}\}/i,
 							ifnot: /\{\{Portal3.*\|França/i
@@ -11387,7 +11378,7 @@ window.AWB.rules = [{
 						name: 'Geografia',
 						sub: [{
 							name: 'Geografia',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Geografia|',
 							ifhas: /\[\[Categoria:(.* )?(Geografia)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Geografia[ \|\}]/i
@@ -11396,80 +11387,80 @@ window.AWB.rules = [{
 						name: 'Ciência',
 						sub: [{
 							name: 'Zoologia',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Zoologia|',
 							ifhas: /\[\[Categoria:(.* )?(Zoologia|Artrópodes)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Zoologia[ \|\}]/i
 						}, {
 							name: 'Tecnologias de informação',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Tecnologias de informação|',
 							ifhas: /(\[\[Categoria:(.* )?(Tecnologias de informação|Informática|Computadores|Criptografia|Algoritmos)[ \|\]]|\{\{Info\/Sítio *[\|\r?\n|╔])/i,
 							ifnot: /\{\{Portal3.*\|Tecnologias de informação[ \|\}]/i
 						}, {
 							name: 'Saúde',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Saúde|',
 							ifhas: /(\[\[Categoria:(.* )?(Doenças|Médicos|Oncologia|Saúde)[ \|\]]|\{\{(Esboço\-medicina)[ \|\]\}\r\n])/i,
 							ifnot: /\{\{Portal3.*\|Saúde[ \|\}]/i
 						}, {
 							name: 'Química',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Química|',
 							ifhas: /(\[\[Categoria:(.* )?(Química?o?s?|Ácidos?|Óxidos?)[ \|\]]|\{\{Info\/Química)/i,
 							ifnot: /\{\{Portal3.*\|Química[ \|\}]/i
 						}, {
 							name: 'Matemática',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Matemática|',
 							ifhas: /\[\[Categoria:(.* )?(Matemática|Matemáticos|Números)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Matemática[ \|\}]/i
 						}, {
 							name: 'Física',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Física|',
 							ifhas: /\[\[Categoria:(.* )?(Física)[ \|\]]/i,
 							ifnot: /(\{\{Portal3.*\|Física[ \|\}]|\[\[Categoria:(.* )?(Educação Física)[ \|\]])/i
 						}, {
 							name: 'Biologia',
-							find: '{{Portal3|', // FIXME: /\{\{Portal3|/i ?
+							find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
 							replace: '{{Portal3|Biologia|',
 							ifhas: /\[\[Categoria:(.* )?(Biologia|Musculo|Muscular|Anatomia)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Biologia[ \|\}]/i
 						}, {
 							name: 'Botânica 2',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Botânica|',
 							ifhas: /\{\{Esboço\-(Botânica)\}\}/i,
 							ifnot: /\{\{Portal3.*\|Botânica[ \|\}]/i
 						}, {
 							name: 'Botânica (cat)',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Botânica|',
 							ifhas: /(\[\[Categoria:(.* )?|\{\{esboço\-)(alga|apiales|árvore|asterácea|botânica|botânicos|briófito|cacto|crassulaceae|feto|gramínea|lamiales|legume|malvales|monocotiledónea|orquídea|palmeira|planta|poales|rosales|rosídea|santalales)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Botânica[ \|\}]/i
 						}, {
 							name: 'Astronomia',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Astronomia|',
 							ifhas: /\[\[Categoria:(.* )?(Astronomia)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Astronomia[ \|\}]/i
 						}, {
 							name: 'Administração',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Administração|',
 							ifhas: /(\[\[Categoria:(.* )?(Administração)[ \|\]]|\{\{(Portal\-administração))/i,
 							ifnot: /\{\{Portal3.*\|Administração[ \|\}]/i
 						}]
 					}, {
 						name: 'Portugal (predef)',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Portugal|',
 						ifhas: /\{\{(Esboço\-freguesiaspt)\}\}/i,
 						ifnot: /\{\{Portal3.*\|Portugal[ \|\}]/i
 					}, {
 						name: 'Biografias',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Biografias|',
 						ifhas: /(\{\{(Esboço\-(biografia|jornalista))\}\}|\{\{Info\/(Ator|Arquiteto|Biografia|Cientista|Comediante|Criminoso|Deputado de Portugal|Enxadrista|Filósofo|Futebolista|Goísta|Político)|\[\[Categoria:(Atores|Cantores|Escritores|Futebolistas|Matemáticos|Pessoas|Prefeitos|Cônsules) d|\[\[Categoria:(Mortos em|Pilotos de)|\{\{sem infocaixa\|(Santos)|\n *\| *(datadenascimento|nascimento_data) *=|\| *fundo *= *cantor_solo)/i,
 						ifnot: /\{\{Portal3.*\|Biografias[ \|\}]/i
@@ -11477,7 +11468,7 @@ window.AWB.rules = [{
 						name: 'Brasil (predef)',
 						sub: [{
 							name: 'Brasil (predef)',
-							find: '{{Portal3|', // FIXME: /\{\{Portal3|/i ?
+							find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
 							replace: '{{Portal3|Brasil|',
 							ifhas: /\{\{Info\/Município do Brasil[\r\n\|]/i,
 							ifnot: /(\{\{Portal3.*\|(Brasil|Tocantins|Sergirpe|São Paulo|Santa Catarina|Roraima|Rondônia|Rio Grande do Sul|Rio Grande do Norte|Rio de Janeiro|Piauí|Pernambuco|Paraná|Paraíba|Pará|Minas Gerais|Mato Grosso do Sul|Mato Grosso|Maranhão|Goiás|Espírito Santo|Ceará|Bahia|Amazonas|Amapá|Alagoas|Acre)|\[\[Categoria:(.* )?(Mineiros))[ \|\}]/i
@@ -11486,49 +11477,49 @@ window.AWB.rules = [{
 						name: 'Arte',
 						sub: [{
 							name: 'Televisão',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Televisão|',
 							ifhas: /(\[\[Categoria:(.* )?(Televisão|Desenhos? animados?|Programas de televisão|Telenovelas|Reality shows)[ \|\]]|\{\{Info\/Televisão|\{\{Info\/Episódio de série|\{\{Esboço\-tv)/i,
 							ifnot: /\{\{Portal3.*\|Televisão[ \|\}]/i
 						}, {
 							name: 'Pintura',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Pintura|',
 							ifhas: /(\[\[Categoria:(.* )?(Pintores)[ \|\]]|\{\{Info\/Pintura)/i,
 							ifnot: /\{\{Portal3.*\|Pintura[ \|\}]/i
 						}, {
 							name: 'Música',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Música|',
 							ifhas: /(\[\[Categoria:(.* )?(Música|álbum|álbuns|canção|canções|singles d|cantore?s?|musicais|bandas)[ \|\]]|\{\{Info\/(Turnê|Álbum|música|Single|Ópera|Banda)|\{esboço\-música\})/i,
 							ifnot: /\{\{Portal3.*\|(Música|Eurovisão)[ \|\}]/i
 						}, {
 							name: 'Literatura',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Literatura|',
 							ifhas: /\[\[Categoria:(.* )?(Literatura|Livros|Escritores|Poetas)[ \|\]]/i,
 							ifnot: /(\{\{Portal3.*\|Literatura[ \|\}]|\[\[Categoria:.*basead[ao]s? em livros?)/i
 						}, {
 							name: 'Games',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Games|',
 							ifhas: /(\[\[Categoria:(.* )?(jogos? eletrônicos?|videogames?|PlayStation|Jogos para computador)[ \|\]]|\{\{(Info\/Jogo|Infobox VG))/i,
 							ifnot: /\{\{Portal3.*\|Games[ \|\}]/i
 						}, {
 							name: 'Cinema',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Cinema|',
 							ifhas: /(\[\[Categoria:(.* )?(Cinema|Filmes|Ator)[ \|\]]|\{\{(Info\/Filme|Info\/Cineasta)[ \|\]\r\n])/i,
 							ifnot: /\{\{Portal3.*\|Cinema[ \|\}]/i
 						}, {
 							name: 'Banda desenhada',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Banda desenhada|',
 							ifhas: /(\[\[Categoria:(.* )?(banda desenhada|DC Comics|Marvel Comics)[ \|\]]|\{\{(Info\/Graphic Novel|Esboço-bd|Portal BD))/i,
 							ifnot: /\{\{Portal3.*\|Banda desenhada[ \|\}]/i
 						}, {
 							name: 'Animangá',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Animangá|',
 							ifhas: /(\[\[Categoria:(.* )?(Anime|Mangá|Bleach|Naruto)[ \|\]]|\{\{Info\/(Bleach|Naruto))/i,
 							ifnot: /\{\{Portal3.*\|Animangá[ \|\}]/i
@@ -11537,24 +11528,24 @@ window.AWB.rules = [{
 							ifhas: /(\[\[Categoria:(.* )?(Atores|Atrizes)[ \|\]]|Info\/Ator)/i,
 							sub: [{
 								name: 'Ator - cinema',
-								find: '{{Portal3|',
+        find: /\{\{Portal3\|/g,
 								replace: '{{Portal3|Cinema|',
 								ifhas: /\n║=+ (Cinema|Filmes) =+\r?\n/i,
 								ifnot: /\{\{Portal3.*\|Cinema[ \|\}]/i
 							}, {
 								name: 'Ator - televisão',
-								find: '{{Portal3|',
+        find: /\{\{Portal3\|/g,
 								replace: '{{Portal3|Televisão|',
 								ifhas: /\n║=+ (Novelas|Séries|Televisão) =+\r?\n/i,
 								ifnot: /\{\{Portal3.*\|(Televisão|Cinema)[ \|\}]/i
 							}, {
 								name: 'Ator - genérico',
-								find: '{{Portal3|',
+        find: /\{\{Portal3\|/g,
 								replace: '{{Portal3|Arte|'
 							}]
 						}, {
 							name: 'Arte (cat)',
-							find: '{{Portal3|',
+       find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Arte|',
 							ifhas: /\[\[Categoria:(.* )?(Arte|Artistas|Personagens|Fictícios)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|(Arte|Animangá|Banda desenhada|Cinema|Games|Literatura|Música|Pintura|Televisão)[\|\}]/i
@@ -11671,7 +11662,7 @@ window.AWB.rules = [{
 					replace: '$1 de $2'
 				}, {
 					name: 'Desmarcando |data=',
-					find: '├',
+					find: /├/g,
 					replace: 'data='
 				}, {
 					name: 'Datando 1',
@@ -11699,7 +11690,7 @@ window.AWB.rules = [{
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando Timor-Leste',
-						find: '├',
+						find: /├/g,
 						replace: '|Timor-Leste='
 					}]
 				}, {
@@ -11730,11 +11721,11 @@ window.AWB.rules = [{
 						ifhas: /\{\{Portal3.*\|(Desportos?|Futebol|Ginástica|Eventos multiesportivos)/i
 					}, {
 						name: 'desmarcando sociedade',
-						find: '├',
+						find: /├/g,
 						replace: '|sociedade='
 					}, {
 						name: 'desmarcando desporto',
-						find: '┼',
+						find: /┼/g,
 						replace: '|desporto='
 					}]
 				}, {
@@ -11751,7 +11742,7 @@ window.AWB.rules = [{
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando São Tomé e Príncipe',
-						find: '├',
+						find: /├/g,
 						replace: '|São Tomé e Príncipe='
 					}]
 				}, {
@@ -11773,7 +11764,7 @@ window.AWB.rules = [{
 						ifhas: /├ *[\|}]/i
 					}, {
 						name: 'desmarcando Portugal',
-						find: '├',
+						find: /├/g,
 						replace: '|Portugal='
 					}]
 				}, {
@@ -11790,7 +11781,7 @@ window.AWB.rules = [{
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando Moçambique',
-						find: '├',
+						find: /├/g,
 						replace: '|Moçambique='
 					}]
 				}, {
@@ -11807,7 +11798,7 @@ window.AWB.rules = [{
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando Guiné-Bissau',
-						find: '├',
+						find: /├/g,
 						replace: '|Guiné-Bissau='
 					}]
 				}, {
@@ -11829,7 +11820,7 @@ window.AWB.rules = [{
 						ifhas: /├ *[\|}]/i
 					}, {
 						name: 'desmarcando geografia',
-						find: '├',
+						find: /├/g,
 						replace: '|geografia='
 					}]
 				}, {
@@ -11850,7 +11841,7 @@ window.AWB.rules = [{
 						ifhas: /├ *[\|}]/
 					}, {
 						name: 'desmarcando ciência',
-						find: '├',
+						find: /├/g,
 						replace: '|ciência='
 					}]
 				}, {
@@ -11868,7 +11859,7 @@ window.AWB.rules = [{
 						ifnot: /├ *[^\|}]/i
 					}, {
 						name: 'desmarcando Cabo Verde',
-						find: '├',
+						find: /├/g,
 						replace: '|Cabo Verde='
 					}]
 				}, {
@@ -11890,7 +11881,7 @@ window.AWB.rules = [{
 						ifhas: /├ *[\|}]/i
 					}, {
 						name: 'desmarcando Brasil',
-						find: '├',
+						find: /├/g,
 						replace: '|Brasil='
 					}]
 				}, {
@@ -11929,13 +11920,13 @@ window.AWB.rules = [{
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando Angola',
-						find: '├',
+						find: /├/g,
 						replace: '|Angola='
 					}]
 				}]
 			}, {
 				name: 'Desmarcando predefs',
-				find: '┴',
+				find: /┴/g,
 				replace: ''
 			}]
 		}, {
@@ -11959,7 +11950,7 @@ window.AWB.rules = [{
 					num: 100
 				}, {
 					name: 'Rule',
-					find: '┼',
+					find: /┼/g,
 					replace: '',
 					num: 100
 				}, {
@@ -11982,11 +11973,11 @@ window.AWB.rules = [{
 					name: 'Marca',
 					sub: [{
 						name: 'Marca LE',
-						find: '║== Ligações externas ==',
+						find: /║== Ligações externas ==/g,
 						replace: '┬'
 					}, {
 						name: 'Marca VT',
-						find: '║== Ver também ==',
+						find: /║== Ver também ==/g,
 						replace: '┼'
 					}, {
 						name: 'Marca Biblio',
@@ -12067,19 +12058,19 @@ window.AWB.rules = [{
 					name: 'Desmarca',
 					sub: [{
 						name: 'Desmarca ref group=nota',
-						find: '┴',
+						find: /┴/g,
 						replace: '║== Notas ==\n<references group=nota/>'
 					}, {
 						name: 'Desmarc {{Ref-section}}',
-						find: '┤', // FIXME: /┤/i ?
+						find: /┤/g, // FIXME: /┤/gi ?
 						replace: '{{referências'
 					}, {
 						name: 'Desmarca gallery 2',
-						find: '└',
+						find: /└/g,
 						replace: '</gallery>'
 					}, {
 						name: 'Desmarca gallery 1',
-						find: '┐',
+						find: /┐/g,
 						replace: '║== Galeria de imagens ==\n<gallery>'
 					}, {
 						name: 'Desmarca Biblio',
@@ -12087,11 +12078,11 @@ window.AWB.rules = [{
 						replace: '\n║== Bibliografia ==\n'
 					}, {
 						name: 'Desmarca VT',
-						find: '┼',
+						find: /┼/g,
 						replace: '║== Ver também =='
 					}, {
 						name: 'Desmarca LE',
-						find: '┬',
+						find: /┬/g,
 						replace: '║== Ligações externas =='
 					}]
 				}, {
@@ -12159,19 +12150,19 @@ window.AWB.rules = [{
 					name: 'Desmarca',
 					sub: [{
 						name: 'Desmarca Portal3',
-						find: '┬',
+						find: /┬/g,
 						replace: '{{Portal3'
 					}, {
 						name: 'Desmarca Defaultsort',
-						find: '├',
+						find: /├/g,
 						replace: '{{DEFAULTSORT:'
 					}, {
 						name: 'Desmarca cat1',
-						find: '┤',
+						find: /┤/g,
 						replace: '[[Categoria:'
 					}, {
 						name: 'Desmarca vários',
-						find: '┼',
+						find: /┼/g,
 						replace: '',
 						num: 10
 					}]
@@ -12282,7 +12273,7 @@ window.AWB.rules = [{
 						replace: 'Þ'
 					}, {
 						name: '&uuml;',
-						find: '&uuml;',
+						find: /&uuml;/g,
 						replace: 'ü'
 					}]
 				}, {
@@ -12290,47 +12281,47 @@ window.AWB.rules = [{
 					ifhas: '&#',
 					sub: [{
 						name: '&#257;',
-						find: '&#257;',
+						find: /&#257;/g,
 						replace: 'ā'
 					}, {
 						name: '&#265;',
-						find: '&#265;',
+						find: /&#265;/g,
 						replace: 'ĉ'
 					}, {
 						name: '&#269;',
-						find: '&#269;',
+						find: /&#269;/g,
 						replace: 'č'
 					}, {
 						name: '&#285;',
-						find: '&#285;',
+						find: /&#285;/g,
 						replace: 'ĝ'
 					}, {
 						name: '&#293;',
-						find: '&#293;',
+						find: /&#293;/g,
 						replace: 'ĥ'
 					}, {
 						name: '&#306;',
-						find: '&#306;',
+						find: /&#306;/g,
 						replace: 'Ĳ'
 					}, {
 						name: '&#309;',
-						find: '&#309;',
+						find: /&#309;/g,
 						replace: 'ĵ'
 					}, {
 						name: '&#349;',
-						find: '&#349;',
+						find: /&#349;/g,
 						replace: 'ŝ'
 					}, {
 						name: '&#365;',
-						find: '&#365;',
+						find: /&#365;/g,
 						replace: 'ŭ'
 					}, {
 						name: '&#383;',
-						find: '&#383;',
+						find: /&#383;/g,
 						replace: 'ſ'
 					}, {
 						name: '&#39;',
-						find: '&#39;',
+						find: /&#39;/g,
 						replace: '\''
 					}]
 				}]
@@ -12390,17 +12381,17 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: 'Unicode 1',
-				find: '<sup>1</sup>',
+				find: /<sup>1<\/sup>/g,
 				replace: '¹',
 				num: 100
 			}, {
 				name: 'Unicode 2',
-				find: '<sup>2</sup>',
+				find: /<sup>2<\/sup>/g,
 				replace: '²',
 				num: 100
 			}, {
 				name: 'Unicode 4',
-				find: '&sup2;',
+				find: /&sup2;/g,
 				replace: '²',
 				num: 100
 			}]
@@ -12499,11 +12490,11 @@ window.AWB.rules = [{
 			name: 'Seções',
 			sub: [{
 				name: 'Breve Histórico',
-				find: '= Breve Histórico =',
+				find: /\= Breve Histórico =/g,
 				replace: '= Breve histórico ='
 			}, {
 				name: 'Em Operação',
-				find: '= Em Operação =',
+				find: /\= Em Operação =/g,
 				replace: '= Em operação ='
 			}, {
 				name: 'Contexto Histórico',
@@ -12521,7 +12512,7 @@ window.AWB.rules = [{
 				name: 'Maiusculite',
 				sub: [{
 					name: 'Carreira Política',
-					find: 'Carreira Política',
+					find: /Carreira Política/g,
 					replace: 'Carreira política'
 				}]
 			}, {
@@ -12710,7 +12701,7 @@ window.AWB.rules = [{
 			ifhas: /\{\{Portal3.*\|(Arte|Animangá|Banda desenhada|Cinema|Games|Livros|Literatura|Música|Pintura|Televisão)/i,
 			sub: [{
 				name: '(coadjuvante/secundária)',
-				find: '(coadjuvante/secundária)',
+				find: /\(coadjuvante\/secundária\)/g,
 				replace: 'coadjuvante'
 			}, {
 				name: '{{Allmusic}}',
@@ -12823,7 +12814,7 @@ window.AWB.rules = [{
 				name: 'Seções',
 				sub: [{
 					name: '== Guia de episódios ==',
-					find: '== Guia de episódios ==',
+					find: /\== Guia de episódios ==/g,
 					replace: '== Episódios =='
 				}]
 			}, {
@@ -12835,7 +12826,7 @@ window.AWB.rules = [{
 					ifhas: '╚.*╝'
 				}, {
 					name: '[[personagem]] ficcional',
-					find: '[[personagem]] ficcional',
+					find: /\[\[personagem\]\] ficcional/g,
 					replace: '[[personagem]] fictício'
 				}]
 			}, {
@@ -12843,7 +12834,7 @@ window.AWB.rules = [{
 				ifhas: /(\{\{Portal3.*\|(Games)[\|\}])/i,
 				sub: [{
 					name: 'Game upgrades',
-					find: 'Game Upgrades',
+					find: /Game Upgrades/g,
 					replace: 'Game upgrades',
 					num: 100
 				}, {
@@ -12885,7 +12876,7 @@ window.AWB.rules = [{
 					name: 'Seções',
 					sub: [{
 						name: 'Rule',
-						find: '== [[Jogabilidade]] ==',
+						find: /\== \[\[Jogabilidade\]\] ==/g,
 						replace: '== Jogabilidade ==',
 						num: 10
 					}]
@@ -12913,12 +12904,12 @@ window.AWB.rules = [{
 						replace: '[[Computador pessoal|PC]]'
 					}, {
 						name: '[[GPU]]',
-						find: '[[GPU]]',
+						find: /\[\[GPU\]\]/g,
 						replace: '[[Unidade de processamento gráfico|GPU]]',
 						num: 100
 					}, {
 						name: '[[RAM]]',
-						find: '[[RAM]]',
+						find: /\[\[RAM\]\]/g,
 						replace: '[[Memória RAM|RAM]]',
 						num: 100
 					}, {
@@ -13108,7 +13099,7 @@ window.AWB.rules = [{
 					name: 'Erros de escrita',
 					sub: [{
 						name: 'Sérgio Mendes',
-						find: 'Sergio Mendes',
+						find: /Sergio Mendes/g,
 						replace: 'Sérgio Mendes',
 						num: 100
 					}]
@@ -13125,7 +13116,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Rule',
-					find: '{{Info/Animangá/Rodapé\n╣}}',
+					find: /\{\{Info\/Animangá\/Rodapé\n╣\}\}/g,
 					replace: '{{Info/Animangá/Rodapé╣}}'
 				}]
 			}, {
@@ -13213,12 +13204,12 @@ window.AWB.rules = [{
 						name: 'desmarcando games'
 					}, {
 						name: 'desmarcando arte',
-						find: '┼',
+						find: /┼/g,
 						replace: '|arte='
 					}]
 				}, {
 					name: 'Desmarcando predefs',
-					find: '┴',
+					find: /┴/g,
 					replace: ''
 				}]
 			}]
@@ -13419,7 +13410,7 @@ Necessitam de revisão mínima
 				num: 100
 			}, {
 				name: 'Desmarca exceções',
-				find: '┼',
+				find: /┼/g,
 				replace: '',
 				num: 100
 			}]
@@ -13750,7 +13741,7 @@ Necessitam de revisão mínima
 				}]
 			}, {
 				name: 'oiú',
-				find: 'oiú',
+				find: /oiú/g,
 				replace: '',
 				sub: [{
 					name: 'boiúno',
@@ -13866,11 +13857,11 @@ Necessitam de revisão mínima
 			name: 'Desmarcando',
 			sub: [{
 				name: 'Desmarcando </ref>',
-				find: '┼',
+				find: /┼/g,
 				replace: '</ref>'
 			}, {
 				name: 'Desmarcando ]',
-				find: '├',
+				find: /├/g,
 				replace: ']'
 			}]
 		}]
@@ -14054,11 +14045,11 @@ Necessitam de muita revisão
 				num: 2
 			}, {
 				name: 'Desmarca <small>',
-				find: '┼',
+				find: /┼/g,
 				replace: '<small>'
 			}, {
 				name: 'Desmarca </small>',
-				find: '┤',
+				find: /┤/g,
 				replace: '</small>'
 			}]
 		}]
@@ -14271,11 +14262,11 @@ Necessitam de muita revisão
 					num: 2
 				}, {
 					name: 'Desmarca <small>',
-					find: '┼',
+					find: /┼/g,
 					replace: '<small>'
 				}, {
 					name: 'Desmarca </small>',
-					find: '┤',
+					find: /┤/g,
 					replace: '</small>'
 				}]
 			}, {
@@ -14305,7 +14296,7 @@ Necessitam de muita revisão
 				name: 'style',
 				sub: [{
 					name: 'div style',
-					find: ' div style',
+					find: / div style/g,
 					replace: ' style'
 				}, {
 					name: 'style sem "',
@@ -14343,7 +14334,7 @@ Necessitam de muita revisão
 							num: 100
 						}, {
 							name: 'Rule',
-							find: '└',
+							find: /└/g,
 							replace: ''
 						}]
 					}, {
@@ -14354,7 +14345,7 @@ Necessitam de muita revisão
 							replace: '$1[[$3<span style="color:$2;">$4</span>]]'
 						}, {
 							name: 'marca /font',
-							find: '</font>',
+							find: /<\/font>/g,
 							replace: '┼'
 						}, {
 							name: 'Rule',
@@ -14395,11 +14386,11 @@ Necessitam de muita revisão
 							replace: '$1$3'
 						}, {
 							name: 'desmarca fim de célula com ref',
-							find: '┘',
+							find: /┘/g,
 							replace: ''
 						}, {
 							name: 'desmarca /font',
-							find: '┼',
+							find: /┼/g,
 							replace: '</font>'
 						}]
 					}]
@@ -14442,7 +14433,7 @@ Necessitam de muita revisão
 						replace: '[[$2|$1$2$3]]'
 					}, {
 						name: 'desmarca newline tab',
-						find: '└',
+						find: /└/g,
 						replace: ''
 					}]
 				}, {
@@ -14499,7 +14490,7 @@ Necessitam de muita revisão
 					name: 'style para a linha toda',
 					sub: [{
 						name: 'marca 2 cel em 1 linha',
-						find: '||',
+						find: /\|\|/g,
 						replace: '┼||'
 					}, {
 						name: 'style para a linha toda - genérico',
@@ -14530,7 +14521,7 @@ Necessitam de muita revisão
 					ifhas: /\|\-.*style= *"/i,
 					sub: [{
 						name: 'marca 2 cel em 1 linha',
-						find: '||',
+						find: /\|\|/g,
 						replace: '┬||'
 					}, {
 						name: 'genérico',
@@ -14544,12 +14535,12 @@ Necessitam de muita revisão
 						num: 100,
 						sub: [{
 							name: 'Rule',
-							find: '<└',
+							find: /<└/g,
 							replace: ''
 						}]
 					}, {
 						name: 'desmarca',
-						find: '┬',
+						find: /┬/g,
 						replace: ''
 					}]
 				}, {
@@ -14560,7 +14551,7 @@ Necessitam de muita revisão
 						ifhas: 'text-align:center', // FIXME: /text-align:center/i ?
 						sub: [{
 							name: 'marca 2 cel em 1 linha',
-							find: '||',
+							find: /\|\|/g,
 							replace: '┬||'
 						}, {
 							name: 'marca linha cabeçalho',
@@ -14763,11 +14754,11 @@ Necessitam de muita revisão
 						}]
 					}, {
 						name: 'Desmarca final',
-						find: '┘',
+						find: /┘/g,
 						replace: ''
 					}, {
 						name: 'Desmarca início',
-						find: '┌',
+						find: /┌/g,
 						replace: '{{citar livro'
 					}]
 				}, {
@@ -14858,11 +14849,11 @@ Necessitam de muita revisão
 						}]
 					}, {
 						name: 'Desmarca final',
-						find: '┘',
+						find: /┘/g,
 						replace: ''
 					}, {
 						name: 'Desmarca início',
-						find: '┌',
+						find: /┌/g,
 						replace: '{{citar periódico'
 					}]
 				}, {
@@ -14917,11 +14908,11 @@ Necessitam de muita revisão
 						}]
 					}, {
 						name: 'Desmarca final',
-						find: '┘',
+						find: /┘/g,
 						replace: ''
 					}, {
 						name: 'Desmarca início',
-						find: '┌',
+						find: /┌/g,
 						replace: '{{citar web'
 					}]
 				}, {
@@ -14937,20 +14928,7 @@ Necessitam de muita revisão
 						replace: '$1┘}}'
 					}, {
 						name: 'Substitui campos',
-						find: ' |pessoas        = {{{people|}}}\n' +
-							' |data2          = {{{date2|}}}\n' +
-							' |mês2           = {{{month2|}}}\n' +
-							' |ano2           = {{{year2|}}}\n' +
-							' |título         = {{{title|}}}\n' +
-							' |formato        = {{{format|}}}\n' +
-							' |tipo           = {{{medium|}}}\n' +
-							' |publicado por  = {{{publisher|}}}\n' +
-							' |localização    = {{{location|}}}\n' +
-							' |data de acesso = {{{accessdate|}}}\n' +
-							' |mês de acesso  = {{{accessmonth|}}}\n' +
-							' |ano de acesso  = {{{accessyear|}}}\n' +
-							' |hora           = {{{time|}}}\n' +
-							' |citação        = {{{quote|}}}',
+						find: / \|pessoas *= *\{\{\{people\|\}\}\}\n \|data2 *= *\{\{\{date2\|\}\}\}\n \|mês2 *= *\{\{\{month2\|\}\}\}\n \|ano2 *= *\{\{\{year2\|\}\}\}\n \|título *= *\{\{\{title\|\}\}\}\n \|formato *= *\{\{\{format\|\}\}\}\n \|tipo *= *\{\{\{medium\|\}\}\}\n \|publicado por *= *\{\{\{publisher\|\}\}\}\n \|localização *= *\{\{\{location\|\}\}\}\n \|data de acesso *= *\{\{\{accessdate\|\}\}\}\n \|mês de acesso *= *\{\{\{accessmonth\|\}\}\}\n \|ano de acesso *= *\{\{\{accessyear\|\}\}\}\n \|hora *= *\{\{\{time\|\}\}\}\n \|citação *= *\{\{\{quote\|\}\}\}/g,
 						replace: '',
 						sub: [{
 							name: 'pessoas',
@@ -15011,11 +14989,11 @@ Necessitam de muita revisão
 						}]
 					}, {
 						name: 'Desmarca final',
-						find: '┘',
+						find: /┘/g,
 						replace: ''
 					}, {
 						name: 'Desmarca início',
-						find: '┌',
+						find: /┌/g,
 						replace: '{{citar vídeo'
 					}]
 				}]
@@ -15446,27 +15424,27 @@ Necessitam de muita revisão
 				}]
 			}, {
 				name: 'Desmarca todas citar',
-				find: '┌',
+				find: /┌/g,
 				replace: '',
 				sub: [{
 					name: 'Desmarca |língua=',
-					find: '┴',
+					find: /┴/g,
 					replace: '|língua'
 				}, {
 					name: 'Desmarca |acessodata=',
-					find: '└',
+					find: /└/g,
 					replace: '|acessodata'
 				}, {
 					name: 'Desmarca |data=',
-					find: '┘',
+					find: /┘/g,
 					replace: '|data'
 				}, {
 					name: 'Desmarca |arquivodata=',
-					find: '┤',
+					find: /┤/g,
 					replace: '|arquivodata'
 				}, {
 					name: 'Desmarca |título=',
-					find: '┐',
+					find: /┐/g,
 					replace: '|título'
 				}]
 			}]
@@ -15474,11 +15452,11 @@ Necessitam de muita revisão
 			name: 'Desmarca',
 			sub: [{
 				name: 'Desmarcando </ref>',
-				find: '┼',
+				find: /┼/g,
 				replace: '</ref>'
 			}, {
 				name: 'Desmarcando ]',
-				find: '├',
+				find: /├/g,
 				replace: ']'
 			}]
 		}]
@@ -15511,7 +15489,7 @@ Necessitam de muita revisão
 					ifhas: /\{\{Esboço/i,
 					sub: [{
 						name: 'Portal3 - esboço Brasil',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Brasil|',
 						ifhas: /\{esboço\-(geo)?\-?(a[clpm]|br|ce|df|es|go|m[atsg]|p[rbaei]|r[jnso]|s[cpe])\}/i,
 						ifnot: /\{\{Portal3.*\|(Brasil|Tocantins|Sergirpe|São Paulo|Santa Catarina|Roraima|Rondônia|Rio Grande do Sul|Rio Grande do Norte|Rio de Janeiro|Piauí|Pernambuco|Paraná|Paraíba|Pará|Minas Gerais|Mato Grosso do Sul|Mato Grosso|Maranhão|Goiás|Espírito Santo|Ceará|Bahia|Amazonas|Amapá|Alagoas|Acre)/i,
@@ -15551,151 +15529,151 @@ do Portal */
 					ifnot: '{{Info/Armamento', // FIXME: /\{\{Info/Armamento/i ?
 					sub: [{
 						name: 'Brasil (cat)',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Brasil|',
 						ifhas: /\[\[Categoria:((.*o )?(Brasil)|Bairros .* de Manaus)[ \|\]]/i,
 						ifnot: /(\{\{Portal3.*\|(Brasil|Tocantins|Sergirpe|São Paulo|Santa Catarina|Roraima|Rondônia|Rio Grande do Sul|Rio Grande do Norte|Rio de Janeiro|Piauí|Pernambuco|Paraná|Paraíba|Pará|Minas Gerais|Mato Grosso do Sul|Mato Grosso|Maranhão|Goiás|Espírito Santo|Ceará|Bahia|Amazonas|Amapá|Alagoas|Acre)|\[\[Categoria:(.* )?(Mineiros))[ \|\}]/i
 					}, {
 						name: 'Portugal (cat)',
-						find: '{{Portal3|', // FIXME: /\{\{Portal3|/i ?
+						find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
 						replace: '{{Portal3|Portugal|',
 						ifhas: /(\[\[Categoria:(.* )?(Portugal)[ \|\]]|\{\{(Esboço\-freguesiaspt)\}\})/i,
 						ifnot: /\{\{Portal3.*\|Portugal[ \|\}]/i
 					}, {
 						name: 'Venezuela',
-						find: '{{Portal3|', // FIXME: /\{\{Portal3|/i ?
+						find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
 						replace: '{{Portal3|Venezuela|',
 						ifhas: /\[\[Categoria:(.* )?(Venezuela)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Venezuela[ \|\}]/i
 					}, {
 						name: 'Suíça',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Suíça|',
 						ifhas: /\[\[Categoria:(.* )?(Suíça)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Suíça[ \|\}]/i
 					}, {
 						name: 'Suécia',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Suécia|',
 						ifhas: /\[\[Categoria:(.* )?(Suécia|Sueca)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Suécia[ \|\}]/i
 					}, {
 						name: 'Rússia',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Rússia|',
 						ifhas: /\[\[Categoria:(.* )?(Rússia)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Rússia[ \|\}]/i
 					}, {
 						name: 'República Checa',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|República Checa|',
 						ifhas: /\[\[Categoria:(.* )?(República Checa)[ \|\]]/,
 						ifnot: /\{\{Portal3.*\|República Checa[ \|\}]/
 					}, {
 						name: 'Reino Unido',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Reino Unido|',
 						ifhas: /\[\[Categoria:(.* )?(Reino Unido)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Reino Unido[ \|\}]/i
 					}, {
 						name: 'Polónia',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Polónia|',
 						ifhas: /\[\[Categoria:(.* )?(Polónia|Polônia)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Polónia[ \|\}]/i
 					}, {
 						name: 'Japão',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Japão|',
 						ifhas: /\[\[Categoria:(.* )?(Japão)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Japão[ \|\}]/i
 					}, {
 						name: 'Itália',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Itália|',
 						ifhas: /\[\[Categoria:(.* )?(Itália)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Itália[ \|\}]/i
 					}, {
 						name: 'Israel',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Israel|',
 						ifhas: /\[\[Categoria:(.* )?(Israel)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Israel[ \|\}]/i
 					}, {
 						name: 'Irlanda',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Irlanda|',
 						ifhas: /\[\[Categoria:(.* )?(Irlanda)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Irlanda[ \|\}]/i
 					}, {
 						name: 'Inglaterra',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Inglaterra|',
 						ifhas: /\[\[Categoria:(.* )?(Inglaterra|Britânica?o?s?)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Inglaterra[ \|\}]/i
 					}, {
 						name: 'Hungria',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Hungria|',
 						ifhas: /\[\[Categoria:(.* )?(Hungria)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Inglaterra[ \|\}]/i
 					}, {
 						name: 'Grécia',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Grécia|',
 						ifhas: /\[\[Categoria:(.* )?(Grécia)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Grécia[ \|\}]/i
 					}, {
 						name: 'França',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|França|',
 						ifhas: /\[\[Categoria:(.* )?(França)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|França[ \|\}]/i
 					}, {
 						name: 'Estónia',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Estónia|',
 						ifhas: /\[\[Categoria:(.* )?(Estónia|Estônia)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Estónia[ \|\}]/i
 					}, {
 						name: 'Estados Unidos',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Estados Unidos|',
 						ifhas: /\[\[Categoria:(.* )?(Estados Unidos|Estadunidense|Norte-americano)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Estados Unidos[ \|\}]/i
 					}, {
 						name: 'Espanha',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Espanha|',
 						ifhas: /\[\[Categoria:(.* )?(Espanha)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Espanha[ \|\}]/i
 					}, {
 						name: 'Chile',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Chile|',
 						ifhas: /\[\[Categoria:(.* )?(Chile)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Chile[ \|\}]/i
 					}, {
 						name: 'Canadá',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Canadá|',
 						ifhas: /\[\[Categoria:(.* )?(Canadá)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Canadá[ \|\}]/i
 					}, {
 						name: 'Bélgica',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Bélgica|',
 						ifhas: /\[\[Categoria:(.* )?(Bélgica)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Bélgica[ \|\}]/i
 					}, {
 						name: 'Áustria',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Áustria|',
 						ifhas: /\[\[Categoria:(.* )?(Áustria)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Áustria[ \|\}]/i
 					}, {
 						name: 'Alemanha',
-						find: '{{Portal3|',
+      find: /\{\{Portal3\|/g,
 						replace: '{{Portal3|Alemanha|',
 						ifhas: /\[\[Categoria:(.* )?(Alemanha)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Alemanha[ \|\}]/i
@@ -15743,11 +15721,11 @@ do Portal */
 				name: 'Marca seções',
 				sub: [{
 					name: 'Marca LE',
-					find: '║== Ligações externas ==',
+					find: /║== Ligações externas ==/g,
 					replace: '┬'
 				}, {
 					name: 'Marca VT',
-					find: '║== Ver também ==',
+					find: /║== Ver também ==/g,
 					replace: '┼'
 				}, {
 					name: 'Marca REF',
@@ -15766,20 +15744,20 @@ do Portal */
 				name: 'Desmarca seções',
 				sub: [{
 					name: 'Desmarca REF',
-					find: '├',
+					find: /├/g,
 					replace: '║== Referências =='
 				}, {
 					name: 'Desmarca VT',
-					find: '┼',
+					find: /┼/g,
 					replace: '║== Ver também =='
 				}, {
 					name: 'Desmarca LE',
-					find: '┬',
+					find: /┬/g,
 					replace: '║== Ligações externas =='
 				}]
 			}, {
 				name: 'Desmarca final da última seção',
-				find: '┴',
+				find: /┴/g,
 				replace: ''
 			}]
 		}]
@@ -15923,7 +15901,7 @@ do Portal */
 					replace: '{{$1├sim$2'
 				}, {
 					name: 'desmarcando biografia',
-					find: '├',
+					find: /├/g,
 					replace: '|biografia='
 				}]
 			}, {
@@ -16004,7 +15982,7 @@ do Portal */
 					}]
 				}, {
 					name: 'espaço elenco',
-					find: ']].... ',
+					find: /\]\]\.{4} /g,
 					replace: ']] .... '
 				}]
 			}, {
@@ -16022,7 +16000,7 @@ do Portal */
 					replace: ' um $1anime'
 				}, {
 					name: '[[mangá|manga]]',
-					find: '[[mangá|manga]]',
+					find: /\[\[mangá\|manga\]\]/g,
 					replace: '[[mangá]]'
 				}, {
 					name: 'séries de mang[aá]s',
@@ -16042,7 +16020,7 @@ do Portal */
 					name: 'Maiusculite',
 					sub: [{
 						name: 'Rule',
-						find: '= Missões Completadas =',
+						find: /\= Missões Completadas =/g,
 						replace: '= Missões completadas ='
 					}]
 				}, {
@@ -16098,7 +16076,7 @@ do Portal */
 					ifhas: /\[\[Categoria:Listas de episódios[ \|\]]/i,
 					sub: [{
 						name: '{{Sem infobox}}',
-						find: '╦',
+						find: /╦/g,
 						replace: '╦\n{{sem infocaixa}}',
 						ifnot: /(\{\{Info|\{\{Sem infocaixa)/i
 					}, {
@@ -16344,7 +16322,7 @@ do Portal */
 					replace: '{{$1├sim$2'
 				}, {
 					name: 'desmarcando ciência',
-					find: '├',
+					find: /├/g,
 					replace: '|ciência='
 				}]
 			}]
@@ -16487,12 +16465,12 @@ do Portal */
 						}]
 					}, {
 						name: '{{Seta fut}}',
-						find: '[[Empréstimo (futebol)|→]]',
+						find: /\[\[Empréstimo \(futebol\)\|→\]\]/g,
 						replace: '{{Seta fut}}',
 						num: 100
 					}, {
 						name: '{{Seta fut}}',
-						find: '→',
+						find: /→/g,
 						replace: '{{Seta fut}}',
 						num: 100
 					}, {
@@ -16502,7 +16480,7 @@ do Portal */
 						num: 10
 					}, {
 						name: '{{emp fut}}',
-						find: '(E)',
+						find: /\(E\)/g,
 						replace: '{{emp fut}}',
 						num: 100
 					}]
@@ -16638,15 +16616,15 @@ do Portal */
 					name: 'Seções',
 					sub: [{
 						name: '= Carreira internacional =',
-						find: '= Carreira Internacional =',
+						find: /\= Carreira Internacional =/g,
 						replace: '= Carreira internacional ='
 					}, {
 						name: '= Títulos =',
-						find: '= Títulos e Honras =', // FIXME: /= Títulos e Honras =/i ?
+						find: /\= Títulos e Honras =/g, // FIXME: /= Títulos e Honras =/gi ?
 						replace: '= Títulos ='
 					}, {
 						name: 'Rule',
-						find: '= Classificação Final =',
+						find: /\= Classificação Final =/g,
 						replace: '= Classificação final ='
 					}]
 				}, {
@@ -16778,11 +16756,11 @@ quem quiser pode habilitar e ajudar a testar
 			name: 'Marcando',
 			sub: [{
 				name: 'marca título',
-				find: '▓',
+				find: /▓/g,
 				replace: '▓%%title%%╦\n',
 				sub: [{
 					name: 'retira (desambiguação) do título',
-					find: ' (desambiguação)╦',
+					find: / \(desambiguação\)╦/g,
 					replace: '╦'
 				}]
 			}]
@@ -16794,7 +16772,7 @@ quem quiser pode habilitar e ajudar a testar
 			ifnot: /\{\{desambiguação.*\}\}/i
 		}, {
 			name: '+Cat',
-			find: '░',
+			find: /░/g,
 			replace: '[[Categoria:Desambiguação]]\n░',
 			ifhas: '{{desambiguação', // FIXME: /\{\{desambiguação/i ?
 			ifnot: '[[Categoria:Desambiguaç' // FIXME: /[[Categoria:Desambiguaç/i ?
@@ -16881,7 +16859,7 @@ quem quiser pode habilitar e ajudar a testar
 				}]
 			}, {
 				name: '- (desambiguação)',
-				find: ' (desambiguação)\'\'\' pode referir-se a:',
+				find: / \(desambiguação\)''' pode referir-se a:/g,
 				replace: '\'\'\' pode referir-se a:'
 			}, {
 				name: 'inserindo termo na {{desambiguação}}',
@@ -16932,7 +16910,7 @@ quem quiser pode habilitar e ajudar a testar
 				replace: '$1'
 			}, {
 				name: '—',
-				find: '—',
+				find: /—/g,
 				replace: '-'
 			}, {
 				name: '* [[xxx]]:',
@@ -17347,7 +17325,7 @@ style="text-align:left;"|;"
 				num: 10
 			}, {
 				name: 'Desmarca topo 2',
-				find: '▓',
+				find: /▓/g,
 				replace: ''
 			}]
 		}, {
@@ -17356,21 +17334,21 @@ style="text-align:left;"|;"
 				name: 'Desmarca Comentários',
 				sub: [{
 					name: 'Desmarca <!--',
-					find: '╔',
+					find: /╔/g,
 					replace: '<!--'
 				}, {
 					name: 'Desmarca -->',
-					find: '╗',
+					find: /╗/g,
 					replace: '-->'
 				}]
 			}, {
 				name: 'Desmarca início Ficheiro',
-				find: '╠',
+				find: /╠/g,
 				replace: '[[',
 				num: 100
 			}, {
 				name: 'Desmarca fim de ficheiro',
-				find: '▒',
+				find: /▒/g,
 				replace: ''
 			}, {
 				name: 'Desmarca primeira seção',
@@ -17385,7 +17363,7 @@ style="text-align:left;"|;"
 			name: 'Desmarca inicio',
 			sub: [{
 				name: 'Desmarca fim info',
-				find: '╣}}',
+				find: /╣\}\}/g,
 				replace: '}}'
 			}, {
 				name: 'Desmarca parag 1 inicio',
@@ -17393,7 +17371,7 @@ style="text-align:left;"|;"
 				replace: ''
 			}, {
 				name: 'Desmarca parag 1 fim',
-				find: '╝',
+				find: /╝/g,
 				replace: ''
 			}]
 		}, {
