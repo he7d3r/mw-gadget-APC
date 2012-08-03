@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.16'
+	rulesVersion: '3.1.17'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -28,7 +28,7 @@ window.AWB.rules = [{
 				replace: '$1 '
 			}, {
 				name: '\r\n',
-				find: /\r\n/,
+				find: /\r\n/g,
 				replace: '\n',
 				num: 100
 			}, {
@@ -63,7 +63,7 @@ window.AWB.rules = [{
 				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/,
 				sub: [{
 					name: 'Trimming em <tag>',
-					find: /< *([^\n>]+) *\>/,
+					find: /< *([^\n>]+) *\>/g,
 					replace: '<$1>',
 					num: 100
 				}, {
@@ -108,12 +108,12 @@ window.AWB.rules = [{
 				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i
 			}, {
 				name: 'Arrumando trimming em ligação',
-				find: /(\[\[Categoria:[^\|])+\|\]\]/,
+				find: /(\[\[Categoria:[^\|])+\|\]\]/g,
 				replace: '$1 $2',
 				num: 100
 			}, {
 				name: 'Trimming de predef',
-				find: /\{\{ *(\r?\n)* */,
+				find: /\{\{ *(\r?\n)* */g,
 				replace: '{{',
 				num: 100,
 				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i
@@ -134,7 +134,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Trimming em ref',
-				find: /(<ref[^\>]*>) +/,
+				find: /(<ref[^\>]*>) +/g,
 				replace: '$1',
 				num: 100
 			}, {
@@ -155,22 +155,22 @@ window.AWB.rules = [{
 				name: 'Quebra de linha em Ficheiro',
 				sub: [{
 					name: '1 Linha antes de Ficheiro',
-					find: /\.( |\r\n)╠/,
+					find: /\.( |\r\n)╠/g,
 					replace: '.\n\n╠'
 				}]
 			}, {
 				name: 'Quebra de linha em Infobox',
 				sub: [{
 					name: '}}{{Info/',
-					find: /\}\}\{\{Info\//,
+					find: /\}\}\{\{Info\//g,
 					replace: '}}\n{{Info/'
 				}, {
 					name: 'Antes de {{Info',
-					find: /(\r?\n){2,}\{\{Info/,
+					find: /(\r?\n){2,}\{\{Info/g,
 					replace: '\n{{Info'
 				}, {
 					name: 'Após Infobox',
-					find: /\r?\n\}\}(?:\r?\n){2,}/,
+					find: /\r?\n\}\}(?:\r?\n){2,}/g,
 					replace: '\n}}\n'
 				}]
 			}, {
@@ -208,11 +208,11 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Trim v- após predef',
-				find: /\r?\n\}\}(?:\r?\n){2,}/,
+				find: /\r?\n\}\}(?:\r?\n){2,}/g,
 				replace: '\n}}\n'
 			}, {
 				name: 'Trim v- antes seção',
-				find: /(\r?\n){3,}\=/,
+				find: /(\r?\n){3,}\=/g,
 				replace: '\n\n=',
 				num: 100
 			}, {
@@ -222,7 +222,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: 'Trim v- após seção',
-				find: /\=\=(?:\r?\n){2,}/,
+				find: /\=\=(?:\r?\n){2,}/g,
 				replace: '==\n',
 				num: 100
 			}, {
@@ -1387,7 +1387,7 @@ window.AWB.rules = [{
 							ifhas: /\{\{Info(?:box|caixa)?[ _\-\/:]R/i,
 							sub: [{
 								name: 'raça de gato',
-								find: /\{\{Info(?:box|caixa)?[ _\-\/]raça de gato *(\||\r?\n|╔)/,
+								find: /\{\{Info(?:box|caixa)?[ _\-\/]raça de gato *(\||\r?\n|╔)/g,
 								replace: '{{Info/Raça de gato$1'
 							}, {
 								name: 'Região',
@@ -2764,7 +2764,7 @@ window.AWB.rules = [{
 				name: 'Marca primeira seção',
 				sub: [{
 					name: 'Rule',
-					find: /(▓[^░║╩]*)║/,
+					find: /(▓[^░║╩]*)║/g,
 					replace: '$1╩\n║'
 				}, {
 					name: 'Secao1 após info',
@@ -2784,7 +2784,7 @@ window.AWB.rules = [{
 				name: 'Marca parag 1 inicio',
 				sub: [{
 					name: 'Marca p1 inicio 1 - fim info',
-					find: /(╣\}\}(?:\r?\n)+)([^\-╠<\r\n])/,
+					find: /(╣\}\}(?:\r?\n)+)([^\-╠<\r\n])/g,
 					replace: '$1╚$2',
 					ifnot: '╚'
 				}, {
@@ -2802,12 +2802,12 @@ window.AWB.rules = [{
 					ifnot: /╚/,
 					sub: [{
 						name: 'Marca todos os \n',
-						find: /(▓(?:\{\{Sem[^}]*\}\})?[^\-╩░]*)\n([^╩░])/,
+						find: /(▓(?:\{\{Sem[^}]*\}\})?[^\-╩░]*)\n([^╩░])/g,
 						replace: '$1╚$2',
 						num: 100
 					}, {
 						name: 'retira os errados',
-						find: /╚([\-{╠╚╩<\|\&])/,
+						find: /╚([\-{╠╚╩<\|\&])/g,
 						replace: '\n$1',
 						num: 100
 					}, {
@@ -2818,11 +2818,11 @@ window.AWB.rules = [{
 						ifhas: '╣'
 					}, {
 						name: 'recoloca para PBPE',
-						find: /(▓[^╩]*)\n(\{\{(?:PBPE|PEPB))/,
+						find: /(▓[^╩]*)\n(\{\{(?:PBPE|PEPB))/g,
 						replace: '$1╚$2'
 					}, {
 						name: 'deixa só o primeiro',
-						find: /╚([^╚╩]*)╚/,
+						find: /╚([^╚╩]*)╚/g,
 						replace: '╚$1\n',
 						num: 100
 					}, {
@@ -2860,7 +2860,7 @@ window.AWB.rules = [{
 					replace: '┬$1'
 				}, {
 					name: 'Final',
-					find: /╚([^\r\n╝┬]+)([\r\n╝┬])/,
+					find: /╚([^\r\n╝┬]+)([\r\n╝┬])/g,
 					replace: '╚$1╝$2',
 					ifhas: '╚'
 				}, {
@@ -2897,7 +2897,7 @@ window.AWB.rules = [{
 			name: 'Marca fim'
 		}, {
 			name: 'Marca título',
-			find: /▓/,
+			find: /▓/g,
 			replace: '▓%%title%%╦\n'
 		}, {
 			name: 'Desmarca',
@@ -2917,7 +2917,7 @@ window.AWB.rules = [{
 			replace: 'class="wikitable"'
 		}, {
 			name: 'class="wikitable" 2',
-			find: /(class *= *"?)prettytable([^a-z])/,
+			find: /(class *= *"?)prettytable([^a-z])/g,
 			replace: '$1wikitable$2'
 		}, {
 			name: 'class="wikitable" 3',
@@ -3070,7 +3070,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: '<br /> fim de lista',
-				find: /(\n\*.*)<br \/>(\r?\n)/,
+				find: /(\n\*.*)<br \/>(\r?\n)/g,
 				replace: '$1\n',
 				num: 10
 			}, {
@@ -3297,11 +3297,11 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: '{{PAGENAME',
-				find: /\{\{(PAGENAME|SUBPAGENAME|FULLPAGENAME|BASEPAGENAME|SITENAME|NAMESPACE)/,
+				find: /\{\{(PAGENAME|SUBPAGENAME|FULLPAGENAME|BASEPAGENAME|SITENAME|NAMESPACE)/g,
 				replace: '{{subst:$1'
 			}, {
 				name: '{{CURRENT',
-				find: /\{\{CURRENT(DAY|MONTH|YEAR|MONTHNAME)\}\}/,
+				find: /\{\{CURRENT(DAY|MONTH|YEAR|MONTHNAME)\}\}/g,
 				replace: '{{subst:CURRENT$1}}'
 			}, {
 				name: 'ParserFunctions',
@@ -3344,7 +3344,7 @@ window.AWB.rules = [{
 			}]
 		}, {
 			name: 'Comentário sem fechamento',
-			find: /╔([^╔╗░]*)([╔░])/,
+			find: /╔([^╔╗░]*)([╔░])/g,
 			replace: '╔$1╗$2'
 		}, {
 			name: 'Predefs',
@@ -3606,7 +3606,7 @@ window.AWB.rules = [{
 					ifhas: '╣'
 				}, {
 					name: 'espaço antes do |',
-					find: /(\{\{Info[^╣]*)\r?\n\|/,
+					find: /(\{\{Info[^╣]*)\r?\n\|/g,
 					replace: '$1\n |',
 					num: 100
 				}, {
@@ -3626,7 +3626,7 @@ window.AWB.rules = [{
 				name: 'Quebra de linha em Infobox',
 				sub: [{
 					name: 'Quebra de linha após infobox (-)',
-					find: /╣\}\}(?:\r?\n){2,}([^\r\n])/,
+					find: /╣\}\}(?:\r?\n){2,}([^\r\n])/g,
 					replace: '╣}}\n$1'
 				}, {
 					name: 'Quebra de linha após infobox (+)',
@@ -3634,11 +3634,11 @@ window.AWB.rules = [{
 					replace: '$1\n$2'
 				}, {
 					name: '}}{{Info/',
-					find: /╣\}\} *\{\{Info\//,
+					find: /╣\}\} *\{\{Info\//g,
 					replace: '}}\n{{Info/'
 				}, {
 					name: 'Antes de {{Info',
-					find: /(?:\r?\n){2,}\{\{Info\//,
+					find: /(?:\r?\n){2,}\{\{Info\//g,
 					replace: '\n{{Info/'
 				}, {
 					name: 'antes do final da info',
@@ -3670,89 +3670,89 @@ window.AWB.rules = [{
 					ifhas: /╣/i,
 					sub: [{
 						name: 'A',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)A/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)A/g,
 						replace: '$1a',
 						num: 100
 					}, {
 						name: 'B',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)B/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)B/g,
 						replace: '$1b',
 						num: 100
 					}, {
 						name: 'C',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)C/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)C/g,
 						replace: '$1c',
 						num: 100
 					}, {
 						name: 'D',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)D/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)D/g,
 						replace: '$1d',
 						num: 100
 					}, {
 						name: 'E',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)E/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)E/g,
 						replace: '$1e',
 						num: 100
 					}, {
 						name: 'F',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)F/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)F/g,
 						replace: '$1f',
 						num: 100
 					}, {
 						name: 'G',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)G/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)G/g,
 						replace: '$1g',
 						num: 100
 					}, {
 						name: 'I',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)I/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)I/g,
 						replace: '$1i',
 						num: 100
 					}, {
 						name: 'L',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)L/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)L/g,
 						replace: '$1l',
 						num: 100
 					}, {
 						name: 'M',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)M/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)M/g,
 						replace: '$1m',
 						num: 100
 					}, {
 						name: 'N',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)N/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)N/g,
 						replace: '$1n',
 						num: 100
 					}, {
 						name: 'P',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)P/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)P/g,
 						replace: '$1p',
 						num: 100
 					}, {
 						name: 'S',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)S/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)S/g,
 						replace: '$1s',
 						num: 100
 					}, {
 						name: 'T',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)T/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)T/g,
 						replace: '$1t',
 						num: 100
 					}, {
 						name: 'Ú',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)Ú/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)Ú/g,
 						replace: '$1ú',
 						num: 100
 					}, {
 						name: 'V',
-						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)V/,
+						find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)V/g,
 						replace: '$1v',
 						num: 100
 					}, {
 						name: 'específicos',
 						sub: [{
 							name: 'vídeo Clipes',
-							find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)vídeo Clipes/,
+							find: /(\{\{Info\/(?:Álbum)[^╣]*\n *\| *)vídeo Clipes/g,
 							replace: '$1vídeo clipes'
 						}]
 					}]
@@ -3893,7 +3893,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: 'Título gerado por robô',
-				find: /╔\-* Título gerado por robô *\-*╗/,
+				find: /╔\-* Título gerado por robô *\-*╗/g,
 				replace: ''
 			}, {
 				name: '%%title%%',
@@ -3956,7 +3956,7 @@ window.AWB.rules = [{
 				replace: ''
 			}, {
 				name: '[[Ficheiro:[[Ficheiro:',
-				find: /╠[^:\n]*: *╠/,
+				find: /╠[^:\n]*: *╠/g,
 				replace: '╠'
 			}, {
 				name: '<br /> em ficheiro',
@@ -5871,31 +5871,31 @@ window.AWB.rules = [{
 				name: 'Tradução de campos',
 				sub: [{
 					name: 'right',
-					find: /(╠[^▒]+)\|right\|/,
+					find: /(╠[^▒]+)\|right\|/g,
 					replace: '$1|direita|'
 				}, {
 					name: 'left',
-					find: /(╠[^▒]+)\|left\|/,
+					find: /(╠[^▒]+)\|left\|/g,
 					replace: '$1|esquerda|'
 				}, {
 					name: 'center',
-					find: /(╠[^▒]+)\|center\|/,
+					find: /(╠[^▒]+)\|center\|/g,
 					replace: '$1|centro|'
 				}, {
 					name: 'middle',
-					find: /(╠[^▒]+)\|middle\|/,
+					find: /(╠[^▒]+)\|middle\|/g,
 					replace: '$1|meio|'
 				}, {
 					name: 'top',
-					find: /(╠[^▒]+)\|top\|/,
+					find: /(╠[^▒]+)\|top\|/g,
 					replace: '$1|acima|'
 				}, {
 					name: 'bottom',
-					find: /(╠[^▒]+)\|bottom\|/,
+					find: /(╠[^▒]+)\|bottom\|/g,
 					replace: '$1|abaixo|'
 				}, {
 					name: 'link=',
-					find: /(╠[^▒]+)\|link=\n\n/,
+					find: /(╠[^▒]+)\|link=\n\n/g,
 					replace: '$1|ligação='
 				}]
 			}]
@@ -8976,7 +8976,7 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: '{{Flagicon|BRA}}',
-				find: /\{\{[Ff]lagicon\|([A-Z][A-Z][A-Z]?[A-Z]?)\}\}/,
+				find: /\{\{[Ff]lagicon\|([A-Z][A-Z][A-Z]?[A-Z]?)\}\}/g,
 				replace: '{{$1b}}',
 				num: 100
 			}, {
@@ -8990,22 +8990,22 @@ window.AWB.rules = [{
 						ifhas: /\{\{A[A-Z][A-Z]/,
 						sub: [{
 							name: '{{ALG}}',
-							find: /\{\{ALG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{ALG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{DZA$1}}',
 							num: 100
 						}, {
 							name: '{{ANG}}',
-							find: /\{\{ANG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{ANG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{AGO$1}}',
 							num: 100
 						}, {
 							name: '{{ARU}}',
-							find: /\{\{ARU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{ARU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{ABW$1}}',
 							num: 100
 						}, {
 							name: '{{ASA}}',
-							find: /\{\{ASA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{ASA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{ASM$1}',
 							num: 100
 						}, {
@@ -9018,37 +9018,37 @@ window.AWB.rules = [{
 						ifhas: /\{\{B[A-Z][A-Z]/,
 						sub: [{
 							name: '{{BAH}}',
-							find: /\{\{BAH(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BAH(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BHS$1}}',
 							num: 100
 						}, {
 							name: '{{BAN}}',
-							find: /\{\{BAN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BAN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BGD$1}}',
 							num: 100
 						}, {
 							name: '{{BER}}',
-							find: /\{\{BER(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BER(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BMU$1}}',
 							num: 100
 						}, {
 							name: '{{BHU}}',
-							find: /\{\{BHU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BHU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BTN$1}}',
 							num: 100
 						}, {
 							name: '{{BOT}}',
-							find: /\{\{BOT(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BOT(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BWA$1}}',
 							num: 100
 						}, {
 							name: '{{BRU}}',
-							find: /\{\{BRU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BRU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BRN$1}}',
 							num: 100
 						}, {
 							name: '{{BUL}}',
-							find: /\{\{BUL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{BUL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{BGR$1}}',
 							num: 100
 						}]
@@ -9057,27 +9057,27 @@ window.AWB.rules = [{
 						ifhas: /\{\{C[A-Z][A-Z]/,
 						sub: [{
 							name: '{{CAY}}',
-							find: /\{\{CAY(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{CAY(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{CYM$1}}',
 							num: 100
 						}, {
 							name: '{{CHA}}',
-							find: /\{\{CHA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{CHA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{TCD$1}}',
 							num: 100
 						}, {
 							name: '{{CHI}}',
-							find: /\{\{CHI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{CHI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{CHL$1}}',
 							num: 100
 						}, {
 							name: '{{CRC}}',
-							find: /\{\{CRC(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{CRC(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{CRI$1}}',
 							num: 100
 						}, {
 							name: '{{CRO}}',
-							find: /\{\{CRO(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{CRO(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{HRV$1}}',
 							num: 100
 						}]
@@ -9086,32 +9086,32 @@ window.AWB.rules = [{
 						ifhas: /\{\{G[A-Z][A-Z]/,
 						sub: [{
 							name: '{{GBS}}',
-							find: /\{\{GBS(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{GBS(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{GNB$1}}',
 							num: 100
 						}, {
 							name: '{{GEQ}}',
-							find: /\{\{GEQ(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{GEQ(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{GNQ$1}}',
 							num: 100
 						}, {
 							name: '{{GER}}',
-							find: /\{\{GER(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{GER(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{DEU$1}}',
 							num: 100
 						}, {
 							name: '{{GPE}}',
-							find: /\{\{GPE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{GPE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{GLP$1}}',
 							num: 100
 						}, {
 							name: '{{GRE}}',
-							find: /\{\{GRE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{GRE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{GRC$1}}',
 							num: 100
 						}, {
 							name: '{{GUA}}',
-							find: /\{\{GUA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{GUA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{GTM$1}}',
 							num: 100
 						}]
@@ -9120,32 +9120,32 @@ window.AWB.rules = [{
 						ifhas: /\{\{I[A-Z][A-Z]/,
 						sub: [{
 							name: '{{INA}}',
-							find: /\{\{INA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{INA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{IDN$1}}',
 							num: 100
 						}, {
 							name: '{{ING}}',
-							find: /\{\{ING(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{ING(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{ENG$1}}',
 							num: 100
 						}, {
 							name: '{{IRE}}',
-							find: /\{\{IRE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{IRE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{IRL$1}}',
 							num: 10
 						}, {
 							name: '{{IRI}}',
-							find: /\{\{IRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{IRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{IRN$1}}',
 							num: 100
 						}, {
 							name: '{{ISV}}',
-							find: /\{\{ISV(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{ISV(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{VIR$1}}',
 							num: 100
 						}, {
 							name: '{{IVB}}',
-							find: /\{\{IVB(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{IVB(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{VGB$1}}',
 							num: 100
 						}]
@@ -9154,22 +9154,22 @@ window.AWB.rules = [{
 						ifhas: /\{\{L[A-Z][A-Z]/,
 						sub: [{
 							name: '{{LAT}}',
-							find: /\{\{LAT(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{LAT(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{LVA$1}}',
 							num: 100
 						}, {
 							name: '{{LBA}}',
-							find: /\{\{LBA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{LBA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{LBY$1}}',
 							num: 100
 						}, {
 							name: '{{LES}}',
-							find: /\{\{LES(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{LES(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{LSO$1}}',
 							num: 100
 						}, {
 							name: '{{LIB}}',
-							find: /\{\{LIB(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{LIB(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{LBN$1}}',
 							num: 100
 						}]
@@ -9178,32 +9178,32 @@ window.AWB.rules = [{
 						ifhas: /\{\{M[A-Z][A-Z]/,
 						sub: [{
 							name: '{{MAD}}',
-							find: /\{\{MAD(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{MAD(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{MDG$1}}',
 							num: 100
 						}, {
 							name: '{{MAS}}',
-							find: /\{\{MAS(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{MAS(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{MYS$1}}',
 							num: 100
 						}, {
 							name: '{{MAW}}',
-							find: /\{\{MAW(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{MAW(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{MWI$1}}',
 							num: 100
 						}, {
 							name: '{{MGL}}',
-							find: /\{\{MGL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{MGL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{MNG$1}}',
 							num: 100
 						}, {
 							name: '{{MRI}}',
-							find: /\{\{MRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{MRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{MUS$1}}',
 							num: 100
 						}, {
 							name: '{{MYA}}',
-							find: /\{\{MYA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{MYA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{MMR$1}}',
 							num: 100
 						}]
@@ -9212,27 +9212,27 @@ window.AWB.rules = [{
 						ifhas: /\{\{N[A-Z][A-Z]/,
 						sub: [{
 							name: '{{NCA}}',
-							find: /\{\{NCA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{NCA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{NIC$1}}',
 							num: 100
 						}, {
 							name: '{{NED}}',
-							find: /\{\{NED(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{NED(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{NLD$1}}',
 							num: 100
 						}, {
 							name: '{{NEP}}',
-							find: /\{\{NEP(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{NEP(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{NPL$1}}',
 							num: 100
 						}, {
 							name: '{{NGR}}',
-							find: /\{\{NGR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{NGR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{NGA$1}}',
 							num: 100
 						}, {
 							name: '{{NIG}}',
-							find: /\{\{NIG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{NIG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{NER$1}}',
 							num: 100
 						}]
@@ -9241,22 +9241,22 @@ window.AWB.rules = [{
 						ifhas: /\{\{P[A-Z][A-Z]/,
 						sub: [{
 							name: '{{PAR}}',
-							find: /\{\{PAR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{PAR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{PRY$1}}',
 							num: 100
 						}, {
 							name: '{{PLE}}',
-							find: /\{\{PLE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{PLE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{PSE$1}}',
 							num: 100
 						}, {
 							name: '{{POR}}',
-							find: /\{\{POR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{POR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{PRT$1}}',
 							num: 100
 						}, {
 							name: '{{PUR}}',
-							find: /\{\{PUR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{PUR(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{PRI$1}}',
 							num: 100
 						}]
@@ -9265,42 +9265,42 @@ window.AWB.rules = [{
 						ifhas: /\{\{S[A-Z][A-Z]/,
 						sub: [{
 							name: '{{SAM}}',
-							find: /\{\{SAM(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SAM(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{WSM$1}}',
 							num: 100
 						}, {
 							name: '{{SEY}}',
-							find: /\{\{SEY(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SEY(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{SYC$1}}',
 							num: 100
 						}, {
 							name: '{{SIN}}',
-							find: /\{\{SIN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SIN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{SGP$1}}',
 							num: 100
 						}, {
 							name: '{{SKN}}',
-							find: /\{\{SKN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SKN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{KNA$1}}',
 							num: 100
 						}, {
 							name: '{{SOL}}',
-							find: /\{\{SOL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SOL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{SLB$1}}',
 							num: 100
 						}, {
 							name: '{{SRI}}',
-							find: /\{\{SRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{LKA$1}}',
 							num: 100
 						}, {
 							name: '{{SUD}}',
-							find: /\{\{SUD(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SUD(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{SDN$1}}',
 							num: 100
 						}, {
 							name: '{{SUI}}',
-							find: /\{\{SUI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{SUI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{CHE$1}}',
 							num: 100
 						}]
@@ -9309,22 +9309,22 @@ window.AWB.rules = [{
 						ifhas: /\{\{T[A-Z][A-Z]/,
 						sub: [{
 							name: '{{TAH}}',
-							find: /\{\{TAH(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{TAH(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{PYF$1}}',
 							num: 100
 						}, {
 							name: '{{TAN}}',
-							find: /\{\{TAN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{TAN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{TZA$1}}',
 							num: 100
 						}, {
 							name: '{{TGA}}',
-							find: /\{\{TGA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{TGA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{TON$1}}',
 							num: 100
 						}, {
 							name: '{{TRI}}',
-							find: /\{\{TRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+							find: /\{\{TRI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 							replace: '{{TTO$1}}',
 							num: 100
 						}]
@@ -9335,7 +9335,7 @@ window.AWB.rules = [{
 							name: 'D',
 							sub: [{
 								name: '{{DEN}}',
-								find: /\{\{DEN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{DEN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{DNK$1}}',
 								num: 100
 							}]
@@ -9343,12 +9343,12 @@ window.AWB.rules = [{
 							name: 'E',
 							sub: [{
 								name: '{{EQG}}',
-								find: /\{\{EQG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{EQG(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{GNQ$1}}',
 								num: 100
 							}, {
 								name: '{{EUA}}',
-								find: /\{\{EUA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{EUA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{USA$1}}',
 								num: 10
 							}]
@@ -9356,17 +9356,17 @@ window.AWB.rules = [{
 							name: 'H',
 							sub: [{
 								name: '{{HAI}}',
-								find: /\{\{HAI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{HAI(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{HTI$1}}',
 								num: 10
 							}, {
 								name: '{{HON}}',
-								find: /\{\{HON(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{HON(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{HND$1}}',
 								num: 10
 							}, {
 								name: '{{HOL}}',
-								find: /\{\{HOL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{HOL(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{NLD$1}}',
 								num: 10
 							}]
@@ -9374,12 +9374,12 @@ window.AWB.rules = [{
 							name: 'K',
 							sub: [{
 								name: '{{KSA}}',
-								find: /\{\{KSA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{KSA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{SAU$1}}',
 								num: 100
 							}, {
 								name: '{{KUW}}',
-								find: /\{\{KUW(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{KUW(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{KWT$1}}',
 								num: 100
 							}]
@@ -9387,7 +9387,7 @@ window.AWB.rules = [{
 							name: 'O',
 							sub: [{
 								name: '{{OMA}}',
-								find: /\{\{OMA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{OMA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{OMN$1}}',
 								num: 100
 							}]
@@ -9395,7 +9395,7 @@ window.AWB.rules = [{
 							name: 'R',
 							sub: [{
 								name: '{{RSA}}',
-								find: /\{\{RSA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{RSA(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{ZAF$1}}',
 								num: 100
 							}]
@@ -9403,17 +9403,17 @@ window.AWB.rules = [{
 							name: 'U',
 							sub: [{
 								name: '{{UAE}}',
-								find: /\{\{UAE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{UAE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{ARE$1}}',
 								num: 100
 							}, {
 								name: '{{URU}}',
-								find: /\{\{URU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{URU(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{URY$1}}',
 								num: 100
 							}, {
 								name: '{{UK}}',
-								find: /\{\{UK(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{UK(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{GBR$1}}',
 								num: 100
 							}]
@@ -9421,17 +9421,17 @@ window.AWB.rules = [{
 							name: 'V',
 							sub: [{
 								name: '{{VAN}}',
-								find: /\{\{VAN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{VAN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{VUT$1}}',
 								num: 100
 							}, {
 								name: '{{VIE}}',
-								find: /\{\{VIE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{VIE(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{VNM$1}}',
 								num: 100
 							}, {
 								name: '{{VIN}}',
-								find: /\{\{VIN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{VIN(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{VCT$1}}',
 								num: 100
 							}]
@@ -9439,12 +9439,12 @@ window.AWB.rules = [{
 							name: 'Z',
 							sub: [{
 								name: '{{ZAM}}',
-								find: /\{\{ZAM(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{ZAM(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{ZMB$1}}',
 								num: 100
 							}, {
 								name: '{{ZIM}}',
-								find: /\{\{ZIM(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/,
+								find: /\{\{ZIM(b[bk]?|f[hs]?|ih|r7?|vb|wf)?\}\}/g,
 								replace: '{{ZWE$1}}',
 								num: 100
 							}]
@@ -9452,11 +9452,11 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: '{{XXXb|tamanho=xxx}}',
-					find: /\{\{([A-Z]{2,3}b)\|(?:imagem_tamanho|tamanho) *= *(?:2[0-2]|1[7-9])px\}\}/,
+					find: /\{\{([A-Z]{2,3}b)\|(?:imagem_tamanho|tamanho) *= *(?:2[0-2]|1[7-9])px\}\}/g,
 					replace: '{{$1}}'
 				}, {
 					name: 'Negrito de {{BRAb}}',
-					find: /'''?(\{\{[A-Z]{3,3}b\}\})'?''/,
+					find: /'''?(\{\{[A-Z]{3,3}b\}\})'?''/g,
 					replace: '$1'
 				}, {
 					name: '{{XXXn}}',
@@ -9491,11 +9491,11 @@ window.AWB.rules = [{
 				ifnot: /(<(blockquote|code|gallery|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 				sub: [{
 					name: 'Separando . \n Maiuscula',
-					find: /\.\r?\n((?:\[\[[^\|\[\]\n]\]+\|)?[A-Z])/,
+					find: /\.\r?\n((?:\[\[[^\|\[\]\n]\]+\|)?[A-Z])/g,
 					replace: '.\n\n$1'
 				}, {
 					name: 'Par. na mesma linha',
-					find: /([a-záàâãéêíóôõú,])(\r?\n)([a-záàâãéêíóôõú])/,
+					find: /([a-záàâãéêíóôõú,])(\r?\n)([a-záàâãéêíóôõú])/g,
 					replace: '$1 $3'
 				}, {
 					name: 'juntando parag com .,',
@@ -9513,7 +9513,7 @@ window.AWB.rules = [{
 				num: 100
 			}, {
 				name: 'Vírgula em alturas',
-				find: /([0-9])[\.,]([0-9][0-9]) *m/,
+				find: /([0-9])[\.,]([0-9][0-9]) *m/g,
 				replace: '$1,$2 m',
 				num: 100
 			}, {
@@ -9540,22 +9540,22 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '<ref | <br />',
-						find: / +(<ref|<br \/>)/,
+						find: / +(<ref|<br \/>)/g,
 						replace: '$1',
 						num: 100
 					}, {
 						name: '1 entre letra [',
-						find: /([a-z]) {2,}(\[)/,
+						find: /([a-z]) {2,}(\[)/g,
 						replace: '$1 $2',
 						num: 100
 					}, {
 						name: '1 após ]]',
-						find: /(\]\]) {2,}/,
+						find: /(\]\]) {2,}/g,
 						replace: '$1 ',
 						num: 100
 					}, {
 						name: 'Fim de parag',
-						find: / +\r?\n/,
+						find: / +\r?\n/g,
 						replace: '\n',
 						num: 100
 					}]
@@ -9569,7 +9569,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '0 antes de pontuação ]',
-						find: / +([\,\.\?:\;\]\)])/,
+						find: / +([\,\.\?:\;\]\)])/g,
 						replace: '$1',
 						num: 100
 					}, {
@@ -9579,12 +9579,12 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '0 após ([',
-						find: /([\(\[]) +/,
+						find: /([\(\[]) +/g,
 						replace: '$1',
 						num: 100
 					}, {
 						name: '1 após pontuacao',
-						find: /(\,\.\!\?:\;<) {2,}/, // FIXME: /([,.!?:;<]) {2,}/ ?
+						find: /(\,\.\!\?:\;<) {2,}/g, // FIXME: /([,.!?:;<]) {2,}/ ?
 						replace: '$1 ',
 						num: 100
 					}, {
@@ -9594,7 +9594,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '0 após -',
-						find: /(- ) +/,
+						find: /(- ) +/g,
 						replace: '$1',
 						num: 100
 					}]
@@ -9632,12 +9632,12 @@ window.AWB.rules = [{
 					ifhas: /ç/i,
 					sub: [{
 						name: 'ofereçe',
-						find: /([^a-z])([Oo])fereçe([^a-z])/,
+						find: /([^a-z])([Oo])fereçe([^a-z])/g,
 						replace: '$1$2ferece$3',
 						num: 10
 					}, {
 						name: 'voçe',
-						find: /([^a-z])([Vv])oçe([^a-z])/,
+						find: /([^a-z])([Vv])oçe([^a-z])/g,
 						replace: '$1$2ocê$3',
 						num: 10
 					}]
@@ -9949,18 +9949,18 @@ window.AWB.rules = [{
 				replace: '┼'
 			}, {
 				name: 'Marcando ] 1',
-				find: /([^\]])\]\]\]([^\]])/,
+				find: /([^\]])\]\]\]([^\]])/g,
 				replace: '$1]]├$2'
 			}, {
 				name: 'Marcando ] 2',
-				find: /([^\]])\]([^\]])/,
+				find: /([^\]])\]([^\]])/g,
 				replace: '$1├$2'
 			}]
 		}, {
 			name: 'Língua',
 			sub: [{
 				name: '([[Língua portuguesa|pt]])',
-				find: /\(\[\[Língua .+\|([a-z][a-z])\]\]\)/,
+				find: /\(\[\[Língua .+\|([a-z][a-z])\]\]\)/g,
 				replace: '{{$1}}'
 			}, {
 				name: '({{en}})',
@@ -9984,16 +9984,16 @@ window.AWB.rules = [{
 				replace: '$1({{it}})'
 			}, {
 				name: 'icon}}',
-				find: /\{\{([a-z][a-z]) icon\}\}/,
+				find: /\{\{([a-z][a-z]) icon\}\}/g,
 				replace: '{{$1}}'
 			}, {
 				name: 'retirando () de {{ (( pt )) }}',
-				find: /\{\{\ *\(\( *([a-z][a-z]) *\)\) *\}\}/,
+				find: /\{\{\ *\(\( *([a-z][a-z]) *\)\) *\}\}/g,
 				replace: '{{$1}}',
 				num: 100
 			}, {
 				name: 'retirando () de ( {{ pt }} )',
-				find: /\( *(\{\{[a-z][a-z]\}\}) *\)/,
+				find: /\( *(\{\{[a-z][a-z]\}\}) *\)/g,
 				replace: '$1',
 				num: 100
 			}]
@@ -10005,7 +10005,7 @@ window.AWB.rules = [{
 				replace: '$1[$2]$3'
 			}, {
 				name: 'http://http://',
-				find: /(?:https?:)?\/\/ *(https?:)?\/\//,
+				find: /(?:https?:)?\/\/ *(https?:)?\/\//g,
 				replace: '$1//',
 				num: 100
 			}]
@@ -10020,11 +10020,11 @@ window.AWB.rules = [{
 				num: 10,
 				sub: [{
 					name: 'Rule',
-					find: /\[\[ISBN\|(ISBN[^\n\]]*)\]\]/,
+					find: /\[\[ISBN\|(ISBN[^\n\]]*)\]\]/g,
 					replace: '$1'
 				}, {
 					name: '(ISBN-10) ISBN n',
-					find: /(\(? *\[?\[?ISBN\]?\]? *[\-:] *1[03] *\)? *:? *)?\[?\[?ISBN?\]?\]? * *(1[03])? *?[\-:]? *(1[03])? *[\-:]? ([0-9\-x]{3,5})/,
+					find: /(\(? *\[?\[?ISBN\]?\]? *[\-:] *1[03] *\)? *:? *)?\[?\[?ISBN?\]?\]? * *(1[03])? *?[\-:]? *(1[03])? *[\-:]? ([0-9\-x]{3,5})/g,
 					replace: 'ISBN $4'
 				}, {
 					name: 'Retirando small',
@@ -10056,7 +10056,7 @@ window.AWB.rules = [{
 					replace: '┼'
 				}, {
 					name: '</ref><ref>',
-					find: /┼\n+(<ref>|<ref name=)/,
+					find: /┼\n+(<ref>|<ref name=)/g,
 					replace: '┼$1'
 				}, {
 					name: 'quebra de linha 1',
@@ -10073,7 +10073,7 @@ window.AWB.rules = [{
 					num: 100
 				}, {
 					name: '<ref>http',
-					find: /<ref>(http[^┼]*)┼/,
+					find: /<ref>(http[^┼]*)┼/g,
 					replace: '<ref>[$1├┼'
 				}, {
 					name: 'Ref 1 em cada linha, novo formato',
@@ -10277,79 +10277,79 @@ window.AWB.rules = [{
 					ifhas: /┘/i,
 					sub: [{
 						name: 'last',
-						find: /(┌[^┌┘]*\| *)last( *=[^┌┘]*┘)/,
+						find: /(┌[^┌┘]*\| *)last( *=[^┌┘]*┘)/g,
 						replace: '$1último$2'
 					}, {
 						name: 'title',
-						find: /(┌[^┘]*\| *)title( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)title( *=[^┌┘]*┘)/g,
 						replace: '$1título$2'
 					}, {
 						name: 'accessdate',
-						find: /(┌[^┘]*\| *)accessdate( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)accessdate( *=[^┌┘]*┘)/g,
 						replace: '$1acessodata$2'
 					}, {
 						name: 'accessyear',
-						find: /(┌[^┘]*\| *)accessyear( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)accessyear( *=[^┌┘]*┘)/g,
 						replace: '$1acessoano$2'
 					}, {
 						name: 'author',
-						find: /(┌[^┘]*\| *)author( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)author( *=[^┌┘]*┘)/g,
 						replace: '$1autor$2'
 					}, {
 						name: 'first',
-						find: /(┌[^┘]*\| *)first( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)first( *=[^┌┘]*┘)/g,
 						replace: '$1primeiro$2'
 					}, {
 						name: 'authorlink',
-						find: /(┌[^┘]*\| *)authorlink( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)authorlink( *=[^┌┘]*┘)/g,
 						replace: '$1autorlink$2'
 					}, {
 						name: 'coauthors',
-						find: /(┌[^┘]*\| *)coauthors( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)coauthors( *=[^┌┘]*┘)/g,
 						replace: '$1coautores$2'
 					}, {
 						name: 'date',
-						find: /(┌[^┘]*\| *)date( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)date( *=[^┌┘]*┘)/g,
 						replace: '$1data$2'
 					}, {
 						name: 'year',
-						find: /(┌[^┘]*\| *)year( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)year( *=[^┌┘]*┘)/g,
 						replace: '$1ano$2'
 					}, {
 						name: 'month',
-						find: /(┌[^┘]*\| *)month( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)month( *=[^┌┘]*┘)/g,
 						replace: '$1mes$2'
 					}, {
 						name: 'format',
-						find: /(┌[^┘]*\| *)format( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)format( *=[^┌┘]*┘)/g,
 						replace: '$1formato$2'
 					}, {
 						name: 'work',
-						find: /(┌[^┘]*\| *)work( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)work( *=[^┌┘]*┘)/g,
 						replace: '$1obra$2'
 					}, {
 						name: 'publisher',
-						find: /(┌[^┘]*\| *)publisher( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)publisher( *=[^┌┘]*┘)/g,
 						replace: '$1publicado$2'
 					}, {
 						name: 'pages',
-						find: /(┌[^┘]*\| *)pages( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)pages( *=[^┌┘]*┘)/g,
 						replace: '$1paginas$2'
 					}, {
 						name: 'language',
-						find: /(┌[^┘]*\| *)language( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)language( *=[^┌┘]*┘)/g,
 						replace: '$1língua$2'
 					}, {
 						name: 'archiveurl',
-						find: /(┌[^┘]*\| *)archiveurl( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)archiveurl( *=[^┌┘]*┘)/g,
 						replace: '$1arquivourl$2'
 					}, {
 						name: 'archivedate',
-						find: /(┌[^┘]*\| *)archivedate( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)archivedate( *=[^┌┘]*┘)/g,
 						replace: '$1arquivodata$2'
 					}, {
 						name: 'quote',
-						find: /(┌[^┘]*\| *)quote( *=[^┌┘]*┘)/,
+						find: /(┌[^┘]*\| *)quote( *=[^┌┘]*┘)/g,
 						replace: '$1citação$2'
 					}]
 				}, {
@@ -10410,12 +10410,12 @@ window.AWB.rules = [{
 				name: 'Passando para lista',
 				sub: [{
 					name: 'Passando para lista 1',
-					find: /\r?\n(\[https?:\/\/.*)/,
+					find: /\r?\n(\[https?:\/\/.*)/g,
 					replace: '\n* $1\n',
 					num: 10
 				}, {
 					name: 'Passando para lista 2',
-					find: /(== Ligações externas ==\r?\n)(\{\{[a-z][a-z]\}\})/,
+					find: /(== Ligações externas ==\r?\n)(\{\{[a-z][a-z]\}\})/g,
 					replace: '$1* $2'
 				}]
 			}, {
@@ -10459,7 +10459,7 @@ window.AWB.rules = [{
 						num: 10
 					}, {
 						name: '{{Link}} sem título',
-						find: /(\n[\*\#]+ *\-? *)\[(https?:\/\/[^\n├]*) *├(.?)/,
+						find: /(\n[\*\#]+ *\-? *)\[(https?:\/\/[^\n├]*) *├(.?)/g,
 						replace: '$1{{Link||2=$2 |3=}}$3',
 						num: 10
 					}, {
@@ -10472,11 +10472,11 @@ window.AWB.rules = [{
 					num: 10,
 					sub: [{
 						name: '{{Link}} - lingua depois',
-						find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+\}\}.*)\{\{([a-z][a-z][a-z]?(?:\|[^\}\n]*)?)\}\}([^\)])/,
+						find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+\}\}.*)\{\{([a-z][a-z][a-z]?(?:\|[^\}\n]*)?)\}\}([^\)])/g,
 						replace: '$1$3$2$4'
 					}, {
 						name: '{{Link}} - lingua dentro',
-						find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+) *\{\{([a-z][a-z][a-z]?)\}\} *(\}\})/,
+						find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+) *\{\{([a-z][a-z][a-z]?)\}\} *(\}\})/g,
 						replace: '$1$3$2$4'
 					}]
 				}, {
@@ -10587,7 +10587,7 @@ window.AWB.rules = [{
 				name: 'Quebra de linha em DEFAULTSORT',
 				sub: [{
 					name: 'Antes DEFAULTSORT',
-					find: /([^\n])\r?\n\{\{DEFAULTSORT/,
+					find: /([^\n])\r?\n\{\{DEFAULTSORT/g,
 					replace: '$1\n\n{{DEFAULTSORT'
 				}, {
 					name: 'Após DEFAULTSORT',
@@ -10617,7 +10617,7 @@ window.AWB.rules = [{
 				ifnot: /▓(Usuário|Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:/i,
 				sub: [{
 					name: '[[Categoria:!*]]',
-					find: /\[\[Categoria:\!.*\]\]\r?\n/,
+					find: /\[\[Categoria:\!.*\]\]\r?\n/g,
 					replace: '',
 					num: 100
 				}]
@@ -10626,7 +10626,7 @@ window.AWB.rules = [{
 				ifnot: /▓(Usuário|Wikipedia|Ficheiro|MediaWiki|Predefinição|Ajuda|Categoria|Portal)( Discussão)?:/i,
 				sub: [{
 					name: 'Indice principal 1',
-					find: /(▓([^╦]*)╦[^░]*\n\[\[Categoria:\2)\|?[*#!]?\]\]/,
+					find: /(▓([^╦]*)╦[^░]*\n\[\[Categoria:\2)\|?[*#!]?\]\]/g,
 					replace: '$1| ]]',
 					num: 100
 				}, {
@@ -10642,7 +10642,7 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: 'Caixa alta em categoria',
-				find: /\[\[Categoria *: *([a-z])/,
+				find: /\[\[Categoria *: *([a-z])/g,
 				replace: '[[Categoria:{{subst:ucfirst:$1}}',
 				num: 100
 			}, {
@@ -10660,7 +10660,7 @@ window.AWB.rules = [{
 				replace: '\n'
 			}, {
 				name: 'iw duplo',
-				find: /(\n\[\[([a-z][a-z][a-z]?:[^\[\]\n]+)\]\][^░]*)\n\[\[\2\]\]\r?\n/,
+				find: /(\n\[\[([a-z][a-z][a-z]?:[^\[\]\n]+)\]\][^░]*)\n\[\[\2\]\]\r?\n/g,
 				replace: '$1\n',
 				num: 100
 			}]
@@ -10740,7 +10740,7 @@ window.AWB.rules = [{
 				ifnot: '{{DEFAULTSORT:',
 				sub: [{
 					name: 'Insere defaultsort',
-					find: /(?:\r?\n){2,2}\[\[Categoria:/,
+					find: /(?:\r?\n){2,2}\[\[Categoria:/g,
 					replace: '\n\n{{DEFAULTSORT:%%title%%}}\n[[Categoria:',
 					ifnot: /\{\{DEFAULTSORT:/i
 				}, {
@@ -10750,11 +10750,11 @@ window.AWB.rules = [{
 					ifnot: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/, // FIXME: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/i ?
 					sub: [{
 						name: 'Insere default pelo indice',
-						find: /\{\{DEFAULTSORT:.*\}\}\r?\n(\[\[[Cc]ategoria:[^\|\[\]\n]+\|([A-Z0-9][^\[\]\n]+)\]\])\r?\n/,
+						find: /\{\{DEFAULTSORT:.*\}\}\r?\n(\[\[[Cc]ategoria:[^\|\[\]\n]+\|([A-Z0-9][^\[\]\n]+)\]\])\r?\n/g,
 						replace: '{{DEFAULTSORT:$2}}\n$1\n'
 					}, {
 						name: 'Retira indice, caso tenha só 1 cat',
-						find: /(\{\{DEFAULTSORT:.*\}\}\r?\n\[\[Categoria:[^\|\[\]\n]+)\|[A-Z0-9][^\[\]\n]+\]\]\r?\n/,
+						find: /(\{\{DEFAULTSORT:.*\}\}\r?\n\[\[Categoria:[^\|\[\]\n]+)\|[A-Z0-9][^\[\]\n]+\]\]\r?\n/g,
 						replace: '$1]]\n',
 						ifnot: /\[\[Categoria:.*\]\]\r?\n\[\[Categoria:/i
 					}]
@@ -10779,7 +10779,7 @@ window.AWB.rules = [{
 					ifnot: /▓.* (D[eao]s?|E|D'|Of) /
 				}, {
 					name: 'As no final do DEFAULTSORT',
-					find: /(\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(As?|Os?|The) ([^\(\)\n\]\}]+)([\}\]])/,
+					find: /(\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(As?|Os?|The) ([^\(\)\n\]\}]+)([\}\]])/g,
 					replace: '$1$3, $2$4',
 					ifhas: '▓',
 					ifnot: '▓À'
@@ -10794,182 +10794,182 @@ window.AWB.rules = [{
 					name: 'Caracteres especiais',
 					sub: [{
 						name: 'DEFAULTSORT a',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ãâáâàăåäą]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ãâáâàăåäą]([^\}\]\n]*[\}\]])/g,
 						replace: '$1a$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT A',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÅÂÁÃÀÂÄĂÄÄĄ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÅÂÁÃÀÂÄĂÄÄĄ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1A$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT e',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[éèêëě]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[éèêëě]([^\}\]\n]*[\}\]])/g,
 						replace: '$1e$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT E',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÉÊÈË]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÉÊÈË]([^\}\]\n]*[\}\]])/g,
 						replace: '$1E$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT i',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[íïìîï]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[íïìîï]([^\}\]\n]*[\}\]])/g,
 						replace: '$1i$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT I',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÍÌÎÏ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÍÌÎÏ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1I$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT o',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[óöøõôōò]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[óöøõôōò]([^\}\]\n]*[\}\]])/g,
 						replace: '$1o$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT O',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÓÒÔÔÕØÖŌ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÓÒÔÔÕØÖŌ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1O$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT u',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[úùûüŭū]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[úùûüŭū]([^\}\]\n]*[\}\]])/g,
 						replace: '$1u$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT U',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÚÙÛÜŬŪ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÚÙÛÜŬŪ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1U$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT B',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ß]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ß]([^\}\]\n]*[\}\]])/g,
 						replace: '$1B$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT c',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[çćčĉ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[çćčĉ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1c$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT C',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÇČĆĈ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÇČĆĈ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1C$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT d',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[đď]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[đď]([^\}\]\n]*[\}\]])/g,
 						replace: '$1d$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT D',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĎĐ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĎĐ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1D$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT g',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĝ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĝ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1g$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT G',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĝ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĝ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1G$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT h',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĥ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĥ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1h$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT H',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĥ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĥ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1H$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT j',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĵ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ĵ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1j$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT J',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĵ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ĵ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1J$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT l',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)ł([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)ł([^\}\]\n]*[\}\]])/g,
 						replace: '$1l$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT L',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Ł([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Ł([^\}\]\n]*[\}\]])/g,
 						replace: '$1L$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT n',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ñńňň]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ñńňň]([^\}\]\n]*[\}\]])/g,
 						replace: '$1n$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT N',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÑŇŃŇ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ÑŇŃŇ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1N$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT r',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ř]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ř]([^\}\]\n]*[\}\]])/g,
 						replace: '$1r$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT R',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ř]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[Ř]([^\}\]\n]*[\}\]])/g,
 						replace: '$1R$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT s',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŝšśş]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŝšśş]([^\}\]\n]*[\}\]])/g,
 						replace: '$1s$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT S',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŠŚŞŜ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŠŚŞŜ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1S$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT t',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ťţ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ťţ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1t$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT T',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŤŤŢ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŤŤŢ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1T$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT z',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[žż]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[žż]([^\}\]\n]*[\}\]])/g,
 						replace: '$1z$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT Z',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŽŻ]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ŽŻ]([^\}\]\n]*[\}\]])/g,
 						replace: '$1Z$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT ae',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)æ([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)æ([^\}\]\n]*[\}\]])/g,
 						replace: '$1ae$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT AE',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Æ([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)Æ([^\}\]\n]*[\}\]])/g,
 						replace: '$1AE$2',
 						num: 100
 					}, {
 						name: 'DEFAULTSORT remover',
-						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ªº"]([^\}\]\n]*[\}\]])/,
+						find: /(\{\{DEFAULTSORT *:[^\}]*|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[ªº"]([^\}\]\n]*[\}\]])/g,
 						replace: '$1$2',
 						num: 100
 					}]
@@ -10987,132 +10987,132 @@ window.AWB.rules = [{
 					ifhas: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[a-z]/,
 					sub: [{
 						name: 'A',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\]\}\n]+[ \-\(\/])?)a/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\]\}\n]+[ \-\(\/])?)a/g,
 						replace: '$1A',
 						num: 100
 					}, {
 						name: 'B',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)b/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)b/g,
 						replace: '$1B',
 						num: 100
 					}, {
 						name: 'C',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)c/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)c/g,
 						replace: '$1C',
 						num: 100
 					}, {
 						name: 'D',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)d/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)d/g,
 						replace: '$1D',
 						num: 100
 					}, {
 						name: 'E',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)e/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)e/g,
 						replace: '$1E',
 						num: 100
 					}, {
 						name: 'F',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)f/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)f/g,
 						replace: '$1F',
 						num: 100
 					}, {
 						name: 'G',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)g/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)g/g,
 						replace: '$1G',
 						num: 100
 					}, {
 						name: 'H',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)h/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)h/g,
 						replace: '$1H',
 						num: 100
 					}, {
 						name: 'I',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)i/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)i/g,
 						replace: '$1I',
 						num: 100
 					}, {
 						name: 'J',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)j/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)j/g,
 						replace: '$1J',
 						num: 100
 					}, {
 						name: 'K',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)k/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)k/g,
 						replace: '$1K',
 						num: 100
 					}, {
 						name: 'L',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)l/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)l/g,
 						replace: '$1L',
 						num: 100
 					}, {
 						name: 'M',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)m/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)m/g,
 						replace: '$1M',
 						num: 100
 					}, {
 						name: 'N',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)n/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)n/g,
 						replace: '$1N',
 						num: 100
 					}, {
 						name: 'O',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)o/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)o/g,
 						replace: '$1O',
 						num: 100
 					}, {
 						name: 'P',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)p/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)p/g,
 						replace: '$1P',
 						num: 100
 					}, {
 						name: 'Q',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)q/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)q/g,
 						replace: '$1Q',
 						num: 100
 					}, {
 						name: 'R',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)r/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)r/g,
 						replace: '$1R',
 						num: 100
 					}, {
 						name: 'S',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)s/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)s/g,
 						replace: '$1S',
 						num: 100
 					}, {
 						name: 'T',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)t/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)t/g,
 						replace: '$1T',
 						num: 100
 					}, {
 						name: 'U',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:.+[ \-\(\/])?)u/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:.+[ \-\(\/])?)u/g,
 						replace: '$1U',
 						num: 100
 					}, {
 						name: 'V',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)v/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)v/g,
 						replace: '$1V',
 						num: 100
 					}, {
 						name: 'W',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)w/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)w/g,
 						replace: '$1W',
 						num: 100
 					}, {
 						name: 'X',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)x/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)x/g,
 						replace: '$1X',
 						num: 100
 					}, {
 						name: 'Y',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)y/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)y/g,
 						replace: '$1Y',
 						num: 100
 					}, {
 						name: 'Z',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)z/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)z/g,
 						replace: '$1Z',
 						num: 100
 					}]
@@ -11124,132 +11124,132 @@ window.AWB.rules = [{
 					ifhas: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)[A-Z]/,
 					sub: [{
 						name: 'A',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\]\}\n]*[^ \-\(\/])A/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\]\}\n]*[^ \-\(\/])A/g,
 						replace: '$1a',
 						num: 100
 					}, {
 						name: 'B',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])B/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])B/g,
 						replace: '$1b',
 						num: 100
 					}, {
 						name: 'C',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])C/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])C/g,
 						replace: '$1c',
 						num: 100
 					}, {
 						name: 'D',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])D/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])D/g,
 						replace: '$1d',
 						num: 100
 					}, {
 						name: 'E',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])E/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])E/g,
 						replace: '$1e',
 						num: 100
 					}, {
 						name: 'F',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])F/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])F/g,
 						replace: '$1f',
 						num: 100
 					}, {
 						name: 'G',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])G/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])G/g,
 						replace: '$1g',
 						num: 100
 					}, {
 						name: 'H',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])H/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])H/g,
 						replace: '$1h',
 						num: 100
 					}, {
 						name: 'I',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])I/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])I/g,
 						replace: '$1i',
 						num: 100
 					}, {
 						name: 'J',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])J/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])J/g,
 						replace: '$1j',
 						num: 100
 					}, {
 						name: 'K',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])K/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])K/g,
 						replace: '$1k',
 						num: 100
 					}, {
 						name: 'L',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])L/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])L/g,
 						replace: '$1l',
 						num: 100
 					}, {
 						name: 'M',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])M/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])M/g,
 						replace: '$1m',
 						num: 100
 					}, {
 						name: 'N',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])N/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])N/g,
 						replace: '$1n',
 						num: 100
 					}, {
 						name: 'O',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])O/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])O/g,
 						replace: '$1o',
 						num: 100
 					}, {
 						name: 'P',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])P/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])P/g,
 						replace: '$1p',
 						num: 100
 					}, {
 						name: 'Q',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Q/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Q/g,
 						replace: '$1q',
 						num: 100
 					}, {
 						name: 'R',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])R/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])R/g,
 						replace: '$1r',
 						num: 100
 					}, {
 						name: 'S',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])S/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])S/g,
 						replace: '$1s',
 						num: 100
 					}, {
 						name: 'T',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])T/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])T/g,
 						replace: '$1t',
 						num: 100
 					}, {
 						name: 'U',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])U/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])U/g,
 						replace: '$1u',
 						num: 100
 					}, {
 						name: 'V',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])V/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])V/g,
 						replace: '$1v',
 						num: 100
 					}, {
 						name: 'W',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])W/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])W/g,
 						replace: '$1w',
 						num: 100
 					}, {
 						name: 'X',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])X/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])X/g,
 						replace: '$1x',
 						num: 100
 					}, {
 						name: 'Y',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Y/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Y/g,
 						replace: '$1y',
 						num: 100
 					}, {
 						name: 'Z',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Z/,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\[\]\{\}\n]*[^ \-\(\/])Z/g,
 						replace: '$1z',
 						num: 100
 					}]
@@ -11261,17 +11261,17 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: 'Remove defaultsort',
-				find: /\{\{DEFAULTSORT:.*\}\}\r?\n/,
+				find: /\{\{DEFAULTSORT:.*\}\}\r?\n/g,
 				replace: '',
 				ifhas: /▓([^╦]*)╦[^░]*\{\{DEFAULTSORT:\1\}\}/
 			}, {
 				name: 'Defaultsort duplo',
-				find: /(\{\{DEFAULTSORT:.*\}\}[^░]*)\{\{DEFAULTSORT:.*\}\}/,
+				find: /(\{\{DEFAULTSORT:.*\}\}[^░]*)\{\{DEFAULTSORT:.*\}\}/g,
 				replace: '$1',
 				num: 10
 			}, {
 				name: '- Indice = defaultsort',
-				find: /(\{\{DEFAULTSORT:(.*)\}\}[^░]*\[\[Categoria:[^\|\n]*)\|\2\]\]/,
+				find: /(\{\{DEFAULTSORT:(.*)\}\}[^░]*\[\[Categoria:[^\|\n]*)\|\2\]\]/g,
 				replace: '$1]]',
 				num: 100
 			}]
@@ -11313,7 +11313,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Portal3 duplo',
-					find: /(\{\{Portal3\|[^}]*\}\}[^░]*)\{\{Portal3\|\}\}/,
+					find: /(\{\{Portal3\|[^}]*\}\}[^░]*)\{\{Portal3\|\}\}/g,
 					replace: '$1'
 				}, {
 					name: 'Ajuste em portal',
@@ -11681,7 +11681,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|Timor-Leste[ \|\}]/,
 					sub: [{
 						name: 'marcando Timor-Leste',
-						find: /\| *Timor-Leste *\= */,
+						find: /\| *Timor-Leste *\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Timor-Leste',
@@ -11701,7 +11701,7 @@ window.AWB.rules = [{
 						replace: '┼'
 					}, {
 						name: 'marcando sociedade',
-						find: /\| *sociedade\= */,
+						find: /\| *sociedade\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo sociedade',
@@ -11733,7 +11733,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|São Tomé e Príncipe[ \|\}]/,
 					sub: [{
 						name: 'marcando São Tomé e Príncipe',
-						find: /\| *São Tomé e Príncipe *\= */,
+						find: /\| *São Tomé e Príncipe *\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo São Tomé e Príncipe',
@@ -11749,7 +11749,7 @@ window.AWB.rules = [{
 					ifhas: /(\[\[Categoria:(.* )?(Portugal)[ \|\]]|\{\{Portal3.*\|Portugal[ \|\}]|\{\{(Esboço\-freguesiaspt)\}\})/i,
 					sub: [{
 						name: 'marcando Portugal',
-						find: /\| *Portugal\= */,
+						find: /\| *Portugal\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Portugal',
@@ -11772,7 +11772,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|Moçambique[ \|\}]/,
 					sub: [{
 						name: 'marcando Moçambique',
-						find: /\| *Moçambique *\= */,
+						find: /\| *Moçambique *\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Moçambique',
@@ -11789,7 +11789,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|Guiné-Bissau[ \|\}]/,
 					sub: [{
 						name: 'marcando Guiné-Bissau',
-						find: /\| *Guiné-Bissau *\= */,
+						find: /\| *Guiné-Bissau *\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Guiné-Bissau',
@@ -11805,7 +11805,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|Geografia[ \|\}]/,
 					sub: [{
 						name: 'marcando geografia',
-						find: /\| *geografia\= */,
+						find: /\| *geografia\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo geografia',
@@ -11827,7 +11827,7 @@ window.AWB.rules = [{
 					ifhas: /(\[\[Categoria:(.* )?(Ciência|Cientista)[ \|\]]|\{\{Portal3.*\|(Ciência|Administração|Astronomia|Botânica|Biologia|Física|Matemática|Química|Saúde|Tecnologias de informação|Zoologia)[ \|\}]|\{\{(Info\/Taxonomia))/i,
 					sub: [{
 						name: 'marcando ciência',
-						find: /\| *ciência\= */,
+						find: /\| *ciência\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo ciência',
@@ -11849,7 +11849,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|Cabo Verde[ \|\}]/,
 					sub: [{
 						name: 'marcando Cabo Verde',
-						find: /\| *Cabo Verde *\= */,
+						find: /\| *Cabo Verde *\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Cabo Verde',
@@ -11866,7 +11866,7 @@ window.AWB.rules = [{
 					ifhas: /(\[\[Categoria:(.* )?(Brasil)[ \|\]]|\{\{Portal3.*\|(Brasil|Tocantins|Sergirpe|São Paulo|Santa Catarina|Roraima|Rondônia|Rio Grande do Sul|Rio Grande do Norte|Rio de Janeiro|Piauí|Pernambuco|Paraná|Paraíba|Pará|Minas Gerais|Mato Grosso do Sul|Mato Grosso|Maranhão|Goiás|Espírito Santo|Ceará|Bahia|Amazonas|Amapá|Alagoas|Acre)|\{\{Info\/Município do Brasil[\r\n\|])/i,
 					sub: [{
 						name: 'marcando Brasil',
-						find: /\| *Brasil\= */,
+						find: /\| *Brasil\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Brasil',
@@ -11911,7 +11911,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{Portal3.*\|Angola[ \|\}]/,
 					sub: [{
 						name: 'marcando Angola',
-						find: /\| *Angola *\= */,
+						find: /\| *Angola *\= */g,
 						replace: '├'
 					}, {
 						name: 'inserindo Angola',
@@ -11988,7 +11988,7 @@ window.AWB.rules = [{
 						replace: '┤'
 					}, {
 						name: 'Marca ref group=nota',
-						find: /║== Notas? ==\n<references group=nota\/>/,
+						find: /║== Notas? ==\n<references group=nota\/>/g,
 						replace: '┴',
 						ifnot: /┼(\r?\n)*<\/references>/i
 					}, {
@@ -11997,7 +11997,7 @@ window.AWB.rules = [{
 						replace: '┐'
 					}, {
 						name: 'Marca gallery 2',
-						find: /<\/gallery>/,
+						find: /<\/gallery>/g,
 						replace: '└'
 					}]
 				}, {
@@ -12038,19 +12038,19 @@ window.AWB.rules = [{
 						replace: '$2\n\n$1'
 					}, {
 						name: 'Gallery & VT',
-						find: /(┼[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
+						find: /(┼[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/g,
 						replace: '$2\n\n$1'
 					}, {
 						name: 'Gallery & Biblio',
-						find: /(├[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
+						find: /(├[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/g,
 						replace: '$2\n\n$1'
 					}, {
 						name: 'Gallery & Nota',
-						find: /(┴[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
+						find: /(┴[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/g,
 						replace: '$2\n\n$1'
 					}, {
 						name: 'Gallery & REF',
-						find: /(┤.*\}\}[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/,
+						find: /(┤.*\}\}[^┐╔╗]*)\r?\n(┐[^└╔╗]+└)/g,
 						replace: '$2\n\n$1'
 					}]
 				}, {
@@ -12086,7 +12086,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Arrumando quebra de linha em seção',
-					find: /\=\=\n\n/,
+					find: /\=\=\n\n/g,
 					replace: '==\n'
 				}]
 			}, {
@@ -12104,7 +12104,7 @@ window.AWB.rules = [{
 						replace: '\n┤'
 					}, {
 						name: 'Marca Defaultsort',
-						find: /\{\{DEFAULTSORT:/,
+						find: /\{\{DEFAULTSORT:/g,
 						replace: '├',
 						num: 10
 					}, {
@@ -12137,7 +12137,7 @@ window.AWB.rules = [{
 						num: 10
 					}, {
 						name: 'Correlatos x LE',
-						find: /(= Ligações externas =+\r?\n)([^┼░]*)\r?\n(\{\{┼[^{}\n]*\}\})\r?\n/,
+						find: /(= Ligações externas =+\r?\n)([^┼░]*)\r?\n(\{\{┼[^{}\n]*\}\})\r?\n/g,
 						replace: '$1$3\n$2\n',
 						num: 10
 					}, {
@@ -12369,7 +12369,7 @@ window.AWB.rules = [{
 					replace: '←$1'
 				}, {
 					name: 'Arrow <==>',
-					find: /(⇐\=*>|<\=*⇒)/,
+					find: /(⇐\=*>|<\=*⇒)/g,
 					replace: '⇐⇒',
 					num: 10
 				}, {
@@ -12405,7 +12405,7 @@ window.AWB.rules = [{
 			name: 'Triming h- final',
 			sub: [{
 				name: 'espaço antes \n',
-				find: /([^ ]) +\r?\n/,
+				find: /([^ ]) +\r?\n/g,
 				replace: '$1\n',
 				num: 10
 			}, {
@@ -12464,7 +12464,7 @@ window.AWB.rules = [{
 			name: 'Triming v+ final',
 			sub: [{
 				name: 'Rule',
-				find: /([^\r\n])\r?\n(\{\{DEFAULTSORT)/,
+				find: /([^\r\n])\r?\n(\{\{DEFAULTSORT)/g,
 				replace: '$1\n\n$2'
 			}, {
 				name: 'Rule',
@@ -12497,7 +12497,7 @@ window.AWB.rules = [{
 				replace: '= Em operação ='
 			}, {
 				name: 'Contexto Histórico',
-				find: /\= Contexto Histórico =/,
+				find: /\= Contexto Histórico =/g,
 				replace: '= Contexto histórico ='
 			}]
 		}, {
@@ -12521,7 +12521,7 @@ window.AWB.rules = [{
 					name: 'Minúscula nos campos de infobox',
 					sub: [{
 						name: 'Rule',
-						find: /(\{\{ *Info\/[^╣]*\n *\| *)(Símbolo|Atribuições|Dependência[1-9]|Critérios|Imagem|Inscrição|Legenda|Localização|País|Preposição|Título)( *=)/,
+						find: /(\{\{ *Info\/[^╣]*\n *\| *)(Símbolo|Atribuições|Dependência[1-9]|Critérios|Imagem|Inscrição|Legenda|Localização|País|Preposição|Título)( *=)/g,
 						replace: '$1{{subst:lcfirst:$2}}$3',
 						num: 100
 					}]
@@ -12671,7 +12671,7 @@ window.AWB.rules = [{
 					ifhas: /\[\[Categoria:(Beatos|Santos)[ \|\]]/i
 				}, {
 					name: '{{sem infocaixa|Jornalista}}',
-					find: /\{\{sem infocaixa\|Biografia\}\}/,
+					find: /\{\{sem infocaixa\|Biografia\}\}/g,
 					replace: '{{sem infocaixa|Jornalista}}',
 					ifhas: /\[\[Categoria:(Jornalistas)[ \|\]]/i
 				}]
@@ -12745,20 +12745,20 @@ window.AWB.rules = [{
 					name: 'Personagens e elenco',
 					sub: [{
 						name: 'Participação Especial',
-						find: /Participaç(ões|ão) Especia(is|l)/,
+						find: /Participaç(ões|ão) Especia(is|l)/g,
 						replace: 'Participaç$1 especia$2'
 					}, {
 						name: 'Secundários',
-						find: /(== )Personagens Secundários( ==)/,
+						find: /(== )Personagens Secundários( ==)/g,
 						replace: '$1Personagens secundários$2'
 					}, {
 						name: 'Elenco principal',
-						find: /(== )Elenco Principal( ==)/,
+						find: /(== )Elenco Principal( ==)/g,
 						replace: '$1Elenco principal$2',
 						num: 10
 					}, {
 						name: 'Personagens Menores',
-						find: /([^a-z])Personagens Menores([^a-z])/,
+						find: /([^a-z])Personagens Menores([^a-z])/g,
 						replace: '$1Personagens menores$2'
 					}, {
 						name: 'Personagens Principais',
@@ -12769,44 +12769,44 @@ window.AWB.rules = [{
 					name: 'Música',
 					sub: [{
 						name: 'Trilha sonora',
-						find: /(== Trilhas? )S(onoras? ==)/,
+						find: /(== Trilhas? )S(onoras? ==)/g,
 						replace: '$1s$2',
 						num: 10
 					}, {
 						name: 'Temas de Abertura',
-						find: /([^a-z]Temas? de )Abertura([^a-z])/,
+						find: /([^a-z]Temas? de )Abertura([^a-z])/g,
 						replace: '$1abertura$2'
 					}, {
 						name: 'Temas de Encerramento',
-						find: /([^a-z]Temas? de )Encerramento([^a-z])/,
+						find: /([^a-z]Temas? de )Encerramento([^a-z])/g,
 						replace: '$1encerramento$2'
 					}]
 				}, {
 					name: 'Ficha técnica',
-					find: /(== )Ficha Técnica( ==)/,
+					find: /(== )Ficha Técnica( ==)/g,
 					replace: '$1Ficha técnica$2',
 					num: 10
 				}, {
 					name: 'Série',
-					find: /([^=]) Série ==/,
+					find: /([^=]) Série ==/g,
 					replace: '$1 série ==',
 					num: 10
 				}, {
 					name: 'Recorrentes',
-					find: /(== )Temas Recorrentes( ==)/,
+					find: /(== )Temas Recorrentes( ==)/g,
 					replace: '$1Temas recorrentes$2',
 					num: 10
 				}, {
 					name: 'os Capítulos',
-					find: /([^=]) C(apítulos? ==)/,
+					find: /([^=]) C(apítulos? ==)/g,
 					replace: '$1 c$2'
 				}, {
 					name: 'o Personagem',
-					find: /([^=]) Personagem ==\r?\n/,
+					find: /([^=]) Personagem ==\r?\n/g,
 					replace: '$1 personagem ==\n'
 				}, {
 					name: '= Poderes e Habilidades =',
-					find: /([^=]) Habilidades =/,
+					find: /([^=]) Habilidades =/g,
 					replace: '$1 habilidades ='
 				}]
 			}, {
@@ -12820,7 +12820,7 @@ window.AWB.rules = [{
 				name: 'Introdução',
 				sub: [{
 					name: 'é um personagem',
-					find: /(╚[^╝]*é um) personagem/,
+					find: /(╚[^╝]*é um) personagem/g,
 					replace: '$1 [[personagem]]',
 					ifhas: '╚.*╝'
 				}, {
@@ -12847,26 +12847,26 @@ window.AWB.rules = [{
 						name: 'gêneros',
 						sub: [{
 							name: '[[gêneros de jogos eletrônicos]]',
-							find: /(╚[^╝]*jogo[^╝]*[^\[])gênero([^\]])/,
+							find: /(╚[^╝]*jogo[^╝]*[^\[])gênero([^\]])/g,
 							replace: '$1[[gêneros de jogos eletrônicos|gênero]]$2'
 						}, {
 							name: '[[jogo eletrônico de ação]]',
-							find: /(\[\[jogos? eletrônicos?\]\] de )ação/,
+							find: /(\[\[jogos? eletrônicos?\]\] de )ação/g,
 							replace: '$1[[jogo eletrônico de ação|ação]]',
 							num: 100
 						}, {
 							name: '[[jogo eletrônico de esporte]]',
-							find: /\[\[jogo eletrônico\]\] de (\[\[)?(snowboard)/,
+							find: /\[\[jogo eletrônico\]\] de (\[\[)?(snowboard)/g,
 							replace: '[[jogo eletrônico de esporte|jogo eletrônico]] de $1$2',
 							num: 100
 						}, {
 							name: '[[Jogo eletrônico de simulação]]',
-							find: /(\[\[jogos? eletrônicos?\]\] de )(simulação)/,
+							find: /(\[\[jogos? eletrônicos?\]\] de )(simulação)/g,
 							replace: '$1[[jogo eletrônico de simulação|simulação]]',
 							num: 100
 						}, {
 							name: '[[jogo de corrida]]',
-							find: /(\[\[jogos? eletrônicos?\]\] de )(corrida)/,
+							find: /(\[\[jogos? eletrônicos?\]\] de )(corrida)/g,
 							replace: '$1[[jogo de corrida|corrida]]',
 							num: 100
 						}]
@@ -12895,7 +12895,7 @@ window.AWB.rules = [{
 						}]
 					}, {
 						name: '[[PS2]]',
-						find: /(\| *plataforma *= *.*)\[\[PS([23])\]\]/,
+						find: /(\| *plataforma *= *.*)\[\[PS([23])\]\]/g,
 						replace: '$1[[PlayStation $2|PS$2]]'
 					}, {
 						name: '[[PC]]',
@@ -12913,7 +12913,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '[[Ladino (RPG)]]',
-						find: /\[\[([Ll])adino\]\]/,
+						find: /\[\[([Ll])adino\]\]/g,
 						replace: '[[Ladino (RPG)|$1adino]]',
 						num: 100
 					}]
@@ -12928,7 +12928,7 @@ window.AWB.rules = [{
 				ifhas: /(\{\{Portal3.*\|(Cinema)[\|\}])/i,
 				sub: [{
 					name: 'Introdução filme',
-					find: /(╚[^╝]*)é um filme/,
+					find: /(╚[^╝]*)é um filme/g,
 					replace: '$1é um [[filme]]',
 					ifhas: '╝'
 				}]
@@ -12961,77 +12961,77 @@ window.AWB.rules = [{
 							ifhas: /(\{\{Info\/Single[^╣]*\| *)Nome( *=)/,
 							sub: [{
 								name: 'A',
-								find: /(\{\{Info\/Single[^╣]*\| *)Artista( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Artista( *=)/g,
 								replace: '$1artista$2',
 								num: 10
 							}, {
 								name: 'Á',
-								find: /(\{\{Info\/Single[^╣]*\| *)Álbum( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Álbum( *=)/g,
 								replace: '$1álbum$2'
 							}, {
 								name: 'D',
-								find: /(\{\{Info\/Single[^╣]*\| *)D(iretor|uração)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)D(iretor|uração)( *=)/g,
 								replace: '$1d$2$3',
 								num: 10
 							}, {
 								name: 'C',
-								find: /(\{\{Info\/Single[^╣]*\| *)C(apa|ompositor|ertificação|r[ií]tica)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)C(apa|ompositor|ertificação|r[ií]tica)( *=)/g,
 								replace: '$1c$2$3',
 								num: 10
 							}, {
 								name: 'D',
-								find: /(\{\{Info\/Single[^╣]*\| *)D(irector|uração_vídeo)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)D(irector|uração_vídeo)( *=)/g,
 								replace: '$1d$2$3',
 								num: 10
 							}, {
 								name: 'E',
-								find: /(\{\{Info\/Single[^╣]*\| *)E(ste single)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)E(ste single)( *=)/g,
 								replace: '$1e$2$3',
 								num: 10
 							}, {
 								name: 'F',
-								find: /(\{\{Info\/Single[^╣]*\| *)Formato( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Formato( *=)/g,
 								replace: '$1formato$2'
 							}, {
 								name: 'G',
-								find: /(\{\{Info\/Single[^╣]*\| *)G(ravado|ênero|ravadora|ravado_vídeo)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)G(ravado|ênero|ravadora|ravado_vídeo)( *=)/g,
 								replace: '$1g$2$3',
 								num: 10
 							}, {
 								name: 'I',
-								find: /(\{\{Info\/Single[^╣]*\| *)I(magem|magem_tamanho)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)I(magem|magem_tamanho)( *=)/g,
 								replace: '$1i$2$3',
 								num: 10
 							}, {
 								name: 'L',
-								find: /(\{\{Info\/Single[^╣]*\| *)L(ançado|etrista|ançado_vídeo|ado\-B)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)L(ançado|etrista|ançado_vídeo|ado\-B)( *=)/g,
 								replace: '$1l$2$3',
 								num: 10
 							}, {
 								name: 'M',
-								find: /(\{\{Info\/Single[^╣]*\| *)Miscelâneo( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Miscelâneo( *=)/g,
 								replace: '$1miscelâneo$2'
 							}, {
 								name: 'N',
-								find: /(\{\{Info\/Single[^╣]*\| *)Nome( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Nome( *=)/g,
 								replace: '$1nome$2'
 							}, {
 								name: 'O',
-								find: /(\{\{Info\/Single[^╣]*\| *)Orçamento( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Orçamento( *=)/g,
 								replace: '$1orçamento$2'
 							}, {
 								name: 'P',
-								find: /(\{\{Info\/Single[^╣]*\| *)P(rodutor|róximo single)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)P(rodutor|róximo single)( *=)/g,
 								replace: '$1p$2$3',
 								num: 10
 							}, {
 								name: 'T',
-								find: /(\{\{Info\/Single[^╣]*\| *)T(ipo)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)T(ipo)( *=)/g,
 								replace: '$1t$2$3',
 								num: 10
 							}, {
 								name: 'Ú',
-								find: /(\{\{Info\/Single[^╣]*\| *)Ú(ltimo single)( *=)/,
+								find: /(\{\{Info\/Single[^╣]*\| *)Ú(ltimo single)( *=)/g,
 								replace: '$1ú$2$3',
 								num: 10
 							}]
@@ -13048,49 +13048,49 @@ window.AWB.rules = [{
 					name: 'Introdução',
 					sub: [{
 						name: 'Intro banda',
-						find: /(╚[^╝]*é (?:um|o) (?:[^ ]* )?(?:do )?)banda/,
+						find: /(╚[^╝]*é (?:um|o) (?:[^ ]* )?(?:do )?)banda/g,
 						replace: '$1[[banda musical|banda]]',
 						ifhas: '╝'
 					}, {
 						name: 'intro álbum',
-						find: /(╚[^╝]*é (?:um|o) (?:[^ ]* )?(?:do )?)álbum/,
+						find: /(╚[^╝]*é (?:um|o) (?:[^ ]* )?(?:do )?)álbum/g,
 						replace: '$1[[álbum]]'
 					}, {
 						name: 'Intro canção',
-						find: /(╚[^╝]*é (?:uma|a) (?:[^ ]* )?(?:do )?)canção/,
+						find: /(╚[^╝]*é (?:uma|a) (?:[^ ]* )?(?:do )?)canção/g,
 						replace: '$1[[canção]]'
 					}, {
 						name: 'Intro composição',
-						find: /(╚[^╝]*é (?:uma|a) (?:[^ ]* )?(?:do )?)composição/,
+						find: /(╚[^╝]*é (?:uma|a) (?:[^ ]* )?(?:do )?)composição/g,
 						replace: '$1[[composição musical|composição]]'
 					}]
 				}, {
 					name: 'Seções',
 					sub: [{
 						name: 'Rule',
-						find: /([^=]) Paradas ==/,
+						find: /([^=]) Paradas ==/g,
 						replace: '$1 paradas =='
 					}]
 				}, {
 					name: 'Desambig',
 					sub: [{
 						name: '[[banda musical]]',
-						find: /\[\[([Bb])anda\]\]/,
+						find: /\[\[([Bb])anda\]\]/g,
 						replace: '[[$1anda musical|$1anda]]',
 						num: 100
 					}, {
 						name: '[[Disco de vinil]]',
-						find: /\[\[([Vv])inil\]\]/,
+						find: /\[\[([Vv])inil\]\]/g,
 						replace: '[[Disco de vinil|$1inil]]',
 						num: 100
 					}, {
 						name: '[[Extended play]]',
-						find: /\[\[EP\]\]/,
+						find: /\[\[EP\]\]/g,
 						replace: '[[Extended play|EP]]',
 						num: 100
 					}, {
 						name: '[[Instrumento musical]]',
-						find: /\[\[([Ii])nstrumento\]\]/,
+						find: /\[\[([Ii])nstrumento\]\]/g,
 						replace: '[[$1nstrumento musical|$1nstrumento]]',
 						num: 100
 					}]
@@ -13142,7 +13142,7 @@ window.AWB.rules = [{
 						replace: '┐'
 					}, {
 						name: 'marcando arte',
-						find: /\| *arte\= */,
+						find: /\| *arte\= */g,
 						replace: '┼'
 					}]
 				}, {
@@ -13163,18 +13163,18 @@ window.AWB.rules = [{
 						ifhas: /\{\{Portal3.*\|(Música)/i
 					}, {
 						name: 'inserindo cinema',
-						find: /┼([^\|\}]*)([\|\}])/,
+						find: /┼([^\|\}]*)([\|\}])/g,
 						replace: '┼$1┌sim$2',
 						ifhas: /\{\{Portal3.*\|(Cinema)/i
 					}, {
 						name: 'inserindo televisão',
-						find: /┼([^\|\}]*)([\|\}])/,
+						find: /┼([^\|\}]*)([\|\}])/g,
 						replace: '┼$1┬sim$2',
 						ifhas: /\{\{Portal3.*\|(Televisão)/i
 					}, {
 						enabled: false,
 						name: 'inserindo games',
-						find: /┼([^\|\}]*)([\|\}])/,
+						find: /┼([^\|\}]*)([\|\}])/g,
 						replace: '┼$1┐sim$2'
 					}, {
 						name: 'remove arte',
@@ -13354,33 +13354,33 @@ Necessitam de revisão mínima
 				ifhas: /\[\[[A-Z][^ a-z]{1,}\]\]/,
 				sub: [{
 					name: 'sigla AA 2',
-					find: /(\[\[)(AC|AE|AG|AH|AI|AJ|AL|AM|AO|AP|AQ|AT|AU|AZ|BF|BG|BK|BL|CG|CH|CL|CP|CR|CS|CT|CV|CW|CX|DA|DC|DE|DE|DI|DL|DM|DS|DV|TN|TO)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/,
+					find: /(\[\[)(AC|AE|AG|AH|AI|AJ|AL|AM|AO|AP|AQ|AT|AU|AZ|BF|BG|BK|BL|CG|CH|CL|CP|CR|CS|CT|CV|CW|CX|DA|DC|DE|DE|DI|DL|DM|DS|DV|TN|TO)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/g,
 					replace: '$1$2$3{{Dn}}$4',
 					num: 5,
 					ifhas: /\[\[[A-Z]{2,2}\]\]/
 				}, {
 					name: 'sigla A-B 3',
-					find: /(\[\[)(AAA|AAB|AAC|ABB|ABC|ABI|ABR|ABS|ACL|ACM|ACP|ACS|ADA|ADC|ADP|ADS|AEA|AEC|AED|AEP|AFA|AFI|AFL|AFM|AFP|AIC|AIP|AIS|ALC|ALQ|ALT|AMA|APA|ATR|AUX|BDP|BNH|BNL|BNP)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/,
+					find: /(\[\[)(AAA|AAB|AAC|ABB|ABC|ABI|ABR|ABS|ACL|ACM|ACP|ACS|ADA|ADC|ADP|ADS|AEA|AEC|AED|AEP|AFA|AFI|AFL|AFM|AFP|AIC|AIP|AIS|ALC|ALQ|ALT|AMA|APA|ATR|AUX|BDP|BNH|BNL|BNP)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/g,
 					replace: '$1$2$3{{Dn}}$4',
 					ifhas: /\[\[[A-B][A-Z]{2,2}\]\]/
 				}, {
 					name: 'sigla C-D 3',
-					find: /(\[\[)(CAB|CAE|CAM|CAP|CBB|CBC|CBM|CBN|CBO|CBR|CBS|CBT|CCA|CCB|CCC|CCG|CCJ|CCR|CCW|CDC|CDE|CDL|CDP|CDT|CDU|CDZ|CEA|CEI|CEP|CET|CEV|CFA|CFC|CFM|CGD|CGT|CHF|CIO|CIP|CMB|CMF|CMG|CNB|CNE|CNT|COE|COM|CPC|CPE|CPR|CQC|CRM|CRT|CSA|CSL|CSP|CST|CSU|CSV|CTE|CTI|DAC|DAO|DCC|DDA|DDD|DDR|DEC|DEP|DER|DFS|DGS|DHA|DHM|DHT|DIC|DIP|DMB|DMT|DMZ|DOC|DOP|DPL|DSL|DST|DTM)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/,
+					find: /(\[\[)(CAB|CAE|CAM|CAP|CBB|CBC|CBM|CBN|CBO|CBR|CBS|CBT|CCA|CCB|CCC|CCG|CCJ|CCR|CCW|CDC|CDE|CDL|CDP|CDT|CDU|CDZ|CEA|CEI|CEP|CET|CEV|CFA|CFC|CFM|CGD|CGT|CHF|CIO|CIP|CMB|CMF|CMG|CNB|CNE|CNT|COE|COM|CPC|CPE|CPR|CQC|CRM|CRT|CSA|CSL|CSP|CST|CSU|CSV|CTE|CTI|DAC|DAO|DCC|DDA|DDD|DDR|DEC|DEP|DER|DFS|DGS|DHA|DHM|DHT|DIC|DIP|DMB|DMT|DMZ|DOC|DOP|DPL|DSL|DST|DTM)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/g,
 					replace: '$1$2$3{{Dn}}$4',
 					ifhas: /\[\[[C-D][A-Z]{2,2}\]\]/
 				}, {
 					name: 'sigla E-Z 3',
-					find: /(\[\[)(FFC|FSP|NBR|Pop|PTC|RAW|SAB|TCB|UBC|USC)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/,
+					find: /(\[\[)(FFC|FSP|NBR|Pop|PTC|RAW|SAB|TCB|UBC|USC)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/g,
 					replace: '$1$2$3{{Dn}}$4',
 					ifhas: /\[\[[E-Z][A-Z]{2,2}\]\]/
 				}, {
 					name: 'sigla AAAA 4',
-					find: /(\[\[)(AACS|ABCD|ACRA|AFDB|ARPA|ARTV|BOPE|CAPM|CAPS|CCCC|CCMB|CISA|CISM|CPRM|CSKA|CTBC|FIAP|IFSC|NDSL)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/,
+					find: /(\[\[)(AACS|ABCD|ACRA|AFDB|ARPA|ARTV|BOPE|CAPM|CAPS|CCCC|CCMB|CISA|CISM|CPRM|CSKA|CTBC|FIAP|IFSC|NDSL)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/g,
 					replace: '$1$2$3{{Dn}}$4',
 					ifhas: /\[\[[A-Z]{4,4}\]\]/
 				}, {
 					name: 'sigla AAAAA 5',
-					find: /(\[\[)(AAARL|BAFTA|CEMEP|CESUT|CETEB)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/,
+					find: /(\[\[)(AAARL|BAFTA|CEMEP|CESUT|CETEB)(\]\]|\|[^\[\]\|\n]+\]\])( *[^{])/g,
 					replace: '$1$2$3{{Dn}}$4',
 					ifhas: /\[\[[A-Z]{5,5}\]\]/
 				}]
@@ -13417,7 +13417,7 @@ Necessitam de revisão mínima
 			name: 'Maiusculite em seções',
 			sub: [{
 				name: '= Referências Citadas =',
-				find: /(={2,} )Referências Citadas( ={2,})/,
+				find: /(={2,} )Referências Citadas( ={2,})/g,
 				replace: '$1Referências citadas$2'
 			}]
 		}, {
@@ -13449,71 +13449,71 @@ Necessitam de revisão mínima
 					ifhas: 'güe', // FIXME: /güe/i ?
 					sub: [{
 						name: 'Ágüe',
-						find: /([^a-z][Áá])güe((?:mos)?s?[^a-z])/,
+						find: /([^a-z][Áá])güe((?:mos)?s?[^a-z])/g,
 						replace: '$1gue$2'
 					}, {
 						name: 'Agüentar',
-						find: /([^a-z][Aa])güentar(s?[^a-z])/,
+						find: /([^a-z][Aa])güentar(s?[^a-z])/g,
 						replace: '$1guentar$2'
 					}, {
 						name: 'Alcagüete',
-						find: /([^a-z][Aa])lcagüete(s?[^a-z])/,
+						find: /([^a-z][Aa])lcagüete(s?[^a-z])/g,
 						replace: '$1lcaguete$2'
 					}, {
 						name: 'Anhangüera',
-						find: /([^a-z]A)nhangüera(s?[^a-z])/,
+						find: /([^a-z]A)nhangüera(s?[^a-z])/g,
 						replace: '$1nhanguera$2'
 					}, {
 						name: 'Apazigüemos',
-						find: /([^a-z][Aa])pazigüemos(s?[^a-z])/,
+						find: /([^a-z][Aa])pazigüemos(s?[^a-z])/g,
 						replace: '$1paziguemos$2'
 					}, {
 						name: 'Averigüemos',
-						find: /([^a-z][Aa])verigüemos(s?[^a-z])/,
+						find: /([^a-z][Aa])verigüemos(s?[^a-z])/g,
 						replace: '$1veriguemos$2'
 					}, {
 						name: 'Bilíngüe',
-						find: /([^a-z][Bb])ilíngüe(s?[^a-z])/,
+						find: /([^a-z][Bb])ilíngüe(s?[^a-z])/g,
 						replace: '$1ilíngue$2'
 					}, {
 						name: 'Cangüera',
-						find: /([^a-z]C)angüera(s?[^a-z])/,
+						find: /([^a-z]C)angüera(s?[^a-z])/g,
 						replace: '$1anguera$2'
 					}, {
 						name: 'Deságüe',
-						find: /([^a-z][Dd])eságüe(s?[^a-z])/,
+						find: /([^a-z][Dd])eságüe(s?[^a-z])/g,
 						replace: '$1eságue$2'
 					}, {
 						name: 'Enxágüe',
-						find: /([^a-z][Ee])nxágüe(s?[^a-z])/,
+						find: /([^a-z][Ee])nxágüe(s?[^a-z])/g,
 						replace: '$1nxágue$2'
 					}, {
 						name: 'Enxagüemos',
-						find: /([^a-z][Ee])nxagüemos(s?[^a-z])/,
+						find: /([^a-z][Ee])nxagüemos(s?[^a-z])/g,
 						replace: '$1nxaguemos$2'
 					}, {
 						name: 'Guaratingüetá',
-						find: /([^a-z]G)uaratingüetá(s?[^a-z])/,
+						find: /([^a-z]G)uaratingüetá(s?[^a-z])/g,
 						replace: '$1uaratinguetá$2'
 					}, {
 						name: 'Inhangüera',
-						find: /([^a-z]I)nhangüera(s?[^a-z])/,
+						find: /([^a-z]I)nhangüera(s?[^a-z])/g,
 						replace: '$1nhanguera$2'
 					}, {
 						name: 'ultilíngüe',
-						find: /([^a-z][Mm])ultilíngüe(s?[^a-z])/,
+						find: /([^a-z][Mm])ultilíngüe(s?[^a-z])/g,
 						replace: '$1ultilíngue$2'
 					}, {
 						name: 'Piaçagüera',
-						find: /([^a-z]P)iaçagüera(s?[^a-z])/,
+						find: /([^a-z]P)iaçagüera(s?[^a-z])/g,
 						replace: '$1iaçaguera$2'
 					}, {
 						name: 'Tabatingüera',
-						find: /([^a-z]T)abatingüera(s?[^a-z])/,
+						find: /([^a-z]T)abatingüera(s?[^a-z])/g,
 						replace: '$1abatinguera$2'
 					}, {
 						name: 'Ungüento',
-						find: /([^a-z][Uu])ngüento(s?[^a-z])/,
+						find: /([^a-z][Uu])ngüento(s?[^a-z])/g,
 						replace: '$1nguento$2'
 					}]
 				}, {
@@ -13521,67 +13521,67 @@ Necessitam de revisão mínima
 					ifhas: /Güi/i,
 					sub: [{
 						name: 'Ambigüidade',
-						find: /([^a-z][Aa])mbigüidade(s?[^a-z])/,
+						find: /([^a-z][Aa])mbigüidade(s?[^a-z])/g,
 						replace: '$1mbiguidade$2'
 					}, {
 						name: 'Antigüidade',
-						find: /([^a-z][Aa])ntigü((?:idade|íssimo)s?[^a-z])/,
+						find: /([^a-z][Aa])ntigü((?:idade|íssimo)s?[^a-z])/g,
 						replace: '$1ntigu$2'
 					}, {
 						name: 'Argüição',
-						find: /([^a-z][Aa])rgü((?:ição|ir)s?[^a-z])/,
+						find: /([^a-z][Aa])rgü((?:ição|ir)s?[^a-z])/g,
 						replace: '$1rgu$2'
 					}, {
 						name: 'Barigüi',
-						find: /([^a-z]B)arigüi(s?[^a-z])/,
+						find: /([^a-z]B)arigüi(s?[^a-z])/g,
 						replace: '$1arigui$2'
 					}, {
 						name: 'Bilingüismo',
-						find: /([^a-z][Bb])ilingüismo(s?[^a-z])/,
+						find: /([^a-z][Bb])ilingüismo(s?[^a-z])/g,
 						replace: '$1ilinguismo$2'
 					}, {
 						name: 'Birigüi',
-						find: /([^a-z]B)irigüi(s?[^a-z])/,
+						find: /([^a-z]B)irigüi(s?[^a-z])/g,
 						replace: '$1irigui$2'
 					}, {
 						name: 'Contigüidade',
-						find: /([^a-z][Cc])ontigüidade(s?[^a-z])/,
+						find: /([^a-z][Cc])ontigüidade(s?[^a-z])/g,
 						replace: '$1ontiguidade$2'
 					}, {
 						name: 'Desmilingüir',
-						find: /([^a-z][Dd])esmilingüir(s?[^a-z])/,
+						find: /([^a-z][Dd])esmilingüir(s?[^a-z])/g,
 						replace: '$1esmiliguir$2'
 					}, {
 						name: 'Inexeqüível',
-						find: /([^a-z][Ii])nexeqüível(s?[^a-z])/,
+						find: /([^a-z][Ii])nexeqüível(s?[^a-z])/g,
 						replace: '$1nexequível$2'
 					}, {
 						name: 'ingüística',
-						find: /([^a-z][Ll])ingüística(s?[^a-z])/,
+						find: /([^a-z][Ll])ingüística(s?[^a-z])/g,
 						replace: '$1inguística$2'
 					}, {
 						name: 'Lingüiça',
-						find: /([^a-z][Ll])ingüiça(s?[^a-z])/,
+						find: /([^a-z][Ll])ingüiça(s?[^a-z])/g,
 						replace: '$1inguiça$2'
 					}, {
 						name: 'Lingüística',
-						find: /([^a-z][Ll])ingüística(s?[^a-z])/,
+						find: /([^a-z][Ll])ingüística(s?[^a-z])/g,
 						replace: '$1inguística$2'
 					}, {
 						name: 'Pingüim',
-						find: /([^a-z][Pp])ingüim(s?[^a-z])/,
+						find: /([^a-z][Pp])ingüim(s?[^a-z])/g,
 						replace: '$1inguim$2'
 					}, {
 						name: 'Redargüir',
-						find: /([^a-z][Rr])edargüir(s?[^a-z])/,
+						find: /([^a-z][Rr])edargüir(s?[^a-z])/g,
 						replace: '$1edarguir$2'
 					}, {
 						name: 'Sagüi',
-						find: /([^a-z][Ss])agüi(s?[^a-z])/,
+						find: /([^a-z][Ss])agüi(s?[^a-z])/g,
 						replace: '$1agui$2'
 					}, {
 						name: 'Sangü',
-						find: /([^a-z][Ss])angü((?:inário|íneo)s?[^a-z])/,
+						find: /([^a-z][Ss])angü((?:inário|íneo)s?[^a-z])/g,
 						replace: '$1angu$2'
 					}]
 				}, {
@@ -13589,51 +13589,51 @@ Necessitam de revisão mínima
 					ifhas: 'Qüe', // FIXME: /Qüe/i ?
 					sub: [{
 						name: 'Apropinqüe',
-						find: /([^a-z][Aa])propinqüe(s?[^a-z])/,
+						find: /([^a-z][Aa])propinqüe(s?[^a-z])/g,
 						replace: '$1propinque$2'
 					}, {
 						name: 'Cinqü',
-						find: /([^a-z][Cc])inqü((?:enta|entenário)s?[^a-z])/,
+						find: /([^a-z][Cc])inqü((?:enta|entenário)s?[^a-z])/g,
 						replace: '$1inqu$2'
 					}, {
 						name: 'Conseqü',
-						find: /([^a-z][Cc])onseqü((?:ência|ente)s?[^a-z])/,
+						find: /([^a-z][Cc])onseqü((?:ência|ente)s?[^a-z])/g,
 						replace: '$1onsequ$2'
 					}, {
 						name: 'Delinqü',
-						find: /([^a-z][Dd])elinqü((?:em|ência|ente)s?[^a-z])/,
+						find: /([^a-z][Dd])elinqü((?:em|ência|ente)s?[^a-z])/g,
 						replace: '$1elinqu$2'
 					}, {
 						name: 'Eqüestre',
-						find: /([^a-z][Ee])qüestre(s?[^a-z])/,
+						find: /([^a-z][Ee])qüestre(s?[^a-z])/g,
 						replace: '$1questre$2'
 					}, {
 						name: 'Freqü',
-						find: /([^a-z][Ff])reqü([êe]n(?:tado|tar|te|cia)[^a-z])/,
+						find: /([^a-z][Ff])reqü([êe]n(?:tado|tar|te|cia)[^a-z])/g,
 						replace: '$1requ$2'
 					}, {
 						name: 'Grandiloqüência',
-						find: /([^a-z][Gg])randiloqüência(s?[^a-z])/,
+						find: /([^a-z][Gg])randiloqüência(s?[^a-z])/g,
 						replace: '$1randiloquência$2'
 					}, {
 						name: 'Pariqüera',
-						find: /([^a-z]P)ariqüera(s?[^a-z])/,
+						find: /([^a-z]P)ariqüera(s?[^a-z])/g,
 						replace: '$1ariquera$2'
 					}, {
 						name: 'Qüest',
-						find: /([^a-z][Qq])üest((?:ão|ionamento|ionar|ionário|iúncula)s?[^a-z])/,
+						find: /([^a-z][Qq])üest((?:ão|ionamento|ionar|ionário|iúncula)s?[^a-z])/g,
 						replace: '$1uest$2'
 					}, {
 						name: 'Seqüela',
-						find: /([^a-z][Ss])eqüela(s?[^a-z])/,
+						find: /([^a-z][Ss])eqüela(s?[^a-z])/g,
 						replace: '$1equela$2'
 					}, {
 						name: 'Seqüência',
-						find: /([^a-z][Ss])eqüência(s?[^a-z])/,
+						find: /([^a-z][Ss])eqüência(s?[^a-z])/g,
 						replace: '$1equência$2'
 					}, {
 						name: 'Seqü',
-						find: /([^a-z][Ss])eqüestr((?:adora?|o)s?[^a-z])/,
+						find: /([^a-z][Ss])eqüestr((?:adora?|o)s?[^a-z])/g,
 						replace: '$1equestr$2'
 					}]
 				}, {
@@ -13641,63 +13641,63 @@ Necessitam de revisão mínima
 					ifhas: 'Qüi', // FIXME: /Qüi/i ?
 					sub: [{
 						name: 'Aqüicultura',
-						find: /([^a-z][Aa])qüicultura(s?[^a-z])/,
+						find: /([^a-z][Aa])qüicultura(s?[^a-z])/g,
 						replace: '$1quicultura$2'
 					}, {
 						name: 'Eqüino',
-						find: /([^a-z][Ee])qüino(s?[^a-z])/,
+						find: /([^a-z][Ee])qüino(s?[^a-z])/g,
 						replace: '$1qüino$2'
 					}, {
 						name: 'Exeqüível',
-						find: /([^a-z][Ee])xeqüível(s?[^a-z])/,
+						find: /([^a-z][Ee])xeqüível(s?[^a-z])/g,
 						replace: '$1xequível$2'
 					}, {
 						name: 'Eqüi',
-						find: /([^a-z][Ee])qüi((?:distante|tativo)s?[^a-z])/,
+						find: /([^a-z][Ee])qüi((?:distante|tativo)s?[^a-z])/g,
 						replace: '$1qui$2'
 					}, {
 						name: 'Inexeqüível',
-						find: /([^a-z][Ii])nexeqüível(s?[^a-z])/,
+						find: /([^a-z][Ii])nexeqüível(s?[^a-z])/g,
 						replace: '$1nexequível$2'
 					}, {
 						name: 'Iniqüidade',
-						find: /([^a-z][Ii])niqüidade(s?[^a-z])/,
+						find: /([^a-z][Ii])niqüidade(s?[^a-z])/g,
 						replace: '$1niqüidade$2'
 					}, {
 						name: 'Liqüi',
-						find: /([^a-z][Ll])iqüid((?:ar|ação|ificador)s?[^a-z])/,
+						find: /([^a-z][Ll])iqüid((?:ar|ação|ificador)s?[^a-z])/g,
 						replace: '$1iquid$2'
 					}, {
 						name: 'Líqüido',
-						find: /([^a-z][Ll])íqüido(s?[^a-z])/,
+						find: /([^a-z][Ll])íqüido(s?[^a-z])/g,
 						replace: '$1íquido$2'
 					}, {
 						name: 'Obliqüidade',
-						find: /([^a-z][Oo])bliqüidade(s?[^a-z])/,
+						find: /([^a-z][Oo])bliqüidade(s?[^a-z])/g,
 						replace: '$1bliquidade$2'
 					}, {
 						name: 'Qüin',
-						find: /([^a-z][Qq])üin((?:decágono|gentésimo)s?[^a-z])/,
+						find: /([^a-z][Qq])üin((?:decágono|gentésimo)s?[^a-z])/g,
 						replace: '$1uin$2'
 					}, {
 						name: 'Quinqü',
-						find: /([^a-z][Qq])uinqü((?:qüagésimo|enal|ênio|qüídio)s?[^a-z])/,
+						find: /([^a-z][Qq])uinqü((?:qüagésimo|enal|ênio|qüídio)s?[^a-z])/g,
 						replace: '$1uinqu$2'
 					}, {
 						name: 'Quinqüídio',
-						find: /([^a-z][Qq])uinqüídio(s?[^a-z])/,
+						find: /([^a-z][Qq])uinqüídio(s?[^a-z])/g,
 						replace: '$1uinquídio$2'
 					}, {
 						name: 'Qüiproquó',
-						find: /([^a-z][Qq])üiproquó(s?[^a-z])/,
+						find: /([^a-z][Qq])üiproquó(s?[^a-z])/g,
 						replace: '$1uiproquó$2'
 					}, {
 						name: 'Tranqüi',
-						find: /([^a-z][Tt])ranqüi((?:lo|lidade)s?[^a-z])/,
+						find: /([^a-z][Tt])ranqüi((?:lo|lidade)s?[^a-z])/g,
 						replace: '$1ranqüi$2'
 					}, {
 						name: 'Ubiqüidade',
-						find: /([^a-z][Uu])biqüidade(s?[^a-z])/,
+						find: /([^a-z][Uu])biqüidade(s?[^a-z])/g,
 						replace: '$1biquidade$2'
 					}]
 				}]
@@ -13706,28 +13706,28 @@ Necessitam de revisão mínima
 				ifhas: /éia/i,
 				sub: [{
 					name: 'Assembléia',
-					find: /([^a-z][Aa])ssembléia(s?[^a-z])a/,
+					find: /([^a-z][Aa])ssembléia(s?[^a-z])a/g,
 					replace: '$1ssembleia$2',
 					num: 10
 				}, {
 					name: 'Coréia',
-					find: /([^a-z])Coréia(s?[^a-z])/,
+					find: /([^a-z])Coréia(s?[^a-z])/g,
 					replace: '$1Coreia$2',
 					num: 10
 				}, {
 					name: 'Européia',
-					find: /([^a-z][Ee])uropéia(s?[^a-z])européia/,
+					find: /([^a-z][Ee])uropéia(s?[^a-z])européia/g,
 					replace: '$1uropeia$2',
 					num: 10
 				}, {
 					name: 'idéia',
-					find: /([^a-z][Ii])déia(s?[^a-z])/,
+					find: /([^a-z][Ii])déia(s?[^a-z])/g,
 					replace: '$1deia$2',
 					num: 10
 				}]
 			}, {
 				name: 'ôo',
-				find: /([^a-z])([Vv]|[Aa]benç|[Ee]nj)ôo([^a-z])/,
+				find: /([^a-z])([Vv]|[Aa]benç|[Ee]nj)ôo([^a-z])/g,
 				replace: '$1$2oo$3',
 				ifhas: 'ôo'
 			}, {
@@ -13735,7 +13735,7 @@ Necessitam de revisão mínima
 				ifhas: /aiú/i,
 				sub: [{
 					name: 'baiúca',
-					find: /([^a-z][Bb])aiúca([^a-z])/,
+					find: /([^a-z][Bb])aiúca([^a-z])/g,
 					replace: '$1aiuca$2'
 				}]
 			}, {
@@ -13744,7 +13744,7 @@ Necessitam de revisão mínima
 				replace: '',
 				sub: [{
 					name: 'boiúno',
-					find: /([^a-z][Bb])oiúno([^a-z])/,
+					find: /([^a-z][Bb])oiúno([^a-z])/g,
 					replace: '$1oiúno$2'
 				}]
 			}]
@@ -13755,15 +13755,15 @@ Necessitam de revisão mínima
 			name: 'Marcando',
 			sub: [{
 				name: 'Marcando </ref>',
-				find: /<\/ref>/,
+				find: /<\/ref>/g,
 				replace: '┼'
 			}, {
 				name: 'Marcando ] 1',
-				find: /([^\]])\]\]\]([^\]])/,
+				find: /([^\]])\]\]\]([^\]])/g,
 				replace: '$1]]├$2'
 			}, {
 				name: 'Marcando ] 2',
-				find: /([^\]])\]([^\]])/,
+				find: /([^\]])\]([^\]])/g,
 				replace: '$1├$2'
 			}]
 		}, {
@@ -13835,11 +13835,11 @@ Necessitam de revisão mínima
 				name: 'Lingua na {{Link}}',
 				sub: [{
 					name: '{{Link}} - lingua depois',
-					find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+\}\}.*)\{\{([a-z][a-z][a-z]?(?:\|[^\}\n]*)?)\}\}([^\)])/,
+					find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+\}\}.*)\{\{([a-z][a-z][a-z]?(?:\|[^\}\n]*)?)\}\}([^\)])/g,
 					replace: '$1$3$2$4'
 				}, {
 					name: '{{Link}} - lingua dentro',
-					find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+) *\{\{([a-z][a-z][a-z]?)\}\} *(\}\})/,
+					find: /(\n\*+ \{\{Link *\|) *(\| *[^{}\n]+) *\{\{([a-z][a-z][a-z]?)\}\} *(\}\})/g,
 					replace: '$1$3$2$4',
 					num: 100
 				}]
@@ -14039,7 +14039,7 @@ Necessitam de muita revisão
 				replace: '┤'
 			}, {
 				name: '<small> em tabela',
-				find: /(\n[\|!].*┼[^┤\n]*)\n/,
+				find: /(\n[\|!].*┼[^┤\n]*)\n/g,
 				replace: '$1┤\n',
 				num: 2
 			}, {
@@ -14074,7 +14074,7 @@ Necessitam de muita revisão
 						replace: '{{Multitag|$1|$3$2}}'
 					}, {
 						name: 'Incorpora em Multitag',
-						find: /(\{\{Multitag(?:\|┴[^┴]+┴)+)(\|[^{}\n]*)\}\}\r?\n\{\{(┴[^┴\n]+┴)\2\}\}/,
+						find: /(\{\{Multitag(?:\|┴[^┴]+┴)+)(\|[^{}\n]*)\}\}\r?\n\{\{(┴[^┴\n]+┴)\2\}\}/g,
 						replace: '$1|$3$2}}'
 					}, {
 						name: 'Abrevia',
@@ -14238,7 +14238,7 @@ Necessitam de muita revisão
 			name: 'Acessibilidade',
 			sub: [{
 				name: 'font color para dentro do link',
-				find: /<font color="#?([a-z0-9]*)">\[\[([^\[\]\n]*)\]\]<\/font>/,
+				find: /<font color="#?([a-z0-9]*)">\[\[([^\[\]\n]*)\]\]<\/font>/g,
 				replace: '[[<span style="color:#$1;">$2</span>]]'
 			}]
 		}, {
@@ -14256,7 +14256,7 @@ Necessitam de muita revisão
 					replace: '┤'
 				}, {
 					name: '<small> em tabela',
-					find: /(\n[\|!].*┼[^┤\n]*)\n/,
+					find: /(\n[\|!].*┼[^┤\n]*)\n/g,
 					replace: '$1┤\n',
 					num: 2
 				}, {
@@ -14317,7 +14317,7 @@ Necessitam de muita revisão
 						replace: '$1style="vertical-align:$2;"$3'
 					}, {
 						name: 'align',
-						find: /((?:\n *[!\|]|\|\|) *[^\|\n]*)align="?(left|center|right)"?([ \|\r\n])/,
+						find: /((?:\n *[!\|]|\|\|) *[^\|\n]*)align="?(left|center|right)"?([ \|\r\n])/g,
 						replace: '$1style="text-align:$2;"$3',
 						num: 100
 					}, {
@@ -14328,7 +14328,7 @@ Necessitam de muita revisão
 							replace: '└$1'
 						}, {
 							name: '!style="text-align:center;"|',
-							find: /((?:\|\-[^└\n]*|\{\|.*)(?:\n[\|\!][^\-].*)*\n! *style="[^"\|\n]*)└text\-align:center;([^"\|\n]*")/,
+							find: /((?:\|\-[^└\n]*|\{\|.*)(?:\n[\|\!][^\-].*)*\n! *style="[^"\|\n]*)└text\-align:center;([^"\|\n]*")/g,
 							replace: '$1$2',
 							num: 100
 						}, {
@@ -14348,7 +14348,7 @@ Necessitam de muita revisão
 							replace: '┼'
 						}, {
 							name: 'Rule',
-							find: /(<font ([^<>\n]*)>[^<>┼\[\]\n]*)<font \2>/,
+							find: /(<font ([^<>\n]*)>[^<>┼\[\]\n]*)<font \2>/g,
 							replace: '$1'
 						}, {
 							name: 'marca fim de célula com ref',
@@ -14424,7 +14424,7 @@ Necessitam de muita revisão
 						num: 10
 					}, {
 						name: 'arruma o span c/ pipelink',
-						find: /\[\[(<span[^>\n]*>)([^\|\[\]]*)\|([^\|\[\]]*<\/span>)\]\]/,
+						find: /\[\[(<span[^>\n]*>)([^\|\[\]]*)\|([^\|\[\]]*<\/span>)\]\]/g,
 						replace: '[[$2|$1$3]]'
 					}, {
 						name: 'arruma o span s/ pipelink',
@@ -14455,7 +14455,7 @@ Necessitam de muita revisão
 						num: 10
 					}, {
 						name: 'arruma cor em font - # remove',
-						find: /(<font.*color *= *)#([^g-z> ]*[g-z]+[^g-z> ]*[> ])/,
+						find: /(<font.*color *= *)#([^g-z> ]*[g-z]+[^g-z> ]*[> ])/g,
 						replace: '',
 						num: 10
 					}]
@@ -14558,7 +14558,7 @@ Necessitam de muita revisão
 							replace: '┌$1'
 						}, {
 							name: 'center para tabela',
-							find: /(\{\|.*)(\r?\n(?:(?:!.*|┌.*|\|\- *style="text\-align:center;".*|\|[^\-\}].*)\n)+\|\})/,
+							find: /(\{\|.*)(\r?\n(?:(?:!.*|┌.*|\|\- *style="text\-align:center;".*|\|[^\-\}].*)\n)+\|\})/g,
 							replace: '$1 style="text-align:center;"$2'
 						}, {
 							name: 'desmarca',
@@ -14611,7 +14611,7 @@ Necessitam de muita revisão
 						replace: '$1'
 					}, {
 						name: 'arruma style 2',
-						find: /style=";? *"/,
+						find: /style=";? *"/g,
 						replace: ''
 					}, {
 						name: 'junta os styles',
@@ -14664,15 +14664,15 @@ Necessitam de muita revisão
 			name: 'Marca',
 			sub: [{
 				name: 'Marcando </ref>',
-				find: /<\/ref>/,
+				find: /<\/ref>/g,
 				replace: '┼'
 			}, {
 				name: 'Marcando ] 1',
-				find: /([^\]])\]\]\]([^\]])/,
+				find: /([^\]])\]\]\]([^\]])/g,
 				replace: '$1]]├$2'
 			}, {
 				name: 'Marcando ] 2',
-				find: /([^\]])\]([^\]])/,
+				find: /([^\]])\]([^\]])/g,
 				replace: '$1├$2'
 			}]
 		}, {
@@ -15300,7 +15300,7 @@ Necessitam de muita revisão
 					name: 'acesso',
 					sub: [{
 						name: 'Link de acessodata',
-						find: /(└=)([^\[\]\{\}\|\n]*)\[\[([^\[\]\{\}\|\n]+)\]\]/,
+						find: /(└=)([^\[\]\{\}\|\n]*)\[\[([^\[\]\{\}\|\n]+)\]\]/g,
 						replace: '$1$2$3',
 						num: 10
 					}, {
@@ -15375,7 +15375,7 @@ Necessitam de muita revisão
 							ifhas: /┘/i,
 							sub: [{
 								name: 'Colocando |data=',
-								find: /(┐= *[^└┘}]*) ([^ └┘{}\.\,]{3,} \[?\[?[0-3]?[0-9] *.? *\[?\[?[1-2][0-9]{1,3}\]?\]?\.?|[1-2]?[0-9]{1,3}[^0-9][0-3]?[0-9][^0-9][1-2]?[0-9]{1,3})([^0-9][^└┘}]*┘=)/,
+								find: /(┐= *[^└┘}]*) ([^ └┘{}\.\,]{3,} \[?\[?[0-3]?[0-9] *.? *\[?\[?[1-2][0-9]{1,3}\]?\]?\.?|[1-2]?[0-9]{1,3}[^0-9][0-3]?[0-9][^0-9][1-2]?[0-9]{1,3})([^0-9][^└┘}]*┘=)/g,
 								replace: '$1$3$2'
 							}]
 						}, {
@@ -15392,7 +15392,7 @@ Necessitam de muita revisão
 								num: 100
 							}, {
 								name: 'Retira ponto final 3',
-								find: /([^ ])([┘┴└])/,
+								find: /([^ ])([┘┴└])/g,
 								replace: '$1 $2',
 								num: 10
 							}]
@@ -15515,7 +15515,7 @@ Necessitam de muita revisão
 						// A espera de uma predef de subst para Iso2país
 						enabled: false,
 						name: 'Campo |país=',
-						find: /(\{\{Info\/[^╣]*\| *pa[ií]s *= *\{\{([A-Z]+)[a-z]{0,2}\}\}[^░]*)(\{\{Portal3\|)\}\}/,
+						find: /(\{\{Info\/[^╣]*\| *pa[ií]s *= *\{\{([A-Z]+)[a-z]{0,2}\}\}[^░]*)(\{\{Portal3\|)\}\}/g,
 						replace: '$1$3$2}}'
 					}]
 				}, {
@@ -15892,7 +15892,7 @@ do Portal */
 				ifhas: '{{Multitag', // FIXME: /\{\{Multitag/i ?
 				sub: [{
 					name: 'marcando biografia',
-					find: /\|biografia\= */,
+					find: /\|biografia\= */g,
 					replace: '├'
 				}, {
 					name: 'inserindo biografia',
@@ -16139,7 +16139,7 @@ do Portal */
 						name: '- link de data em info',
 						sub: [{
 							name: 'Rule',
-							find: /(\n *\| *(?:este|próximo|último) (?:álbum|single) *=.*)\[\[([1-2][0-9]{3,3})\]\]/,
+							find: /(\n *\| *(?:este|próximo|último) (?:álbum|single) *=.*)\[\[([1-2][0-9]{3,3})\]\]/g,
 							replace: '$1$2'
 						}]
 					}, {
@@ -16149,12 +16149,12 @@ do Portal */
 					name: 'Desambig',
 					sub: [{
 						name: '[[teclado]]',
-						find: /\[\[([Tt]eclado)\]\]/,
+						find: /\[\[([Tt]eclado)\]\]/g,
 						replace: '[[Teclado (instrumento musical)|$1]]',
 						ifhas: '╣'
 					}, {
 						name: '[[bateria]]',
-						find: /\[\[([Bb]ateria)\]\]/,
+						find: /\[\[([Bb]ateria)\]\]/g,
 						replace: '[[Bateria (instrumento musical)|$1]]'
 					}, {
 						name: '|genero=',
@@ -16313,7 +16313,7 @@ do Portal */
 				ifhas: /\{\{Multitag/i,
 				sub: [{
 					name: 'marcando ciência',
-					find: /\|ciência\= */,
+					find: /\|ciência\= */g,
 					replace: '├'
 				}, {
 					name: 'inserindo ciência',
@@ -16349,7 +16349,7 @@ do Portal */
 							ifhas: /(\n *\| *)imagem( *)=( *)╠/i
 						}, {
 							name: 'Imagem',
-							find: /(\n *\| *)imagem( *)=( *)╠([^\|\n]*)(?:\|([0-9]*px))?(?:\|([^\|\n]+))?▒\]\]/,
+							find: /(\n *\| *)imagem( *)=( *)╠([^\|\n]*)(?:\|([0-9]*px))?(?:\|([^\|\n]+))?▒\]\]/g,
 							replace: '$1imagem$2=$3$4$1imagem_tamanho$2=$3$5$1imagem_legenda$2=$3$6',
 							num: 10
 						}, {
@@ -16376,54 +16376,54 @@ do Portal */
 							name: 'Padronização do nome das posições',
 							sub: [{
 								name: 'Atacante',
-								find: /(\| *posição *= *)(?:\[\[)?[Cc]entroavante(?:\]\])?([^\]][^\(a-z])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Cc]entroavante(?:\]\])?([^\]][^\(a-z])/g,
 								replace: '$1[[Atacante (futebol)|atacante]]$2'
 							}, {
 								name: 'Meia',
-								find: /(\| *posição *= *)(?:\[\[)?(?:[Mm]eio\-de\-[Cc]ampo|[Mm]eio\-[Cc]ampista|[Mm]édio)(?:\]\])?([^\]][^\(a-z])/,
+								find: /(\| *posição *= *)(?:\[\[)?(?:[Mm]eio\-de\-[Cc]ampo|[Mm]eio\-[Cc]ampista|[Mm]édio)(?:\]\])?([^\]][^\(a-z])/g,
 								replace: '$1[[Meia (futebol)|meio-de-campo]]$2'
 							}, {
 								name: 'Zagueiro',
-								find: /(\| *posição *= *)(?:\[\[)?[Dd]efe(?:nsor|sa)(?: central)?(?:\]\])?([^\]][^\(a-z])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Dd]efe(?:nsor|sa)(?: central)?(?:\]\])?([^\]][^\(a-z])/g,
 								replace: '$1[[zagueiro]]$2'
 							}]
 						}, {
 							name: 'Incluir link',
 							sub: [{
 								name: 'Generico',
-								find: /(\| *posição *= *)([^ \[][^\n]*)\r?\n/,
+								find: /(\| *posição *= *)([^ \[][^\n]*)\r?\n/g,
 								replace: '$1[[$2]]\n'
 							}, {
 								name: 'Guarda-redes',
-								find: /(\| *posição *= *)[Gg]uarda\-redes([ \]\r?\n])/,
+								find: /(\| *posição *= *)[Gg]uarda\-redes([ \]\r?\n])/g,
 								replace: '$1[[goleiro|guarda-redes]]$2'
 							}, {
 								name: 'Zagueiro',
-								find: /(\| *posição *= *)(?:\[\[)?[Zz]agueiro(?:\]\])?([ \]\r?\n])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Zz]agueiro(?:\]\])?([ \]\r?\n])/g,
 								replace: '$1[[zagueiro]]$2'
 							}, {
 								name: 'Volante',
-								find: /(\| *posição *= *)(?:\[\[)?[Vv]olante(?:\]\])?([ \]\r?\n][^\(])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Vv]olante(?:\]\])?([ \]\r?\n][^\(])/g,
 								replace: '$1[[Volante (futebol)|volante]]$2'
 							}, {
 								name: 'Ala',
-								find: /(\| *posição *= *)(?:\[\[)?[Aa]la( [a-zA-Z]*)?(?:\]\])?([ \]\r?\n][^\(])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Aa]la( [a-zA-Z]*)?(?:\]\])?([ \]\r?\n][^\(])/g,
 								replace: '$1[[Ala (futebol)|ala$2]]$3'
 							}, {
 								name: 'Lateral',
-								find: /(\| *posição *= *)(?:\[\[)?[Ll]ateral(\-*[a-zA-Z]*)?(?:\]\])?([ \]\r?\n][^\(])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Ll]ateral(\-*[a-zA-Z]*)?(?:\]\])?([ \]\r?\n][^\(])/g,
 								replace: '$1[[Lateral (futebol)|lateral$2]]$3'
 							}, {
 								name: 'Meia',
-								find: /(\| *posição *= *)(?:\[\[)?[Mm]eia(?:\]\])?([ \]\r?\n][^\(])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Mm]eia(?:\]\])?([ \]\r?\n][^\(])/g,
 								replace: '$1[[Meia (futebol)|meia]]$2'
 							}, {
 								name: 'Atacante',
-								find: /(\| *posição *= *)(?:\[\[)?[Aa]tacante(?:\]\])? *([ \]\r?\n][^\(])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Aa]tacante(?:\]\])? *([ \]\r?\n][^\(])/g,
 								replace: '$1[[Atacante (futebol)|atacante]]$2'
 							}, {
 								name: 'Líbero',
-								find: /(\| *posição *= *)(?:\[\[)?[Ll]íbero(?:\]\])?([ \]\r?\n][^\(])/,
+								find: /(\| *posição *= *)(?:\[\[)?[Ll]íbero(?:\]\])?([ \]\r?\n][^\(])/g,
 								replace: '$1[[Líbero (futebol)|líbero]]$2'
 							}]
 						}, {
@@ -16439,11 +16439,11 @@ do Portal */
 						name: 'paísnatal',
 						sub: [{
 							name: 'iconebandeira em paisnatal',
-							find: /(\| *paisnatal *= *)(?:\[\[)?([^ {}\[\]\r\n][^{}\[\]\r\n]*)(?:\]\])?\r?\n/,
+							find: /(\| *paisnatal *= *)(?:\[\[)?([^ {}\[\]\r\n][^{}\[\]\r\n]*)(?:\]\])?\r?\n/g,
 							replace: '$1{{subst:chaves-abre}}{{subst:ISO2|$2}}{{subst:chaves-fecha}}\n'
 						}, {
 							name: '{{BRAb}} -> {{BRA}} em paisnatal',
-							find: /(\| *paisnatal *= *)\{\{([A-Z]+)b\}\}\r?\n/,
+							find: /(\| *paisnatal *= *)\{\{([A-Z]+)b\}\}\r?\n/g,
 							replace: '$1{{$2}}\n'
 						}]
 					}, {
@@ -16451,15 +16451,15 @@ do Portal */
 						ifhas: /\| *pé *= *[^ \r\n]/,
 						sub: [{
 							name: 'direito -> destro',
-							find: /( \| *pé *= *)(?:\[\[)?[Dd]ireito(?:\]\])?\r?\n/,
+							find: /( \| *pé *= *)(?:\[\[)?[Dd]ireito(?:\]\])?\r?\n/g,
 							replace: '$1[[destro]]\n'
 						}, {
 							name: 'esquerdo -> canhoto',
-							find: /( \| *pé *= *)(?:\[\[)?[Ee]squerdo(?:\]\])?\r?\n/,
+							find: /( \| *pé *= *)(?:\[\[)?[Ee]squerdo(?:\]\])?\r?\n/g,
 							replace: '$1[[canhoto]]\n'
 						}, {
 							name: 'colchetes no pé',
-							find: /( \| *pé *= *)([^\[\n]*)\r?\n/,
+							find: /( \| *pé *= *)([^\[\n]*)\r?\n/g,
 							replace: '$1[[$2]]\n'
 						}]
 					}, {
@@ -16488,11 +16488,11 @@ do Portal */
 					ifhas: '╚',
 					sub: [{
 						name: 'mais conhecido como',
-						find: /(╚[^╝]*conhecido )(?:no mundo de futebol|apenas) (?:como|por) /,
+						find: /(╚[^╝]*conhecido )(?:no mundo de futebol|apenas) (?:como|por) /g,
 						replace: '$1como '
 					}, {
 						name: 'conhecido antes de nascido',
-						find: /(╚[^╝]*''') (\([^\(\)\n]*\)).*(, mais conhecido como[^\,\n]*)\,/,
+						find: /(╚[^╝]*''') (\([^\(\)\n]*\)).*(, mais conhecido como[^\,\n]*)\,/g,
 						replace: '$1$3 $2,'
 					}, {
 						name: 'nascido em',
@@ -16500,38 +16500,38 @@ do Portal */
 						replace: '$1'
 					}, {
 						name: 'cidade natal',
-						find: /(\| *cidadenatal *= *([^\r\n]+)\r?\n[^╚]+╚[^╝]+)\((\[\[[0-9])/,
+						find: /(\| *cidadenatal *= *([^\r\n]+)\r?\n[^╚]+╚[^╝]+)\((\[\[[0-9])/g,
 						replace: '$1($2, $3',
 						ifhas: /\| *cidadenatal *= *[^\r\n ]/i,
 						ifnot: /╚[^╝]*\(\[\[[^0-9]/i
 					}, {
 						name: 'jogador de futebol',
-						find: /(╚[^╝]*)jogador de futebol/,
+						find: /(╚[^╝]*)jogador de futebol/g,
 						replace: '$1futebolista'
 					}, {
 						name: 'que atua',
-						find: /(╚[^╝]*)que joga(va)? /,
+						find: /(╚[^╝]*)que joga(va)? /g,
 						replace: '$1que atua$2 '
 					}, {
 						name: 'atuava como',
-						find: /(╚[^╝]*atua(?:va)?) na posição de /,
+						find: /(╚[^╝]*atua(?:va)?) na posição de /g,
 						replace: '$1 como ',
 						num: 10
 					}, {
 						name: 'joga pelo',
-						find: /(╚[^╝]*)defende o /,
+						find: /(╚[^╝]*)defende o /g,
 						replace: '$1joga pelo '
 					}, {
 						name: 'Atualmente, joga pelo',
-						find: /(╚[^╝]*futebolista[^\,\n]*\, que atua como [^\,\n]*) (no|pelo)/,
+						find: /(╚[^╝]*futebolista[^\,\n]*\, que atua como [^\,\n]*) (no|pelo)/g,
 						replace: '$1. Atualmente, joga pelo'
 					}, {
 						name: 'que atualmente joga como',
-						find: /(╚[^╝]*)que atualmente joga como ([^╝]*) pelo (\[\[[^\]\n]*\]\])/,
+						find: /(╚[^╝]*)que atualmente joga como ([^╝]*) pelo (\[\[[^\]\n]*\]\])/g,
 						replace: '$1que atua como $2. Atualmente, joga pelo $3'
 					}, {
 						name: 'colocando clube atual',
-						find: /(\| *actualclube *= *(?:\{\{[A-Z]*b\}\})? *(\[\[[^\[\]\{\}\r\n]*\]\]))([^╝]*)(\.╝)/,
+						find: /(\| *actualclube *= *(?:\{\{[A-Z]*b\}\})? *(\[\[[^\[\]\{\}\r\n]*\]\]))([^╝]*)(\.╝)/g,
 						replace: '$1$3. Atualmente, joga pelo $2$4',
 						ifhas: /\| *actualclube *= *[^\r\n]/i,
 						ifnot: /╚[^╝]*Atualmente/i
@@ -16540,15 +16540,15 @@ do Portal */
 						ifhas: '╚',
 						sub: [{
 							name: '[[futebolista]] na introd',
-							find: /(╚[^╝]*[^\[])futebolista([^\]])/,
+							find: /(╚[^╝]*[^\[])futebolista([^\]])/g,
 							replace: '$1[[futebolista]]$2'
 						}, {
 							name: '[[nacionalidade]] na introd',
-							find: /(╚[^╝]*\[\[futebolista\]\]) ([^\[][^ \n\,]*), /,
+							find: /(╚[^╝]*\[\[futebolista\]\]) ([^\[][^ \n\,]*), /g,
 							replace: '$1 [[$2]], '
 						}, {
 							name: '[[posição]] na introdução',
-							find: /(╚[^╝]*que atua(?:va)? como )([^\[\]\n\,\.]+)( do |\.\,)/,
+							find: /(╚[^╝]*que atua(?:va)? como )([^\[\]\n\,\.]+)( do |\.\,)/g,
 							replace: '$1[[$2]]$3'
 						}]
 					}, {
@@ -16564,36 +16564,36 @@ do Portal */
 					ifhas: /\[\[/i,
 					sub: [{
 						name: '[[guarda-redes]]',
-						find: /\[\[([Gg])uarda\-redes\]\]/,
+						find: /\[\[([Gg])uarda\-redes\]\]/g,
 						replace: '[[Goleiro|$1uarda-redes]]',
 						num: 100
 					}, {
 						name: '[[volante]]',
-						find: /\[\[([Vv])olante\]\]/,
+						find: /\[\[([Vv])olante\]\]/g,
 						replace: '[[$1olante (futebol)|$1olante]]',
 						num: 100
 					}, {
 						name: '[[ala]]',
-						find: /\[\[([Aa])la\]\]/,
+						find: /\[\[([Aa])la\]\]/g,
 						replace: '[[$1la (futebol)|$1la]]',
 						num: 100
 					}, {
 						name: '[[lateral]]',
-						find: /\[\[([Ll])ateral\]\]/,
+						find: /\[\[([Ll])ateral\]\]/g,
 						replace: '[[$1ateral (futebol)|$1ateral]]'
 					}, {
 						name: '[[atacante]]',
-						find: /\[\[([Aa])tacante\]\]/,
+						find: /\[\[([Aa])tacante\]\]/g,
 						replace: '[[$1tacante (futebol)|$1tacante]]',
 						num: 100
 					}, {
 						name: '[[líbero]]',
-						find: /\[\[([Ll])íbero\]\]/,
+						find: /\[\[([Ll])íbero\]\]/g,
 						replace: '[[$1íbero (futebol)|$1íbero]]',
 						num: 100
 					}, {
 						name: '[[futebol]]ista',
-						find: /\[\[([Ff])utebol\]\]ista(s?[^a-z])/,
+						find: /\[\[([Ff])utebol\]\]ista(s?[^a-z])/g,
 						replace: '[[$1utebolista]]$2'
 					}, {
 						name: '-LI em {footballbox |data=',
@@ -16715,23 +16715,23 @@ quem quiser pode habilitar e ajudar a testar
 		ifnot: /(<(blockquote|code|math|timeline|pre|poem|nowiki|quote|source)|\{\{(Citação|Quim))/i,
 		sub: [{
 			name: 'sequencia 1',
-			find: /(\[\[[^\[\]\n▒]*\]\], )([^\[\] \n▒]+\]\])/,
+			find: /(\[\[[^\[\]\n▒]*\]\], )([^\[\] \n▒]+\]\])/g,
 			replace: '$1[[$2'
 		}, {
 			name: 'sequencia 2',
-			find: /(, \[\[[^\[\] \n▒]+)( \([0-9]{4,4}\),)/,
+			find: /(, \[\[[^\[\] \n▒]+)( \([0-9]{4,4}\),)/g,
 			replace: '$1]]$2'
 		}, {
 			name: '[[Ano]] / [[Ano',
-			find: /(\[\[[0-9]{4,4}\]\] *\/ *\[\[[0-9]{4,4})( *[^ \|\]])/,
+			find: /(\[\[[0-9]{4,4}\]\] *\/ *\[\[[0-9]{4,4})( *[^ \|\]])/g,
 			replace: '$1]]$2'
 		}, {
 			name: '[[dia de mes]] de [[ano',
-			find: /(\[\[[1-3]?[0-9] de [^\[\] \n]+\]\] de \[\[[0-9]{4,4})([^\]\|])/,
+			find: /(\[\[[1-3]?[0-9] de [^\[\] \n]+\]\] de \[\[[0-9]{4,4})([^\]\|])/g,
 			replace: '$1]]$2'
 		}, {
 			name: ']] de ano]]',
-			find: /(\]\] de )([0-9]{4,4}\]\])/,
+			find: /(\]\] de )([0-9]{4,4}\]\])/g,
 			replace: '$1[[$2]]'
 		}]
 	}]
@@ -16808,7 +16808,7 @@ quem quiser pode habilitar e ajudar a testar
 			}]
 		}, {
 			name: 'Rule',
-			find: /\n#([^#])/,
+			find: /\n#([^#])/g,
 			replace: '\n*$1'
 		}, {
 			name: 'quebra após {{desambiguação}}',
@@ -16831,7 +16831,7 @@ quem quiser pode habilitar e ajudar a testar
 				replace: '\n\'\'\'$1\'\'\' pode referir-se a:\n'
 			}, {
 				name: 'Texto antes da ocorrência do termo',
-				find: /\n(?:O termo|A palavra|Por) ('''[^'\n]+''')/,
+				find: /\n(?:O termo|A palavra|Por) ('''[^'\n]+''')/g,
 				replace: '\n$1'
 			}, {
 				name: 'é um [[acrónimo',
@@ -16931,7 +16931,7 @@ quem quiser pode habilitar e ajudar a testar
 				num: 10
 			}, {
 				name: 'pipeline no início da entrada',
-				find: /(\* *\[\[[^\[\]\|\n]+)\|[^\[\]\|\n]+(\]\] *[,\-])/,
+				find: /(\* *\[\[[^\[\]\|\n]+)\|[^\[\]\|\n]+(\]\] *[,\-])/g,
 				replace: '$1$2'
 			}]
 		}, {
@@ -17007,107 +17007,107 @@ quem quiser pode habilitar e ajudar a testar
 			ifhas: /\{\{\{[A-Z][a-z]/,
 			sub: [{
 				name: '{{{A',
-				find: /([^{])\{\{\{A([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{A([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{A$2|}}}{{{a$2|}}}'
 			}, {
 				name: '{{{B',
-				find: /([^{])\{\{\{B([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{B([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{B$2|}}}{{{b$2|}}}'
 			}, {
 				name: '{{{C',
-				find: /([^{])\{\{\{C([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{C([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{C$2|}}}{{{c$2|}}}'
 			}, {
 				name: '{{{D',
-				find: /([^{])\{\{\{D([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{D([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{D$2|}}}{{{d$2|}}}'
 			}, {
 				name: '{{{E',
-				find: /([^{])\{\{\{E([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{E([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{E$2|}}}{{{e$2|}}}'
 			}, {
 				name: '{{{F',
-				find: /([^{])\{\{\{F([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{F([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{F$2|}}}{{{f$2|}}}'
 			}, {
 				name: '{{{G',
-				find: /([^{])\{\{\{G([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{G([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{G$2|}}}{{{g$2|}}}'
 			}, {
 				name: '{{{H',
-				find: /([^{])\{\{\{H([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{H([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{H$2|}}}{{{h$2|}}}'
 			}, {
 				name: '{{{I',
-				find: /([^{])\{\{\{I([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{I([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{I$2|}}}{{{i$2|}}}'
 			}, {
 				name: '{{{J',
-				find: /([^{])\{\{\{J([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{J([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{J$2|}}}{{{j$2|}}}'
 			}, {
 				name: '{{{K',
-				find: /([^{])\{\{\{K([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{K([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{K$2|}}}{{{k$2|}}}'
 			}, {
 				name: '{{{L',
-				find: /([^{])\{\{\{L([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{L([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{L$2|}}}{{{l$2|}}}'
 			}, {
 				name: '{{{M',
-				find: /([^{])\{\{\{M([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{M([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{M$2|}}}{{{m$2|}}}'
 			}, {
 				name: '{{{N',
-				find: /([^{])\{\{\{N([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{N([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{N$2|}}}{{{n$2|}}}'
 			}, {
 				name: '{{{O',
-				find: /([^{])\{\{\{O([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{O([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{O$2|}}}{{{o$2|}}}'
 			}, {
 				name: '{{{P',
-				find: /([^{])\{\{\{P([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{P([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{P$2|}}}{{{p$2|}}}'
 			}, {
 				name: '{{{Q',
-				find: /([^{])\{\{\{Q([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{Q([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{Q$2|}}}{{{q$2|}}}'
 			}, {
 				name: '{{{R',
-				find: /([^{])\{\{\{R([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{R([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{R$2|}}}{{{r$2|}}}'
 			}, {
 				name: '{{{S',
-				find: /([^{])\{\{\{S([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{S([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{S$2|}}}{{{s$2|}}}'
 			}, {
 				name: '{{{T',
-				find: /([^{])\{\{\{T([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{T([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{T$2|}}}{{{t$2|}}}'
 			}, {
 				name: '{{{U',
-				find: /([^{])\{\{\{U([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{U([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{U$2|}}}{{{u$2|}}}'
 			}, {
 				name: '{{{V',
-				find: /([^{])\{\{\{V([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{V([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{V$2|}}}{{{v$2|}}}'
 			}, {
 				name: '{{{W',
-				find: /([^{])\{\{\{W([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{W([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{W$2|}}}{{{w$2|}}}'
 			}, {
 				name: '{{{X',
-				find: /([^{])\{\{\{X([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{X([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{X$2|}}}{{{x$2|}}}'
 			}, {
 				name: '{{{Y',
-				find: /([^{])\{\{\{Y([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{Y([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{Y$2|}}}{{{y$2|}}}'
 			}, {
 				name: '{{{Z',
-				find: /([^{])\{\{\{Z([a-z][^\|\{\}\n]+)\|?\}\}\}/,
+				find: /([^{])\{\{\{Z([a-z][^\|\{\}\n]+)\|?\}\}\}/g,
 				replace: '$1{{{Z$2|}}}{{{z$2|}}}'
 			}]
 		}]
@@ -17315,7 +17315,7 @@ style="text-align:left;"|;"
 			name: 'Desmarca Topo / Fim',
 			sub: [{
 				name: 'Desmarca fim de artigo',
-				find: /\n░/,
+				find: /\n░/g,
 				replace: ''
 			}, {
 				name: 'Desmarca topo 1',
@@ -17351,7 +17351,7 @@ style="text-align:left;"|;"
 				replace: ''
 			}, {
 				name: 'Desmarca primeira seção',
-				find: /╩\n/,
+				find: /╩\n/g,
 				replace: ''
 			}, {
 				name: 'Desmarca seções',
@@ -17366,7 +17366,7 @@ style="text-align:left;"|;"
 				replace: '}}'
 			}, {
 				name: 'Desmarca parag 1 inicio',
-				find: /╚/,
+				find: /╚/g,
 				replace: ''
 			}, {
 				name: 'Desmarca parag 1 fim',
@@ -17377,13 +17377,13 @@ style="text-align:left;"|;"
 			name: 'Desmarca fim',
 			sub: [{
 				name: 'Desmarca fim de artigo',
-				find: /░/,
+				find: /░/g,
 				replace: ''
 			}, {
 				// regra não utilizada por enquanto
 				enabled: false,
 				name: 'Desmarca fim última seção',
-				find: /╬/,
+				find: /╬/g,
 				replace: ''
 			}]
 		}]
