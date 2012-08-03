@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.14',
+	version: '0.15',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -228,7 +228,7 @@ AWB.run = function () {
 			}
 		} );
 
-	} else if ($.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 && mw.config.get('wgPageName') === 'Wikipédia:Projetos/AWB/Script' ) {
+	} else if ( mw.config.get('wgPageName') === 'Wikipédia:Projetos/AWB/Script' && $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 ) {
 		// TODO: Implement a true user interface on this "special page"
 		if (AWB.hasUserInterface) {
 			mw.util.addCSS('.awb-disabled{ color: red;}');
