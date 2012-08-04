@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.19'
+	rulesVersion: '3.1.20'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -41,12 +41,12 @@ window.AWB.rules = [{
 				name: 'Trimming de DEFAULTSORT',
 				sub: [{
 					name: 'Trimming de DEFAULTSORT 1',
-					find: /\{\{ *DEFAULTSORT *: *(.+)\}\}\n/ig,
+					find: /\{\{ *DEFAULTSORT *: *(.+)\}\}\n/g,
 					replace: '{{DEFAULTSORT:$1}}\n',
 					num: 100
 				}, {
 					name: 'Trimming de DEFAULTSORT 2',
-					find: /(\{\{DEFAULTSORT:.*) +\}\}/ig,
+					find: /(\{\{DEFAULTSORT:.*) +\}\}/g,
 					replace: '$1}}',
 					num: 100
 				}]
@@ -184,7 +184,7 @@ window.AWB.rules = [{
 					replace: '$1\n\n[[Categoria:'
 				}, {
 					name: 'trim v+ antes cats 3',
-					find: /(\{\{DEFAULTSORT:[^{}\n]+\}\})(?:\r?\n){2,}(\[\[Categoria:)/ig,
+					find: /(\{\{DEFAULTSORT:[^{}\n]+\}\})(?:\r?\n){2,}(\[\[Categoria:)/g,
 					replace: '$1\n$2'
 				}, {
 					name: 'trim v- entre cats',
@@ -10589,7 +10589,7 @@ window.AWB.rules = [{
 					replace: '$1\n\n{{DEFAULTSORT'
 				}, {
 					name: 'Após DEFAULTSORT',
-					find: /(\{\{DEFAULTSORT:.*\}\})\n\n/ig,
+					find: /(\{\{DEFAULTSORT:.*\}\})\n\n/g,
 					replace: '$1\n'
 				}]
 			}, {
@@ -10693,7 +10693,7 @@ window.AWB.rules = [{
 				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}, {
 				name: 'Sem seção REF - Cat Defaultsort',
-				find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/ig,
+				find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/g,
 				replace: '\n\n{{Referências}}\n\n$1',
 				ifnot: /(\{\{(ref\-?section|ref\-?list|referências)|<referen)/i
 			}]
@@ -10706,7 +10706,7 @@ window.AWB.rules = [{
 				replace: '$1\n\n[[Categoria:'
 			}, {
 				name: 'Trimv de defaultsort+cat',
-				find: /(\{\{DEFAULTSORT:.*\}\})(\r?\n){2,}(\[\[Categoria:)/ig,
+				find: /(\{\{DEFAULTSORT:.*\}\})(\r?\n){2,}(\[\[Categoria:)/g,
 				replace: '$1\n$3'
 			}, {
 				/* Só arruma se não tiver defaultsort, e se tiver {{Biografias}}
@@ -10723,13 +10723,13 @@ window.AWB.rules = [{
 					ifnot: /\{\{DEFAULTSORT:/i
 				}, {
 					name: 'Paisnatal nao lusofono',
-					find: /\{\{DEFAULTSORT:([^,\(\){}\n]+) ([^ ,\(\){}\n]+)( \([^\(\)\{\}\n]+\))?\}\}/ig,
+					find: /\{\{DEFAULTSORT:([^,\(\){}\n]+) ([^ ,\(\){}\n]+)( \([^\(\)\{\}\n]+\))?\}\}/g,
 					replace: '{{DEFAULTSORT:$2, $1$3}}',
 					ifhas: /\n *\| *pa[ií]s(natal)? *= *\{\{/,
 					ifnot: /\n *\| *pa[ií]s(natal)? *= *\{\{(AGO|BRA|CPV|GNB|GNQ|MAC|MOZ|MUS|PRT|SEN|STP|TLS)/
 				}, {
 					name: 'Sem palavra luso',
-					find: /\{\{DEFAULTSORT:([^,\(\){}\n]+) ([^ ,\(\){}\n]+)( \([^\(\)\{\}\n]+\))?\}\}/ig,
+					find: /\{\{DEFAULTSORT:([^,\(\){}\n]+) ([^ ,\(\){}\n]+)( \([^\(\)\{\}\n]+\))?\}\}/g,
 					replace: '{{DEFAULTSORT:$2, $1$3}}',
 					ifnot: /((Brasil|(Acre|Alagoas|Amapá|Amazonas|Bahia|Ceará|Espírito Santo|Goiás|Maranhão|Mato Grosso|Minas Gerais|Pará|Paraíba|Paraná|Pernambuco|Piauí|Rio de Janeiro|Rio Grande|Rondônia|Roraima|Santa Catarina|São Paulo|Sergipe|Tocantins)|Portugal|(Açores|Aveiro|Beja|Braga|Bragança|Castelo Branco|Coimbra|Évora|Faro|Guarda|Leiria|Lisboa|Madeira|Portalegre|Porto|Santarém|Setúbal|Viana do Castelo|Vila Real|Viseu)|Angola|Cabo Verde|Guiné\-Bissau|Moçambique|São Tomé e Príncipe|Timor\-leste)|\{\{Info\/Personagem fictícia)/i
 				}]
@@ -10783,7 +10783,7 @@ window.AWB.rules = [{
 					ifnot: '▓À'
 				}, {
 					name: 'Arrumando espaço',
-					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|).*,)([^ \n])/ig,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|).*,)([^ \n])/g,
 					replace: '$1 $2',
 					num: 100
 				}, {
@@ -10974,7 +10974,7 @@ window.AWB.rules = [{
 				}, {
 					enabled: false, // desab, não sei se ainda é necessário
 					name: 'Trocando por espaço',
-					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[^\]\}\n]*)[\-\–\—_]([^\]\}\n]*[\}\]])/ig,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|[^\]\n]*)[^\]\}\n]*)[\-\–\—_]([^\]\}\n]*[\}\]])/g,
 					replace: '$1 $2',
 					num: 100
 				}, {
@@ -11025,7 +11025,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: 'I',
-						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)i/g,
+						find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)(?:[^\[\]\{\}\n]+[ \-\(\/])?)/g,
 						replace: '$1I',
 						num: 100
 					}, {
@@ -11253,7 +11253,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Remove \'',
-					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\}\]\n]*)'([^\}\]\n]*[\}\]])/ig,
+					find: /((?:\{\{DEFAULTSORT *:|\[\[Categoria:[^\|\]\n]+\|)[^\}\]\n]*)'([^\}\]\n]*[\}\]])/g,
 					replace: '$1$2',
 					num: 100
 				}]
@@ -11305,7 +11305,7 @@ window.AWB.rules = [{
 					ifnot: /\{\{(Portal3|desambiguação)/i,
 					sub: [{
 						name: 'Geral vazia',
-						find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/ig,
+						find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/g,
 						replace: '\n\n{{Portal3|}}\n\n$1',
 						ifnot: /\{\{Portal3/i
 					}]
@@ -11592,7 +11592,7 @@ window.AWB.rules = [{
 					name: 'Inserindo',
 					sub: [{
 						name: '{{Reciclagem|Predefinição}}',
-						find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/ig,
+						find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/g,
 						replace: '\n\n{{Reciclagem|Predefinição}}\n\n$1',
 						ifhas: /(\{\{Navebox|\{\{#if:|\{\{#switch:|[^{]\{\{\{)/i,
 						ifnot: /\{\{Reciclagem[\|}]/i
@@ -12435,12 +12435,12 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: 'trim v- após defaultsort',
-				find: /(\{\{DEFAULTSORT:.*\}\})\r?\n\r?\n/ig,
+				find: /(\{\{DEFAULTSORT:.*\}\})\r?\n\r?\n/g,
 				replace: '$1\n',
 				num: 10
 			}, {
 				name: 'trim v- antes cat 1',
-				find: /(\{\{DEFAULTSORT:.*\}\})(?:\r?\n){2,}(\[\[Categoria:)/ig,
+				find: /(\{\{DEFAULTSORT:.*\}\})(?:\r?\n){2,}(\[\[Categoria:)/g,
 				replace: '$1\n$2',
 				num: 10
 			}, {
@@ -12476,7 +12476,7 @@ window.AWB.rules = [{
 				num: 10
 			}, {
 				name: 'Rule',
-				find: /(\{\{DEFAULTSORT:[^{}\n]+\}\})(?:\r?\n){2,}(\[\[Categoria:)/ig,
+				find: /(\{\{DEFAULTSORT:[^{}\n]+\}\})(?:\r?\n){2,}(\[\[Categoria:)/g,
 				replace: '$1\n$2'
 			}]
 		}]
@@ -13871,7 +13871,7 @@ Necessitam de revisão mínima
 				ifnot: /\{\{(Portal3|desambiguação)/i,
 				sub: [{
 					name: 'Geral vazia',
-					find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/ig,
+					find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/g,
 					replace: '\n\n{{Portal3|}}\n\n$1'
 				}]
 			}, {
@@ -15464,7 +15464,7 @@ Necessitam de muita revisão
 			ifhas: '{{Biografias}}', // FIXME: /\{\{Biografias}}/i ?
 			sub: [{
 				name: 'Paisnatal nao lusofono',
-				find: /\{\{DEFAULTSORT:([^,\(\){}\n]+) ([^ ,\(\){}\n]+)( \([^\(\)\{\}\n]+\))?\}\}/ig,
+				find: /\{\{DEFAULTSORT:([^,\(\){}\n]+) ([^ ,\(\){}\n]+)( \([^\(\)\{\}\n]+\))?\}\}/g,
 				replace: '{{DEFAULTSORT:$2, $1$3}}',
 				ifhas: /\n *\| *pa[ií]s(natal)? *= *\{\{/,
 				ifnot: /\n *\| *pa[ií]s(natal)? *= *\{\{(AGO|BRA|CPV|GNB|GNQ|MAC|MOZ|MUS|PRT|SEN|STP|TLS)/
@@ -15476,7 +15476,7 @@ Necessitam de muita revisão
 				ifnot: /\{\{(Portal3|desambiguação)/i,
 				sub: [{
 					name: 'Geral vazia',
-					find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/ig,
+					find: /\r?\n\r?\n(\[\[Categoria:|\{\{DEFAULTSORT:)/g,
 					replace: '\n\n{{Portal3|}}\n\n$1'
 				}]
 			}, {
