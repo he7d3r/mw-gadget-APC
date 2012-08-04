@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.20'
+	rulesVersion: '3.1.21'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -2437,8 +2437,8 @@ window.AWB.rules = [{
 						replace: '{{Carece de fontes$1'
 					}, {
 						name: '{{Fusão}}',
-						find: /\{\{(Fusao|Fusão1|Fundir)([\|\r\n\}])/ig,
-						replace: '{{Fusão$2'
+						find: /\{\{(?:Fu(?:s(?:ao|ão1)|ndir))([\|\r\n\}])/ig,
+						replace: '{{Fusão$1'
 					}, {
 						name: '{{Artigo longo}}',
 						find: /\{\{(Artigo Longo|Longo)([\|\r\n\}])/ig,
@@ -2559,7 +2559,7 @@ window.AWB.rules = [{
 						replace: '{{Artigo principal|'
 					}, {
 						name: '{{Ligações externas}}',
-						find: /\{\{(Apontadores|Apontadores externos|Atalhos externos|Enlace externo|Enlaces externos|Elos externos|Link externo|Links|Links exteriores|Links externos|Links para o exterior|Links relacionados|Ligação exterior|Ligação externa|Ligações Externas|Ligações exteriores|Ligações para o exterior|Linque externo|Páginas externas|Página externa|Páginas da Internet|Recursos exteriores à Wikipédia|Referência externa|Referências externas|Sítios|Vínculos externos|Weblinks)\}\}/ig,
+						find: /\{\{(?:Apontadores(?: externos)?|Atalhos externos|Enlace externo|Enlaces externos|Elos externos|Link externo|Links|Links exteriores|Links externos|Links para o exterior|Links relacionados|Ligação exterior|Ligação externa|Ligações Externas|Ligações exteriores|Ligações para o exterior|Linque externo|Páginas externas|Página externa|Páginas da Internet|Recursos exteriores à Wikipédia|Referência externa|Referências externas|Sítios|Vínculos externos|Weblinks)\}\}/ig,
 						replace: 'Ligações externas'
 					}, {
 						name: '{{Ver também}}',
@@ -3487,8 +3487,8 @@ window.AWB.rules = [{
 					replace: '{{Não confundir com|$2}}\n'
 				}, {
 					name: '{{Outrosusos}}',
-					find: /:+\'+(''Nota *: *''')?Para outros usos deste termo, (veja|ver) \[\[([^\[\]\n]+) \(desambiguação\)\]\]\.?\'+\.?\r?\n/ig,
-					replace: '{{Outrosusos|$3}}'
+					find: /:+\'+(?:''Nota *: *''')?Para outros usos deste termo, ve(?:ja|r) \[\[([^\[\]\n]+) \(desambiguação\)\]\]\.?\'+\.?\r?\n/ig,
+					replace: '{{Outrosusos|$1}}'
 				}]
 			}]
 		}, {
@@ -5942,7 +5942,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{DEUNb}} - Alemanha Nazi (1)',
-						find: /\{\{Flagicon\|(Alemanha Nazi|Alemanha Nazista)\}\}/ig,
+						find: /\{\{Flagicon\|(Alemanha Nazi(?:sta)?)\}\}/ig,
 						replace: '{{DEUNb}}',
 						num: 100
 					}, {
@@ -6076,7 +6076,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{BMUb}} - Bermudas',
-						find: /\{\{Flagicon\|(Bermudas|Bermudas)\}\}/ig,
+						find: /\{\{Flagicon\|Bermudas\}\}/ig,
 						replace: '{{BMUb}}',
 						num: 100
 					}, {
@@ -6486,7 +6486,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{GINb}} - Guiné',
-						find: /\{\{Flagicon\|(Guinea|Guiné)\}\}/ig,
+						find: /\{\{Flagicon\|Guin(?:ea|é)\}\}/ig,
 						replace: '{{GINb}}',
 						num: 100
 					}, {
@@ -6638,7 +6638,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{JORb}} - Jordânia',
-						find: /\{\{Flagicon\|(Jordan|Jordânia)\}\}/ig,
+						find: /\{\{Flagicon\|Jord(?:an|ânia)\}\}/ig,
 						replace: '{{JORb}}',
 						num: 100
 					}]
@@ -6770,7 +6770,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{MTQb}} - Martinica',
-						find: /\{\{Flagicon\|(Martinica|Martinique)\}\}/ig,
+						find: /\{\{Flagicon\|Martini(?:ca|que)\}\}/ig,
 						replace: '{{MTQb}}',
 						num: 100
 					}, {
@@ -6903,7 +6903,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{[Ff]lagicon\|O/,
 					sub: [{
 						name: '{{OMNb}} - Omã',
-						find: /\{\{Flagicon\|(Oman|Omã)\}\}/ig,
+						find: /\{\{Flagicon\|Om(?:an|ã)\}\}/ig,
 						replace: '{{OMNb}}',
 						num: 100
 					}]
@@ -7184,7 +7184,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{SDNb}} - Sudão',
-						find: /\{\{Flagicon\|(Sudan|Sudão)\}\}/ig,
+						find: /\{\{Flagicon\|Sud(?:an|ão)\}\}/ig,
 						replace: '{{SDNb}}',
 						num: 100
 					}, {
@@ -7341,7 +7341,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{VATb}} - Vaticano',
-						find: /\{\{Flagicon\|(Vaticano|Vatican)\}\}/ig,
+						find: /\{\{Flagicon\|Vaticano?\}\}/ig,
 						replace: '{{VATb}}',
 						num: 100
 					}, {
@@ -7351,7 +7351,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{VNMb}} - Vietnã',
-						find: /\{\{Flagicon\|(Vietnã|Vietname|Vietnam)\}\}/ig,
+						find: /\{\{Flagicon\|Vietn(?:ã|ame|am)\}\}/ig,
 						replace: '{{VNMb}}',
 						num: 100
 					}]
@@ -7421,7 +7421,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{DEUN}} - Alemanha Nazi (1)',
-						find: /\{\{Flag\|(Alemanha Nazi|Alemanha Nazista)\}\}/ig,
+						find: /\{\{Flag\|(Alemanha Nazi(?:sta)?)\}\}/ig,
 						replace: '{{DEUN}}',
 						num: 100
 					}, {
@@ -7590,7 +7590,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{BRN}} - Brunei',
-						find: /\{\{Flag\|(Brunei|Brunei Darussalam)\}\}/ig,
+						find: /\{\{Flag\|Brunei(?: Darussalam)?\}\}/ig,
 						replace: '{{BRN}}',
 						num: 100
 					}, {
@@ -8000,7 +8000,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{GIN}} - Guiné',
-						find: /\{\{Flag\|(Guinea|Guiné)\}\}/ig,
+						find: /\{\{Flag\|Guin(?:ea|é)\}\}/ig,
 						replace: '{{GIN}}',
 						num: 100
 					}, {
@@ -8024,7 +8024,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{HKG}} - Hong Kong',
-						find: /\{\{Flag\|(Hong Kong|Hong Kong\-China)\}\}/ig,
+						find: /\{\{Flag\|(Hong Kong(?:\-China)?)\}\}/ig,
 						replace: '{{HKG}}',
 						num: 100
 					}, {
@@ -8152,7 +8152,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{JOR}} - Jordânia',
-						find: /\{\{Flag\|(Jordan|Jordânia)\}\}/ig,
+						find: /\{\{Flag\|Jord(?:an|ânia)\}\}/ig,
 						replace: '{{JOR}}',
 						num: 100
 					}]
@@ -8195,7 +8195,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{[Ff]lag\|L/,
 					sub: [{
 						name: '{{LAO}} - Laos',
-						find: /\{\{Flag\|(Laos|Lao People's Democratic Republic)\}\}/ig,
+						find: /\{\{Flag\|Lao(?:s| People's Democratic Republic)\}\}/ig,
 						replace: '{{LAO}}',
 						num: 100
 					}, {
@@ -8294,7 +8294,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{MTQ}} - Martinica',
-						find: /\{\{Flag\|(Martinica|Martinique)\}\}/ig,
+						find: /\{\{Flag\|(Martini(?:ca|que))\}\}/ig,
 						replace: '{{MTQ}}',
 						num: 100
 					}, {
@@ -8432,7 +8432,7 @@ window.AWB.rules = [{
 					ifhas: /\{\{[Ff]lag\|O/,
 					sub: [{
 						name: '{{OMN}} - Omã',
-						find: /\{\{Flag\|(Oman|Omã)\}\}/ig,
+						find: /\{\{Flag\|Om(?:an|ã)\}\}/ig,
 						replace: '{{OMN}}',
 						num: 100
 					}, {
@@ -8738,7 +8738,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{SDN}} - Sudão',
-						find: /\{\{Flag\|(Sudan|Sudão)\}\}/ig,
+						find: /\{\{Flag\|Sud(?:an|ão)\}\}/ig,
 						replace: '{{SDN}}',
 						num: 100
 					}, {
@@ -8876,7 +8876,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{GBR}} - United Kingdom',
-						find: /\{\{Flag\|(United Kingdom|United Kingdom of Great Britain and Northern Ireland)\}\}/ig,
+						find: /\{\{Flag\|(United Kingdom(?: of Great Britain and Northern Ireland)?)\}\}/ig,
 						replace: '{{GBR}}',
 						num: 100
 					}, {
@@ -8886,7 +8886,7 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{USA}} - United States',
-						find: /\{\{Flag\|(United States|United States of America)\}\}/ig,
+						find: /\{\{Flag\|(United States(?: of America)?)\}\}/ig,
 						replace: '{{USA}}',
 						num: 100
 					}, {
@@ -8915,17 +8915,17 @@ window.AWB.rules = [{
 						num: 100
 					}, {
 						name: '{{VAT}} - Vaticano',
-						find: /\{\{Flag\|(Vaticano|Vatican)\}\}/ig,
+						find: /\{\{Flag\|Vaticano?\}\}/ig,
 						replace: '{{VAT}}',
 						num: 100
 					}, {
 						name: '{{VEN}} - Venezuela',
-						find: /\{\{Flag\|(Venezuela|Venezuela \(Bolivarian Republic of\))\}\}/ig,
+						find: /\{\{Flag\|(Venezuela(?: \(Bolivarian Republic of\))?)\}\}/ig,
 						replace: '{{VEN}}',
 						num: 100
 					}, {
 						name: '{{VNM}} - Vietnã',
-						find: /\{\{Flag\|(Vietnã|Vietname|Viet ?nam)\}\}/ig,
+						find: /\{\{Flag\|Viet(?:nã|name| ?nam)\}\}/ig,
 						replace: '{{VNM}}',
 						num: 100
 					}]
@@ -10054,7 +10054,7 @@ window.AWB.rules = [{
 					replace: '┼'
 				}, {
 					name: '</ref><ref>',
-					find: /┼\n+(<ref>|<ref name=)/g,
+					find: /┼\n+(<ref(?:>| name=))/g,
 					replace: '┼$1'
 				}, {
 					name: 'quebra de linha 1',
@@ -12917,7 +12917,7 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'Links',
-					find: /\* '''(PlayStation|PlayStation [23]|Xbox|GameCube|Game Boy Advance):?''':?\r?\n/ig,
+					find: /\* '''(PlayStation(?: [23])?|Xbox|Game(?:Cube| Boy Advance)):?''':?\r?\n/ig,
 					replace: '* \'\'\'[[$1]]\'\'\'\n',
 					num: 100
 				}]
@@ -12997,8 +12997,8 @@ window.AWB.rules = [{
 								num: 10
 							}, {
 								name: 'I',
-								find: /(\{\{Info\/Single[^╣]*\| *)I(magem|magem_tamanho)( *=)/g,
-								replace: '$1i$2$3',
+								find: /(\{\{Info\/Single[^╣]*\| *)Imagem(|_tamanho)( *=)/g,
+								replace: '$1imagem$2$3',
 								num: 10
 							}, {
 								name: 'L',
@@ -14064,7 +14064,7 @@ Necessitam de muita revisão
 					name: 'Incorpora',
 					sub: [{
 						name: 'Marca',
-						find: /(\{\{)(Contextualizar|Contextualizar2|Controverso|Corrigir|Divisão|Expandir2|Fontes primárias|Formatar referências|Global|Global\/Brasil|Global\/Lusofonia|Global\/Portugal|Mais notas|Má introdução|Má tradução|Parcial|Parcialcontroverso|Pesquisa inédita|Problemas de acessibilidade|Publicidade|Reciclagem|Revisão|Sem cat|Sem\-fontes|Sem\-fontes\-bpv|Sem interwiki|Sem notas|Wikificação)([\|}])/ig,
+						find: /(\{\{)(Contextualizar2?|Controverso|Corrigir|Divisão|Expandir2|Fontes primárias|Formatar referências|Global|Global\/Brasil|Global\/Lusofonia|Global\/Portugal|Mais notas|Má introdução|Má tradução|Parcial|Parcialcontroverso|Pesquisa inédita|Problemas de acessibilidade|Publicidade|Reciclagem|Revisão|Sem cat|Sem\-fontes|Sem\-fontes\-bpv|Sem interwiki|Sem notas|Wikificação)([\|}])/ig,
 						replace: '$1┴$2┴$3'
 					}, {
 						name: 'Incorpora',
