@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.22'
+	rulesVersion: '3.1.23'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -10737,7 +10737,6 @@ window.AWB.rules = [{
 				name: 'Insere defaultsort',
 				ifnot: '{{DEFAULTSORT:',
 				sub: [{
-					enabled: false,
 					name: 'Insere defaultsort',
 					find: /(?:\r?\n){2,2}\[\[Categoria:/g,
 					replace: '\n\n{{DEFAULTSORT:%%title%%}}\n[[Categoria:',
