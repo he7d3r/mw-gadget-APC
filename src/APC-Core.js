@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.16',
+	version: '0.17',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -165,8 +165,8 @@ AWB.addAWBToToolbar = function () {
 					'awb-report-a-bug' : {
 						label: 'Informar um erro',
 						type: 'button',
-						// Icon by [[commons:User:Shizhao]] & [[commons:User:Linfocito B]]
-						icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Toolbaricon_hiddencomment.png',
+						// Icon by [[commons:User:Medium69]]
+						icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
 						action: {
 							type: 'callback',
 							execute: function() {
