@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.15',
+	version: '0.16',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -53,7 +53,21 @@ $.extend( AWB, $.extend( {
  * @param rules The list of rules
  */
 AWB.processRules = function (rules) {
-	var i, length, r, times;
+	var	i, length, r, times, reKeyWords,
+		keys = [],
+		// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
+		keywords = {
+			'%%title%%': mw.config.get('wgPageName'),
+			'%%fullpagename%%': mw.config.get('wgPageName'),
+			'%%pagename%%': mw.config.get('wgTitle')
+		},
+		applyKeyWords = function(matchedKey){
+			return keywords[matchedKey];
+		};
+	$.each(keywords, function(key){
+		keys.push($.escapeRE(key));
+	});
+	reKeyWords = new RegExp( '(' + keys.join('|') + ')', 'g' );
 	for (i = 0, length = rules.length; i < length; i++) {
 		r = rules[i];
 		if (r.enabled !== false
@@ -79,7 +93,10 @@ AWB.processRules = function (rules) {
 							? 100
 							: r.num;
 					while( times > 0){
-						AWB.text = AWB.text.replace(r.find, r.replace);
+						AWB.text = AWB.text.replace(
+							r.find,
+							r.replace.replace( reKeyWords, applyKeyWords )
+						);
 						times--;
 					}
 				}
