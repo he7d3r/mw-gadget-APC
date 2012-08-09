@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.23'
+	rulesVersion: '3.1.24'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -2700,7 +2700,7 @@ window.AWB.rules = [{
 			}, {
 				name: 'Marca fim de ficheiro',
 				find: /(╠)((([^\n\[\]]*)(\[+[^\]\n]*\]{1,2})?)+)/ig,
-				replace: '$1$2▒<',
+				replace: '$1$2▒',
 				ifhas: '╠'
 			}, {
 				name: 'Marca seções',
@@ -3756,10 +3756,10 @@ window.AWB.rules = [{
 					}]
 				}, {
 					name: 'padronza |imagem_tamanho=',
-					find: /(\{\{Info\/[^╣]*\| *)(?:(imagem|img)[\-_ ](?:size|tamanho|tam)|tamanho[\-_ ](?:imagem|img)|res_img) *= */ig,
+					find: /(\{\{Info\/[^╣]*\| *)(?:(im(?:agem|g))[\-_ ](?:size|tam(?:anho)?)|tamanho[\-_ ](?:im(?:agem|g))|res_img) *= */ig,
 					replace: '$1imagem_tamanho   = '
 				}, {
-					name: 'padribuza |imagem_legenda=',
+					name: 'padroniza |imagem_legenda=',
 					find: /(\{\{Info\/[^╣]*\| *)((?:nome|legenda)[\-_]img|img[ \-_]des|descr) *= */ig,
 					replace: '$1imagem_legenda   = ',
 					ifhas: '╣'
@@ -3773,7 +3773,7 @@ window.AWB.rules = [{
 				sub: [{
 					name: '{{dni | si}}',
 					find: /(\{\{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/ig,
-					replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4|si}}\n<',
+					replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4|si}}\n',
 					ifhas: '{{falecimento|' // FIXME: /\{\{falecimento|/i ?
 				}, {
 					name: '{{dni}}',
@@ -11602,7 +11602,7 @@ window.AWB.rules = [{
 					sub: [{
 						name: '{{semfichatécnica}}',
 						find: /\{\{semfichatécnica\}\}/ig,
-						replace: '{{Revisar Info Filme}}<',
+						replace: '{{Revisar Info Filme}}',
 						ifhas: '{{Info/Filme' // FIXME: /\{\{Info/Filme/i ?
 					}, {
 						name: '{{seminterwiki}}',
