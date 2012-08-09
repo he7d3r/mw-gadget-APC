@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.18',
+	version: '0.19',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -57,8 +57,8 @@ AWB.processRules = function (rules) {
 		keys = [],
 		// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
 		keywords = {
-			'%%title%%': mw.config.get('wgPageName'),
-			'%%fullpagename%%': mw.config.get('wgPageName'),
+			'%%title%%': mw.config.get('wgPageName').replace(/_/g, ' '),
+			'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
 			'%%pagename%%': mw.config.get('wgTitle')
 		},
 		applyKeyWords = function(matchedKey){
