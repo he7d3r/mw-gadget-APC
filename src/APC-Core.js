@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.17',
+	version: '0.18',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -87,16 +87,14 @@ AWB.processRules = function (rules) {
 		) {
 			if (r.where === undefined || r.where === 'anywhere') {
 				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
+					r.replace = r.replace.replace( reKeyWords, applyKeyWords );
 					times = r.num === undefined || r.num < 1
 						? 1
 						: r.num > 100
 							? 100
 							: r.num;
 					while( times > 0){
-						AWB.text = AWB.text.replace(
-							r.find,
-							r.replace.replace( reKeyWords, applyKeyWords )
-						);
+						AWB.text = AWB.text.replace( r.find, r.replace );
 						times--;
 					}
 				}
