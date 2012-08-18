@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.19',
+	version: '0.20',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -191,9 +191,9 @@ AWB.addAWBToToolbar = function () {
  * @param rules The list of rules
  * @return {jQuery} The jQuery object correspoding to the HTML of the requested
  */
-AWB.getRulesHTML = function (rules) {
+AWB.getRulesHTML = function (rules, visible) {
 	var i, length, r, $li,
-	$ul = $('<ul></ul>');
+	$ul = $('<ul></ul>').toggle( visible || false );
 
 	// TODO: Implement "collapsible sublists"
 	for (i = 0, length = rules.length; i < length; i++) {
@@ -206,7 +206,8 @@ AWB.getRulesHTML = function (rules) {
 				.attr('title', 'Esta regra está desativada');
 		}
 		if ($.isArray(r.sub) && r.sub.length) {
-			$li.append(AWB.getRulesHTML(r.sub));
+			$li.append(AWB.getRulesHTML(r.sub))
+				.addClass('list-toggle');
 		}
 		$li.appendTo($ul);
 	}
@@ -217,7 +218,7 @@ AWB.getRulesHTML = function (rules) {
  * Execute the script when in edit mode
  */
 AWB.run = function () {
-	var $someWhere, versionHTML;
+	var $rules, $list, versionHTML, $button;
 
 	if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
 		AWB.$target = $('#wpTextbox1');
@@ -246,15 +247,30 @@ AWB.run = function () {
 	} else if ( mw.config.get('wgPageName') === 'Wikipédia:Projetos/AWB/Script' && $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 ) {
 		// TODO: Implement a true user interface on this "special page"
 		if (AWB.hasUserInterface) {
-			mw.util.addCSS('.awb-disabled{ color: red;}');
-			$someWhere = $('#awb-search-and-replace-rules');
-			if(!$someWhere.length) {
-				$someWhere = $('#mw-content-text');
+			mw.util.addCSS('.awb-disabled{ color: red;} li{cursor: default;} .list-toggle{ cursor:pointer;}');
+			$rules = $('#awb-search-and-replace-rules');
+			if(!$rules.length) {
+				$rules = $('#mw-content-text');
 			}
 			versionHTML = '<p>Observação: esta é a versão ' + AWB.rulesVersion +
 				' da lista de regras (gerada pela versão ' + AWB.version + ' do script).</p>';
-			$someWhere.html( AWB.getRulesHTML(AWB.rules) )
-				.prepend( versionHTML );
+			$button = $('<input type="button" value="Expandir tudo" title="Expandir todos os itens"/>')
+				.click( function(){
+					$rules.find('ul').show();
+				});
+			$list = AWB.getRulesHTML(AWB.rules, true)
+				.on('click', '.list-toggle', function (e) {
+					e.stopPropagation();
+					if ( $(e.target).hasClass('list-toggle') ){
+						$(this).children().filter('ul')
+							.toggle();
+					}
+				});
+			$rules
+				.empty()
+				.append( versionHTML )
+				.append( $button )
+				.append( $list );
 		}
 	}
 };
