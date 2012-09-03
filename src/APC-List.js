@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.24'
+	rulesVersion: '3.1.25'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -17109,105 +17109,6 @@ quem quiser pode habilitar e ajudar a testar
 				replace: '$1{{{Z$2|}}}{{{z$2|}}}'
 			}]
 		}]
-	}]
-}, {
-	enabled: false,
-	name: 'Regras pessoais',
-	sub: [{
-		enabled: false,
-		name: '{{subst:Páginas curtas}}',
-		find: /\n\[\[Categoria:Desambiguaç/ig,
-		replace: '\n\n{{subst:Páginas curtas}}\n[[Categoria:Desambiguaç',
-		ifnot: /Páginas curtas\}\}/i,
-		sub: [{
-			name: 'Rule',
-			find: /(\{\{subst:Páginas curtas\}\}[^░]*)\{\{subst:Páginas curtas\}\}\r?\n/ig,
-			replace: '$1'
-		}]
-	}, {
-		enabled: false,
-		name: 'Extrair lista de campos de uma predef',
-		sub: [{
-			name: 'Rule',
-			find: /(\{\{\{)([^\{\}\|]+)([\{\}\|])/ig,
-			replace: '$1╔$2╗$3'
-		}, {
-			name: 'Rule',
-			find: /╗[^╔╗]+╔/ig,
-			replace: '╗\n╔'
-		}, {
-			name: 'Rule',
-			find: /(╔([^╔╗]*)╗[^░]*)\n╔\2╗/ig,
-			replace: '$1',
-			num: 100
-		}, {
-			name: 'Rule',
-			find: /▓[^╔]+╔/ig,
-			replace: '╔'
-		}, {
-			name: 'Rule',
-			find: /╗[^╗░]*░/ig,
-			replace: '╗'
-		}, {
-			name: 'Rule',
-			find: /[╔╗]/ig,
-			replace: ''
-		}]
-	}, {
-		enabled: false,
-		name: 'Rule',
-		find: /(\n *\| *atividade *= .*)\[\[([12][089][0-9]{2,2})\]\]/ig,
-		replace: '$1[[$2 na música|$2]]',
-		num: 10
-	}, {
-		enabled: false,
-		name: 'Arrumando infobox',
-		ifhas: '╣}}', // FIXME: /╣}}/i ?
-		sub: [{
-			name: 'imagem_legenda',
-			find: /(\{\{Info\/[^╣]*\n *\| *)(?:legenda_imagem|legenda|descrição)( *=)/ig,
-			replace: '$1imagem_legenda$2',
-			num: 10
-		}, {
-			name: '_ no lugar de espaço',
-			find: /(\{\{Info\/[^╣]*\n *\| *[^ =\n]+) ([^ \n=]+[ =\r\n])/ig,
-			replace: '$1_$2',
-			num: 100
-		}, {
-			name: '| no final',
-			find: /(\{\{Info\/[^╣]*\n *\| *[^\=\r\n]+\= *.*)\| *\r?\n/ig,
-			replace: '$1\n',
-			num: 100
-		}, {
-			name: 'Rule',
-			find: /(\{\{Info\/[^╣]*\n *\| *[^ _=\n]+)_d[aeo]s?_([^ \n=]+[ =\r\n])/ig,
-			replace: '$1_$2',
-			num: 100
-		}, {
-			name: 'Info/Cinema',
-			sub: [{
-				name: 'ano',
-				find: /(\{\{Info\/Filme[^╣]*\n *\| *ano *= *)\[\[([0-9]+)\]\]\r?(\n)/ig,
-				replace: '$1$2$3'
-			}, {
-				name: 'produção_executiva',
-				find: /(\{\{Info\/[^╣]*\n *\| *)(?:produtor_executivo|produção_executivo)( *=)\n/ig,
-				replace: '$1produção_executiva$2'
-			}, {
-				name: 'lançamento',
-				find: /(\{\{Info\/[^╣]*\n *\| *)(?:data\(s\) de lançamento)( *=)\n/ig,
-				replace: '$1lançamento$2'
-			}]
-		}, {
-			name: 'Rule',
-			find: /(\{\{Info\/[^╣]*\n *\| *[^\=\r\n]+ *=)\r?\n/ig,
-			replace: '$1 \n',
-			num: 100
-		}]
-	}, {
-		name: 'Sem-fontes-bpv',
-		find: /\{\{Sem\-fontes([^{}]*)\|biografia=sim([^\n]*)\|data=[^\|\}]*([|}])/ig,
-		replace: '{{Sem-fontes-bpv$1$2|data={{subst:CURRENTMONTHNAME}} de {{subst:CURRENTYEAR}}$3'
 	}]
 }, {
 	/* Ajuste nas regras para se adequar a nova padronização.
