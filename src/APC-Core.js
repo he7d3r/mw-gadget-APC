@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.20',
+	version: '0.21',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -51,6 +51,7 @@ $.extend( AWB, $.extend( {
 /**
  * Loop over all rules and subrules, applying those which are enabled
  * @param rules The list of rules
+ * FIXME: Guardar o texto em uma variável local em vez de AWB.text, para otimizar
  */
 AWB.processRules = function (rules) {
 	var	i, length, r, times, reKeyWords,
@@ -119,6 +120,7 @@ AWB.addAWBToToolbar = function () {
 		$sumField = $('#wpSummary'),
 		executeGroup = function( i ){
 			return function() {
+				AWB.text = AWB.$target.val();
 				AWB.processRules(AWB.rules[i]);
 				AWB.$target.val(AWB.text);
 				$sumField.val( $sumField.val() + summaryText );
@@ -130,6 +132,7 @@ AWB.addAWBToToolbar = function () {
 				action: {
 					type: 'callback',
 					execute: function() {
+						AWB.text = AWB.$target.val();
 						AWB.processRules(AWB.rules);
 						AWB.$target.val(AWB.text);
 						$sumField.val( $sumField.val() + summaryText );
@@ -222,7 +225,6 @@ AWB.run = function () {
 
 	if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
 		AWB.$target = $('#wpTextbox1');
-		AWB.text = AWB.$target.val();
 
 		/* Make sure the required modules are available and then customize the toolbar */
 		mw.loader.using( 'user.options', function () {
@@ -238,6 +240,7 @@ AWB.run = function () {
 					'Formata o código wiki da página de acordo com as regras estabelecidas no código do script'
 				) ).click( function (e) {
 					e.preventDefault();
+					AWB.text = AWB.$target.val();
 					AWB.processRules(AWB.rules);
 					AWB.$target.val( AWB.text );
 				} );
