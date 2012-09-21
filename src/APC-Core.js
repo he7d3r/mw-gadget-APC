@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.22',
+	version: '0.23',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -54,7 +54,7 @@ $.extend( AWB, $.extend( {
  * FIXME: Guardar o texto em uma variável local em vez de AWB.text, para otimizar
  */
 AWB.processRules = function (rules) {
-	var	i, length, r, times, reKeyWords,
+	var	i, length, r, times, reKeyWords, temp,
 		keys = [],
 		// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
 		keywords = {
@@ -107,9 +107,13 @@ AWB.processRules = function (rules) {
 						: r.num > 100
 							? 100
 							: r.num;
+					temp = AWB.text;
 					while( times > 0){
 						AWB.text = AWB.text.replace( r.find, r.replace );
 						times--;
+					}
+					if( temp !== AWB.text ){
+						mw.log( r.find, r.replace );
 					}
 				}
 				if ($.isArray(r.sub) && r.sub.length) {
