@@ -13,7 +13,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 window.AWB = {
-	rulesVersion: '3.1.25'
+	rulesVersion: '3.1.26'
 };
 window.AWB.rules = [{
 	name: 'Iniciando',
@@ -10735,6 +10735,7 @@ window.AWB.rules = [{
 				}]
 			}, {
 				name: 'Insere defaultsort',
+				enabled: false,
 				ifnot: '{{DEFAULTSORT:',
 				sub: [{
 					name: 'Insere defaultsort',
@@ -10742,7 +10743,6 @@ window.AWB.rules = [{
 					replace: '\n\n{{DEFAULTSORT:%%title%%}}\n[[Categoria:',
 					ifnot: /\{\{DEFAULTSORT:/i
 				}, {
-					enabled: false,
 					name: 'Defaultsort usando índice',
 					ifhas: '{{DEFAULTSORT:',
 					ifnot: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/, // FIXME: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/i ?
