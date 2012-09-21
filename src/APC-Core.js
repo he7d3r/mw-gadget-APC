@@ -21,11 +21,11 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.21',
+	version: '0.22',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
-	hasUserInterface: true, // TODO: Implement this on some fake "special" page (e.g.: [[WP:Projetos/AWB/Script]])
+	hasUserInterface: true, // TODO: Improve the fake "special" page [[WP:Projetos/AWB/Script]]
 	/**
 	 * @type Array.{{
 		name: {string}, // The name of the rule
@@ -64,6 +64,9 @@ AWB.processRules = function (rules) {
 		},
 		applyKeyWords = function(matchedKey){
 			return keywords[matchedKey];
+		},
+		applyEscapedKeyWords = function(matchedKey){
+			return $.escapeRE( keywords[matchedKey] );
 		};
 	$.each(keywords, function(key){
 		keys.push($.escapeRE(key));
@@ -88,6 +91,16 @@ AWB.processRules = function (rules) {
 		) {
 			if (r.where === undefined || r.where === 'anywhere') {
 				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
+					if ( typeof r.find === 'string' ){
+						r.find = r.find.replace( reKeyWords, applyKeyWords );
+					} else if ( r.find instanceof RegExp ){
+						r.find = new RegExp(
+							r.find.source.replace( reKeyWords, applyEscapedKeyWords ),
+							(r.find.global? 'g': '') +
+								(r.find.ignoreCase? 'i': '') +
+								(r.find.multiline? 'm': '')
+						);
+					}
 					r.replace = r.replace.replace( reKeyWords, applyKeyWords );
 					times = r.num === undefined || r.num < 1
 						? 1
