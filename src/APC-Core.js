@@ -21,7 +21,7 @@ if ( window.AWB === undefined ) {
 'use strict';
 
 $.extend( AWB, $.extend( {
-	version: '0.23',
+	version: '0.24',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -196,7 +196,7 @@ AWB.addAWBToToolbar = function () {
 											AWB.rulesVersion + ') [[' + mw.config.get('wgPageName').replace(/_/g, ' ') + ']]',
 										preload: 'WP:Projetos/AWB/Script/Bug'
 									});
-								location.href = url;
+								window.open( url );
 							}
 						}
 					}
