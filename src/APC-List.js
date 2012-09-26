@@ -5,17 +5,17 @@
  * Gerada a partir da versão 3.1.1 das configurações do AWB do [[w:User:Rjclaudio]]
  * (http://code.google.com/p/rjclaudio-awb/downloads/list)
  * Ver também:
- * - [[WP:Projetos/AWB/Script]] (documentação)
+ * - [[WP:Scripts/APC]] (documentação)
  * - [[w:User:!Silent/correções.js]]
  * - [[w:WP:Projetos/Check Wikipedia/AWB]]
  * - [[w:WP:Projetos/AWB]]
- * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/AWB/SearchAndReplace.js]] ([[File:User:Helder.wiki/Tools/AWB/SearchAndReplace.js]])
+ * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
-window.AWB = {
-	rulesVersion: '3.1.26'
+window.APC = {
+	rulesVersion: '3.1.27'
 };
-window.AWB.rules = [{
+window.APC.rules = [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
 	sub: [{
@@ -13982,7 +13982,7 @@ Necessitam de revisão mínima
 	/* *****
 Regras que precisam de alguma revisão
 - Nunca ficarão 100%
--- imprecisões que o awb não pode detectar
+-- imprecisões que o APC não pode detectar
 - Usadas como auxiliar de edição
 -- marca alguma coisa e coloca instrução do que fazer
 
