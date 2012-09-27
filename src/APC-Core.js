@@ -21,7 +21,7 @@ if ( window.APC === undefined ) {
 'use strict';
 
 $.extend( APC, $.extend( {
-	version: '0.25',
+	version: '0.26',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -93,7 +93,7 @@ APC.processRules = function (rules) {
 				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
 					if ( typeof r.find === 'string' ){
 						r.find = r.find.replace( reKeyWords, applyKeyWords );
-					} else if ( r.find instanceof RegExp ){
+					} else if ( r.find instanceof RegExp && r.find.source.indexOf( '%%' ) !== -1 ){
 						r.find = new RegExp(
 							r.find.source.replace( reKeyWords, applyEscapedKeyWords ),
 							(r.find.global? 'g': '') +
