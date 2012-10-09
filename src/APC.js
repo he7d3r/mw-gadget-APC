@@ -9,17 +9,16 @@
 
 (function (mw, $) {
 'use strict';
-var url = '//pt.wikipedia.org/w/index.php?title=MediaWiki:Gadget-APC.js/List.js&action=raw&ctype=text/javascript&smaxage=21600&maxage=86400';
-
-if ( $.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1
+ 
+if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1
 	|| (
-		mw.config.get('wgPageName') === 'Wikipédia:Scripts/APC'
-		&& $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1
+		mw.config.get( 'wgPageName' ) === 'Wikipédia:Scripts/APC'
+		&& $.inArray( mw.config.get( 'wgAction' ), [ 'view', 'purge' ] ) !== -1
 	)
 ) {
-	$.getScript( url ).done(function(){
-		mw.loader.load( url.replace('List.js', 'Core.js') );
-	});
+	mw.loader.using( 'ext.gadget.APCList', function(){
+		mw.loader.load( 'ext.gadget.APCCore' );
+	} );
 }
 
 }(mediaWiki, jQuery));
