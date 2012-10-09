@@ -9,7 +9,7 @@
 
 (function (mw, $) {
 'use strict';
-var url = '//pt.wikipedia.org/w/index.php?title=User:Helder.wiki/Tools/APC.js/List.js&action=raw&ctype=text/javascript&smaxage=21600&maxage=86400';
+var url = '//pt.wikipedia.org/w/index.php?title=MediaWiki:Gadget-APC.js/List.js&action=raw&ctype=text/javascript&smaxage=21600&maxage=86400';
 
 if ( $.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1
 	|| (
