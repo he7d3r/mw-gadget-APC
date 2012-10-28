@@ -1,0 +1,24 @@
+.apc-disabled {
+	color: #A9A9A9;
+}
+
+.apc-main-list li {
+	cursor: default;
+	list-style: none;
+}
+
+.apc-list-toggle {
+	cursor: pointer;
+}
+
+.apc-list-toggle:before {
+	content: "[+]";
+	color: #0645AD;
+}
+.apc-list-toggle:hover:before {
+	text-decoration: underline;
+}
+
+.apc-expanded:before {
+	content: "[-]";
+}
