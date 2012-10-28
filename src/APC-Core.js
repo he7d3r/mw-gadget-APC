@@ -1,4 +1,4 @@
-/*jslint browser: true, white: true, regexp: true, todo: true, plusplus: true, devel: true */
+/*jslint browser: true, white: true, regexp: true, todo: true, devel: true */
 /**
  * Ferramenta que facilita a correção de artigos da Wikipédia
  * por meio do processamento de listas de regras do tipo "localizar e substituir"
@@ -20,8 +20,10 @@ if ( window.APC === undefined ) {
 (function ($, mw, APC) {
 'use strict';
 
+// var names = {}, dup = [];
+
 $.extend( APC, $.extend( {
-	version: '0.26',
+	version: '0.27',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -72,7 +74,7 @@ APC.processRules = function (rules) {
 		keys.push($.escapeRE(key));
 	});
 	reKeyWords = new RegExp( '(' + keys.join('|') + ')', 'g' );
-	for (i = 0, length = rules.length; i < length; i++) {
+	for (i = 0, length = rules.length; i < length; i += 1) {
 		r = rules[i];
 		if (r.enabled !== false
 			&& (
@@ -110,7 +112,7 @@ APC.processRules = function (rules) {
 					temp = APC.text;
 					while( times > 0){
 						APC.text = APC.text.replace( r.find, r.replace );
-						times--;
+						times -= 1;
 					}
 					if( temp !== APC.text ){
 						mw.log( r.find, r.replace );
@@ -157,7 +159,7 @@ APC.addAPCToToolbar = function () {
 				}
 			}
 		};
-	for(i=0;i<APC.rules.length;i++){
+	for(i=0;i<APC.rules.length;i += 1){
 		mainGroupsOfFixes[ 'APC-fixes-' + i ] = {
 			label: APC.rules[i].name +
 				(APC.rules[i].enabled === false? ' (desativada temporariamente)' : ''),
@@ -211,22 +213,43 @@ APC.addAPCToToolbar = function () {
  * @return {jQuery} The jQuery object correspoding to the HTML of the requested
  */
 APC.getRulesHTML = function (rules, visible) {
-	var i, length, r, $li,
-	$ul = $('<ul></ul>').toggle( visible || false );
+	var i, length, r, $li, name, safeName,
+		$ul = $('<ul></ul>').toggle( visible || false );
 
 	// TODO: Implement "collapsible sublists"
-	for (i = 0, length = rules.length; i < length; i++) {
+	for (i = 0, length = rules.length; i < length; i+=1) {
 		r = rules[i];
+		name = (r.name || 'Rule');
+/*		if( names[ name ] === undefined ){
+			names[ name ] = 0;
+		} else {
+			names[ name ] += 1;
+		}
+*/		safeName = name
+			.replace( /[ _\-]+/g, '-' )
+			.replace( /[^\-a-z0-9]+/ig, '' );
 		$li = $('<li></li>')
 			.attr('title', 'Localizar:\n' + r.find + '\n\nSubstituir por:\n' + r.replace )
-			.text( r.name || 'Rule' );
+			.append(
+				$( '<input>', {
+					type: 'checkbox',
+					name: 'corrections',
+					id: 'correction-' + safeName,
+					value: safeName,
+					checked: 'checked'
+				} ),
+				$( '<label>', {
+					'for': 'correction-' + safeName,
+					text: name
+				} )
+			);
 		if (r.enabled === false) {
 			$li.addClass('apc-disabled')
-				.attr('title', 'Esta regra está desativada');
+				.attr('title', 'Em fase experimental');
 		}
 		if ($.isArray(r.sub) && r.sub.length) {
 			$li.append(APC.getRulesHTML(r.sub))
-				.addClass('list-toggle');
+				.addClass('apc-list-toggle');
 		}
 		$li.appendTo($ul);
 	}
@@ -266,7 +289,6 @@ APC.run = function () {
 	} else if ( mw.config.get('wgPageName') === 'Wikipédia:Scripts/APC' && $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 ) {
 		// TODO: Implement a true user interface on this "special page"
 		if (APC.hasUserInterface) {
-			mw.util.addCSS('.apc-disabled{ color: red;} li{cursor: default;} .list-toggle{ cursor:pointer;}');
 			$rules = $('#apc-search-and-replace-rules');
 			if(!$rules.length) {
 				$rules = $('#mw-content-text');
@@ -278,19 +300,43 @@ APC.run = function () {
 					$rules.find('ul').show();
 				});
 			$list = APC.getRulesHTML(APC.rules, true)
-				.on('click', '.list-toggle', function (e) {
-					e.stopPropagation();
-					if ( $(e.target).hasClass('list-toggle') ){
-						$(this).children().filter('ul')
-							.toggle();
+				.on('change', 'input', function (e) {
+					var $target = $(e.target),
+						$li = $target.parent(),
+						isChecked = $target.is(':checked');
+					if ( $li.hasClass('apc-list-toggle') ){
+						$li.find('ul:first').find('input')
+							.prop(
+								'checked',
+								isChecked
+							);
 					}
-				});
+				})
+				.on('click', 'li', function (e) {
+					e.stopPropagation();
+					if ( $(e.target).hasClass('apc-list-toggle') ){
+						$(this)
+							.toggleClass('apc-expanded')
+							.children().filter('ul')
+								.toggle();
+					}
+				})
+				.addClass('apc-main-list')
+				.find('.apc-disabled input')
+					.prop('checked', false).end();
 			$rules
 				.empty()
 				.append( versionHTML )
 				.append( $button )
 				.append( $list );
-		}
+/*			$.each(names, function(n){
+				if( names[n] > 0 ){
+					dup.push( n );
+				}
+			});
+			console.log( dup.sort().join('\n') );
+			console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
+*/		}
 	}
 };
 
