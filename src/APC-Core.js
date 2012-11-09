@@ -19,7 +19,7 @@ if ( window.APC === undefined ) {
 (function ($, mw, APC) {
 'use strict';
 
-var version = '0.30',
+var version = '0.31',
 	loadedWikiEditor = false,
 	loadedDefaultToolbar = false,
 	targetText = '', // This will store the text to which the rules will be applied
@@ -51,7 +51,7 @@ var version = '0.30',
 			executeGroup = function( i ){
 				return function() {
 					targetText = APC.$target.val();
-					APC.processRules(rules[i]);
+					APC.processRules( [ rules[i] ] );
 					APC.$target.val(targetText);
 					$sumField.val( $sumField.val() + summaryText );
 				};
