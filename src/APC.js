@@ -16,9 +16,7 @@ if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1
 		&& $.inArray( mw.config.get( 'wgAction' ), [ 'view', 'purge' ] ) !== -1
 	)
 ) {
-	mw.loader.using( 'ext.gadget.APCList', function(){
-		mw.loader.load( 'ext.gadget.APCCore' );
-	} );
+	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCList&only=scripts&debug=' + mw.config.get( 'debug' ) )
 }
 
 }(mediaWiki, jQuery));
