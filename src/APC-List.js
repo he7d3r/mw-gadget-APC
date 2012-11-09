@@ -1,5 +1,5 @@
 /*jslint browser: true, white: true, regexp: true, todo: true */
-/*global $, mw */
+/*global $, mw, APC */
 /**
  * Lista de regras para correção de artigos da Wikipédia
  * Gerada a partir da versão 3.1.1 das configurações do AWB do [[w:User:Rjclaudio]]
@@ -12,10 +12,12 @@
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
-window.APC = {
-	rulesVersion: '3.1.27'
-};
-window.APC.rules = [{
+
+var addDefaultRules = function(){
+'use strict';
+
+APC.rulesVersion = '3.1.28';
+APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
 	sub: [{
@@ -17313,5 +17315,15 @@ style="text-align:left;"|;"
 		replace: '\n',
 		num: 100
 	}]
-}];
+}] ); // End of APC.addRules()
+
+};
+
+if( window.APC && window.APC.addRules ){
+	addDefaultRules();
+} else {
+	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCCore&only=scripts&debug=' + mw.config.get( 'debug' ) )
+	.done( addDefaultRules );
+}
+
 // </nowiki>, para facilitar o uso de "subst:" e assinaturas
