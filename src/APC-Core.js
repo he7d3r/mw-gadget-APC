@@ -23,7 +23,7 @@ if ( window.APC === undefined ) {
 // var names = {}, dup = [];
 
 $.extend( APC, $.extend( {
-	version: '0.28',
+	version: '0.29',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -48,163 +48,163 @@ $.extend( APC, $.extend( {
 	rules: []
 }, APC ) );
 
-APC.addAPCToToolbar = function () {
-	var	i,
-		summaryText = ' +[[WP:Scripts/APC|correções automáticas]] (v' +
-					APC.version + '/' + APC.rulesVersion + ')',
-		$sumField = $('#wpSummary'),
-		executeGroup = function( i ){
-			return function() {
-				APC.text = APC.$target.val();
-				APC.processRules(APC.rules[i]);
-				APC.$target.val(APC.text);
-				$sumField.val( $sumField.val() + summaryText );
-			};
-		},
+	APC.addAPCToToolbar = function () {
+		var	i,
+			summaryText = ' +[[WP:Scripts/APC|correções automáticas]] (v' +
+						APC.version + '/' + APC.rulesVersion + ')',
+			$sumField = $('#wpSummary'),
+			executeGroup = function( i ){
+				return function() {
+					APC.text = APC.$target.val();
+					APC.processRules(APC.rules[i]);
+					APC.$target.val(APC.text);
+					$sumField.val( $sumField.val() + summaryText );
+				};
+			},
 		mainGroupsOfFixes = { // {}
-			'APC-fixes-all' : {
-				label: 'Todas',
-				action: {
-					type: 'callback',
-					execute: function() {
-						APC.text = APC.$target.val();
-						APC.processRules(APC.rules);
-						APC.$target.val(APC.text);
-						$sumField.val( $sumField.val() + summaryText );
+				'APC-fixes-all' : {
+					label: 'Todas',
+					action: {
+						type: 'callback',
+						execute: function() {
+							APC.text = APC.$target.val();
+							APC.processRules(APC.rules);
+							APC.$target.val(APC.text);
+							$sumField.val( $sumField.val() + summaryText );
+						}
 					}
 				}
-			}
-		};
+			};
 	for(i=0;i<APC.rules.length;i += 1){
-		mainGroupsOfFixes[ 'APC-fixes-' + i ] = {
-			label: APC.rules[i].name +
-				(APC.rules[i].enabled === false? ' (desativada temporariamente)' : ''),
-			action: {
-				type: 'callback',
-				execute: executeGroup(i)
-			}
-		};
-	}
+			mainGroupsOfFixes[ 'APC-fixes-' + i ] = {
+				label: APC.rules[i].name +
+					(APC.rules[i].enabled === false? ' (desativada temporariamente)' : ''),
+				action: {
+					type: 'callback',
+					execute: executeGroup(i)
+				}
+			};
+		}
 
-	$( '#wpTextbox1' ).wikiEditor( 'addToToolbar', {
-		section: 'advanced',
-		groups: {
-			APC: {
-				label: 'APC',
-				tools: {
-					'apc-fixes-heading': {
-						label: 'Correções',
-						type: 'select',
-						list: mainGroupsOfFixes
-					},
-					'apc-report-a-bug' : {
-						label: 'Informar um erro',
-						type: 'button',
-						// Icon by [[commons:User:Medium69]]
-						icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
-						action: {
-							type: 'callback',
-							execute: function() {
-								var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
-									$.param({
-										action: 'edit',
-										section: 'new',
-										preloadtitle: '[BUG] (v' + APC.version + '/' +
-											APC.rulesVersion + ') [[' + mw.config.get('wgPageName').replace(/_/g, ' ') + ']]',
-										preload: 'WP:Scripts/APC/Bug'
-									});
-								window.open( url );
+		$( '#wpTextbox1' ).wikiEditor( 'addToToolbar', {
+			section: 'advanced',
+			groups: {
+				APC: {
+					label: 'APC',
+					tools: {
+						'apc-fixes-heading': {
+							label: 'Correções',
+							type: 'select',
+							list: mainGroupsOfFixes
+						},
+						'apc-report-a-bug' : {
+							label: 'Informar um erro',
+							type: 'button',
+							// Icon by [[commons:User:Medium69]]
+							icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
+							action: {
+								type: 'callback',
+								execute: function() {
+									var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
+										$.param({
+											action: 'edit',
+											section: 'new',
+											preloadtitle: '[BUG] (v' + APC.version + '/' +
+												APC.rulesVersion + ') [[' + mw.config.get('wgPageName').replace(/_/g, ' ') + ']]',
+											preload: 'WP:Scripts/APC/Bug'
+										});
+									window.open( url );
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-	} );
-};
-
-/**
- * Get an HTML representation of the list of rules and subrules
- * @param rules The list of rules
- * @return {jQuery} The jQuery object correspoding to the HTML of the requested
- */
-APC.getRulesHTML = function (rules, visible) {
-	var i, length, r, $li, name, safeName,
-		$ul = $('<ul></ul>').toggle( visible || false );
-
-	// TODO: Implement "collapsible sublists"
-	for (i = 0, length = rules.length; i < length; i+=1) {
-		r = rules[i];
-		name = (r.name || 'Rule');
-/*		if( names[ name ] === undefined ){
-			names[ name ] = 0;
-		} else {
-			names[ name ] += 1;
-		}
-*/		safeName = name
-			.replace( /[ _\-]+/g, '-' )
-			.replace( /[^\-a-z0-9]+/ig, '' );
-		$li = $('<li></li>')
-			.attr('title', 'Localizar:\n' + r.find + '\n\nSubstituir por:\n' + r.replace )
-			.append(
-				$( '<input>', {
-					type: 'checkbox',
-					name: 'corrections',
-					id: 'correction-' + safeName,
-					value: safeName,
-					checked: 'checked'
-				} ),
-				$( '<label>', {
-					'for': 'correction-' + safeName,
-					text: name
-				} )
-			);
-		if (r.enabled === false) {
-			$li.addClass('apc-disabled')
-				.attr('title', 'Em fase experimental');
-		}
-		if ($.isArray(r.sub) && r.sub.length) {
-			$li.append(APC.getRulesHTML(r.sub))
-				.addClass('apc-list-toggle');
-		}
-		$li.appendTo($ul);
-	}
-	return $ul;
-};
-
-/**
- * Execute the script when in edit mode
- */
-APC.run = function () {
-	var $rules, $list, versionHTML, $button;
-
-	if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
-		APC.$target = $('#wpTextbox1');
-
-		/* Make sure the required modules are available and then customize the toolbar */
-		mw.loader.using( 'user.options', function () {
-			if ( mw.user.options.get('usebetatoolbar') ) {
-				mw.loader.using( 'ext.wikiEditor.toolbar', APC.addAPCToToolbar );
-			} else{
-				// TODO: Improve support for old toolbar?
-				$( mw.util.addPortletLink(
-					'p-tb',
-					'#',
-					'Formatar com APC',
-					'#ca-APC',
-					'Formata o código wiki da página de acordo com as regras estabelecidas no código do script'
-				) ).click( function (e) {
-					e.preventDefault();
-					APC.text = APC.$target.val();
-					APC.processRules(APC.rules);
-					APC.$target.val( APC.text );
-				} );
-			}
 		} );
+	};
 
-	} else if ( mw.config.get('wgPageName') === 'Wikipédia:Scripts/APC' && $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 ) {
-		// TODO: Implement a true user interface on this "special page"
-		if (APC.hasUserInterface) {
+	/**
+	* Get an HTML representation of the list of rules and subrules
+	* @param rules The list of rules
+	* @return {jQuery} The jQuery object correspoding to the HTML of the requested
+	*/
+	APC.getRulesHTML = function (rules, visible) {
+		var i, length, r, $li, name, safeName,
+			$ul = $('<ul></ul>').toggle( visible || false );
+
+		// TODO: Implement "collapsible sublists"
+		for (i = 0, length = rules.length; i < length; i+=1) {
+			r = rules[i];
+			name = (r.name || 'Rule');
+	/*		if( names[ name ] === undefined ){
+				names[ name ] = 0;
+			} else {
+				names[ name ] += 1;
+			}
+*/		safeName = name
+				.replace( /[ _\-]+/g, '-' )
+				.replace( /[^\-a-z0-9]+/ig, '' );
+			$li = $('<li></li>')
+				.attr('title', 'Localizar:\n' + r.find + '\n\nSubstituir por:\n' + r.replace )
+				.append(
+					$( '<input>', {
+						type: 'checkbox',
+						name: 'corrections',
+						id: 'correction-' + safeName,
+						value: safeName,
+						checked: 'checked'
+					} ),
+					$( '<label>', {
+						'for': 'correction-' + safeName,
+						text: name
+					} )
+				);
+			if (r.enabled === false) {
+				$li.addClass('apc-disabled')
+					.attr('title', 'Em fase experimental');
+			}
+		if ($.isArray(r.sub) && r.sub.length) {
+				$li.append(APC.getRulesHTML(r.sub))
+					.addClass('apc-list-toggle');
+			}
+		$li.appendTo($ul);
+		}
+		return $ul;
+	};
+
+	/**
+	* Execute the script when in edit mode
+	*/
+	APC.run = function () {
+		var $rules, $list, versionHTML, $button;
+
+		if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
+			APC.$target = $('#wpTextbox1');
+
+			/* Make sure the required modules are available and then customize the toolbar */
+			mw.loader.using( 'user.options', function () {
+				if ( mw.user.options.get('usebetatoolbar') ) {
+					mw.loader.using( 'ext.wikiEditor.toolbar', APC.addAPCToToolbar );
+				} else{
+					// TODO: Improve support for old toolbar?
+					$( mw.util.addPortletLink(
+						'p-tb',
+						'#',
+						'Formatar com APC',
+						'#ca-APC',
+						'Formata o código wiki da página de acordo com as regras estabelecidas no código do script'
+					) ).click( function (e) {
+						e.preventDefault();
+						APC.text = APC.$target.val();
+						APC.processRules(APC.rules);
+						APC.$target.val( APC.text );
+					} );
+				}
+			} );
+
+		} else if ( mw.config.get('wgPageName') === 'Wikipédia:Scripts/APC' && $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 ) {
+			// TODO: Implement a true user interface on this "special page"
+			if (APC.hasUserInterface) {
 			$rules = $('#apc-search-and-replace-rules');
 			if(!$rules.length) {
 				$rules = $('#mw-content-text');
@@ -215,7 +215,7 @@ APC.run = function () {
 				.click( function(){
 					$rules.find('ul').show();
 				});
-			$list = APC.getRulesHTML(APC.rules, true)
+				$list = APC.getRulesHTML(APC.rules, true)
 				.on('change', 'input', function (e) {
 					var $target = $(e.target),
 						$li = $target.parent(),
@@ -228,7 +228,7 @@ APC.run = function () {
 							);
 					}
 				})
-				.on('click', 'li', function (e) {
+					.on('click', 'li', function (e) {
 					e.stopPropagation();
 					if ( $(e.target).hasClass('apc-list-toggle') ){
 						$(this)
@@ -237,8 +237,8 @@ APC.run = function () {
 								.toggle();
 					}
 				})
-				.addClass('apc-main-list')
-				.find('.apc-disabled input')
+					.addClass('apc-main-list')
+					.find('.apc-disabled input')
 					.prop('checked', false).end();
 			$rules
 				.empty()
@@ -252,9 +252,9 @@ APC.run = function () {
 			});
 			console.log( dup.sort().join('\n') );
 			console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
-*/		}
-	}
-};
+	*/		}
+		}
+	};
 
 // APC.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
 
