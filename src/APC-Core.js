@@ -356,9 +356,9 @@ APC.addRules = function ( newRules ) {
 		newRules = [ newRules ];
 	}
 	$.merge( rules, newRules );
-	if ( APC.rulesVersion && APC.rulesVersion.indexOf( 'mod' ) === -1 ) {
+/*	if ( APC.rulesVersion && APC.rulesVersion.indexOf( 'mod' ) === -1 ) {
 		APC.rulesVersion += 'mod';
-	}
+	}*/
 	if ( loadedWikiEditor ) {
 		updateToolbar();
 	}
