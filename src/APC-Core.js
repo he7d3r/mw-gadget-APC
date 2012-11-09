@@ -23,7 +23,7 @@ if ( window.APC === undefined ) {
 // var names = {}, dup = [];
 
 $.extend( APC, $.extend( {
-	version: '0.27',
+	version: '0.28',
 	text: '', // This will store the text to which the rules will be applied
 	allowFunctionTests: false, // TODO: Do we need this?
 	allowOnlyInsideTemplates: false, // TODO: Implement this
@@ -47,90 +47,6 @@ $.extend( APC, $.extend( {
 	 */
 	rules: []
 }, APC ) );
-
-// APC.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
-
-/**
- * Loop over all rules and subrules, applying those which are enabled
- * @param rules The list of rules
- * FIXME: Guardar o texto em uma variável local em vez de APC.text, para otimizar
- */
-APC.processRules = function (rules) {
-	var	i, length, r, times, reKeyWords, temp,
-		keys = [],
-		// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
-		keywords = {
-			'%%title%%': mw.config.get('wgPageName').replace(/_/g, ' '),
-			'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
-			'%%pagename%%': mw.config.get('wgTitle')
-		},
-		applyKeyWords = function(matchedKey){
-			return keywords[matchedKey];
-		},
-		applyEscapedKeyWords = function(matchedKey){
-			return $.escapeRE( keywords[matchedKey] );
-		};
-	$.each(keywords, function(key){
-		keys.push($.escapeRE(key));
-	});
-	reKeyWords = new RegExp( '(' + keys.join('|') + ')', 'g' );
-	for (i = 0, length = rules.length; i < length; i += 1) {
-		r = rules[i];
-		if (r.enabled !== false
-			&& (
-				!r.ifhas
-				|| (typeof r.ifhas === 'string' && APC.text.indexOf(r.ifhas) !== -1)
-				|| (APC.allowFunctionTests && $.isFunction(r.ifhas) && r.ifhas(APC.text))
-				|| (typeof r.ifhas === 'object' && r.ifhas.test(APC.text))
-			)
-			&& (
-				!r.ifnot
-				|| (typeof r.ifnot === 'string' && APC.text.indexOf(r.ifnot) === -1)
-				|| (APC.allowFunctionTests && $.isFunction(r.ifnot) && !r.ifnot(APC.text))
-				|| (typeof r.ifnot === 'object' && !r.ifnot.test(APC.text))
-
-			)
-		) {
-			if (r.where === undefined || r.where === 'anywhere') {
-				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
-					if ( typeof r.find === 'string' ){
-						r.find = r.find.replace( reKeyWords, applyKeyWords );
-					} else if ( r.find instanceof RegExp && r.find.source.indexOf( '%%' ) !== -1 ){
-						r.find = new RegExp(
-							r.find.source.replace( reKeyWords, applyEscapedKeyWords ),
-							(r.find.global? 'g': '') +
-								(r.find.ignoreCase? 'i': '') +
-								(r.find.multiline? 'm': '')
-						);
-					}
-					r.replace = r.replace.replace( reKeyWords, applyKeyWords );
-					times = r.num === undefined || r.num < 1
-						? 1
-						: r.num > 100
-							? 100
-							: r.num;
-					temp = APC.text;
-					while( times > 0){
-						APC.text = APC.text.replace( r.find, r.replace );
-						times -= 1;
-					}
-					if( temp !== APC.text ){
-						mw.log( r.find, r.replace );
-					}
-				}
-				if ($.isArray(r.sub) && r.sub.length) {
-					APC.processRules(r.sub);
-				}
-			} else if (APC.allowOnlyInsideTemplates && r.where === 'templates') {
-				// TODO: Implement this for non-nested templates!
-				// TODO: How to allow nested templates? E.g.: {{info|param={{format|...}}|param=...}}
-				mw.log('Invalid value: where=templates is not available yet.');
-			} else {
-				mw.log('Invalid value: where=' + r.where + ' on rule "' + (r.name || 'Rule') + '".');
-			}
-		}
-	}
-};
 
 APC.addAPCToToolbar = function () {
 	var	i,
@@ -339,6 +255,91 @@ APC.run = function () {
 */		}
 	}
 };
+
+// APC.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
+
+/**
+ * Loop over all rules and subrules, applying those which are enabled
+ * @param rules The list of rules
+ * FIXME: Guardar o texto em uma variável local em vez de APC.text, para otimizar
+ */
+APC.processRules = function (rules) {
+	var	i, length, r, times, reKeyWords, temp,
+		keys = [],
+		// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
+		keywords = {
+			'%%title%%': mw.config.get('wgPageName').replace(/_/g, ' '),
+			'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
+			'%%pagename%%': mw.config.get('wgTitle')
+		},
+		applyKeyWords = function(matchedKey){
+			return keywords[matchedKey];
+		},
+		applyEscapedKeyWords = function(matchedKey){
+			return $.escapeRE( keywords[matchedKey] );
+		};
+	$.each(keywords, function(key){
+		keys.push($.escapeRE(key));
+	});
+	reKeyWords = new RegExp( '(' + keys.join('|') + ')', 'g' );
+	for (i = 0, length = rules.length; i < length; i += 1) {
+		r = rules[i];
+		if (r.enabled !== false
+			&& (
+				!r.ifhas
+				|| (typeof r.ifhas === 'string' && APC.text.indexOf(r.ifhas) !== -1)
+				|| (APC.allowFunctionTests && $.isFunction(r.ifhas) && r.ifhas(APC.text))
+				|| (typeof r.ifhas === 'object' && r.ifhas.test(APC.text))
+			)
+			&& (
+				!r.ifnot
+				|| (typeof r.ifnot === 'string' && APC.text.indexOf(r.ifnot) === -1)
+				|| (APC.allowFunctionTests && $.isFunction(r.ifnot) && !r.ifnot(APC.text))
+				|| (typeof r.ifnot === 'object' && !r.ifnot.test(APC.text))
+
+			)
+		) {
+			if (r.where === undefined || r.where === 'anywhere') {
+				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
+					if ( typeof r.find === 'string' ){
+						r.find = r.find.replace( reKeyWords, applyKeyWords );
+					} else if ( r.find instanceof RegExp && r.find.source.indexOf( '%%' ) !== -1 ){
+						r.find = new RegExp(
+							r.find.source.replace( reKeyWords, applyEscapedKeyWords ),
+							(r.find.global? 'g': '') +
+								(r.find.ignoreCase? 'i': '') +
+								(r.find.multiline? 'm': '')
+						);
+					}
+					r.replace = r.replace.replace( reKeyWords, applyKeyWords );
+					times = r.num === undefined || r.num < 1
+						? 1
+						: r.num > 100
+							? 100
+							: r.num;
+					temp = APC.text;
+					while( times > 0){
+						APC.text = APC.text.replace( r.find, r.replace );
+						times -= 1;
+					}
+					if( temp !== APC.text ){
+						mw.log( r.find, r.replace );
+					}
+				}
+				if ($.isArray(r.sub) && r.sub.length) {
+					APC.processRules(r.sub);
+				}
+			} else if (APC.allowOnlyInsideTemplates && r.where === 'templates') {
+				// TODO: Implement this for non-nested templates!
+				// TODO: How to allow nested templates? E.g.: {{info|param={{format|...}}|param=...}}
+				mw.log('Invalid value: where=templates is not available yet.');
+			} else {
+				mw.log('Invalid value: where=' + r.where + ' on rule "' + (r.name || 'Rule') + '".');
+			}
+		}
+	}
+};
+
 
 $(APC.run);
 
