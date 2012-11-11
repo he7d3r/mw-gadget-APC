@@ -19,8 +19,9 @@ if ( window.APC === undefined ) {
 (function ($, mw, APC) {
 'use strict';
 
-var version = '0.31',
+var version = '0.32',
 	loadedWikiEditor = false,
+	loadedList = false,
 	loadedDefaultToolbar = false,
 	targetText = '', // This will store the text to which the rules will be applied
 	allowFunctionTests = false, // TODO: Do we need this?
@@ -180,12 +181,65 @@ var version = '0.31',
 		}
 		return $ul;
 	},
+	loadListInHTML = function () {
+		var versionHTML, $button, $list, $rules;
+
+		if ( mw.config.get('wgPageName') !== 'Wikipédia:Scripts/APC' || $.inArray(mw.config.get('wgAction'), ['view', 'purge']) === -1 ) {
+			return;
+		}
+		$rules = $('#apc-search-and-replace-rules');
+		if(!$rules.length) {
+			$rules = $('#mw-content-text');
+		}
+		versionHTML = '<p>Observação: esta é a versão ' + APC.rulesVersion +
+			' da lista de regras (gerada pela versão ' + version + ' do script).</p>';
+		$button = $('<input type="button" value="Expandir tudo" title="Expandir todos os itens"/>')
+			.click( function(){
+				$rules.find('ul').show();
+			});
+		$list = getRulesHTML(rules, true)
+			.on('change', 'input', function (e) {
+				var $target = $(e.target),
+					$li = $target.parent(),
+					isChecked = $target.is(':checked');
+				if ( $li.hasClass('apc-list-toggle') ){
+					$li.find('ul:first').find('input')
+						.prop(
+							'checked',
+							isChecked
+						);
+				}
+			})
+			.on('click', 'li', function (e) {
+				e.stopPropagation();
+				if ( $(e.target).hasClass('apc-list-toggle') ){
+					$(this)
+						.toggleClass('apc-expanded')
+						.children().filter('ul')
+							.toggle();
+				}
+			})
+			.addClass('apc-main-list')
+			.find('.apc-disabled input')
+				.prop('checked', false).end();
+		$rules
+			.empty()
+			.append( versionHTML )
+			.append( $button )
+			.append( $list );
+/*				$.each(names, function(n){
+			if( names[n] > 0 ){
+				dup.push( n );
+			}
+		});
+		console.log( dup.sort().join('\n') );
+		console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
+*/
+	},
 	/**
 	* Execute the script when in edit mode
 	*/
 	load = function () {
-		var $rules, $list, versionHTML, $button;
-
 		if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
 			APC.$target = $('#wpTextbox1');
 
@@ -213,55 +267,9 @@ var version = '0.31',
 				}
 			} );
 
-		} else if ( mw.config.get('wgPageName') === 'Wikipédia:Scripts/APC' && $.inArray(mw.config.get('wgAction'), ['view', 'purge']) !== -1 ) {
-			$rules = $('#apc-search-and-replace-rules');
-			if(!$rules.length) {
-				$rules = $('#mw-content-text');
-			}
-			versionHTML = '<p>Observação: esta é a versão ' + APC.rulesVersion +
-				' da lista de regras (gerada pela versão ' + version + ' do script).</p>';
-			$button = $('<input type="button" value="Expandir tudo" title="Expandir todos os itens"/>')
-				.click( function(){
-					$rules.find('ul').show();
-				});
-			$list = getRulesHTML(rules, true)
-				.on('change', 'input', function (e) {
-					var $target = $(e.target),
-						$li = $target.parent(),
-						isChecked = $target.is(':checked');
-					if ( $li.hasClass('apc-list-toggle') ){
-						$li.find('ul:first').find('input')
-							.prop(
-								'checked',
-								isChecked
-							);
-					}
-				})
-				.on('click', 'li', function (e) {
-					e.stopPropagation();
-					if ( $(e.target).hasClass('apc-list-toggle') ){
-						$(this)
-							.toggleClass('apc-expanded')
-							.children().filter('ul')
-								.toggle();
-					}
-				})
-				.addClass('apc-main-list')
-				.find('.apc-disabled input')
-					.prop('checked', false).end();
-			$rules
-				.empty()
-				.append( versionHTML )
-				.append( $button )
-				.append( $list );
-/*				$.each(names, function(n){
-				if( names[n] > 0 ){
-					dup.push( n );
-				}
-			});
-			console.log( dup.sort().join('\n') );
-			console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
-*/
+		} else {
+			loadedList = true;
+			loadListInHTML();
 		}
 	};
 
@@ -362,12 +370,18 @@ APC.addRules = function ( newRules ) {
 	if ( loadedWikiEditor ) {
 		updateToolbar();
 	}
+	if ( loadedList ) {
+		loadListInHTML();
+	}
 };
 
 APC.removeAllRules = function () {
 	rules = [];
 	if ( loadedWikiEditor ) {
 		updateToolbar();
+	}
+	if ( loadedList ) {
+		loadListInHTML();
 	}
 };
 $(load);
