@@ -16,7 +16,7 @@
 var addDefaultRules = function(){
 'use strict';
 
-APC.rulesVersion = '3.1.29';
+APC.rulesVersion = '3.1.30';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
