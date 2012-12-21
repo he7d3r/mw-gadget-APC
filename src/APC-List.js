@@ -14108,10 +14108,38 @@ style="text-align:left;"|;"
 			}]
 		}]
 	}, {
-		name: '\r\n',
+		name: '\\r\\n',
 		find: /\r\n/ig,
 		replace: '\n',
 		num: 100
+	}]
+}, {
+	name: 'Atualização de código HTML obsoleto',
+	sub: [{
+		name: 'Mudança de cor com o elemento <font>',
+		ifhas: /<font/i,
+		sub: [{
+			name: '<font color="#123456">[[página]]</font>',
+			find: /<font\s+color\s*=\s*(["']?)\#?([a-f0-9]{6}|[a-f0-9]{3})\1\s*>(\s*\[\[)([^\|\]]+)(\]\]\s*)<\/font>/g,
+			replace: '$3$4|<span style="color: $2;">$4</span>$5'
+		}, {
+			name: '<font color="#123456">[[página|texto]]</font>',
+			find: /<font\s+color\s*=\s*(["']?)\#?([a-f0-9]{6}|[a-f0-9]{3})\1\s*>(\s*\[\[[^\|\]]+\|)([^\]]+)(\]\]\s*)<\/font>/g,
+			replace: '$3<span style="color: #$2;">$4</span>$5'
+		},{
+			name:'<font color="#123456">texto [[página|texto]] texto</font>',
+			find: /<font\s+color\s*=\s*(["']?)\#?([a-f0-9]{6}|[a-f0-9]{3})\1\s*>(.+?)<\/font>/g,
+			replace: '<span style="color: #$2;">$3</span>'
+		}]
+	}, {
+		name: 'Alinhamento com o elemento <center>',
+		find: /<center>([^<]+?)<\/center>/g,
+		replace: '<div style="text-align: center;">$1</div>'
+	}, {
+		// [[mw:Extension:SyntaxHighlight GeSHi#source tag replaced]]
+		name: 'Realce de sintaxe com o elemento <source>',
+		find: /<source\s+(.*?lang.*?>(?:.|\n)+?)<\/source>/gi,
+		replace: '<syntaxhighlight $1</syntaxhighlight>'
 	}]
 }] ); // End of APC.addRules()
 
