@@ -68,7 +68,7 @@ APC.addRules( [ {
 			ifhas: /(%%title%%(''')? [\(\,]? *\[?\[?([0-9]{1,2} de |(nascid[ao]|nasceu)|(Rio de Janeiro|São Paulo))|║== Biografia ==)/i,
 			ifnot: /\[\[Categoria:/i
 		}, {
-			name: 'Rule',
+			name: 'Desmarcação das categorias',
 			find: /┼/g,
 			replace: '[['
 		}]
@@ -297,7 +297,7 @@ Necessitam de muita revisão
 					ifhas: /\{\{Multitag/i,
 					ifnot: /\{\{Multitag[^\n]*\| *data *=/i
 				}, {
-					name: 'Rule',
+					name: 'Remoção de barra vertical',
 					find: /(\{\{Multitag[^\n]*\|) *\|/ig,
 					replace: '$1',
 					num: 10
@@ -348,7 +348,7 @@ Necessitam de muita revisão
 					find: /<\/small>/ig,
 					replace: '┤'
 				}, {
-					name: '<small> em tabela',
+					name: 'Fecha <small> em tabela',
 					find: /(\n[\|!].*┼[^┤\n]*)\n/g,
 					replace: '$1┤\n',
 					num: 2
@@ -365,7 +365,7 @@ Necessitam de muita revisão
 				name: 'ajustes na tabela',
 				sub: [{
 					name: 'rowspan=1',
-					find: /([ \|\!])(?:row|col)span *= *" *1 *"/ig,
+					find: /([ \|\!])(?:row|col)span\s*=\s*"\s*1\s*"/ig,
 					replace: '$1'
 				}, {
 					name: '-moz-border-radius',
@@ -392,40 +392,40 @@ Necessitam de muita revisão
 					replace: ' style'
 				}, {
 					name: 'style sem "',
-					find: /(style *=) *([^ ":]*: *[^ ";\r\n\|]*)([ ;\r\n])/ig,
+					find: /(style\s*=)\s*([^ ":]*:\s*[^ ";\r\n\|]*)([ ;\r\n])/ig,
 					replace: '$1"$2"$3'
 				}, {
-					name: 'argumentos style',
+					name: 'Migração de HTML obsoleto para CSS no atributo style',
 					sub: [{
 						name: 'bgcolor',
-						find: /((?:\n *[!\|]| \|\|) *[^\|\n]*)(?:bgcolor|background)="?([^ "\|\r\n]*)"?([ \|\r\n])/ig,
-						replace: '$1style="background-color:$2;"$3'
+						find: /((?:\n\s*[!\|]| \|\|)\s*[^\|\n]*)(?:bgcolor|background)="?([^ "\|\r\n]*)"?([ \|\r\n])/ig,
+						replace: '$1style="background: $2;"$3'
 					}, {
 						name: 'width',
-						find: /((?:\n *[!\|]| \|\|) *[^\|\n]*)width *= *"?([0-9]+%)"?([ \|\r\n])/ig,
-						replace: '$1style="width:$2;"$3'
+						find: /((?:\n\s*[!\|]| \|\|)\s*[^\|\n]*)width\s*=\s*"?([0-9]+%)"?([ \|\r\n])/ig,
+						replace: '$1style="width: $2;"$3'
 					}, {
 						name: 'valign',
-						find: /((?:\n *[!\|]| \|\|) *[^\|\n]*)valign="?([^";\n]*)"?([ \|\r\n])/ig,
-						replace: '$1style="vertical-align:$2;"$3'
+						find: /((?:\n\s*[!\|]| \|\|)\s*[^\|\n]*)valign="?([^";\n]*)"?([ \|\r\n])/ig,
+						replace: '$1style="vertical-align: $2;"$3'
 					}, {
 						name: 'align',
-						find: /((?:\n *[!\|]|\|\|) *[^\|\n]*)align="?(left|center|right)"?([ \|\r\n])/g,
-						replace: '$1style="text-align:$2;"$3',
+						find: /((?:\n\s*[!\|]|\|\|)\s*[^\|\n]*)align="?(left|center|right)"?([ \|\r\n])/g,
+						replace: '$1style="text-align: $2;"$3',
 						num: 100
 					}, {
-						name: '!style="text-align:center;"|',
+						name: '!style="text-align: center;"|',
 						sub: [{
 							name: 'marca align left',
-							find: /(text\-align:center)/ig,
+							find: /(text\-align:\s*center)/ig,
 							replace: '└$1'
 						}, {
-							name: '!style="text-align:center;"|',
+							name: '!style="text-align: center;"|',
 							find: /((?:\|\-[^└\n]*|\{\|.*)(?:\n[\|\!][^\-].*)*\n! *style="[^"\|\n]*)└text\-align:center;([^"\|\n]*")/g,
 							replace: '$1$2',
 							num: 100
 						}, {
-							name: 'Rule',
+							name: 'Desmarca align left',
 							find: /└/g,
 							replace: ''
 						}]
@@ -440,7 +440,7 @@ Necessitam de muita revisão
 							find: /<\/font>/g,
 							replace: '┼'
 						}, {
-							name: 'Rule',
+							name: 'Remoção de <font> duplicado',
 							find: /(<font ([^<>\n]*)>[^<>┼\[\]\n]*)<font \2>/g,
 							replace: '$1'
 						}, {
@@ -490,7 +490,7 @@ Necessitam de muita revisão
 					name: 'arrumando style',
 					ifhas: /style/i,
 					sub: [{
-						name: 'Rule',
+						name: 'Remoção de caracteres antes do atributo',
 						find: /(\n[\|\!][^\|\!\n]*)[\|\!] *(style *= *"[^\!\n]*")([\|\!])/ig,
 						replace: '$1 $2$3'
 					}, {
