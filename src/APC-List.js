@@ -16,7 +16,7 @@
 var addDefaultRules = function(){
 'use strict';
 
-APC.rulesVersion = '3.1.30';
+APC.rulesVersion = '3.1.31';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -14140,6 +14140,26 @@ style="text-align:left;"|;"
 		name: 'Realce de sintaxe com o elemento <source>',
 		find: /<source\s+(.*?lang.*?>(?:.|\n)+?)<\/source>/gi,
 		replace: '<syntaxhighlight $1</syntaxhighlight>'
+	}, {
+		name: 'Largura de tabela definida com o atributo width',
+		ifhas: /width\s*=/i,
+		sub: [{
+			name: 'width definido em pixels, antes de um style',
+			find: /(\{\|.*?)width\s*=\s*(\d+)(?:px)? (.+?style\s*=\s*["'])/g,
+			replace: '$1$3width: $2px; '
+		}, {
+			name: 'width definido em outras unidades, antes de um style',
+			find: /(\{\|.*?)width\s*=\s*(\d+(?:%|in|[cme]m|ex|p[tc])) (.+?style\s*=\s*["'])/g,
+			replace: '$1$3width: $2; '
+		}, {
+			name: 'width definido em pixels, após um style',
+			find: /(\{\|.*?style\s*=\s*["'])(.*?)\s+width\s*=\s*(\d+)(?:px)?/g,
+			replace: '$1width: $3px; $2'
+		}, {
+			name: 'width definido em outras unidades, após um style',
+			find: /(\{\|.*?style\s*=\s*["'])(.*?)\s+width\s*=\s*(\d+(?:%|in|[cme]m|ex|p[tc]))/g,
+			replace: '$1width: $3; $2'
+		}]
 	}]
 }] ); // End of APC.addRules()
 
