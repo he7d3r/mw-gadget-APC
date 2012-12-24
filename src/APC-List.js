@@ -16,7 +16,7 @@
 var addDefaultRules = function(){
 'use strict';
 
-APC.rulesVersion = '3.1.31';
+APC.rulesVersion = '3.1.32';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -14135,6 +14135,10 @@ style="text-align:left;"|;"
 		name: 'Alinhamento com o elemento <center>',
 		find: /<center>([^<]+?)<\/center>/g,
 		replace: '<div style="text-align: center;">$1</div>'
+	}, {
+		name: 'Indicação de código-fonte com <tt>',
+		find: /<tt>(.+?)<\/tt>/gi,
+		replace: '<code>$1</code>'
 	}, {
 		// [[mw:Extension:SyntaxHighlight GeSHi#source tag replaced]]
 		name: 'Realce de sintaxe com o elemento <source>',
