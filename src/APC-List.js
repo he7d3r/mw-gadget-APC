@@ -16,7 +16,7 @@
 var addDefaultRules = function(){
 'use strict';
 
-APC.rulesVersion = '3.1.32';
+APC.rulesVersion = '3.1.33';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -2561,12 +2561,20 @@ APC.addRules( [{
 						replace: '{{Artigo principal|'
 					}, {
 						name: '{{Ligações externas}}',
-						find: /\{\{(?:Apontadores(?: externos)?|Atalhos externos|Enlace externo|Enlaces externos|Elos externos|Link externo|Links|Links exteriores|Links externos|Links para o exterior|Links relacionados|Ligação exterior|Ligação externa|Ligações Externas|Ligações exteriores|Ligações para o exterior|Linque externo|Páginas externas|Página externa|Páginas da Internet|Recursos exteriores à Wikipédia|Referência externa|Referências externas|Sítios|Vínculos externos|Weblinks)\}\}/ig,
+						find: /\{\{(?:(?:Apontadores|Atalhos?|Elos?|Enlaces?|Lin(?:k|que)s?|Vínculos?)(?: externos?)?|(?:Ligaç(?:ão|ões)|Páginas?|Referências?)(?: externas?)|(?:Ligaç(?:ão|ões)|Links|Recursos)(?: para o exterior| exterior(?:es)?(?: [àa] Wikip[ée]dia)?)?|S(?:ites|[íi]tios)|LE|Links? relacionados?|Páginas? da Internet|Weblinks?)\}\}/ig,
 						replace: 'Ligações externas'
 					}, {
+						name: '== Ligações externas ==',
+						find: /\==\s*(?:(?:Apontadores|Atalhos?|Elos?|Enlaces?|Lin(?:k|que)s?|Vínculos?)(?: externos?)?|(?:Ligaç(?:ão|ões)|Páginas?|Referências?)(?: externas?)|(?:Ligaç(?:ão|ões)|Links|Recursos)(?: para o exterior| exterior(?:es)?(?: [àa] Wikip[ée]dia)?)?|S(?:ites|[íi]tios)|LE|Links? relacionados?|Páginas? da Internet|Weblinks?)\s*==/ig,
+						replace: '== Ligações externas =='
+					}, {
 						name: '{{Ver também}}',
-						find: /\{\{((Ligações|Referências|Links) intern[ao]s|(Consultar|Veja|Ver|Vide) (mais|tamb[eé]m|ainda)|(Artigos|Assuntos|Páginas|Tópicos) relacionad[ao]s|Tópicos diversos)\}\}/ig,
+						find: /\{\{(V(?:eja|er|ide|Consultar)[_ ](?:tamb[ée]m|mais|ainda)|(?:Tópico|Artigo|Página|Assunto)s[_ ](?:relacionad|divers)[oa]s|(?:Li(?:gaçõe|nk)|Referência)s[_ ]Intern[ao]s)\}\}/ig,
 						replace: 'Ver também'
+					}, {
+						name: '== Ver também ==',
+						find: /\==\s*(V(?:eja|er|ide|Consultar)[_ ](?:tamb[ée]m|mais|ainda)|(?:Tópico|Artigo|Página|Assunto)s[_ ](?:relacionad|divers)[oa]s|(?:Li(?:gaçõe|nk)|Referência)s[_ ]Intern[ao]s)\s*==/ig,
+						replace: '== Ver também =='
 					}, {
 						name: '{{Biografias}}',
 						find: /\{\{biografia\}\}/ig,
