@@ -7,6 +7,7 @@
  * Ver também:
  * - [[WP:Scripts/APC]] (documentação)
  * - [[w:User:!Silent/correções.js]]
+ * - [[w:User:Fabiano Tatsch/correções.js]]
  * - [[w:WP:Projetos/Check Wikipedia/AWB]]
  * - [[w:WP:Projetos/AWB]]
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
