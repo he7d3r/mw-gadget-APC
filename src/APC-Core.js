@@ -44,7 +44,7 @@ mw.messages.set( {
 	'apc-where': 'where=$1 on rule "$2".'
 });
 
-var version = '0.33',
+var version = '0.34',
 	loadedWikiEditor = false,
 	loadedList = false,
 	loadedDefaultToolbar = false,
@@ -68,101 +68,6 @@ var version = '0.33',
 	 * The list of rules used by the tool
 	 */
 	rules = [],
-	updateToolbar = function () {
-		var	i,
-			$textBox = $( '#wpTextbox1' ),
-			summaryText = mw.msg( 'apc-summary-text', 'v' + version, APC.rulesVersion ),
-			$sumField = $( '#wpSummary' ),
-			executeGroup = function( i ){
-				return function() {
-					targetText = APC.$target.val();
-					APC.processRules( [ rules[i] ] );
-					APC.$target.val( targetText );
-					$sumField.val( $sumField.val() + summaryText );
-				};
-			},
-			mainRules = {
-				'APC-rules-all' : {
-					label: mw.msg( 'apc-button-rules-all' ),
-					action: {
-						type: 'callback',
-						execute: function() {
-							targetText = APC.$target.val();
-							APC.processRules(rules);
-							APC.$target.val(targetText);
-							$sumField.val( $sumField.val() + summaryText );
-						}
-					}
-				}
-			},
-			bugButton = {
-				label: mw.msg( 'apc-button-bug' ),
-				type: 'button',
-				// Icon by [[commons:User:Medium69]]
-				icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
-				action: {
-					type: 'callback',
-					execute: function() {
-						var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
-							$.param({
-								action: 'edit',
-								section: 'new',
-								preloadtitle: mw.msg(
-									'apc-new-bug-title',
-									'v' + version,
-									APC.rulesVersion,
-									mw.config.get( 'wgPageName' )
-										.replace( /_/g, ' ' )
-								),
-								preload: 'WP:Scripts/APC/Bug'
-							});
-						window.open( url );
-					}
-				}
-			};
-		if( loadedDefaultToolbar ){
-			// Remove existing menu
-			$('div[rel=apc-rules-heading]').remove();
-		} else {
-			$textBox.wikiEditor( 'addToToolbar', {
-				section: 'advanced',
-				groups: {
-					APC: {
-						label: mw.msg( 'apc-group' ),
-						tools: {
-							'apc-report-a-bug' : bugButton
-						}
-					}
-				}
-			} );
-			loadedDefaultToolbar = true;
-		}
-		if( !rules.length ){
-			return;
-		}
-		for(i=0;i<rules.length;i += 1){
-			mainRules[ 'APC-rules-' + i ] = {
-				label: rules[i].enabled === false
-					? mw.msg( 'apc-button-disabled-rule', rules[i].name )
-					: mw.msg( 'apc-button-enabled-rule', rules[i].name, mw.msg( 'apc-disabled-rule' ) ),
-				action: {
-					type: 'callback',
-					execute: executeGroup(i)
-				}
-			};
-		}
-		$textBox.wikiEditor( 'addToToolbar', {
-			section: 'advanced',
-			group: 'APC',
-			tools: {
-				'apc-rules-heading': {
-					label: mw.msg( 'apc-rules-heading' ),
-					type: 'select',
-					list: mainRules
-				}
-			}
-		} );
-	},
 	/**
 	* Get an HTML representation of the list of rules and subrules
 	* @param rules The list of rules
@@ -266,6 +171,101 @@ var version = '0.33',
 		console.log( dup.sort().join('\n') );
 		console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
 */
+	},
+	updateToolbar = function () {
+		var	i,
+			$textBox = $( '#wpTextbox1' ),
+			summaryText = mw.msg( 'apc-summary-text', 'v' + version, APC.rulesVersion ),
+			$sumField = $( '#wpSummary' ),
+			executeGroup = function( i ){
+				return function() {
+					targetText = APC.$target.val();
+					APC.processRules( [ rules[i] ] );
+					APC.$target.val( targetText );
+					$sumField.val( $sumField.val() + summaryText );
+				};
+			},
+			mainRules = {
+				'APC-rules-all' : {
+					label: mw.msg( 'apc-button-rules-all' ),
+					action: {
+						type: 'callback',
+						execute: function() {
+							targetText = APC.$target.val();
+							APC.processRules(rules);
+							APC.$target.val(targetText);
+							$sumField.val( $sumField.val() + summaryText );
+						}
+					}
+				}
+			},
+			bugButton = {
+				label: mw.msg( 'apc-button-bug' ),
+				type: 'button',
+				// Icon by [[commons:User:Medium69]]
+				icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
+				action: {
+					type: 'callback',
+					execute: function() {
+						var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
+							$.param({
+								action: 'edit',
+								section: 'new',
+								preloadtitle: mw.msg(
+									'apc-new-bug-title',
+									'v' + version,
+									APC.rulesVersion,
+									mw.config.get( 'wgPageName' )
+										.replace( /_/g, ' ' )
+								),
+								preload: 'WP:Scripts/APC/Bug'
+							});
+						window.open( url );
+					}
+				}
+			};
+		if( loadedDefaultToolbar ){
+			// Remove existing menu
+			$('div[rel=apc-rules-heading]').remove();
+		} else {
+			$textBox.wikiEditor( 'addToToolbar', {
+				section: 'advanced',
+				groups: {
+					APC: {
+						label: mw.msg( 'apc-group' ),
+						tools: {
+							'apc-report-a-bug' : bugButton
+						}
+					}
+				}
+			} );
+			loadedDefaultToolbar = true;
+		}
+		if( !rules.length ){
+			return;
+		}
+		for(i=0;i<rules.length;i += 1){
+			mainRules[ 'APC-rules-' + i ] = {
+				label: rules[i].enabled === false
+					? mw.msg( 'apc-button-disabled-rule', rules[i].name )
+					: mw.msg( 'apc-button-enabled-rule', rules[i].name, mw.msg( 'apc-disabled-rule' ) ),
+				action: {
+					type: 'callback',
+					execute: executeGroup(i)
+				}
+			};
+		}
+		$textBox.wikiEditor( 'addToToolbar', {
+			section: 'advanced',
+			group: 'APC',
+			tools: {
+				'apc-rules-heading': {
+					label: mw.msg( 'apc-rules-heading' ),
+					type: 'select',
+					list: mainRules
+				}
+			}
+		} );
 	},
 	/**
 	* Execute the script when in edit mode
