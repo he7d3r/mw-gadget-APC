@@ -23,6 +23,7 @@ if ( window.APC === undefined ) {
 mw.messages.set( {
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções automáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
+	'apc-button-rules-custom': 'Escolher regras...',
 	'apc-button-bug': 'Informar um erro',
 	'apc-new-bug-title': '[BUG] ($1/$2) [[$3]]',
 	'apc-group': 'APC',
@@ -38,13 +39,20 @@ mw.messages.set( {
 	'apc-expand-all-text': 'Expandir tudo',
 	'apc-expand-all-desc': 'Expandir todos os itens',
 	'apc-format-text': 'Formatar com APC',
-	'apc-format-desc': 'Formata o código wiki da página de acordo com as regras estabelecidas no código do script',
+	'apc-format-desc': 'Formata o código wiki da página de acordo com as' +
+		' regras estabelecidas no código do script',
 	'apc-invalid-value':  'Invalid value: $1.',
 	'apc-no-templates': 'where=templates is not available yet',
-	'apc-where': 'where=$1 on rule "$2".'
+	'apc-where': 'where=$1 on rule "$2"',
+	'apc-dialog-title': 'Lista de regras',
+	'apc-button-cancel': 'Cancelar',
+	'apc-button-apply-selected-rules': 'Aplicar regras selecionadas',
+	'apc-dialog-text': 'Por enquanto esta janela só serve para ver a lista' +
+		' de regras. Futuramente, será possível ativar ou desativar' +
+		' cada uma antes de aplicá-las.'
 });
 
-var version = '0.34',
+var version = '0.35',
 	loadedWikiEditor = false,
 	loadedList = false,
 	loadedDefaultToolbar = false,
@@ -117,12 +125,8 @@ var version = '0.34',
 		}
 		return $ul;
 	},
-	loadListInHTML = function () {
+	updateHtmlList = function () {
 		var versionHTML, $button, $list, $rules;
-
-		if ( mw.config.get('wgPageName') !== 'Wikipédia:Scripts/APC' || $.inArray(mw.config.get('wgAction'), ['view', 'purge']) === -1 ) {
-			return;
-		}
 		$rules = $('#apc-search-and-replace-rules');
 		if(!$rules.length) {
 			$rules = $('#mw-content-text');
@@ -172,6 +176,32 @@ var version = '0.34',
 		console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
 */
 	},
+	openDialog = function () {
+		var buttons = {};
+		buttons[ mw.msg( 'apc-button-apply-selected-rules' ) ] = function() {
+			alert( 'Ops! Este recurso ainda não foi implementado.' );
+		};
+		buttons[ mw.msg( 'apc-button-cancel' ) ] = function() {
+			$( this ).dialog( 'close' );
+		};
+		$( '<div id="apc-dialog-rules"><div id="apc-search-and-replace-rules"></div></div>' )
+			.prepend( mw.msg( 'apc-dialog-text' ) )
+			.dialog( {
+				width: 550,
+				height: 350,
+				modal: true,
+				resizable: true,
+				draggable: true,
+				closeOnEscape: true,
+				dialogClass: 'apc-dialog',
+				title: mw.msg( 'apc-dialog-title' ),
+				close: function() {
+					$( this ).dialog( 'destroy' ).remove();
+				},
+				buttons: buttons
+			} );
+		updateHtmlList();
+	},
 	updateToolbar = function () {
 		var	i,
 			$textBox = $( '#wpTextbox1' ),
@@ -181,7 +211,7 @@ var version = '0.34',
 				return function() {
 					targetText = APC.$target.val();
 					APC.processRules( [ rules[i] ] );
-					APC.$target.val( targetText );
+					APC.$target.val(targetText);
 					$sumField.val( $sumField.val() + summaryText );
 				};
 			},
@@ -255,6 +285,15 @@ var version = '0.34',
 				}
 			};
 		}
+		mainRules[ 'APC-rules-custom' ] = {
+			label: mw.msg( 'apc-button-rules-custom' ),
+			action: {
+				type: 'callback',
+				execute: function() {
+					mw.loader.using( 'jquery.ui.dialog', openDialog );
+				}
+			}
+		};
 		$textBox.wikiEditor( 'addToToolbar', {
 			section: 'advanced',
 			group: 'APC',
@@ -300,7 +339,7 @@ var version = '0.34',
 
 		} else {
 			loadedList = true;
-			loadListInHTML();
+			updateHtmlList();
 		}
 	};
 
@@ -411,7 +450,7 @@ APC.addRules = function ( newRules ) {
 		updateToolbar();
 	}
 	if ( loadedList ) {
-		loadListInHTML();
+		updateHtmlList();
 	}
 };
 
@@ -421,7 +460,7 @@ APC.removeAllRules = function () {
 		updateToolbar();
 	}
 	if ( loadedList ) {
-		loadListInHTML();
+		updateHtmlList();
 	}
 };
 $(load);
