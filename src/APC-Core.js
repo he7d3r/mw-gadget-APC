@@ -19,7 +19,32 @@ if ( window.APC === undefined ) {
 (function ($, mw, APC) {
 'use strict';
 
-var version = '0.32',
+/* Translatable strings */
+mw.messages.set( {
+	'apc-summary-text': ' +[[WP:Scripts/APC|correções automáticas]] ($1/$2)',
+	'apc-button-rules-all': 'Todas',
+	'apc-button-bug': 'Informar um erro',
+	'apc-new-bug-title': '[BUG] ($1/$2) [[$3]]',
+	'apc-group': 'APC',
+	'apc-button-enabled-rule': '$1',
+	'apc-button-disabled-rule': '$1 ($2)',
+	'apc-disabled-rule': 'desativada temporariamente',
+	'apc-rules-heading': 'Correções',
+	'apc-default-rule-name': 'Rule',
+	'apc-find-and-replace-title': 'Localizar:\n$1\n\nSubstituir por:\n$2',
+	'apc-experimental': 'Em fase experimental',
+	'apc-version-info': 'Observação: esta é a versão $1 da lista de regras' +
+		' (gerada pela versão $2 do script).',
+	'apc-expand-all-text': 'Expandir tudo',
+	'apc-expand-all-desc': 'Expandir todos os itens',
+	'apc-format-text': 'Formatar com APC',
+	'apc-format-desc': 'Formata o código wiki da página de acordo com as regras estabelecidas no código do script',
+	'apc-invalid-value':  'Invalid value: $1.',
+	'apc-no-templates': 'where=templates is not available yet',
+	'apc-where': 'where=$1 on rule "$2".'
+});
+
+var version = '0.33',
 	loadedWikiEditor = false,
 	loadedList = false,
 	loadedDefaultToolbar = false,
@@ -46,20 +71,19 @@ var version = '0.32',
 	updateToolbar = function () {
 		var	i,
 			$textBox = $( '#wpTextbox1' ),
-			summaryText = ' +[[WP:Scripts/APC|correções automáticas]] (v' +
-						version + '/' + APC.rulesVersion + ')',
-			$sumField = $('#wpSummary'),
+			summaryText = mw.msg( 'apc-summary-text', 'v' + version, APC.rulesVersion ),
+			$sumField = $( '#wpSummary' ),
 			executeGroup = function( i ){
 				return function() {
 					targetText = APC.$target.val();
 					APC.processRules( [ rules[i] ] );
-					APC.$target.val(targetText);
+					APC.$target.val( targetText );
 					$sumField.val( $sumField.val() + summaryText );
 				};
 			},
 			mainRules = {
 				'APC-rules-all' : {
-					label: 'Todas',
+					label: mw.msg( 'apc-button-rules-all' ),
 					action: {
 						type: 'callback',
 						execute: function() {
@@ -72,7 +96,7 @@ var version = '0.32',
 				}
 			},
 			bugButton = {
-				label: 'Informar um erro',
+				label: mw.msg( 'apc-button-bug' ),
 				type: 'button',
 				// Icon by [[commons:User:Medium69]]
 				icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
@@ -83,8 +107,13 @@ var version = '0.32',
 							$.param({
 								action: 'edit',
 								section: 'new',
-								preloadtitle: '[BUG] (v' + version + '/' +
-									APC.rulesVersion + ') [[' + mw.config.get('wgPageName').replace(/_/g, ' ') + ']]',
+								preloadtitle: mw.msg(
+									'apc-new-bug-title',
+									'v' + version,
+									APC.rulesVersion,
+									mw.config.get( 'wgPageName' )
+										.replace( /_/g, ' ' )
+								),
 								preload: 'WP:Scripts/APC/Bug'
 							});
 						window.open( url );
@@ -99,7 +128,7 @@ var version = '0.32',
 				section: 'advanced',
 				groups: {
 					APC: {
-						label: 'APC',
+						label: mw.msg( 'apc-group' ),
 						tools: {
 							'apc-report-a-bug' : bugButton
 						}
@@ -113,8 +142,9 @@ var version = '0.32',
 		}
 		for(i=0;i<rules.length;i += 1){
 			mainRules[ 'APC-rules-' + i ] = {
-				label: rules[i].name +
-					(rules[i].enabled === false? ' (desativada temporariamente)' : ''),
+				label: rules[i].enabled === false
+					? mw.msg( 'apc-button-disabled-rule', rules[i].name )
+					: mw.msg( 'apc-button-enabled-rule', rules[i].name, mw.msg( 'apc-disabled-rule' ) ),
 				action: {
 					type: 'callback',
 					execute: executeGroup(i)
@@ -126,7 +156,7 @@ var version = '0.32',
 			group: 'APC',
 			tools: {
 				'apc-rules-heading': {
-					label: 'Correções',
+					label: mw.msg( 'apc-rules-heading' ),
 					type: 'select',
 					list: mainRules
 				}
@@ -140,12 +170,13 @@ var version = '0.32',
 	*/
 	getRulesHTML = function (rules, visible) {
 		var i, length, r, $li, name, safeName,
+			defaultRuleName = mw.msg( 'apc-default-rule-name' ),
 			$ul = $('<ul></ul>').toggle( visible || false );
 
 		// TODO: Implement "collapsible sublists"
 		for (i = 0, length = rules.length; i < length; i+=1) {
 			r = rules[i];
-			name = (r.name || 'Rule');
+			name = ( r.name || defaultRuleName );
 /*			if( names[ name ] === undefined ){
 				names[ name ] = 0;
 			} else {
@@ -155,7 +186,7 @@ var version = '0.32',
 				.replace( /[ _\-]+/g, '-' )
 				.replace( /[^\-a-z0-9]+/ig, '' );
 			$li = $('<li></li>')
-				.attr('title', 'Localizar:\n' + r.find + '\n\nSubstituir por:\n' + r.replace )
+				.attr( 'title', mw.msg( 'apc-find-and-replace-title', r.find, r.replace ) )
 				.append(
 					$( '<input>', {
 						type: 'checkbox',
@@ -171,7 +202,7 @@ var version = '0.32',
 				);
 			if (r.enabled === false) {
 				$li.addClass('apc-disabled')
-					.attr('title', 'Em fase experimental');
+					.attr('title', mw.msg( 'apc-experimental' ) );
 			}
 			if ($.isArray(r.sub) && r.sub.length) {
 				$li.append(getRulesHTML(r.sub))
@@ -191,9 +222,9 @@ var version = '0.32',
 		if(!$rules.length) {
 			$rules = $('#mw-content-text');
 		}
-		versionHTML = '<p>Observação: esta é a versão ' + APC.rulesVersion +
-			' da lista de regras (gerada pela versão ' + version + ' do script).</p>';
-		$button = $('<input type="button" value="Expandir tudo" title="Expandir todos os itens"/>')
+		versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.rulesVersion, version ) + '</p>';
+		$button = $('<input type="button" value="' + mw.msg( 'apc-expand-all-text' ) +
+				'" title="' + mw.msg( 'apc-expand-all-desc' ) + '"/>')
 			.click( function(){
 				$rules.find('ul').show();
 			});
@@ -255,9 +286,9 @@ var version = '0.32',
 					$( mw.util.addPortletLink(
 						'p-tb',
 						'#',
-						'Formatar com APC',
+						mw.msg( 'apc-format-text' ),
 						'#ca-APC',
-						'Formata o código wiki da página de acordo com as regras estabelecidas no código do script'
+						mw.msg( 'apc-format-desc' )
 					) ).click( function (e) {
 						e.preventDefault();
 						targetText = APC.$target.val();
@@ -349,9 +380,18 @@ APC.processRules = function (rules) {
 			} else if (allowOnlyInsideTemplates && r.where === 'templates') {
 				// TODO: Implement this for non-nested templates!
 				// TODO: How to allow nested templates? E.g.: {{info|param={{format|...}}|param=...}}
-				mw.log('Invalid value: where=templates is not available yet.');
+				mw.log( mw.msg( 'apc-invalid-value', mw.msg( 'apc-no-templates' ) ) );
 			} else {
-				mw.log('Invalid value: where=' + r.where + ' on rule "' + (r.name || 'Rule') + '".');
+				mw.log(
+					mw.msg(
+						'apc-invalid-value',
+						mw.msg(
+							'apc-where',
+							r.where,
+							r.name || mw.msg( 'apc-default-rule-name' )
+						)	
+					)
+				);
 			}
 		}
 	}
