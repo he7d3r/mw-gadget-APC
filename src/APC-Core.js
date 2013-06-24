@@ -21,6 +21,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
+	'apc-version': '0.36',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções automáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -38,6 +39,8 @@ mw.messages.set( {
 		' (gerada pela versão $2 do script).',
 	'apc-expand-all-text': 'Expandir tudo',
 	'apc-expand-all-desc': 'Expandir todos os itens',
+	'apc-collapse-all-text': 'Recolher tudo',
+	'apc-collapse-all-desc': 'Recolher todos os itens',
 	'apc-format-text': 'Formatar com APC',
 	'apc-format-desc': 'Formata o código wiki da página de acordo com as' +
 		' regras estabelecidas no código do script',
@@ -52,8 +55,7 @@ mw.messages.set( {
 		' cada uma antes de aplicá-las.'
 });
 
-var version = '0.35',
-	loadedWikiEditor = false,
+var loadedWikiEditor = false,
 	loadedList = false,
 	loadedDefaultToolbar = false,
 	targetText = '', // This will store the text to which the rules will be applied
@@ -126,27 +128,35 @@ var version = '0.35',
 		return $ul;
 	},
 	updateHtmlList = function () {
-		var versionHTML, $button, $list, $rules;
+		var versionHTML, $expandButton, $collapseButton, $list, $rules, onClick;
 		$rules = $('#apc-search-and-replace-rules');
 		if(!$rules.length) {
 			$rules = $('#mw-content-text');
 		}
-		versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.rulesVersion, version ) + '</p>';
-		$button = $('<input type="button" value="' + mw.msg( 'apc-expand-all-text' ) +
+		versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.rulesVersion, mw.msg( 'apc-version' ) ) + '</p>';
+		onClick = function(){
+			var showOrHide = $( this ).val() === mw.msg( 'apc-expand-all-text' );
+			$rules
+				.find( 'ul:not(.apc-main-list)' )
+					.toggle( showOrHide ).end()
+				.find( 'li.apc-list-toggle' )
+					.toggleClass( 'apc-expanded', showOrHide );
+		};
+		$expandButton = $('<input type="button" value="' + mw.msg( 'apc-expand-all-text' ) +
 				'" title="' + mw.msg( 'apc-expand-all-desc' ) + '"/>')
-			.click( function(){
-				$rules.find('ul').show();
-			});
+			.click( onClick );
+		$collapseButton = $('<input type="button" value="' + mw.msg( 'apc-collapse-all-text' ) +
+				'" title="' + mw.msg( 'apc-collapse-all-desc' ) + '"/>')
+			.click( onClick );
 		$list = getRulesHTML(rules, true)
 			.on('change', 'input', function (e) {
 				var $target = $(e.target),
-					$li = $target.parent(),
-					isChecked = $target.is(':checked');
+					$li = $target.parent();
 				if ( $li.hasClass('apc-list-toggle') ){
 					$li.find('ul:first').find('input')
 						.prop(
 							'checked',
-							isChecked
+							$target.is(':checked')
 						);
 				}
 			})
@@ -165,7 +175,8 @@ var version = '0.35',
 		$rules
 			.empty()
 			.append( versionHTML )
-			.append( $button )
+			.append( $expandButton )
+			.append( $collapseButton )
 			.append( $list );
 /*				$.each(names, function(n){
 			if( names[n] > 0 ){
@@ -205,7 +216,7 @@ var version = '0.35',
 	updateToolbar = function () {
 		var	i,
 			$textBox = $( '#wpTextbox1' ),
-			summaryText = mw.msg( 'apc-summary-text', 'v' + version, APC.rulesVersion ),
+			summaryText = mw.msg( 'apc-summary-text', 'v' + mw.msg( 'apc-version' ), APC.rulesVersion ),
 			$sumField = $( '#wpSummary' ),
 			executeGroup = function( i ){
 				return function() {
@@ -243,7 +254,7 @@ var version = '0.35',
 								section: 'new',
 								preloadtitle: mw.msg(
 									'apc-new-bug-title',
-									'v' + version,
+									'v' + mw.msg( 'apc-version' ),
 									APC.rulesVersion,
 									mw.config.get( 'wgPageName' )
 										.replace( /_/g, ' ' )
