@@ -17,7 +17,7 @@
 var addDefaultRules = function(){
 'use strict';
 
-APC.rulesVersion = '3.1.34';
+APC.rulesVersion = '3.1.35';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -12001,7 +12001,7 @@ APC.addRules( [{
 					}, {
 						name: 'Desmarc {{Ref-section}}',
 						find: /┤/g, // FIXME: /┤/gi ?
-						replace: '{{referências'
+						replace: '{{Referências'
 					}, {
 						name: 'Desmarca gallery 2',
 						find: /└/g,
@@ -13710,7 +13710,7 @@ Necessitam de revisão mínima
 			sub: [{
 				name: 'Reflist -> Referências, reflist longe',
 				find: /(== Referências ==)\r?\n([^░║]*)(\{\{Reflist[^}\n]*\}\})\r?\n/ig,
-				replace: '{{referências}}\n$2\n'
+				replace: '{{Referências}}\n$2\n'
 			}, {
 				name: 'Reflist -> Referências, seção != "Refer"',
 				find: /\{\{Reflist([\|}])/ig,
