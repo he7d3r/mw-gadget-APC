@@ -22,7 +22,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.36',
+	'apc-version': '0.37',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções automáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -249,7 +249,7 @@ var loadedWikiEditor = false,
 				action: {
 					type: 'callback',
 					execute: function() {
-						var url = mw.util.wikiGetlink( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
+						var url = mw.util.getUrl( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
 							$.param({
 								action: 'edit',
 								section: 'new',
