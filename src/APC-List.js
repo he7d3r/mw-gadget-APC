@@ -6,10 +6,11 @@
  * (http://code.google.com/p/rjclaudio-awb/downloads/list)
  * Ver também:
  * - [[WP:Scripts/APC]] (documentação)
- * - [[w:User:!Silent/correções.js]]
- * - [[w:User:Fabiano Tatsch/correções.js]]
- * - [[w:WP:Projetos/Check Wikipedia/AWB]]
- * - [[w:WP:Projetos/AWB]]
+ * - [[User:!Silent/correções.js]]
+ * - [[User:Fabiano Tatsch/correções.js]]
+ * - [[WP:Projetos/Check Wikipedia/AWB]]
+ * - [[WP:Projetos/AWB]]
+ * - [[WP:Projetos/Check Wikipedia/Python]]
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
