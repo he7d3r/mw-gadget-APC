@@ -10302,7 +10302,105 @@ APC.addRules( [{
 					find: /┌/g,
 					replace: '{{Citar web',
 					num: 10
+				}, {
+				name: '{{Cite journal}} para {{Citar periódico}}',
+				ifhas: '{{Cite journal', // FIXME: /\{\{Cite journal/i ?
+				sub: [{
+					name: 'Marca início',
+					find: /\{\{Cite journal *(\||\r?\n|╔)/ig,
+					replace: '┌$1'
+				}, {
+					name: 'Marca final',
+					find: /(┌[^{}┘]*)\}\}/ig,
+					replace: '$1┘}}'
+				}, {
+					name: 'Substitui campos',
+					ifhas: /┘/i,
+					sub: [{
+						name: 'last',
+						find: /(┌[^┌┘]*\| *)last( *=[^┌┘]*┘)/g,
+						replace: '$1ultimo$2'
+					}, {
+						name: 'title',
+						find: /(┌[^┘]*\| *)title( *=[^┌┘]*┘)/g,
+						replace: '$1titulo$2'
+					}, {
+						name: 'accessdate',
+						find: /(┌[^┘]*\| *)accessdate( *=[^┌┘]*┘)/g,
+						replace: '$1acessadoem$2'
+					}, {
+						name: 'author',
+						find: /(┌[^┘]*\| *)author( *=[^┌┘]*┘)/g,
+						replace: '$1autor$2'
+					}, {
+						name: 'first',
+						find: /(┌[^┘]*\| *)first( *=[^┌┘]*┘)/g,
+						replace: '$1primeiro$2'
+					}, {
+						name: 'authorlink',
+						find: /(┌[^┘]*\| *)authorlink( *=[^┌┘]*┘)/g,
+						replace: '$1autorlink$2'
+					}, {
+						name: 'coauthors',
+						find: /(┌[^┘]*\| *)coauthors( *=[^┌┘]*┘)/g,
+						replace: '$1coautores$2'
+					}, {
+						name: 'date',
+						find: /(┌[^┘]*\| *)date( *=[^┌┘]*┘)/g,
+						replace: '$1data$2'
+					}, {
+						name: 'year',
+						find: /(┌[^┘]*\| *)year( *=[^┌┘]*┘)/g,
+						replace: '$1ano$2'
+					}, {
+						name: 'month',
+						find: /(┌[^┘]*\| *)month( *=[^┌┘]*┘)/g,
+						replace: '$1mes$2'
+					}, {
+						name: 'format',
+						find: /(┌[^┘]*\| *)format( *=[^┌┘]*┘)/g,
+						replace: '$1formato$2'
+					}, {
+						name: 'pages',
+						find: /(┌[^┘]*\| *)pages( *=[^┌┘]*┘)/g,
+						replace: '$1paginas$2'
+					}, {
+						name: 'language',
+						find: /(┌[^┘]*\| *)language( *=[^┌┘]*┘)/g,
+						replace: '$1idioma$2'
+					}, {
+						name: 'quote',
+						find: /(┌[^┘]*\| *)quote( *=[^┌┘]*┘)/g,
+						replace: '$notas$2'
+					}, {
+						name: 'journal',
+						find: /(┌[^┘]*\| *)journal( *=[^┌┘]*┘)/g,
+						replace: '$jornal$2'
+					}, {
+						name: 'issue',
+						find: /(┌[^┘]*\| *)issue( *=[^┌┘]*┘)/g,
+						replace: '$numero$2'
+					}, {
+						name: 'publisher',
+						find: /(┌[^┘]*\| *)publisher( *=[^┌┘]*┘)/g,
+						replace: '$editora$2'
+					}, {
+						name: 'place',
+						find: /(┌[^┘]*\| *)place( *=[^┌┘]*┘)/g,
+						replace: '$local$2'
+					}]
+				}, {
+					name: 'Desmarca final',
+					find: /┘/g,
+					replace: '',
+					num: 10
+				}, {
+					name: 'Desmarca início',
+					find: /┌/g,
+					replace: '{{Citar web',
+					num: 10
 				}]
+			}]
 			}]
 		}, {
 			name: 'Ver também',
