@@ -22,7 +22,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.37',
+	'apc-version': '0.38',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções automáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -62,6 +62,26 @@ var loadedWikiEditor = false,
 	targetText = '', // This will store the text to which the rules will be applied
 	allowFunctionTests = false, // TODO: Do we need this?
 	allowOnlyInsideTemplates = false, // TODO: Implement this
+	reKeyWords,
+	// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
+	keywords = {
+		'%%title%%': mw.config.get('wgPageName').replace(/_/g, ' '),
+		'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
+		'%%pagename%%': mw.config.get('wgTitle')
+	},
+	applyKeyWords = function(matchedKey){
+		return keywords[matchedKey];
+	},
+	applyEscapedKeyWords = function(matchedKey){
+		return $.escapeRE( keywords[matchedKey] );
+	},
+	getRegexForKeywords = function(){
+		var keys = [];
+		$.each(keywords, function(key){
+			keys.push($.escapeRE(key));
+		});
+		return new RegExp( '(' + keys.join('|') + ')', 'g' );
+	},
 	// names = {},
 	// dup = [],
 	/**
@@ -363,24 +383,10 @@ var loadedWikiEditor = false,
  * FIXME: Guardar o texto em uma variável local em vez de targetText, para otimizar
  */
 APC.processRules = function (rules) {
-	var	i, length, r, times, reKeyWords, temp,
-		keys = [],
-		// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
-		keywords = {
-			'%%title%%': mw.config.get('wgPageName').replace(/_/g, ' '),
-			'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
-			'%%pagename%%': mw.config.get('wgTitle')
-		},
-		applyKeyWords = function(matchedKey){
-			return keywords[matchedKey];
-		},
-		applyEscapedKeyWords = function(matchedKey){
-			return $.escapeRE( keywords[matchedKey] );
-		};
-	$.each(keywords, function(key){
-		keys.push($.escapeRE(key));
-	});
-	reKeyWords = new RegExp( '(' + keys.join('|') + ')', 'g' );
+	var i, length, r, times, temp;
+	if( !reKeyWords ) {
+		reKeyWords = getRegexForKeywords();
+	}
 	for (i = 0, length = rules.length; i < length; i += 1) {
 		r = rules[i];
 		if (r.enabled !== false
