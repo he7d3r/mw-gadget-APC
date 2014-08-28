@@ -347,12 +347,13 @@ var loadedWikiEditor = false,
 
 			/* Make sure the required modules are available and then customize the toolbar */
 			mw.loader.using( 'user.options', function () {
-				if ( mw.user.options.get('usebetatoolbar') ) {
+				// This can be the string "0" if the user disabled the preference ([[bugzilla:52542#c3]])
+				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 					mw.loader.using( 'ext.wikiEditor.toolbar', function(){
 						loadedWikiEditor = true;
 						updateToolbar();
 					} );
-				} else{
+				} else {
 					// TODO: Improve support for old toolbar?
 					$( mw.util.addPortletLink(
 						'p-tb',
