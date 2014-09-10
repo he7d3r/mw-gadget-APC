@@ -9,6 +9,7 @@
  ** [[w:WP:Projetos/Check Wikipedia/AWB]]
  ** [[w:WP:Projetos/AWB]]
  ** [[m:User:TMg/autoFormatter]]
+ ** [[en:User:Joeytje50/AWB.js]]
  ** http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/ReplaceSpecial/Rule.cs?view=markup
  * @author: [[User:Helder.wiki]]
  * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
