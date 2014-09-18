@@ -1,3 +1,4 @@
+// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[bugzilla:33355]])
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /**
  * Ferramenta que facilita a correção de artigos da Wikipédia
@@ -11,8 +12,8 @@
  ** [[m:User:TMg/autoFormatter]]
  ** [[en:User:Joeytje50/AWB.js]]
  ** http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/ReplaceSpecial/Rule.cs?view=markup
- * @author: [[User:Helder.wiki]]
- * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
+ * @author: Helder (https://github.com/he7d3r)
+ * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */
 /*global jQuery, mediaWiki, APC */
 if ( window.APC === undefined ) {
