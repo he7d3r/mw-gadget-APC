@@ -1,3 +1,4 @@
+// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[bugzilla:33355]])
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /*global $, mw, APC */
 /**
@@ -11,7 +12,6 @@
  * - [[WP:Projetos/Check Wikipedia/AWB]]
  * - [[WP:Projetos/AWB]]
  * - [[WP:Projetos/Check Wikipedia/Python]]
- * @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 
