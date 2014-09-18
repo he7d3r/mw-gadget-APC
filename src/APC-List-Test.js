@@ -1,3 +1,4 @@
+// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[bugzilla:33355]])
 /*jslint browser: true, white: true, regexp: true */
 /*global $, mw, APC */
 // Lista personalizada
@@ -3207,8 +3208,7 @@ quem quiser pode habilitar e ajudar a testar
 	}]
 } ] );
 };
- 
-// @tracking: [[Special:GlobalUsage/User:Helder.wiki/Tools/APC.js]] ([[File:User:Helder.wiki/Tools/APC.js]])
+
 if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
         if( window.APC && window.APC.addRules ){
                 insertBetaRules();
