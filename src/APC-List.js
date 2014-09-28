@@ -15,7 +15,7 @@
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 
-var addDefaultRules = function(){
+var addDefaultRules = function () {
 'use strict';
 
 APC.rulesVersion = '3.1.35';
@@ -14136,7 +14136,7 @@ style="text-align:left;"|;"
 			name: '<font color="#123456">[[página|texto]]</font>',
 			find: /<font\s+color\s*=\s*(["']?)\#?([a-f0-9]{6}|[a-f0-9]{3})\1\s*>(\s*\[\[[^\|\]]+\|)([^\]]+)(\]\]\s*)<\/font>/g,
 			replace: '$3<span style="color: #$2;">$4</span>$5'
-		},{
+		}, {
 			name:'<font color="#123456">texto [[página|texto]] texto</font>',
 			find: /<font\s+color\s*=\s*(["']?)\#?([a-f0-9]{6}|[a-f0-9]{3})\1\s*>(.+?)<\/font>/g,
 			replace: '<span style="color: #$2;">$3</span>'
@@ -14179,7 +14179,7 @@ style="text-align:left;"|;"
 
 };
 
-if( window.APC && window.APC.addRules ){
+if ( window.APC && window.APC.addRules ) {
 	addDefaultRules();
 } else {
 	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCCore&only=scripts&debug=' + mw.config.get( 'debug' ) )
