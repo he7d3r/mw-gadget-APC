@@ -71,15 +71,15 @@ var loadedWikiEditor = false,
 		'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
 		'%%pagename%%': mw.config.get('wgTitle')
 	},
-	applyKeyWords = function(matchedKey){
+	applyKeyWords = function (matchedKey) {
 		return keywords[matchedKey];
 	},
-	applyEscapedKeyWords = function(matchedKey){
+	applyEscapedKeyWords = function (matchedKey) {
 		return $.escapeRE( keywords[matchedKey] );
 	},
-	getRegexForKeywords = function(){
+	getRegexForKeywords = function () {
 		var keys = [];
-		$.each(keywords, function(key){
+		$.each(keywords, function (key) {
 			keys.push($.escapeRE(key));
 		});
 		return new RegExp( '(' + keys.join('|') + ')', 'g' );
@@ -112,10 +112,10 @@ var loadedWikiEditor = false,
 			$ul = $('<ul></ul>').toggle( visible || false );
 
 		// TODO: Implement "collapsible sublists"
-		for (i = 0, length = rules.length; i < length; i+=1) {
+		for (i = 0, length = rules.length; i < length; i += 1) {
 			r = rules[i];
 			name = ( r.name || defaultRuleName );
-/*			if( names[ name ] === undefined ){
+/*			if ( names[ name ] === undefined ) {
 				names[ name ] = 0;
 			} else {
 				names[ name ] += 1;
@@ -153,11 +153,11 @@ var loadedWikiEditor = false,
 	updateHtmlList = function () {
 		var versionHTML, $expandButton, $collapseButton, $list, $rules, onClick;
 		$rules = $('#apc-search-and-replace-rules');
-		if(!$rules.length) {
+		if (!$rules.length) {
 			$rules = $('#mw-content-text');
 		}
 		versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.rulesVersion, mw.msg( 'apc-version' ) ) + '</p>';
-		onClick = function(){
+		onClick = function () {
 			var showOrHide = $( this ).val() === mw.msg( 'apc-expand-all-text' );
 			$rules
 				.find( 'ul:not(.apc-main-list)' )
@@ -175,7 +175,7 @@ var loadedWikiEditor = false,
 			.on('change', 'input', function (e) {
 				var $target = $(e.target),
 					$li = $target.parent();
-				if ( $li.hasClass('apc-list-toggle') ){
+				if ( $li.hasClass('apc-list-toggle') ) {
 					$li.find('ul:first').find('input')
 						.prop(
 							'checked',
@@ -185,7 +185,7 @@ var loadedWikiEditor = false,
 			})
 			.on('click', 'li', function (e) {
 				e.stopPropagation();
-				if ( $(e.target).hasClass('apc-list-toggle') ){
+				if ( $(e.target).hasClass('apc-list-toggle') ) {
 					$(this)
 						.toggleClass('apc-expanded')
 						.children().filter('ul')
@@ -201,8 +201,8 @@ var loadedWikiEditor = false,
 			.append( $expandButton )
 			.append( $collapseButton )
 			.append( $list );
-/*				$.each(names, function(n){
-			if( names[n] > 0 ){
+/*				$.each(names, function (n) {
+			if ( names[n] > 0 ) {
 				dup.push( n );
 			}
 		});
@@ -212,10 +212,10 @@ var loadedWikiEditor = false,
 	},
 	openDialog = function () {
 		var buttons = {};
-		buttons[ mw.msg( 'apc-button-apply-selected-rules' ) ] = function() {
+		buttons[ mw.msg( 'apc-button-apply-selected-rules' ) ] = function () {
 			alert( 'Ops! Este recurso ainda não foi implementado.' );
 		};
-		buttons[ mw.msg( 'apc-button-cancel' ) ] = function() {
+		buttons[ mw.msg( 'apc-button-cancel' ) ] = function () {
 			$( this ).dialog( 'close' );
 		};
 		$( '<div id="apc-dialog-rules"><div id="apc-search-and-replace-rules"></div></div>' )
@@ -229,7 +229,7 @@ var loadedWikiEditor = false,
 				closeOnEscape: true,
 				dialogClass: 'apc-dialog',
 				title: mw.msg( 'apc-dialog-title' ),
-				close: function() {
+				close: function () {
 					$( this ).dialog( 'destroy' ).remove();
 				},
 				buttons: buttons
@@ -241,8 +241,8 @@ var loadedWikiEditor = false,
 			$textBox = $( '#wpTextbox1' ),
 			summaryText = mw.msg( 'apc-summary-text', 'v' + mw.msg( 'apc-version' ), APC.rulesVersion ),
 			$sumField = $( '#wpSummary' ),
-			executeGroup = function( i ){
-				return function() {
+			executeGroup = function ( i ) {
+				return function () {
 					targetText = APC.$target.val();
 					APC.processRules( [ rules[i] ] );
 					APC.$target.val(targetText);
@@ -250,11 +250,11 @@ var loadedWikiEditor = false,
 				};
 			},
 			mainRules = {
-				'APC-rules-all' : {
+				'APC-rules-all': {
 					label: mw.msg( 'apc-button-rules-all' ),
 					action: {
 						type: 'callback',
-						execute: function() {
+						execute: function () {
 							targetText = APC.$target.val();
 							APC.processRules(rules);
 							APC.$target.val(targetText);
@@ -270,7 +270,7 @@ var loadedWikiEditor = false,
 				icon: '//upload.wikimedia.org/wikipedia/commons/1/11/Button_Nuvola_apps_edu_lang.png',
 				action: {
 					type: 'callback',
-					execute: function() {
+					execute: function () {
 						var url = mw.util.getUrl( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
 							$.param({
 								action: 'edit',
@@ -288,7 +288,7 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
-		if( loadedDefaultToolbar ){
+		if ( loadedDefaultToolbar ) {
 			// Remove existing menu
 			$('div[rel=apc-rules-heading]').remove();
 		} else {
@@ -298,17 +298,17 @@ var loadedWikiEditor = false,
 					APC: {
 						label: mw.msg( 'apc-group' ),
 						tools: {
-							'apc-report-a-bug' : bugButton
+							'apc-report-a-bug': bugButton
 						}
 					}
 				}
 			} );
 			loadedDefaultToolbar = true;
 		}
-		if( !rules.length ){
+		if ( !rules.length ) {
 			return;
 		}
-		for(i=0;i<rules.length;i += 1){
+		for (i = 0; i < rules.length; i += 1) {
 			mainRules[ 'APC-rules-' + i ] = {
 				label: rules[i].enabled === false
 					? mw.msg( 'apc-button-disabled-rule', rules[i].name )
@@ -323,7 +323,7 @@ var loadedWikiEditor = false,
 			label: mw.msg( 'apc-button-rules-custom' ),
 			action: {
 				type: 'callback',
-				execute: function() {
+				execute: function () {
 					mw.loader.using( 'jquery.ui.dialog', openDialog );
 				}
 			}
@@ -351,7 +351,7 @@ var loadedWikiEditor = false,
 			mw.loader.using( 'user.options', function () {
 				// This can be the string "0" if the user disabled the preference ([[bugzilla:52542#c3]])
 				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
-					mw.loader.using( 'ext.wikiEditor.toolbar', function(){
+					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
 						loadedWikiEditor = true;
 						updateToolbar();
 					} );
@@ -387,7 +387,7 @@ var loadedWikiEditor = false,
  */
 APC.processRules = function (rules) {
 	var i, length, r, times, temp;
-	if( !reKeyWords ) {
+	if ( !reKeyWords ) {
 		reKeyWords = getRegexForKeywords();
 	}
 	for (i = 0, length = rules.length; i < length; i += 1) {
@@ -409,14 +409,14 @@ APC.processRules = function (rules) {
 		) {
 			if (r.where === undefined || r.where === 'anywhere') {
 				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
-					if ( typeof r.find === 'string' ){
+					if ( typeof r.find === 'string' ) {
 						r.find = r.find.replace( reKeyWords, applyKeyWords );
-					} else if ( r.find instanceof RegExp && r.find.source.indexOf( '%%' ) !== -1 ){
+					} else if ( r.find instanceof RegExp && r.find.source.indexOf( '%%' ) !== -1 ) {
 						r.find = new RegExp(
 							r.find.source.replace( reKeyWords, applyEscapedKeyWords ),
-							(r.find.global? 'g': '') +
-								(r.find.ignoreCase? 'i': '') +
-								(r.find.multiline? 'm': '')
+							(r.find.global ? 'g' : '') +
+								(r.find.ignoreCase ? 'i' : '') +
+								(r.find.multiline ? 'm' : '')
 						);
 					}
 					r.replace = r.replace.replace( reKeyWords, applyKeyWords );
@@ -426,11 +426,11 @@ APC.processRules = function (rules) {
 							? 100
 							: r.num;
 					temp = targetText;
-					while( times > 0){
+					while ( times > 0) {
 						targetText = targetText.replace( r.find, r.replace );
 						times -= 1;
 					}
-					if( temp !== targetText ){
+					if ( temp !== targetText ) {
 						mw.log( r.find, r.replace );
 					}
 				}
@@ -449,7 +449,7 @@ APC.processRules = function (rules) {
 							'apc-where',
 							r.where,
 							r.name || mw.msg( 'apc-default-rule-name' )
-						)	
+						)
 					)
 				);
 			}
