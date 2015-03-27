@@ -1,4 +1,4 @@
-// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[bugzilla:33355]])
+// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[phab:T35355]])
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /*global $, mw, APC */
 /**
@@ -12,6 +12,9 @@
  * - [[WP:Projetos/Check Wikipedia/AWB]]
  * - [[WP:Projetos/AWB]]
  * - [[WP:Projetos/Check Wikipedia/Python]]
+ * @author: Helder (https://github.com/he7d3r)
+ * @author: Rjclaudio
+ * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
 
