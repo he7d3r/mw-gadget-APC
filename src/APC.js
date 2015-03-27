@@ -1,8 +1,9 @@
-// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[bugzilla:33355]])
+// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[phab:T35355]])
 /**
  * Carregador da ferramenta APC
  * @help: [[WP:Scripts/APC]]
- * @author: [[User:Helder.wiki]]
+ * @author: Helder (https://github.com/he7d3r)
+ * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */
 /*jslint white: true */
 /*global mediaWiki, jQuery */
