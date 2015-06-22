@@ -75,12 +75,12 @@ var loadedWikiEditor = false,
 		return keywords[matchedKey];
 	},
 	applyEscapedKeyWords = function (matchedKey) {
-		return $.escapeRE( keywords[matchedKey] );
+		return mw.RegExp.escape( keywords[matchedKey] );
 	},
 	getRegexForKeywords = function () {
 		var keys = [];
 		$.each(keywords, function (key) {
-			keys.push($.escapeRE(key));
+			keys.push(mw.RegExp.escape(key));
 		});
 		return new RegExp( '(' + keys.join('|') + ')', 'g' );
 	},
