@@ -348,7 +348,7 @@ var loadedWikiEditor = false,
 			APC.$target = $('#wpTextbox1');
 
 			/* Make sure the required modules are available and then customize the toolbar */
-			mw.loader.using( 'user.options', function () {
+			mw.loader.using( [ 'user.options', 'mediawiki.RegExp' ], function () {
 				// This can be the string "0" if the user disabled the preference ([[bugzilla:52542#c3]])
 				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
