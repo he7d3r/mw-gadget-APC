@@ -11,6 +11,7 @@
  ** [[w:WP:Projetos/AWB]]
  ** [[m:User:TMg/autoFormatter]]
  ** [[en:User:Joeytje50/AWB.js]]
+ ** [[ru:MediaWiki:Wikificator.js]]
  ** http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/ReplaceSpecial/Rule.cs?view=markup
  * @author: Helder (https://github.com/he7d3r)
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
