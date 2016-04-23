@@ -21,7 +21,7 @@
 var addDefaultRules = function () {
 'use strict';
 
-APC.rulesVersion = '3.1.35';
+APC.rulesVersion = '3.1.36';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -2531,7 +2531,7 @@ APC.addRules( [{
 							replace: '{{Citar livro|'
 						}, {
 							name: '{{Cite web}}',
-							find: /\{\{Citeweb\|/ig,
+							find: /\{\{[Cc]iteweb\|/g,
 							replace: '{{Cite web|'
 						}]
 					}, {
@@ -10206,10 +10206,10 @@ APC.addRules( [{
 				ifhas: /\{\{Link/i
 			}, {
 				name: '{{Cite web}} para {{Citar web}}',
-				ifhas: '{{Cite web', // FIXME: /\{\{Cite web/i ?
+				ifhas: /\{\{[Cc]ite web/,
 				sub: [{
 					name: 'Marca início',
-					find: /\{\{Cite web *(\||\r?\n|╔)/ig,
+					find: /\{\{[Cc]ite web *(\||\r?\n|╔)/g,
 					replace: '┌$1'
 				}, {
 					name: 'Marca final',
