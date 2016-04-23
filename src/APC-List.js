@@ -21,7 +21,7 @@
 var addDefaultRules = function () {
 'use strict';
 
-APC.rulesVersion = '3.1.36';
+APC.rulesVersion = '3.1.37';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -3067,13 +3067,13 @@ APC.addRules( [{
 					find: /<\/div>/ig,
 					replace: '',
 					num: 10,
-					ifnot: '<div' // FIXME: /<div/i ?
+					ifnot: /<div/i
 				}, {
 					name: '</gallery>',
 					find: /<\/gallery>/ig,
 					replace: '',
 					num: 10,
-					ifnot: '<gallery' // FIXME: /<gallery/i ?
+					ifnot: /<gallery/i
 				}]
 			}, {
 				name: 'Tag sem fim',
@@ -3086,7 +3086,7 @@ APC.addRules( [{
 					name: '<pre>',
 					find: /<pre>/ig,
 					replace: '',
-					ifnot: '</pre>' // FIXME: /</pre>/i ?
+					ifnot: /<\/pre>/i
 				}, {
 					name: '</small>'
 				}]
@@ -3103,7 +3103,7 @@ APC.addRules( [{
 			}, {
 				name: '<p>',
 				num: 100,
-				ifhas: '<p>', // FIXME: /<p>/i ?
+				ifhas: /<p>/i,
 				sub: [{
 					name: '<p> 1',
 					find: /<p>/ig,
@@ -3147,7 +3147,7 @@ APC.addRules( [{
 				}, {
 					name: '<small> em ref/sup/sub/ficheiro',
 					num: 10,
-					ifhas: '<small>', // FIXME: /<small>/i ?
+					ifhas: /<small>/i,
 					sub: [{
 						name: 'small duplo',
 						find: /┼(┼[^┤]*┤)┤/ig,
@@ -3512,7 +3512,7 @@ APC.addRules( [{
 				find: /(\{\{Info[^╣]*\| *(?:título|nome|nome_do_shopping) *= *)'+([^'\r\n]+)'+\r?\n/ig,
 				replace: '$1$2\n',
 				ifhas: '╣',
-				ifnot: '{{Info/Taxonomia' // FIXME: /\{\{Info/Taxonomia/i ?
+				ifnot: /\{\{[Ii]nfo\/Taxonomia/
 			}, {
 				name: '- nascido em',
 				find: /(╚[^\(╝\n]*\()nascid[ao] (?:em|n[ao]) /ig,
@@ -3719,7 +3719,7 @@ APC.addRules( [{
 					name: '{{dni | si}}',
 					find: /(\{\{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/ig,
 					replace: '$1{{dni|$2|{{subst:Mês2número|$3}}|$4|si}}\n',
-					ifhas: '{{falecimento|' // FIXME: /\{\{falecimento|/i ?
+					ifhas: /\{\{[Ff]alecimento\|/
 				}, {
 					name: '{{dni}}',
 					find: /(\{\{Info\/[^╣]*\| *nascimento_data *= *)(?:\[\[([1-3]?[0-9]) de ([^\[\]\n]+)\]\] de )?\[\[([0-9]{3,4})\]\]\r?\n/ig,
@@ -5866,7 +5866,7 @@ APC.addRules( [{
 				}]
 			}, {
 				name: '{{Flagicon}}',
-				ifhas: '{{Flagicon|', // FIXME: /\{\{Flagicon|/i ?
+				ifhas: /\{\{[Ff]lagicon\|/,
 				sub: [{
 					name: '{{Flagicon}} A',
 					ifhas: /\{\{[Ff]lagicon\|[AÁ]/,
@@ -7345,7 +7345,7 @@ APC.addRules( [{
 				}]
 			}, {
 				name: '{{Flag}}',
-				ifhas: '{{Flag|', // FIXME: /\{\{Flag|/i ?
+				ifhas: /\{\{[Ff]lag\|/,
 				sub: [{
 					name: '{{Flag}} A',
 					ifhas: /\{\{[Ff]lag\|[AÁ]/,
@@ -9527,7 +9527,7 @@ APC.addRules( [{
 						num: 100
 					}, {
 						name: '1 após pontuacao',
-						find: /(\,\.\!\?:\;<) {2,}/g, // FIXME: /([,.!?:;<]) {2,}/ ?
+						find: /([,.!?:;<]) {2,}/g,
 						replace: '$1 ',
 						num: 100
 					}, {
@@ -9552,7 +9552,7 @@ APC.addRules( [{
 				}]
 			}, {
 				name: 'Entre noinclude',
-				ifhas: 'noinclude>', // FIXME: /noinclude>/i ?
+				ifhas: /noinclude>/i,
 				sub: [{
 					name: 'Marca </noinclude>',
 					find: /<\/noinclude>/ig,
@@ -10690,13 +10690,13 @@ APC.addRules( [{
 				}, {
 					name: 'Defaultsort usando índice',
 					ifhas: '{{DEFAULTSORT:',
-					ifnot: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/, // FIXME: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/i ?
+					ifnot: /\[\[Categoria:[^\|\[\]\n]*\]\]\r?\n/i,
 					sub: [{
-						name: 'Insere default pelo indice',
+						name: 'Insere default pelo índice',
 						find: /\{\{DEFAULTSORT:.*\}\}\r?\n(\[\[[Cc]ategoria:[^\|\[\]\n]+\|([A-Z0-9][^\[\]\n]+)\]\])\r?\n/g,
 						replace: '{{DEFAULTSORT:$2}}\n$1\n'
 					}, {
-						name: 'Retira indice, caso tenha só 1 cat',
+						name: 'Retira índice, caso tenha só 1 cat',
 						find: /(\{\{DEFAULTSORT:.*\}\}\r?\n\[\[Categoria:[^\|\[\]\n]+)\|[A-Z0-9][^\[\]\n]+\]\]\r?\n/g,
 						replace: '$1]]\n',
 						ifnot: /\[\[Categoria:.*\]\]\r?\n\[\[Categoria:/i
@@ -11265,16 +11265,16 @@ APC.addRules( [{
 					num: 100
 				}, {
 					name: 'Preenchendo {{Portal}}',
-					ifhas: '{{Portal3', // FIXME: /\{\{Portal3/i ?
+					ifhas: /\{\{[Pp]ortal3/,
 					sub: [{
 						name: 'Linguística',
-      find: /\{\{Portal3\|/g,
+						find: /\{\{[Pp]ortal3\|/g,
 						replace: '{{Portal3|Linguística|',
 						ifhas: /\[\[Categoria:(.* )?(Gramática|Línguas|Linguística|Alfabeto)[ \|\]]/i,
 						ifnot: /\{\{Portal3.*\|Linguística[ \|\}]/i
 					}, {
 						name: 'Educação',
-						find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
+						find: /\{\{[Pp]ortal3\|/g,
 						replace: '{{Portal3|Educação|',
 						ifhas: /\[\[Categoria:(Universidade|Professores|Instituições de ensino)[ \|\]]/i,
 						ifnot: /(\{\{Portal3.*\|Educação[ \|\}]|\[\[Categoria:(.* )?(Ex\-alunos)[ \|\]])\n/i
@@ -11282,19 +11282,19 @@ APC.addRules( [{
 						name: 'Sociedade',
 						sub: [{
 							name: 'Política',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Política|',
 							ifhas: /(\[\[Categoria:(.* )?(Política|Políticos|Senadores|Deputados|Governadores|Ministros)[ \|\]]|\{\{Info\/Político)/i,
 							ifnot: /\{\{Portal3.*\|Política[ \|\}]/i
 						}, {
 							name: 'Futebol',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Futebol|',
 							ifhas: /\[\[Categoria:(.* )?(futebol|futebolistas)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Futebol[ \|\}]/i
 						}, {
 							name: 'Desporto',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Desporto|',
 							ifhas: /\[\[Categoria:(.* )?(Desportos|Esportes|Desportistas)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|(Desporto|Futebol)[ \|\}]/i
@@ -11303,7 +11303,7 @@ APC.addRules( [{
 						name: 'Países (com predef)',
 						sub: [{
 							name: '{{esboço-geofr}}',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|França|',
 							ifhas: /\{\{esboço-geofr\}\}/i,
 							ifnot: /\{\{Portal3.*\|França/i
@@ -11313,14 +11313,14 @@ APC.addRules( [{
 							replace: '$1$2|'
 						}, {
 							name: 'EUA',
-							find: /(\{\{Portal3.*\|)EUA/ig,
+							find: /(\{\{[Pp]ortal3.*\|)EUA/ig,
 							replace: '$1Estados Unidos'
 						}]
 					}, {
 						name: 'Geografia',
 						sub: [{
 							name: 'Geografia',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Geografia|',
 							ifhas: /\[\[Categoria:(.* )?(Geografia)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Geografia[ \|\}]/i
@@ -11329,80 +11329,80 @@ APC.addRules( [{
 						name: 'Ciência',
 						sub: [{
 							name: 'Zoologia',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Zoologia|',
 							ifhas: /\[\[Categoria:(.* )?(Zoologia|Artrópodes)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Zoologia[ \|\}]/i
 						}, {
 							name: 'Tecnologias de informação',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Tecnologias de informação|',
 							ifhas: /(\[\[Categoria:(.* )?(Tecnologias de informação|Informática|Computadores|Criptografia|Algoritmos)[ \|\]]|\{\{Info\/Sítio *[\|\r?\n|╔])/i,
 							ifnot: /\{\{Portal3.*\|Tecnologias de informação[ \|\}]/i
 						}, {
 							name: 'Saúde',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Saúde|',
 							ifhas: /(\[\[Categoria:(.* )?(Doenças|Médicos|Oncologia|Saúde)[ \|\]]|\{\{(Esboço\-medicina)[ \|\]\}\r\n])/i,
 							ifnot: /\{\{Portal3.*\|Saúde[ \|\}]/i
 						}, {
 							name: 'Química',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Química|',
 							ifhas: /(\[\[Categoria:(.* )?(Química?o?s?|Ácidos?|Óxidos?)[ \|\]]|\{\{Info\/Química)/i,
 							ifnot: /\{\{Portal3.*\|Química[ \|\}]/i
 						}, {
 							name: 'Matemática',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Matemática|',
 							ifhas: /\[\[Categoria:(.* )?(Matemática|Matemáticos|Números)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Matemática[ \|\}]/i
 						}, {
 							name: 'Física',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Física|',
 							ifhas: /\[\[Categoria:(.* )?(Física)[ \|\]]/i,
 							ifnot: /(\{\{Portal3.*\|Física[ \|\}]|\[\[Categoria:(.* )?(Educação Física)[ \|\]])/i
 						}, {
 							name: 'Biologia',
-							find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Biologia|',
 							ifhas: /\[\[Categoria:(.* )?(Biologia|Musculo|Muscular|Anatomia)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Biologia[ \|\}]/i
 						}, {
 							name: 'Botânica 2',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Botânica|',
 							ifhas: /\{\{Esboço\-(Botânica)\}\}/i,
 							ifnot: /\{\{Portal3.*\|Botânica[ \|\}]/i
 						}, {
 							name: 'Botânica (cat)',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Botânica|',
 							ifhas: /(\[\[Categoria:(.* )?|\{\{esboço\-)(alga|apiales|árvore|asterácea|botânica|botânicos|briófito|cacto|crassulaceae|feto|gramínea|lamiales|legume|malvales|monocotiledónea|orquídea|palmeira|planta|poales|rosales|rosídea|santalales)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Botânica[ \|\}]/i
 						}, {
 							name: 'Astronomia',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Astronomia|',
 							ifhas: /\[\[Categoria:(.* )?(Astronomia)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|Astronomia[ \|\}]/i
 						}, {
 							name: 'Administração',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Administração|',
 							ifhas: /(\[\[Categoria:(.* )?(Administração)[ \|\]]|\{\{(Portal\-administração))/i,
 							ifnot: /\{\{Portal3.*\|Administração[ \|\}]/i
 						}]
 					}, {
 						name: 'Portugal (predef)',
-      find: /\{\{Portal3\|/g,
+						find: /\{\{[Pp]ortal3\|/g,
 						replace: '{{Portal3|Portugal|',
 						ifhas: /\{\{(Esboço\-freguesiaspt)\}\}/i,
 						ifnot: /\{\{Portal3.*\|Portugal[ \|\}]/i
 					}, {
 						name: 'Biografias',
-      find: /\{\{Portal3\|/g,
+						find: /\{\{[Pp]ortal3\|/g,
 						replace: '{{Portal3|Biografias|',
 						ifhas: /(\{\{(Esboço\-(biografia|jornalista))\}\}|\{\{Info\/(Ator|Arquiteto|Biografia|Cientista|Comediante|Criminoso|Deputado de Portugal|Enxadrista|Filósofo|Futebolista|Goísta|Político)|\[\[Categoria:(Atores|Cantores|Escritores|Futebolistas|Matemáticos|Pessoas|Prefeitos|Cônsules) d|\[\[Categoria:(Mortos em|Pilotos de)|\{\{sem infocaixa\|(Santos)|\n *\| *(datadenascimento|nascimento_data) *=|\| *fundo *= *cantor_solo)/i,
 						ifnot: /\{\{Portal3.*\|Biografias[ \|\}]/i
@@ -11410,7 +11410,7 @@ APC.addRules( [{
 						name: 'Brasil (predef)',
 						sub: [{
 							name: 'Brasil (predef)',
-							find: /\{\{Portal3\|/g, // FIXME: /\{\{Portal3|/gi ?
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Brasil|',
 							ifhas: /\{\{Info\/Município do Brasil[\r\n\|]/i,
 							ifnot: /(\{\{Portal3.*\|(Brasil|Tocantins|Sergirpe|São Paulo|Santa Catarina|Roraima|Rondônia|Rio Grande do Sul|Rio Grande do Norte|Rio de Janeiro|Piauí|Pernambuco|Paraná|Paraíba|Pará|Minas Gerais|Mato Grosso do Sul|Mato Grosso|Maranhão|Goiás|Espírito Santo|Ceará|Bahia|Amazonas|Amapá|Alagoas|Acre)|\[\[Categoria:(.* )?(Mineiros))[ \|\}]/i
@@ -11419,49 +11419,49 @@ APC.addRules( [{
 						name: 'Arte',
 						sub: [{
 							name: 'Televisão',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Televisão|',
 							ifhas: /(\[\[Categoria:(.* )?(Televisão|Desenhos? animados?|Programas de televisão|Telenovelas|Reality shows)[ \|\]]|\{\{Info\/Televisão|\{\{Info\/Episódio de série|\{\{Esboço\-tv)/i,
 							ifnot: /\{\{Portal3.*\|Televisão[ \|\}]/i
 						}, {
 							name: 'Pintura',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Pintura|',
 							ifhas: /(\[\[Categoria:(.* )?(Pintores)[ \|\]]|\{\{Info\/Pintura)/i,
 							ifnot: /\{\{Portal3.*\|Pintura[ \|\}]/i
 						}, {
 							name: 'Música',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Música|',
 							ifhas: /(\[\[Categoria:(.* )?(Música|álbum|álbuns|canção|canções|singles d|cantore?s?|musicais|bandas)[ \|\]]|\{\{Info\/(Turnê|Álbum|música|Single|Ópera|Banda)|\{esboço\-música\})/i,
 							ifnot: /\{\{Portal3.*\|(Música|Eurovisão)[ \|\}]/i
 						}, {
 							name: 'Literatura',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Literatura|',
 							ifhas: /\[\[Categoria:(.* )?(Literatura|Livros|Escritores|Poetas)[ \|\]]/i,
 							ifnot: /(\{\{Portal3.*\|Literatura[ \|\}]|\[\[Categoria:.*basead[ao]s? em livros?)/i
 						}, {
 							name: 'Games',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Games|',
 							ifhas: /(\[\[Categoria:(.* )?(jogos? eletrônicos?|videogames?|PlayStation|Jogos para computador)[ \|\]]|\{\{(Info\/Jogo|Infobox VG))/i,
 							ifnot: /\{\{Portal3.*\|Games[ \|\}]/i
 						}, {
 							name: 'Cinema',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Cinema|',
 							ifhas: /(\[\[Categoria:(.* )?(Cinema|Filmes|Ator)[ \|\]]|\{\{(Info\/Filme|Info\/Cineasta)[ \|\]\r\n])/i,
 							ifnot: /\{\{Portal3.*\|Cinema[ \|\}]/i
 						}, {
 							name: 'Banda desenhada',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Banda desenhada|',
 							ifhas: /(\[\[Categoria:(.* )?(banda desenhada|DC Comics|Marvel Comics)[ \|\]]|\{\{(Info\/Graphic Novel|Esboço-bd|Portal BD))/i,
 							ifnot: /\{\{Portal3.*\|Banda desenhada[ \|\}]/i
 						}, {
 							name: 'Animangá',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{[Pp]ortal3\|/g,
 							replace: '{{Portal3|Animangá|',
 							ifhas: /(\[\[Categoria:(.* )?(Anime|Mangá|Bleach|Naruto)[ \|\]]|\{\{Info\/(Bleach|Naruto))/i,
 							ifnot: /\{\{Portal3.*\|Animangá[ \|\}]/i
@@ -11470,24 +11470,24 @@ APC.addRules( [{
 							ifhas: /(\[\[Categoria:(.* )?(Atores|Atrizes)[ \|\]]|Info\/Ator)/i,
 							sub: [{
 								name: 'Ator - cinema',
-        find: /\{\{Portal3\|/g,
+								find: /\{\{Portal3\|/g,
 								replace: '{{Portal3|Cinema|',
 								ifhas: /\n║=+ (Cinema|Filmes) =+\r?\n/i,
 								ifnot: /\{\{Portal3.*\|Cinema[ \|\}]/i
 							}, {
 								name: 'Ator - televisão',
-        find: /\{\{Portal3\|/g,
+								find: /\{\{Portal3\|/g,
 								replace: '{{Portal3|Televisão|',
 								ifhas: /\n║=+ (Novelas|Séries|Televisão) =+\r?\n/i,
 								ifnot: /\{\{Portal3.*\|(Televisão|Cinema)[ \|\}]/i
 							}, {
 								name: 'Ator - genérico',
-        find: /\{\{Portal3\|/g,
+								find: /\{\{Portal3\|/g,
 								replace: '{{Portal3|Arte|'
 							}]
 						}, {
 							name: 'Arte (cat)',
-       find: /\{\{Portal3\|/g,
+							find: /\{\{Portal3\|/g,
 							replace: '{{Portal3|Arte|',
 							ifhas: /\[\[Categoria:(.* )?(Arte|Artistas|Personagens|Fictícios)[ \|\]]/i,
 							ifnot: /\{\{Portal3.*\|(Arte|Animangá|Banda desenhada|Cinema|Games|Literatura|Música|Pintura|Televisão)[\|\}]/i
@@ -11548,7 +11548,7 @@ APC.addRules( [{
 						name: '{{semfichatécnica}}',
 						find: /\{\{semfichatécnica\}\}/ig,
 						replace: '{{Revisar Info Filme}}',
-						ifhas: '{{Info/Filme' // FIXME: /\{\{Info/Filme/i ?
+						ifhas:  /\{\{[Ii]nfo\/Filme/
 					}, {
 						name: '{{seminterwiki}}',
 						find: /\{\{seminterwiki.*\}\}\r?\n/ig,
@@ -11573,7 +11573,7 @@ APC.addRules( [{
 		name: 'Geral 2',
 		sub: [{
 			name: 'Tag man',
-			ifhas: '{{', // FIXME: /\{\{/i ?
+			ifhas: '{{',
 			sub: [{
 				name: 'marcando predefs',
 				find: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Seminterwiki|Sem[\- ]notas|Trivia|Wikificação)([\|}])/ig,
@@ -11617,11 +11617,11 @@ APC.addRules( [{
 				}]
 			}, {
 				name: 'Assunto em predef man',
-				ifhas: '{{Portal3', // FIXME: /\{\{Portal3/i ?
+				ifhas: /\{\{[Pp]ortal3/,
 				sub: [{
 					enabled: false,
 					name: 'Assunto em predef man Timor-Leste',
-					ifhas: /\{\{Portal3.*\|Timor-Leste[ \|\}]/,
+					ifhas: /\{\{[Pp]ortal3.*\|Timor-Leste[ \|\}]/,
 					sub: [{
 						name: 'marcando Timor-Leste',
 						find: /\| *Timor-Leste *\= */g,
@@ -11673,7 +11673,7 @@ APC.addRules( [{
 				}, {
 					enabled: false,
 					name: 'Assunto em predef man São Tomé e Príncipe',
-					ifhas: /\{\{Portal3.*\|São Tomé e Príncipe[ \|\}]/,
+					ifhas: /\{\{[Pp]ortal3.*\|São Tomé e Príncipe[ \|\}]/,
 					sub: [{
 						name: 'marcando São Tomé e Príncipe',
 						find: /\| *São Tomé e Príncipe *\= */g,
@@ -11712,7 +11712,7 @@ APC.addRules( [{
 				}, {
 					enabled: false,
 					name: 'Assunto em predef man Moçambique',
-					ifhas: /\{\{Portal3.*\|Moçambique[ \|\}]/,
+					ifhas: /\{\{[Pp]ortal3.*\|Moçambique[ \|\}]/,
 					sub: [{
 						name: 'marcando Moçambique',
 						find: /\| *Moçambique *\= */g,
@@ -11729,7 +11729,7 @@ APC.addRules( [{
 				}, {
 					enabled: false,
 					name: 'Assunto em predef man Guiné-Bissau',
-					ifhas: /\{\{Portal3.*\|Guiné-Bissau[ \|\}]/,
+					ifhas: /\{\{[Pp]ortal3.*\|Guiné-Bissau[ \|\}]/,
 					sub: [{
 						name: 'marcando Guiné-Bissau',
 						find: /\| *Guiné-Bissau *\= */g,
@@ -11851,7 +11851,7 @@ APC.addRules( [{
 				}, {
 					enabled: false,
 					name: 'Assunto em predef man Angola',
-					ifhas: /\{\{Portal3.*\|Angola[ \|\}]/,
+					ifhas: /\{\{[Pp]ortal3.*\|Angola[ \|\}]/,
 					sub: [{
 						name: 'marcando Angola',
 						find: /\| *Angola *\= */g,
@@ -12004,7 +12004,7 @@ APC.addRules( [{
 						replace: '║== Notas ==\n<references group=nota/>'
 					}, {
 						name: 'Desmarc {{Ref-section}}',
-						find: /┤/g, // FIXME: /┤/gi ?
+						find: /┤/g,
 						replace: '{{Referências'
 					}, {
 						name: 'Desmarca gallery 2',
@@ -12039,7 +12039,7 @@ APC.addRules( [{
 					name: 'Marcando',
 					sub: [{
 						name: 'Marca Portal3',
-						find: /\{\{Portal3/ig,
+						find: /\{\{[Pp]ortal3/ig,
 						replace: '┬'
 					}, {
 						name: 'Marca cat1',
@@ -12499,14 +12499,14 @@ APC.addRules( [{
 						name: 'Rule',
 						find: / \|Falecimento *= *!?\r?\n/ig,
 						replace: '',
-						ifhas: '{{Info/Enxadrista' // FIXME: /\{\{Info/Enxadrista/i ?
+						ifhas: /\{\{[Ii]nfo\/Enxadrista/
 					}]
 				}, {
 					name: 'Espaço campos',
 					ifhas: /| *nascimento_data=/i,
 					sub: [{
 						name: '{{Info/Político',
-						ifhas: '{{Info/Político', // FIXME: /\{\{Info/Político/i ?
+						ifhas: /\{\{[Ii]nfo\/Político/,
 						sub: [{
 							name: '2',
 							find: /(\{\{Info\/[^╣]*\| *(nascimento_data)) *=/ig,
@@ -12546,7 +12546,7 @@ APC.addRules( [{
 						}]
 					}, {
 						name: '{{Info/Enxadrista',
-						ifhas: '{{Info/Enxadrista', // FIXME: /\{\{Info/Enxadrista/i ?
+						ifhas: /\{\{[Ii]nfo\/Enxadrista/,
 						sub: [{
 							name: '1',
 							find: /(\{\{Info\/[^╣]*\| *(nascimento_local)) *=/ig,
@@ -12894,7 +12894,7 @@ APC.addRules( [{
 						replace: '$1    '
 					}, {
 						name: '{{Info/Single',
-						ifhas: '{{Info/Single', // FIXME: /\{\{Info/Single/i ?
+						ifhas: /\{\{[Ii]nfo\/Single/,
 						sub: [{
 							name: 'legenda',
 							find: /(\{\{Info\/Single[^╣]*\| *)legenda( *=)/ig,
@@ -13383,13 +13383,13 @@ Necessitam de revisão mínima
 		}, {
 			name: 'Acordo Ortográfico',
 			num: 10,
-			ifnot: 'acordo ortográfico', // FIXME: /acordo ortográfico/i ?
+			ifnot: /acordo ortográfico/i,
 			sub: [{
 				name: 'Trema',
-				ifhas: 'ü', // FIXME: /ü/i ?
+				ifhas: /ü/i,
 				sub: [{
 					name: 'Güe',
-					ifhas: 'güe', // FIXME: /güe/i ?
+					ifhas: /güe/i,
 					sub: [{
 						name: 'Ágüe',
 						find: /([^a-z][Áá])güe((?:mos)?s?[^a-z])/g,
@@ -13529,7 +13529,7 @@ Necessitam de revisão mínima
 					}]
 				}, {
 					name: 'Qüe',
-					ifhas: 'Qüe', // FIXME: /Qüe/i ?
+					ifhas: /Qüe/i,
 					sub: [{
 						name: 'Apropinqüe',
 						find: /([^a-z][Aa])propinqüe(s?[^a-z])/g,
@@ -13581,7 +13581,7 @@ Necessitam de revisão mínima
 					}]
 				}, {
 					name: 'Qüi',
-					ifhas: 'Qüi', // FIXME: /Qüi/i ?
+					ifhas: /Qüi/i,
 					sub: [{
 						name: 'Aqüicultura',
 						find: /([^a-z][Aa])qüicultura(s?[^a-z])/g,
@@ -13832,7 +13832,7 @@ Necessitam de revisão mínima
 					}]
 				}, {
 					name: 'Portal3 - via Infocaixa',
-					ifhas: '{{Info/', // FIXME: /\{\{Info//i ?
+					ifhas: /\{\{[Ii]nfo\//,
 					sub: [{
 						name: 'Estado do Brasil',
 						find: /(\{\{Info\/Município do Brasil[^╣]* \| *estado = ([^\[\]\r\n]+)\r?\n[^░]*)\{\{Portal3\|/ig,
@@ -13863,7 +13863,7 @@ Necessitam de revisão mínima
 		name: 'Temáticos',
 		sub: [{
 			name: 'Biografia',
-			ifhas: /\{\{Portal3.*\|Biografias/,
+			ifhas: /\{\{[Pp]ortal3.*\|Biografias/,
 			sub: [{
 				name: 'Parte cen',
 				sub: [{
@@ -13903,7 +13903,7 @@ Necessitam de revisão mínima
 					name: 'Infobox',
 					sub: [{
 						name: '{{Info/Episódio de série',
-						ifhas: '{{Info/Episódio de série', // FIXME: /\{\{Info/Episódio de série/i ?
+						ifhas: /\{\{[Ii]nfo\/Episódio de série/,
 						sub: [{
 							name: 'Ano temático',
 							find: /(\{\{Info\/Episódio de série[^╣]* *\| *(?:exibição_data|data original) *=.*\[\[)([0-9]{4,4})(\]\])/ig,
