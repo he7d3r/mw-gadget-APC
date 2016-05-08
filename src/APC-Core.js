@@ -26,8 +26,8 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.38',
-	'apc-summary-text': ' +[[WP:Scripts/APC|correções automáticas]] ($1/$2)',
+	'apc-version': '0.39',
+	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
 	'apc-button-bug': 'Informar um erro',
