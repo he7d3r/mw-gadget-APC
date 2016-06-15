@@ -3857,11 +3857,11 @@ APC.addRules( [{
 				sub: [{
 					name: '{{Anexo|[[Lista d',
 					find: /\{\{Anexo\|\[\[Lista d/g,
-					replace: '{{Anexo|[[Anexo:Lista d'
+					replace: '{{VT|[[Lista d'
 				}, {
-					name: 'Passando para {{Anexo}}',
-					find: /\r?\n:'*ver: *\[\[Anexo:([^\]\n]+)\]\] para maior?e?s detalhes?\.?'*\r?\n/ig,
-					replace: '\n{{Anexo|[[Anexo:$1]]}}\n'
+					name: 'Passando para {{VT}}',
+					find: /\r?\n:'*ver: *\[\[(?:Anexo:)?([^\]\n]+)\]\] para maior?e?s detalhes?\.?'*\r?\n/ig,
+					replace: '\n{{VT|[[$1]]}}\n'
 				}]
 			}, {
 				name: '{{Trivia}}',
