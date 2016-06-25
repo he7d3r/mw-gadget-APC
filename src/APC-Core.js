@@ -26,7 +26,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.43',
+	'apc-version': '0.44',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -292,26 +292,25 @@ var loadedWikiEditor = false,
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.alreadyOnToolbar', APC.alreadyOnToolbar );
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		if ( APC.alreadyOnToolbar ) {
-			// Remove existing menu
+			// Remove existing menu before adding the updated menu
 			$textBox.wikiEditor( 'removeFromToolbar', {
 				'section': 'advanced',
 				'group': 'APC'
 			} );
-		} else {
-			$textBox.wikiEditor( 'addToToolbar', {
-				section: 'advanced',
-				groups: {
-					APC: {
-						label: mw.msg( 'apc-group' ),
-						tools: {
-							'apc-report-a-bug': bugButton
-						}
+		}
+		$textBox.wikiEditor( 'addToToolbar', {
+			section: 'advanced',
+			groups: {
+				APC: {
+					label: mw.msg( 'apc-group' ),
+					tools: {
+						'apc-report-a-bug': bugButton
 					}
 				}
-			} );
-			APC.alreadyOnToolbar = true;
-			mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
-		}
+			}
+		} );
+		APC.alreadyOnToolbar = true;
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		if ( !rules.length ) {
 			return;
 		}
