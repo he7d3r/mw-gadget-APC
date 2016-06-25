@@ -26,7 +26,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.42',
+	'apc-version': '0.43',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -310,6 +310,7 @@ var loadedWikiEditor = false,
 				}
 			} );
 			APC.alreadyOnToolbar = true;
+			mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		}
 		if ( !rules.length ) {
 			return;
