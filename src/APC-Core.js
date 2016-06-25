@@ -42,7 +42,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.47',
+	'apc-version': '0.48',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -290,9 +290,6 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.alreadyOnToolbar', APC.alreadyOnToolbar );
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.rules.length', APC.rules.length );
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		if ( APC.alreadyOnToolbar ) {
 			// Remove existing menu before adding the updated menu
 			$textBox.wikiEditor( 'removeFromToolbar', {
@@ -312,9 +309,6 @@ var loadedWikiEditor = false,
 			}
 		} );
 		APC.alreadyOnToolbar = true;
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.alreadyOnToolbar', APC.alreadyOnToolbar );
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.rules.length', APC.rules.length );
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		if ( !APC.rules.length ) {
 			return;
 		}
@@ -363,7 +357,6 @@ var loadedWikiEditor = false,
 				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
 						loadedWikiEditor = true;
-						mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: load > updateToolbar()' );
 						updateToolbar();
 					} );
 				} else {
@@ -477,7 +470,6 @@ APC.addRules = function ( newRules ) {
 		APC.rulesVersion += 'mod';
 	}*/
 	if ( loadedWikiEditor ) {
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.addRules > updateToolbar()' );
 		updateToolbar();
 	}
 	if ( loadedList ) {
@@ -488,7 +480,6 @@ APC.addRules = function ( newRules ) {
 APC.removeAllRules = function () {
 	APC.rules = [];
 	if ( loadedWikiEditor ) {
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.removeAllRules > updateToolbar()' );
 		updateToolbar();
 	}
 	if ( loadedList ) {
