@@ -362,7 +362,7 @@ var loadedWikiEditor = false,
 					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
 						loadedWikiEditor = true;
 						mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: load > updateToolbar()' );
-						updateToolbar();
+						// updateToolbar();
 					} );
 				} else {
 					// TODO: Improve support for old toolbar?
