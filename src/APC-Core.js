@@ -26,7 +26,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.39',
+	'apc-version': '0.40',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -362,6 +362,7 @@ var loadedWikiEditor = false,
 				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
 						loadedWikiEditor = true;
+						mw.log.warn( 'load > updateToolbar()' );
 						updateToolbar();
 					} );
 				} else {
@@ -477,6 +478,7 @@ APC.addRules = function ( newRules ) {
 		APC.rulesVersion += 'mod';
 	}*/
 	if ( loadedWikiEditor ) {
+		mw.log.warn( 'APC.addRules > updateToolbar()' );
 		updateToolbar();
 	}
 	if ( loadedList ) {
@@ -487,6 +489,7 @@ APC.addRules = function ( newRules ) {
 APC.removeAllRules = function () {
 	rules = [];
 	if ( loadedWikiEditor ) {
+		mw.log.warn( 'APC.removeAllRules > updateToolbar()' );
 		updateToolbar();
 	}
 	if ( loadedList ) {
