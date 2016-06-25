@@ -17,6 +17,7 @@ if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1
 		&& $.inArray( mw.config.get( 'wgAction' ), [ 'view', 'purge' ] ) !== -1
 	)
 ) {
+	mw.log.warn( 'MediaWiki:Gadget-APC.js: [ window.APC, window.APC && window.APC.addRules ]', [ window.APC, window.APC && window.APC.addRules ] );
 	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCList&only=scripts&debug=' + mw.config.get( 'debug' ) );
 }
 
