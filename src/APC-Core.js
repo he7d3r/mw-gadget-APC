@@ -290,6 +290,7 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
+		mw.log( loadedDefaultToolbar, $('div[rel=apc-rules-heading]') );
 		if ( loadedDefaultToolbar ) {
 			// Remove existing menu
 			$('div[rel=apc-rules-heading]').remove();
@@ -306,6 +307,7 @@ var loadedWikiEditor = false,
 				}
 			} );
 			loadedDefaultToolbar = true;
+			mw.log( loadedDefaultToolbar, $('div[rel=apc-rules-heading]') );
 		}
 		if ( !rules.length ) {
 			return;
