@@ -62,7 +62,6 @@ mw.messages.set( {
 
 var loadedWikiEditor = false,
 	loadedList = false,
-	addedDefaultApcToolbar = false,
 	targetText = '', // This will store the text to which the rules will be applied
 	allowFunctionTests = false, // TODO: Do we need this?
 	allowOnlyInsideTemplates = false, // TODO: Implement this
@@ -290,9 +289,9 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: addedDefaultApcToolbar', addedDefaultApcToolbar );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.alreadyOnToolbar', APC.alreadyOnToolbar );
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
-		if ( addedDefaultApcToolbar ) {
+		if ( APC.alreadyOnToolbar ) {
 			// Remove existing menu
 			$textBox.wikiEditor( 'removeFromToolbar', {
 				'section': 'advanced',
@@ -310,7 +309,7 @@ var loadedWikiEditor = false,
 					}
 				}
 			} );
-			addedDefaultApcToolbar = true;
+			APC.alreadyOnToolbar = true;
 		}
 		if ( !rules.length ) {
 			return;
@@ -387,7 +386,7 @@ var loadedWikiEditor = false,
 	};
 
 // APC.Rule.prototype = '...'; // TODO: Implement default values in some prototype?
-
+/* Public */
 /**
  * Loop over all rules and subrules, applying those which are enabled
  * @param rules The list of rules
@@ -464,8 +463,6 @@ APC.processRules = function (rules) {
 		}
 	}
 };
-
-/* Public Methods */
 
 APC.addRules = function ( newRules ) {
 	if ( !$.isArray( newRules ) ) {
