@@ -290,10 +290,10 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
-		mw.log( loadedDefaultToolbar, $('div[rel=apc-rules-heading]') );
+		mw.log.warn( loadedDefaultToolbar, $('div[rel=apc-rules-heading]') );
 		if ( loadedDefaultToolbar ) {
 			// Remove existing menu
-			$('div[rel=apc-rules-heading]').remove();
+			$('div[rel=apc-rules-heading], div[rel=APC]').remove();
 		} else {
 			$textBox.wikiEditor( 'addToToolbar', {
 				section: 'advanced',
@@ -306,8 +306,7 @@ var loadedWikiEditor = false,
 					}
 				}
 			} );
-			loadedDefaultToolbar = true;
-			mw.log( loadedDefaultToolbar, $('div[rel=apc-rules-heading]') );
+			loadedDefaultToolbar = $('div[rel=apc-rules-heading]').length !== 0;
 		}
 		if ( !rules.length ) {
 			return;
