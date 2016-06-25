@@ -358,7 +358,7 @@ var loadedWikiEditor = false,
 
 			/* Make sure the required modules are available and then customize the toolbar */
 			mw.loader.using( [ 'user.options', 'mediawiki.RegExp' ], function () {
-				// This can be the string "0" if the user disabled the preference ([[bugzilla:52542#c3]])
+				// This can be the string "0" if the user disabled the preference ([[phab:T54542#555387]])
 				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
 						loadedWikiEditor = true;
