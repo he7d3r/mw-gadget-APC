@@ -62,7 +62,7 @@ mw.messages.set( {
 
 var loadedWikiEditor = false,
 	loadedList = false,
-	loadedDefaultToolbar = false,
+	addedDefaultApcToolbar = false,
 	targetText = '', // This will store the text to which the rules will be applied
 	allowFunctionTests = false, // TODO: Do we need this?
 	allowOnlyInsideTemplates = false, // TODO: Implement this
@@ -290,10 +290,16 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
-		mw.log.warn( loadedDefaultToolbar, $('div[rel=apc-rules-heading]') );
-		if ( loadedDefaultToolbar ) {
+		mw.log.warn(
+			'[ addedDefaultApcToolbar, $( \'div[rel=apc-rules-heading]\' ), $( \'div[rel=APC]\' ) ]',
+			[ addedDefaultApcToolbar, $( 'div[rel=apc-rules-heading]' ), $( 'div[rel=APC]' ) ]
+		);
+		if ( addedDefaultApcToolbar ) {
 			// Remove existing menu
-			$('div[rel=apc-rules-heading], div[rel=APC]').remove();
+			$textBox.wikiEditor( 'removeFromToolbar', {
+				'section': 'advanced',
+				'group': 'APC'
+			} );
 		} else {
 			$textBox.wikiEditor( 'addToToolbar', {
 				section: 'advanced',
@@ -306,7 +312,7 @@ var loadedWikiEditor = false,
 					}
 				}
 			} );
-			loadedDefaultToolbar = $('div[rel=apc-rules-heading]').length !== 0;
+			addedDefaultApcToolbar = true;
 		}
 		if ( !rules.length ) {
 			return;
