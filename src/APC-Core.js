@@ -37,7 +37,7 @@ if ( window.APC === undefined ) {
 		rules: []
 	};
 }
-(function ($, mw, APC) {
+( function ( $, mw, APC ) {
 'use strict';
 
 /* Translatable strings */
@@ -74,7 +74,7 @@ mw.messages.set( {
 	'apc-dialog-text': 'Por enquanto esta janela só serve para ver a lista' +
 		' de regras. Futuramente, será possível ativar ou desativar' +
 		' cada uma antes de aplicá-las.'
-});
+} );
 
 var loadedWikiEditor = false,
 	loadedList = false,
@@ -84,48 +84,51 @@ var loadedWikiEditor = false,
 	reKeyWords,
 	// See also http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/Tools.cs?revision=8179&view=markup#l536
 	keywords = {
-		'%%title%%': mw.config.get('wgPageName').replace(/_/g, ' '),
-		'%%fullpagename%%': mw.config.get('wgPageName').replace(/_/g, ' '),
-		'%%pagename%%': mw.config.get('wgTitle')
+		'%%title%%': mw.config.get( 'wgPageName' ).replace( /_/g, ' ' ),
+		'%%fullpagename%%': mw.config.get( 'wgPageName' ).replace( /_/g, ' ' ),
+		'%%pagename%%': mw.config.get( 'wgTitle' )
 	},
-	applyKeyWords = function (matchedKey) {
-		return keywords[matchedKey];
+	applyKeyWords = function ( matchedKey ) {
+		return keywords[ matchedKey ];
 	},
-	applyEscapedKeyWords = function (matchedKey) {
-		return mw.RegExp.escape( keywords[matchedKey] );
+	applyEscapedKeyWords = function ( matchedKey ) {
+		return mw.RegExp.escape( keywords[ matchedKey ] );
 	},
 	getRegexForKeywords = function () {
 		var keys = [];
-		$.each(keywords, function (key) {
-			keys.push(mw.RegExp.escape(key));
-		});
-		return new RegExp( '(' + keys.join('|') + ')', 'g' );
+		$.each( keywords, function ( key ) {
+			keys.push( mw.RegExp.escape( key ) );
+		} );
+		return new RegExp( '(' + keys.join( '|' ) + ')', 'g' );
 	},
 	// names = {},
 	// dup = [],
 	/**
 	* Get an HTML representation of the list of rules and subrules
-	* @param rules The list of rules
-	* @return {jQuery} The jQuery object correspoding to the HTML of the requested
+	*
+	* @param {Array} rules The list of rules
+	* @return {boolean} visible
 	*/
-	getRulesHTML = function (rules, visible) {
+	getRulesHTML = function ( rules, visible ) {
 		var i, length, r, $li, name, safeName,
 			defaultRuleName = mw.msg( 'apc-default-rule-name' ),
-			$ul = $('<ul></ul>').toggle( visible || false );
+			$ul = $( '<ul></ul>' ).toggle( visible || false );
 
 		// TODO: Implement "collapsible sublists"
-		for (i = 0, length = rules.length; i < length; i += 1) {
-			r = rules[i];
+		for ( i = 0, length = rules.length; i < length; i += 1 ) {
+			r = rules[ i ];
 			name = ( r.name || defaultRuleName );
-/*			if ( names[ name ] === undefined ) {
+			/*
+			if ( names[ name ] === undefined ) {
 				names[ name ] = 0;
 			} else {
 				names[ name ] += 1;
 			}
-*/			safeName = name
+			*/
+			safeName = name
 				.replace( /[ _\-]+/g, '-' )
 				.replace( /[^\-a-z0-9]+/ig, '' );
-			$li = $('<li></li>')
+			$li = $( '<li></li>' )
 				.attr( 'title', mw.msg( 'apc-find-and-replace-title', r.find, r.replace ) )
 				.append(
 					$( '<input>', {
@@ -140,23 +143,23 @@ var loadedWikiEditor = false,
 						text: name
 					} )
 				);
-			if (r.enabled === false) {
-				$li.addClass('apc-disabled')
-					.attr('title', mw.msg( 'apc-experimental' ) );
+			if ( r.enabled === false ) {
+				$li.addClass( 'apc-disabled' )
+					.attr( 'title', mw.msg( 'apc-experimental' ) );
 			}
-			if ($.isArray(r.sub) && r.sub.length) {
-				$li.append(getRulesHTML(r.sub))
-					.addClass('apc-list-toggle');
+			if ( $.isArray( r.sub ) && r.sub.length ) {
+				$li.append( getRulesHTML( r.sub ) )
+					.addClass( 'apc-list-toggle' );
 			}
-			$li.appendTo($ul);
+			$li.appendTo( $ul );
 		}
 		return $ul;
 	},
 	updateHtmlList = function () {
 		var versionHTML, $expandButton, $collapseButton, $list, $rules, onClick;
-		$rules = $('#apc-search-and-replace-rules');
-		if (!$rules.length) {
-			$rules = $('#mw-content-text');
+		$rules = $( '#apc-search-and-replace-rules' );
+		if ( !$rules.length ) {
+			$rules = $( '#mw-content-text' );
 		}
 		versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.rulesVersion, mw.msg( 'apc-version' ) ) + '</p>';
 		onClick = function () {
@@ -167,50 +170,51 @@ var loadedWikiEditor = false,
 				.find( 'li.apc-list-toggle' )
 					.toggleClass( 'apc-expanded', showOrHide );
 		};
-		$expandButton = $('<input type="button" value="' + mw.msg( 'apc-expand-all-text' ) +
-				'" title="' + mw.msg( 'apc-expand-all-desc' ) + '"/>')
+		$expandButton = $( '<input type="button" value="' + mw.msg( 'apc-expand-all-text' ) +
+				'" title="' + mw.msg( 'apc-expand-all-desc' ) + '"/>' )
 			.click( onClick );
-		$collapseButton = $('<input type="button" value="' + mw.msg( 'apc-collapse-all-text' ) +
-				'" title="' + mw.msg( 'apc-collapse-all-desc' ) + '"/>')
+		$collapseButton = $( '<input type="button" value="' + mw.msg( 'apc-collapse-all-text' ) +
+				'" title="' + mw.msg( 'apc-collapse-all-desc' ) + '"/>' )
 			.click( onClick );
-		$list = getRulesHTML(APC.rules, true)
-			.on('change', 'input', function (e) {
-				var $target = $(e.target),
+		$list = getRulesHTML( APC.rules, true )
+			.on( 'change', 'input', function ( e ) {
+				var $target = $( e.target ),
 					$li = $target.parent();
-				if ( $li.hasClass('apc-list-toggle') ) {
-					$li.find('ul:first').find('input')
+				if ( $li.hasClass( 'apc-list-toggle' ) ) {
+					$li.find( 'ul:first' ).find( 'input' )
 						.prop(
 							'checked',
-							$target.is(':checked')
+							$target.is( ':checked' )
 						);
 				}
-			})
-			.on('click', 'li', function (e) {
+			} )
+			.on( 'click', 'li', function ( e ) {
 				e.stopPropagation();
-				if ( $(e.target).hasClass('apc-list-toggle') ) {
-					$(this)
-						.toggleClass('apc-expanded')
-						.children().filter('ul')
+				if ( $( e.target ).hasClass( 'apc-list-toggle' ) ) {
+					$( this )
+						.toggleClass( 'apc-expanded' )
+						.children().filter( 'ul' )
 							.toggle();
 				}
-			})
-			.addClass('apc-main-list')
-			.find('.apc-disabled input')
-				.prop('checked', false).end();
+			} )
+			.addClass( 'apc-main-list' )
+			.find( '.apc-disabled input' )
+				.prop( 'checked', false ).end();
 		$rules
 			.empty()
 			.append( versionHTML )
 			.append( $expandButton )
 			.append( $collapseButton )
 			.append( $list );
-/*				$.each(names, function (n) {
+		/*
+		$.each( names, function ( n ) {
 			if ( names[n] > 0 ) {
 				dup.push( n );
 			}
 		});
 		console.log( dup.sort().join('\n') );
 		console.warn( 'Há ' + dup.length + ' regras com nomes duplicados!' );
-*/
+		*/
 	},
 	openDialog = function () {
 		var buttons = {};
@@ -246,8 +250,8 @@ var loadedWikiEditor = false,
 			executeGroup = function ( i ) {
 				return function () {
 					targetText = APC.$target.val();
-					APC.processRules( [ APC.rules[i] ] );
-					APC.$target.val(targetText);
+					APC.processRules( [ APC.rules[ i ] ] );
+					APC.$target.val( targetText );
 					$sumField.val( $sumField.val() + summaryText );
 				};
 			},
@@ -258,8 +262,8 @@ var loadedWikiEditor = false,
 						type: 'callback',
 						execute: function () {
 							targetText = APC.$target.val();
-							APC.processRules(APC.rules);
-							APC.$target.val(targetText);
+							APC.processRules( APC.rules );
+							APC.$target.val( targetText );
 							$sumField.val( $sumField.val() + summaryText );
 						}
 					}
@@ -274,7 +278,7 @@ var loadedWikiEditor = false,
 					type: 'callback',
 					execute: function () {
 						var url = mw.util.getUrl( 'Wikipédia Discussão:Scripts/APC' ) + '?' +
-							$.param({
+							$.param( {
 								action: 'edit',
 								section: 'new',
 								preloadtitle: mw.msg(
@@ -285,7 +289,7 @@ var loadedWikiEditor = false,
 										.replace( /_/g, ' ' )
 								),
 								preload: 'WP:Scripts/APC/Bug'
-							});
+							} );
 						window.open( url );
 					}
 				}
@@ -293,8 +297,8 @@ var loadedWikiEditor = false,
 		if ( APC.alreadyOnToolbar ) {
 			// Remove existing menu before adding the updated menu
 			$textBox.wikiEditor( 'removeFromToolbar', {
-				'section': 'advanced',
-				'group': 'APC'
+				section: 'advanced',
+				group: 'APC'
 			} );
 		}
 		$textBox.wikiEditor( 'addToToolbar', {
@@ -312,14 +316,14 @@ var loadedWikiEditor = false,
 		if ( !APC.rules.length ) {
 			return;
 		}
-		for (i = 0; i < APC.rules.length; i += 1) {
+		for ( i = 0; i < APC.rules.length; i += 1 ) {
 			mainRules[ 'APC-rules-' + i ] = {
-				label: APC.rules[i].enabled === false
-					? mw.msg( 'apc-button-disabled-rule', APC.rules[i].name )
-					: mw.msg( 'apc-button-enabled-rule', APC.rules[i].name, mw.msg( 'apc-disabled-rule' ) ),
+				label: APC.rules[ i ].enabled === false
+					? mw.msg( 'apc-button-disabled-rule', APC.rules[ i ].name )
+					: mw.msg( 'apc-button-enabled-rule', APC.rules[ i ].name, mw.msg( 'apc-disabled-rule' ) ),
 				action: {
 					type: 'callback',
-					execute: executeGroup(i)
+					execute: executeGroup( i )
 				}
 			};
 		}
@@ -348,8 +352,8 @@ var loadedWikiEditor = false,
 	* Execute the script when in edit mode
 	*/
 	load = function () {
-		if ($.inArray(mw.config.get('wgAction'), ['edit', 'submit']) !== -1 ) {
-			APC.$target = $('#wpTextbox1');
+		if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1 ) {
+			APC.$target = $( '#wpTextbox1' );
 
 			/* Make sure the required modules are available and then customize the toolbar */
 			mw.loader.using( [ 'user.options', 'mediawiki.RegExp' ], function () {
@@ -367,7 +371,7 @@ var loadedWikiEditor = false,
 						mw.msg( 'apc-format-text' ),
 						'#ca-APC',
 						mw.msg( 'apc-format-desc' )
-					) ).click( function (e) {
+					) ).click( function ( e ) {
 						e.preventDefault();
 						targetText = APC.$target.val();
 						APC.processRules( APC.rules );
@@ -386,7 +390,8 @@ var loadedWikiEditor = false,
 /* Public */
 /**
  * Loop over all rules and subrules, applying those which are enabled
- * @param rules The list of rules
+ *
+ * @param {Array} rules The list of rules
  * FIXME: Guardar o texto em uma variável local em vez de targetText, para otimizar
  */
 APC.processRules = function ( rules ) {
@@ -394,33 +399,33 @@ APC.processRules = function ( rules ) {
 	if ( !reKeyWords ) {
 		reKeyWords = getRegexForKeywords();
 	}
-	for (i = 0, length = rules.length; i < length; i += 1) {
-		r = rules[i];
-		if (r.enabled !== false
+	for ( i = 0, length = rules.length; i < length; i += 1 ) {
+		r = rules[ i ];
+		if ( r.enabled !== false
 			&& (
 				!r.ifhas
-				|| (typeof r.ifhas === 'string' && targetText.indexOf(r.ifhas) !== -1)
-				|| (allowFunctionTests && $.isFunction(r.ifhas) && r.ifhas(targetText))
-				|| (typeof r.ifhas === 'object' && r.ifhas.test(targetText))
+				|| ( typeof r.ifhas === 'string' && targetText.indexOf( r.ifhas ) !== -1 )
+				|| ( allowFunctionTests && $.isFunction( r.ifhas ) && r.ifhas( targetText ) )
+				|| ( typeof r.ifhas === 'object' && r.ifhas.test( targetText ) )
 			)
 			&& (
 				!r.ifnot
-				|| (typeof r.ifnot === 'string' && targetText.indexOf(r.ifnot) === -1)
-				|| (allowFunctionTests && $.isFunction(r.ifnot) && !r.ifnot(targetText))
-				|| (typeof r.ifnot === 'object' && !r.ifnot.test(targetText))
+				|| ( typeof r.ifnot === 'string' && targetText.indexOf( r.ifnot ) === -1 )
+				|| ( allowFunctionTests && $.isFunction( r.ifnot ) && !r.ifnot( targetText ) )
+				|| ( typeof r.ifnot === 'object' && !r.ifnot.test( targetText ) )
 
 			)
 		) {
-			if (r.where === undefined || r.where === 'anywhere') {
-				if (r.find !== undefined && r.find !== '' && r.replace !== undefined) {
+			if ( r.where === undefined || r.where === 'anywhere' ) {
+				if ( r.find !== undefined && r.find !== '' && r.replace !== undefined ) {
 					if ( typeof r.find === 'string' ) {
 						r.find = r.find.replace( reKeyWords, applyKeyWords );
 					} else if ( r.find instanceof RegExp && r.find.source.indexOf( '%%' ) !== -1 ) {
 						r.find = new RegExp(
 							r.find.source.replace( reKeyWords, applyEscapedKeyWords ),
-							(r.find.global ? 'g' : '') +
-								(r.find.ignoreCase ? 'i' : '') +
-								(r.find.multiline ? 'm' : '')
+							( r.find.global ? 'g' : '' ) +
+								( r.find.ignoreCase ? 'i' : '' ) +
+								( r.find.multiline ? 'm' : '' )
 						);
 					}
 					r.replace = r.replace.replace( reKeyWords, applyKeyWords );
@@ -430,7 +435,7 @@ APC.processRules = function ( rules ) {
 							? 100
 							: r.num;
 					temp = targetText;
-					while ( times > 0) {
+					while ( times > 0 ) {
 						targetText = targetText.replace( r.find, r.replace );
 						times -= 1;
 					}
@@ -438,10 +443,10 @@ APC.processRules = function ( rules ) {
 						mw.log( r.find, r.replace );
 					}
 				}
-				if ($.isArray(r.sub) && r.sub.length) {
-					APC.processRules(r.sub);
+				if ( $.isArray( r.sub ) && r.sub.length ) {
+					APC.processRules( r.sub );
 				}
-			} else if (allowOnlyInsideTemplates && r.where === 'templates') {
+			} else if ( allowOnlyInsideTemplates && r.where === 'templates' ) {
 				// TODO: Implement this for non-nested templates!
 				// TODO: How to allow nested templates? E.g.: {{info|param={{format|...}}|param=...}}
 				mw.log( mw.msg( 'apc-invalid-value', mw.msg( 'apc-no-templates' ) ) );
@@ -466,7 +471,8 @@ APC.addRules = function ( newRules ) {
 		newRules = [ newRules ];
 	}
 	$.merge( APC.rules, newRules );
-/*	if ( APC.rulesVersion && APC.rulesVersion.indexOf( 'mod' ) === -1 ) {
+	/*
+	if ( APC.rulesVersion && APC.rulesVersion.indexOf( 'mod' ) === -1 ) {
 		APC.rulesVersion += 'mod';
 	}*/
 	if ( loadedWikiEditor ) {
@@ -488,4 +494,4 @@ APC.removeAllRules = function () {
 };
 $( load );
 
-}(jQuery, mediaWiki, APC));
+}( jQuery, mediaWiki, APC ) );
