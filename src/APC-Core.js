@@ -291,8 +291,8 @@ var loadedWikiEditor = false,
 				}
 			};
 		mw.log.warn(
-			'[ addedDefaultApcToolbar, $( \'div[rel=apc-rules-heading]\' ), $( \'div[rel=APC]\' ) ]',
-			[ addedDefaultApcToolbar, $( 'div[rel=apc-rules-heading]' ), $( 'div[rel=APC]' ) ]
+			'MediaWiki:Gadget-APC.js/Core.js: [ addedDefaultApcToolbar, $( \'div[rel=apc-rules-heading]\' ), $( \'div[rel=APC]\' ) ]',
+			[ addedDefaultApcToolbar, !!$( 'div[rel=apc-rules-heading]' ).length, !!$( 'div[rel=APC]' ).length ]
 		);
 		if ( addedDefaultApcToolbar ) {
 			// Remove existing menu
@@ -362,7 +362,7 @@ var loadedWikiEditor = false,
 				if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 					mw.loader.using( 'ext.wikiEditor.toolbar', function () {
 						loadedWikiEditor = true;
-						mw.log.warn( 'load > updateToolbar()' );
+						mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: load > updateToolbar()' );
 						updateToolbar();
 					} );
 				} else {
@@ -478,7 +478,7 @@ APC.addRules = function ( newRules ) {
 		APC.rulesVersion += 'mod';
 	}*/
 	if ( loadedWikiEditor ) {
-		mw.log.warn( 'APC.addRules > updateToolbar()' );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.addRules > updateToolbar()' );
 		updateToolbar();
 	}
 	if ( loadedList ) {
@@ -489,7 +489,7 @@ APC.addRules = function ( newRules ) {
 APC.removeAllRules = function () {
 	rules = [];
 	if ( loadedWikiEditor ) {
-		mw.log.warn( 'APC.removeAllRules > updateToolbar()' );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.removeAllRules > updateToolbar()' );
 		updateToolbar();
 	}
 	if ( loadedList ) {
