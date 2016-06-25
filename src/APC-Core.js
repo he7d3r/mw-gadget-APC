@@ -42,7 +42,7 @@ if ( window.APC === undefined ) {
 
 	/* Translatable strings */
 	mw.messages.set( {
-		'apc-version': '0.48',
+		'apc-version': '0.49',
 		'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 		'apc-button-rules-all': 'Todas',
 		'apc-button-rules-custom': 'Escolher regras...',
