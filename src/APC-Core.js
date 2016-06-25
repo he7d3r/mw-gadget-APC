@@ -19,14 +19,30 @@
  */
 /*global jQuery, mediaWiki, APC */
 if ( window.APC === undefined ) {
-	window.APC = {};
+	window.APC = {
+		/**
+		 * @type Array.{{
+			name: {string}, // The name of the rule
+			find: {string=|RegExp}, // string or /regex/ to be searched for
+			replace: {string=}, // Optional replacement
+			num: number, // How many times the rule should be applied
+			enabled: boolean, //  Defalts to true if undefined
+			ifhas: {string=|RegExp}, // string or /regex/ the page must match
+			ifnot: {string=|RegExp}, // string or /regex/ the page must not match
+			where: 'anywhere', // 'anywhere' (default) or 'templates'
+			sub: [] // an array of objects like this
+		}}
+		 * The list of rules used by the tool
+		 */
+		rules: []
+	};
 }
 (function ($, mw, APC) {
 'use strict';
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.45',
+	'apc-version': '0.46',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -87,21 +103,6 @@ var loadedWikiEditor = false,
 	},
 	// names = {},
 	// dup = [],
-	/**
-	 * @type Array.{{
-		name: {string}, // The name of the rule
-		find: {string=|RegExp}, // string or /regex/ to be searched for
-		replace: {string=}, // Optional replacement
-		num: number, // How many times the rule should be applied
-		enabled: boolean, //  Defalts to true if undefined
-		ifhas: {string=|RegExp}, // string or /regex/ the page must match
-		ifnot: {string=|RegExp}, // string or /regex/ the page must not match
-		where: 'anywhere', // 'anywhere' (default) or 'templates'
-		sub: [] // an array of objects like this
-	}}
-	 * The list of rules used by the tool
-	 */
-	rules = [],
 	/**
 	* Get an HTML representation of the list of rules and subrules
 	* @param rules The list of rules
@@ -485,7 +486,7 @@ APC.addRules = function ( newRules ) {
 };
 
 APC.removeAllRules = function () {
-	rules = [];
+	APC.rules = [];
 	if ( loadedWikiEditor ) {
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.removeAllRules > updateToolbar()' );
 		updateToolbar();
@@ -494,6 +495,6 @@ APC.removeAllRules = function () {
 		updateHtmlList();
 	}
 };
-$(load);
+$( load );
 
 }(jQuery, mediaWiki, APC));
