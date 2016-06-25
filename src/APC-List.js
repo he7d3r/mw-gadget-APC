@@ -14182,6 +14182,7 @@ style="text-align:left;"|;"
 
 };
 
+mw.log.warn( 'MediaWiki:Gadget-APC.js/List.js: [ window.APC, window.APC && window.APC.addRules ]', [ window.APC, window.APC && window.APC.addRules ] );
 if ( window.APC && window.APC.addRules ) {
 	addDefaultRules();
 } else {
