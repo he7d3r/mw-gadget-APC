@@ -290,10 +290,9 @@ var loadedWikiEditor = false,
 					}
 				}
 			};
-		mw.log.warn(
-			'MediaWiki:Gadget-APC.js/Core.js: [ addedDefaultApcToolbar, $( \'div[rel=apc-rules-heading]\' ), $( \'div[rel=APC]\' ) ]',
-			[ addedDefaultApcToolbar, !!$( 'div[rel=apc-rules-heading]' ).length, !!$( 'div[rel=APC]' ).length ]
-		);
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: addedDefaultApcToolbar', addedDefaultApcToolbar );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=apc-rules-heading]\' ).length', !!$( 'div[rel=apc-rules-heading]' ).length );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		if ( addedDefaultApcToolbar ) {
 			// Remove existing menu
 			$textBox.wikiEditor( 'removeFromToolbar', {
