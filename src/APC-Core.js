@@ -42,7 +42,7 @@ if ( window.APC === undefined ) {
 
 /* Translatable strings */
 mw.messages.set( {
-	'apc-version': '0.46',
+	'apc-version': '0.47',
 	'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 	'apc-button-rules-all': 'Todas',
 	'apc-button-rules-custom': 'Escolher regras...',
@@ -173,7 +173,7 @@ var loadedWikiEditor = false,
 		$collapseButton = $('<input type="button" value="' + mw.msg( 'apc-collapse-all-text' ) +
 				'" title="' + mw.msg( 'apc-collapse-all-desc' ) + '"/>')
 			.click( onClick );
-		$list = getRulesHTML(rules, true)
+		$list = getRulesHTML(APC.rules, true)
 			.on('change', 'input', function (e) {
 				var $target = $(e.target),
 					$li = $target.parent();
@@ -246,7 +246,7 @@ var loadedWikiEditor = false,
 			executeGroup = function ( i ) {
 				return function () {
 					targetText = APC.$target.val();
-					APC.processRules( [ rules[i] ] );
+					APC.processRules( [ APC.rules[i] ] );
 					APC.$target.val(targetText);
 					$sumField.val( $sumField.val() + summaryText );
 				};
@@ -258,7 +258,7 @@ var loadedWikiEditor = false,
 						type: 'callback',
 						execute: function () {
 							targetText = APC.$target.val();
-							APC.processRules(rules);
+							APC.processRules(APC.rules);
 							APC.$target.val(targetText);
 							$sumField.val( $sumField.val() + summaryText );
 						}
@@ -291,7 +291,7 @@ var loadedWikiEditor = false,
 				}
 			};
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.alreadyOnToolbar', APC.alreadyOnToolbar );
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: rules.length', rules.length );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.rules.length', APC.rules.length );
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
 		if ( APC.alreadyOnToolbar ) {
 			// Remove existing menu before adding the updated menu
@@ -313,16 +313,16 @@ var loadedWikiEditor = false,
 		} );
 		APC.alreadyOnToolbar = true;
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.alreadyOnToolbar', APC.alreadyOnToolbar );
-		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: rules.length', rules.length );
+		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: APC.rules.length', APC.rules.length );
 		mw.log.warn( 'MediaWiki:Gadget-APC.js/Core.js: !!$( \'div[rel=APC]\' ).length', !!$( 'div[rel=APC]' ).length );
-		if ( !rules.length ) {
+		if ( !APC.rules.length ) {
 			return;
 		}
-		for (i = 0; i < rules.length; i += 1) {
+		for (i = 0; i < APC.rules.length; i += 1) {
 			mainRules[ 'APC-rules-' + i ] = {
-				label: rules[i].enabled === false
-					? mw.msg( 'apc-button-disabled-rule', rules[i].name )
-					: mw.msg( 'apc-button-enabled-rule', rules[i].name, mw.msg( 'apc-disabled-rule' ) ),
+				label: APC.rules[i].enabled === false
+					? mw.msg( 'apc-button-disabled-rule', APC.rules[i].name )
+					: mw.msg( 'apc-button-enabled-rule', APC.rules[i].name, mw.msg( 'apc-disabled-rule' ) ),
 				action: {
 					type: 'callback',
 					execute: executeGroup(i)
@@ -377,7 +377,7 @@ var loadedWikiEditor = false,
 					) ).click( function (e) {
 						e.preventDefault();
 						targetText = APC.$target.val();
-						APC.processRules(rules);
+						APC.processRules( APC.rules );
 						APC.$target.val( targetText );
 					} );
 				}
@@ -396,7 +396,7 @@ var loadedWikiEditor = false,
  * @param rules The list of rules
  * FIXME: Guardar o texto em uma variável local em vez de targetText, para otimizar
  */
-APC.processRules = function (rules) {
+APC.processRules = function ( rules ) {
 	var i, length, r, times, temp;
 	if ( !reKeyWords ) {
 		reKeyWords = getRegexForKeywords();
@@ -472,7 +472,7 @@ APC.addRules = function ( newRules ) {
 	if ( !$.isArray( newRules ) ) {
 		newRules = [ newRules ];
 	}
-	$.merge( rules, newRules );
+	$.merge( APC.rules, newRules );
 /*	if ( APC.rulesVersion && APC.rulesVersion.indexOf( 'mod' ) === -1 ) {
 		APC.rulesVersion += 'mod';
 	}*/
