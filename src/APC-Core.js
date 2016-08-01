@@ -42,7 +42,7 @@ if ( window.APC === undefined ) {
 
 	/* Translatable strings */
 	mw.messages.set( {
-		'apc-version': '0.49',
+		'apc-version': '0.50',
 		'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 		'apc-button-rules-all': 'Todas',
 		'apc-button-rules-custom': 'Escolher regras...',
@@ -428,16 +428,24 @@ if ( window.APC === undefined ) {
 									( r.find.multiline ? 'm' : '' )
 							);
 						}
-						r.replace = r.replace.replace( reKeyWords, applyKeyWords );
 						times = r.num === undefined || r.num < 1
 							? 1
 							: r.num > 100
 								? 100
 								: r.num;
 						temp = targetText;
-						while ( times > 0 ) {
-							targetText = targetText.replace( r.find, r.replace );
-							times -= 1;
+						if ( $.isFunction( r.replace ) ) {
+							while ( times > 0 ) {
+								targetText = targetText.replace( r.find, r.replace )
+									.replace( reKeyWords, applyKeyWords );
+								times -= 1;
+							}
+						} else {
+							r.replace = r.replace.replace( reKeyWords, applyKeyWords );
+							while ( times > 0 ) {
+								targetText = targetText.replace( r.find, r.replace );
+								times -= 1;
+							}
 						}
 						if ( temp !== targetText ) {
 							mw.log( r.find, r.replace );
