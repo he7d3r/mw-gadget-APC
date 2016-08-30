@@ -21,7 +21,7 @@
 var addDefaultRules = function () {
 'use strict';
 
-APC.rulesVersion = '3.1.37';
+APC.rulesVersion = '3.1.38';
 APC.addRules( [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
@@ -2420,12 +2420,8 @@ APC.addRules( [{
 						replace: '{{Sem imagem$2'
 					}, {
 						name: '{{Seminterwiki}}',
-						find: /\{\{Sem[ \-]?(iw|interwiki)([\|\r\n\}])/ig,
-						replace: '{{Seminterwiki$2'
-					}, {
-						name: '{{Seminterwiki}}',
-						find: /\{\{Sem[\- ]interwiki([\|\r\n\}])/ig,
-						replace: '{{Seminterwiki$1'
+						find: /\{\{[Ss]em(?:[ \-]?iw|iwcat| ?interw[íi]kis?|interwiki-categorias).*?\}\}(\r?\n|$)/g,
+						replace: ''
 					}, {
 						name: '{{Wikificação}}',
 						find: /\{\{(Wikificar|Wikify|Wkf)([\|\r\n\}])/ig,
@@ -2619,12 +2615,12 @@ APC.addRules( [{
 				name: 'Quebra linha em predefs',
 				sub: [{
 					name: 'Quebra linha em predefs 1',
-					find: /\{\{(Artigo longo|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Revisão|Sem\-fontes|Sem imagem|Seminterwiki|Sem\-notas|Trivia|Wikificação)([^\n\}]*)\}\}([^\r\n])/ig,
+					find: /\{\{(Artigo longo|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Revisão|Sem\-fontes|Sem imagem|Sem\-notas|Trivia|Wikificação)([^\n\}]*)\}\}([^\r\n])/ig,
 					replace: '{{$1$2}}\n$3',
 					num: 10
 				}, {
 					name: 'Quebra linha em predefs 2',
-					find: /\{\{(Artigo longo|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Revisão|Sem\-fontes|Sem imagem|Seminterwiki|Sem\-notas|Trivia|Wikificação)([^\n\}]*)\}\}(\r?\n){2,}/ig,
+					find: /\{\{(Artigo longo|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Revisão|Sem\-fontes|Sem imagem|Sem\-notas|Trivia|Wikificação)([^\n\}]*)\}\}(\r?\n){2,}/ig,
 					replace: '{{$1$2}}\n',
 					num: 10
 				}, {
@@ -11549,11 +11545,6 @@ APC.addRules( [{
 						find: /\{\{semfichatécnica\}\}/ig,
 						replace: '{{Revisar Info Filme}}',
 						ifhas:  /\{\{[Ii]nfo\/Filme/
-					}, {
-						name: '{{seminterwiki}}',
-						find: /\{\{seminterwiki.*\}\}\r?\n/ig,
-						replace: '',
-						ifhas: /\[\[\s*[a-z][a-z]\s*:/
 					}]
 				}]
 			}]
@@ -11576,7 +11567,7 @@ APC.addRules( [{
 			ifhas: '{{',
 			sub: [{
 				name: 'marcando predefs',
-				find: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Seminterwiki|Sem[\- ]notas|Trivia|Wikificação)([\|}])/ig,
+				find: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Sem[\- ]notas|Trivia|Wikificação)([\|}])/ig,
 				replace: '{{┴$1$2'
 			}, {
 				name: 'Datando predefs',
@@ -11628,7 +11619,7 @@ APC.addRules( [{
 						replace: '├'
 					}, {
 						name: 'inserindo Timor-Leste',
-						find: /\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Sem\-fontes|Sem imagem|Seminterwiki|Seminterwiki\-categoria|Sem\-notas|Trivia|Wikificação)([\|}][^}\n├┼]*\})/ig,
+						find: /\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Sem\-fontes|Sem imagem|Sem\-notas|Trivia|Wikificação)([\|}][^}\n├┼]*\})/ig,
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando Timor-Leste',
@@ -11680,7 +11671,7 @@ APC.addRules( [{
 						replace: '├'
 					}, {
 						name: 'inserindo São Tomé e Príncipe',
-						find: /\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Sem\-fontes|Sem imagem|Seminterwiki|Seminterwiki\-categoria|Sem\-notas|Trivia|Wikificação)([\|}][^}\n├┼]*\})/ig,
+						find: /\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Sem\-fontes|Sem imagem|Sem\-notas|Trivia|Wikificação)([\|}][^}\n├┼]*\})/ig,
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando São Tomé e Príncipe',
@@ -11719,7 +11710,7 @@ APC.addRules( [{
 						replace: '├'
 					}, {
 						name: 'inserindo Moçambique',
-						find: /\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Sem\-fontes|Sem imagem|Seminterwiki|Seminterwiki\-categoria|Sem\-notas|Trivia|Wikificação)([\|}][^}\n├┼]*\})/ig,
+						find: /\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Parcial|Reciclagem|Sem\-fontes|Sem imagem|Sem\-notas|Trivia|Wikificação)([\|}][^}\n├┼]*\})/ig,
 						replace: '{{$1├sim$2'
 					}, {
 						name: 'desmarcando Moçambique',
@@ -11906,7 +11897,7 @@ APC.addRules( [{
 					num: 10
 				}, {
 					name: 'Quebra dupla antes predef man sup',
-					find: /(?:\r?\n){2,}\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Geocoordenadas|Parcial|Reciclagem|revisão\-sobre|Revisão|Sem\-fontes|Sem imagem|Seminterwiki|Sem\-notas|Wikificação)([\|}])/ig,
+					find: /(?:\r?\n){2,}\{\{(Artigo longo|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Geocoordenadas|Parcial|Reciclagem|revisão\-sobre|Revisão|Sem\-fontes|Sem imagem|Sem\-notas|Wikificação)([\|}])/ig,
 					replace: '\n{{$1$2'
 				}]
 			}, {
@@ -12060,7 +12051,7 @@ APC.addRules( [{
 					name: 'Ordenando',
 					sub: [{
 						name: 'predef man x Portal',
-						find: /\n\{\{(Artigo destacado|Seminterwiki)(.*)\}\}(\r?\n)*([^┬╔╗]*)(┬.*\}\})/ig,
+						find: /\n\{\{(Artigo destacado)(.*)\}\}(\r?\n)*([^┬╔╗]*)(┬.*\}\})/ig,
 						replace: '\n$4$5\n\n{{$1$2}}',
 						num: 10
 					}, {
@@ -12083,10 +12074,6 @@ APC.addRules( [{
 						find: /(= Ligações externas =+\r?\n)([^┼░]*)\r?\n(\{\{┼[^{}\n]*\}\})\r?\n/g,
 						replace: '$1$3\n$2\n',
 						num: 10
-					}, {
-						name: 'Sem iw',
-						find: /(\{\{Seminterwiki\|.*\}\})\r?\n([^░]*)░/ig,
-						replace: '\n$2\n$1\n░'
 					}]
 				}, {
 					name: 'Desmarca',
@@ -12361,7 +12348,7 @@ APC.addRules( [{
 			name: 'Triming v- final',
 			sub: [{
 				name: 'Quebra dupla antes predef man inf',
-				find: /\{\{(Artigo destacado|Esboço|Mínimo|Reciclagem|Semfichatécnica|Seminterwiki|Sem imagem)(.*)\}\}\n\n+\{\{(Artigo destacado|Esboço|Mínimo|Reciclagem|Semfichatécnica|Seminterwiki|Sem imagem)(.*)\}\}/ig,
+				find: /\{\{(Artigo destacado|Esboço|Mínimo|Reciclagem|Semfichatécnica|Sem imagem)(.*)\}\}\n\n+\{\{(Artigo destacado|Esboço|Mínimo|Reciclagem|Semfichatécnica|Sem imagem)(.*)\}\}/ig,
 				replace: '{{$1$2}}\n{{$3$4}}',
 				num: 10
 			}, {
@@ -13063,7 +13050,7 @@ APC.addRules( [{
 				}]
 			}, {
 				name: 'Tag man assunto',
-				ifhas: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Seminterwiki|Sem[\- ]notas|Trivia|Wikificação)([\|}])/i,
+				ifhas: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Sem[\- ]notas|Trivia|Wikificação)([\|}])/i,
 				sub: [{
 					name: 'marcando assuntos',
 					sub: [{
@@ -13090,7 +13077,7 @@ APC.addRules( [{
 					}]
 				}, {
 					name: 'marcando predefs',
-					find: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Seminterwiki|Sem[\- ]notas|Trivia|Wikificação)([\|}])/ig,
+					find: /\{\{(Artigo longo|Carece de fontes2|Carece de fontes|Contextualizar|Controverso|Corrigir|Fusão|Fusão com|Fusão de|Mais notas|M\-notas\-bpv|Parcial|Reciclagem|Revisão|Revisão\-sobre|Sem\-fontes|Sem imagem|Sem[\- ]notas|Trivia|Wikificação)([\|}])/ig,
 					replace: '{{┴$1$2'
 				}, {
 					name: 'preenche',
