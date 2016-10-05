@@ -2562,11 +2562,11 @@ APC.addRules( [{
 						replace: '{{Artigo principal|'
 					}, {
 						name: '{{Ligações externas}}',
-						find: /\{\{(?:(?:Apontadores|Atalhos?|Elos?|Enlaces?|Lin(?:k|que)s?|Vínculos?)(?: externos?)?|(?:Ligaç(?:ão|ões)|Páginas?|Referências?)(?: externas?)|(?:Ligaç(?:ão|ões)|Links|Recursos)(?: para o exterior| exterior(?:es)?(?: [àa] Wikip[ée]dia)?)?|S(?:ites|[íi]tios)|LE|Links? relacionados?|Páginas? da Internet|Weblinks?)\}\}/ig,
+						find: /\{\{(?:(?:Apontadores|Atalhos?|Elos?|Enlaces?|Lin(?:k|que)s?|Vínculos?)(?: externos?)?|(?:Ligaç(?:ão|ões)|Páginas?|Referências?)(?: externas?)|(?:Ligaç(?:ão|ões)|Links)(?: para o exterior| exterior(?:es)?(?: [àa] Wikip[ée]dia)?)?|S(?:ites|[íi]tios)|LE|Links? relacionados?|Páginas? da Internet|Weblinks?)\}\}/ig,
 						replace: 'Ligações externas'
 					}, {
 						name: '== Ligações externas ==',
-						find: /\==\s*(?:(?:Apontadores|Atalhos?|Elos?|Enlaces?|Lin(?:k|que)s?|Vínculos?)(?: externos?)?|(?:Ligaç(?:ão|ões)|Páginas?|Referências?)(?: externas?)|(?:Ligaç(?:ão|ões)|Links|Recursos)(?: para o exterior| exterior(?:es)?(?: [àa] Wikip[ée]dia)?)?|S(?:ites|[íi]tios)|LE|Links? relacionados?|Páginas? da Internet|Weblinks?)\s*==/ig,
+						find: /\==\s*(?:(?:Apontadores|Atalhos?|Elos?|Enlaces?|Lin(?:k|que)s?|Vínculos?)(?: externos?)?|(?:Ligaç(?:ão|ões)|Páginas?|Referências?)(?: externas?)|(?:Ligaç(?:ão|ões)|Links)(?: para o exterior| exterior(?:es)?(?: [àa] Wikip[ée]dia)?)?|S(?:ites|[íi]tios)|LE|Links? relacionados?|Páginas? da Internet|Weblinks?)\s*==/ig,
 						replace: '== Ligações externas =='
 					}, {
 						name: '{{Ver também}}',
