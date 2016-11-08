@@ -7,7 +7,6 @@
  * (http://code.google.com/p/rjclaudio-awb/downloads/list)
  * Ver também:
  * - [[WP:Scripts/APC]] (documentação)
- * - [[User:!Silent/correções.js]]
  * - [[User:Fabiano Tatsch/correções.js]]
  * - [[WP:Projetos/Check Wikipedia/AWB]]
  * - [[WP:Projetos/AWB]]
@@ -2459,7 +2458,12 @@ APC.addRules( [{
 					}, {
 						name: '{{Stub}}',
 						find: /\{\{Stub([\|}])/ig,
-						replace: '{{esboço$1',
+						replace: '{{Esboço$1',
+						num: 10
+					}, {
+						name: '{{Mínimo}}',
+						find: /\{\{M[ií]nimo([\|}])/ig,
+						replace: '{{Esboço$1',
 						num: 10
 					}]
 				}, {
