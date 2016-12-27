@@ -249,9 +249,9 @@ if ( window.APC === undefined ) {
 				$sumField = $( '#wpSummary' ),
 				executeGroup = function ( i ) {
 					return function () {
-						targetText = APC.$target.val();
+						targetText = APC.$target.textSelection( 'getContents' );
 						APC.processRules( [ APC.rules[ i ] ] );
-						APC.$target.val( targetText );
+						APC.$target.textSelection( 'setContents', targetText );
 						$sumField.val( $sumField.val() + summaryText );
 					};
 				},
@@ -261,9 +261,9 @@ if ( window.APC === undefined ) {
 						action: {
 							type: 'callback',
 							execute: function () {
-								targetText = APC.$target.val();
+								targetText = APC.$target.textSelection( 'getContents' );
 								APC.processRules( APC.rules );
-								APC.$target.val( targetText );
+								APC.$target.textSelection( 'setContents', targetText );
 								$sumField.val( $sumField.val() + summaryText );
 							}
 						}
@@ -373,9 +373,9 @@ if ( window.APC === undefined ) {
 							mw.msg( 'apc-format-desc' )
 						) ).click( function ( e ) {
 							e.preventDefault();
-							targetText = APC.$target.val();
+							targetText = APC.$target.textSelection( 'getContents' );
 							APC.processRules( APC.rules );
-							APC.$target.val( targetText );
+							APC.$target.textSelection( 'setContents', targetText );
 						} );
 					}
 				} );
