@@ -12,7 +12,7 @@
  ** [[en:User:Joeytje50/AWB.js]]
  ** [[ru:MediaWiki:Wikificator.js]]
  ** [[meta:Wikificator]]
- ** http://autowikibrowser.svn.sourceforge.net/viewvc/autowikibrowser/AWB/WikiFunctions/ReplaceSpecial/Rule.cs?view=markup
+ ** https://sourceforge.net/p/autowikibrowser/code/HEAD/tree/AWB/WikiFunctions/ReplaceSpecial/Rule.cs
  * @author: Helder (https://github.com/he7d3r)
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */

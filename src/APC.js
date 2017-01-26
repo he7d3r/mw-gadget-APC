@@ -7,7 +7,7 @@
 /*jslint white: true */
 /*global mediaWiki, jQuery */
 
-(function (mw, $) {
+( function ( mw, $ ) {
 'use strict';
 
 if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1
@@ -19,4 +19,4 @@ if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1
 	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCList&only=scripts&debug=' + mw.config.get( 'debug' ) );
 }
 
-}(mediaWiki, jQuery));
+}( mediaWiki, jQuery ) );
