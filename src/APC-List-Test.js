@@ -1,4 +1,3 @@
-// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[phab:T35355]])
 /*jslint browser: true, white: true, regexp: true */
 /*global $, mw, APC */
 // Lista personalizada

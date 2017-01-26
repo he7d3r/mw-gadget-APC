@@ -1,4 +1,3 @@
-// [[File:User:He7d3r/Tools/APC.js]] (workaround for [[phab:T35355]])
 /**
  * Carregador da ferramenta APC
  * @help: [[WP:Scripts/APC]]
