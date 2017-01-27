@@ -17,23 +17,24 @@
  */
 /*global jQuery, mediaWiki, APC */
 if ( window.APC === undefined ) {
-	window.APC = {
-		/**
-		 * @type Array.{{
-			name: {string}, // The name of the rule
-			find: {string=|RegExp}, // string or /regex/ to be searched for
-			replace: {string=}, // Optional replacement
-			num: number, // How many times the rule should be applied
-			enabled: boolean, //  Defalts to true if undefined
-			ifhas: {string=|RegExp}, // string or /regex/ the page must match
-			ifnot: {string=|RegExp}, // string or /regex/ the page must not match
-			where: 'anywhere', // 'anywhere' (default) or 'templates'
-			sub: [] // an array of objects like this
-		}}
-		 * The list of rules used by the tool
-		 */
-		rules: []
-	};
+	window.APC = {};
+}
+if ( window.APC.rules === undefined ) {
+	/**
+	 * @type Array.{{
+		name: {string}, // The name of the rule
+		find: {string=|RegExp}, // string or /regex/ to be searched for
+		replace: {string=}, // Optional replacement
+		num: number, // How many times the rule should be applied
+		enabled: boolean, //  Defalts to true if undefined
+		ifhas: {string=|RegExp}, // string or /regex/ the page must match
+		ifnot: {string=|RegExp}, // string or /regex/ the page must not match
+		where: 'anywhere', // 'anywhere' (default) or 'templates'
+		sub: [] // an array of objects like this
+	}}
+	 * The list of rules used by the tool
+	 */
+	window.APC.rules = [];
 }
 ( function ( $, mw, APC ) {
 	'use strict';

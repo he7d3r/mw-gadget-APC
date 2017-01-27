@@ -13,14 +13,13 @@
  * @author: Helder (https://github.com/he7d3r)
  * @author: Rjclaudio
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
+ * @see: [[File:User:He7d3r/Tools/APC.js]] (workaround for [[phab:T35355]])
  */
 // <nowiki>, para facilitar o uso de "subst:" e assinaturas
-
-var addDefaultRules = function () {
-'use strict';
-
-APC.rulesVersion = '3.1.38';
-APC.addRules( [{
+var siteConf = {
+	helpPage: 'Wikipédia:Scripts/APC',
+	siteRulesVersion: '3.1.39',
+	siteRules: [{
 	name: 'Iniciando',
 	ifnot: /(\{\{desambiguação\}\}|\[\[Categor(?:[ií]a|y):Desambiguaç(ão|ões))/i,
 	sub: [{
@@ -14168,15 +14167,9 @@ style="text-align:left;"|;"
 			replace: '$1width: $3px; $2'
 		}]
 	}]
-}] ); // End of APC.addRules()
-
+}]
 };
-
-if ( window.APC && window.APC.addRules ) {
-	addDefaultRules();
-} else {
-	$.getScript( window.APC.url.core )
-	.done( addDefaultRules );
-}
-
 // </nowiki>, para facilitar o uso de "subst:" e assinaturas
+
+window.APC = $.extend( {}, siteConf, window.APC );
+mw.loader.load( 'https://meta.wikimedia.org/w/index.php?title=User:He7d3r/Tools/APC-Loader.js&action=raw&ctype=text/javascript' );
