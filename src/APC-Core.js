@@ -1,17 +1,16 @@
 /*jslint browser: true, white: true, regexp: true, todo: true */
 /**
- * Ferramenta que facilita a correção de artigos da Wikipédia
- * por meio do processamento de listas de regras do tipo "localizar e substituir"
- * (análoga à existente no AutoWikiBrowser)
- * Ver também:
- ** [[WP:Scripts/APC]] (documentação)
- ** [[w:User:!Silent/correções.js]]
- ** [[w:WP:Projetos/Check Wikipedia/AWB]]
- ** [[w:WP:Projetos/AWB]]
+ * Tool to help correcting Wikipedia articles by means of lists of
+ * "search & replace" rules (similar to the one in AWB)
+ * See also:
+ ** [[w:pt:WP:Scripts/APC]] (documentation)
+ ** [[w:pt:User:!Silent/correções.js]]
+ ** [[w:pt:WP:Projetos/Check Wikipedia/AWB]]
+ ** [[w:pt:WP:Projetos/AWB]]
  ** [[m:User:TMg/autoFormatter]]
- ** [[en:User:Joeytje50/AWB.js]]
- ** [[ru:MediaWiki:Wikificator.js]]
- ** [[meta:Wikificator]]
+ ** [[w:en:User:Joeytje50/AWB.js]]
+ ** [[w:ru:MediaWiki:Wikificator.js]]
+ ** [[m:Wikificator]]
  ** https://sourceforge.net/p/autowikibrowser/code/HEAD/tree/AWB/WikiFunctions/ReplaceSpecial/Rule.cs
  * @author: Helder (https://github.com/he7d3r)
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
