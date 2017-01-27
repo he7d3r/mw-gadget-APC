@@ -14175,7 +14175,7 @@ style="text-align:left;"|;"
 if ( window.APC && window.APC.addRules ) {
 	addDefaultRules();
 } else {
-	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCCore&only=scripts&debug=' + mw.config.get( 'debug' ) )
+	$.getScript( window.APC.url.core )
 	.done( addDefaultRules );
 }
 

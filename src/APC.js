@@ -1,5 +1,5 @@
 /**
- * Carregador da ferramenta APC
+ * APC loader
  * @help: [[WP:Scripts/APC]]
  * @author: Helder (https://github.com/he7d3r)
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
@@ -10,13 +10,22 @@
 ( function ( mw, $ ) {
 'use strict';
 
-if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1
-	|| (
-		mw.config.get( 'wgPageName' ) === 'Wikipédia:Scripts/APC'
-		&& $.inArray( mw.config.get( 'wgAction' ), [ 'view', 'purge' ] ) !== -1
+var config = {
+	url: {
+		core: 'https://meta.wikimedia.org/w/index.php?title=User:He7d3r/Tools/APC-Core.js&action=raw&ctype=text/javascript',
+		list: 'https://meta.wikimedia.org/w/index.php?title=User:He7d3r/Tools/APC-List.js&action=raw&ctype=text/javascript',
+		css: 'https://meta.wikimedia.org/w/index.php?title=User:He7d3r/Tools/APC.css&action=raw&ctype=text/css'
+	}
+};
+window.APC = $.extend( true, {}, config, window.APC );
+if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1 ||
+	(
+		mw.config.get( 'wgPageName' ) === window.APC.helpPage &&
+		$.inArray( mw.config.get( 'wgAction' ), [ 'view', 'purge' ] ) !== -1
 	)
 ) {
-	$.getScript( '//pt.wikipedia.org/w/load.php?modules=ext.gadget.APCList&only=scripts&debug=' + mw.config.get( 'debug' ) );
+	mw.loader.load( window.APC.url.css, 'text/css' );
+	mw.loader.load( window.APC.url.list );
 }
 
 }( mediaWiki, jQuery ) );
