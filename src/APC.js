@@ -16,37 +16,34 @@
  * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */
 /*global jQuery, mediaWiki, APC */
-if ( window.APC === undefined ) {
-	window.APC = {};
-}
-if ( window.APC.rules === undefined ) {
-	/**
-	 * @type Array.{{
-		name: {string}, // The name of the rule
-		find: {string=|RegExp}, // string or /regex/ to be searched for
-		replace: {string=}, // Optional replacement
-		num: number, // How many times the rule should be applied
-		enabled: boolean, //  Defalts to true if undefined
-		ifhas: {string=|RegExp}, // string or /regex/ the page must match
-		ifnot: {string=|RegExp}, // string or /regex/ the page must not match
-		where: 'anywhere', // 'anywhere' (default) or 'templates'
-		sub: [] // an array of objects like this
-	}}
-	 * The list of rules used by the tool
-	 */
-	window.APC.rules = [];
-}
+window.APC = window.APC || {};
+window.APC.coreVersion = '0.52';
+/**
+ * @type Array.{{
+	name: {string}, // The name of the rule
+	find: {string=|RegExp}, // string or /regex/ to be searched for
+	replace: {string=}, // Optional replacement
+	num: number, // How many times the rule should be applied
+	enabled: boolean, //  Defalts to true if undefined
+	ifhas: {string=|RegExp}, // string or /regex/ the page must match
+	ifnot: {string=|RegExp}, // string or /regex/ the page must not match
+	where: 'anywhere', // 'anywhere' (default) or 'templates'
+	sub: [] // an array of objects like this
+}}
+ * The list of rules used by the tool
+ */
+window.APC.rules = window.APC.rules || [];
+
 ( function ( $, mw, APC ) {
 	'use strict';
 
 	/* Translatable strings */
 	mw.messages.set( {
-		'apc-version': '0.52',
-		'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
+		'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] (v$1/$2/$3)',
 		'apc-button-rules-all': 'Todas',
 		'apc-button-rules-custom': 'Escolher regras...',
 		'apc-button-bug': 'Informar um erro',
-		'apc-new-bug-title': '[BUG] ($1/$2) [[$3]]',
+		'apc-new-bug-title': '[BUG] (v$1/$2/$3) [[$4]]',
 		'apc-group': 'APC',
 		'apc-button-enabled-rule': '$1',
 		'apc-button-disabled-rule': '$1 ($2)',
@@ -55,8 +52,10 @@ if ( window.APC.rules === undefined ) {
 		'apc-default-rule-name': 'Rule',
 		'apc-find-and-replace-title': 'Localizar:\n$1\n\nSubstituir por:\n$2',
 		'apc-experimental': 'Em fase experimental',
-		'apc-version-info': 'Observação: esta é a versão $1 da lista de regras' +
-			' (gerada pela versão $2 do script).',
+		'apc-version-info': 'Estas são as versões das componentes do APC:\n' +
+			'APC: $1\n' +
+			'Lista de regras do site: $2\n' +
+			'Lista de regras do usuário: $3',
 		'apc-expand-all-text': 'Expandir tudo',
 		'apc-expand-all-desc': 'Expandir todos os itens',
 		'apc-collapse-all-text': 'Recolher tudo',
@@ -160,7 +159,12 @@ if ( window.APC.rules === undefined ) {
 			if ( !$rules.length ) {
 				$rules = $( '#mw-content-text' );
 			}
-			versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.siteRulesVersion, mw.msg( 'apc-version' ) ) + '</p>';
+			versionHTML = '<p>' + mw.msg(
+				'apc-version-info',
+				APC.coreVersion,
+				APC.siteRulesVersion,
+				APC.userRulesVersion
+			) + '</p>';
 			onClick = function () {
 				var showOrHide = $( this ).val() === mw.msg( 'apc-expand-all-text' );
 				$rules
@@ -244,7 +248,12 @@ if ( window.APC.rules === undefined ) {
 		updateToolbar = function () {
 			var	i,
 				$textBox = $( '#wpTextbox1' ),
-				summaryText = mw.msg( 'apc-summary-text', 'v' + mw.msg( 'apc-version' ), APC.siteRulesVersion ),
+				summaryText = mw.msg(
+					'apc-summary-text',
+					APC.coreVersion,
+					APC.siteRulesVersion,
+					APC.userRulesVersion
+				),
 				$sumField = $( '#wpSummary' ),
 				executeGroup = function ( i ) {
 					return function () {
@@ -282,8 +291,9 @@ if ( window.APC.rules === undefined ) {
 									section: 'new',
 									preloadtitle: mw.msg(
 										'apc-new-bug-title',
-										'v' + mw.msg( 'apc-version' ),
+										APC.coreVersion,
 										APC.siteRulesVersion,
+										APC.userRulesVersion,
 										mw.config.get( 'wgPageName' )
 											.replace( /_/g, ' ' )
 									),
@@ -478,10 +488,6 @@ if ( window.APC.rules === undefined ) {
 			newRules = [ newRules ];
 		}
 		$.merge( APC.rules, newRules );
-		/*
-		if ( APC.siteRulesVersion && APC.siteRulesVersion.indexOf( 'mod' ) === -1 ) {
-			APC.siteRulesVersion += 'mod';
-		}*/
 		if ( loadedWikiEditor ) {
 			updateToolbar();
 		}
