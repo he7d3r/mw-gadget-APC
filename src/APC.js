@@ -41,7 +41,7 @@ if ( window.APC.rules === undefined ) {
 
 	/* Translatable strings */
 	mw.messages.set( {
-		'apc-version': '0.51',
+		'apc-version': '0.52',
 		'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] ($1/$2)',
 		'apc-button-rules-all': 'Todas',
 		'apc-button-rules-custom': 'Escolher regras...',
@@ -160,7 +160,7 @@ if ( window.APC.rules === undefined ) {
 			if ( !$rules.length ) {
 				$rules = $( '#mw-content-text' );
 			}
-			versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.rulesVersion, mw.msg( 'apc-version' ) ) + '</p>';
+			versionHTML = '<p>' + mw.msg( 'apc-version-info', APC.siteRulesVersion, mw.msg( 'apc-version' ) ) + '</p>';
 			onClick = function () {
 				var showOrHide = $( this ).val() === mw.msg( 'apc-expand-all-text' );
 				$rules
@@ -244,7 +244,7 @@ if ( window.APC.rules === undefined ) {
 		updateToolbar = function () {
 			var	i,
 				$textBox = $( '#wpTextbox1' ),
-				summaryText = mw.msg( 'apc-summary-text', 'v' + mw.msg( 'apc-version' ), APC.rulesVersion ),
+				summaryText = mw.msg( 'apc-summary-text', 'v' + mw.msg( 'apc-version' ), APC.siteRulesVersion ),
 				$sumField = $( '#wpSummary' ),
 				executeGroup = function ( i ) {
 					return function () {
@@ -283,7 +283,7 @@ if ( window.APC.rules === undefined ) {
 									preloadtitle: mw.msg(
 										'apc-new-bug-title',
 										'v' + mw.msg( 'apc-version' ),
-										APC.rulesVersion,
+										APC.siteRulesVersion,
 										mw.config.get( 'wgPageName' )
 											.replace( /_/g, ' ' )
 									),
@@ -479,8 +479,8 @@ if ( window.APC.rules === undefined ) {
 		}
 		$.merge( APC.rules, newRules );
 		/*
-		if ( APC.rulesVersion && APC.rulesVersion.indexOf( 'mod' ) === -1 ) {
-			APC.rulesVersion += 'mod';
+		if ( APC.siteRulesVersion && APC.siteRulesVersion.indexOf( 'mod' ) === -1 ) {
+			APC.siteRulesVersion += 'mod';
 		}*/
 		if ( loadedWikiEditor ) {
 			updateToolbar();
