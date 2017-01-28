@@ -17,7 +17,7 @@
  */
 /*global jQuery, mediaWiki, APC */
 window.APC = window.APC || {};
-window.APC.coreVersion = '0.52';
+window.APC.coreVersion = '0.53';
 /**
  * @type Array.{{
 	name: {string}, // The name of the rule
