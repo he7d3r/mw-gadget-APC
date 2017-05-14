@@ -145,7 +145,7 @@ window.APC.rules = window.APC.rules || [];
 					$li.addClass( 'apc-disabled' )
 						.attr( 'title', mw.msg( 'apc-experimental' ) );
 				}
-				if ( $.isArray( r.sub ) && r.sub.length ) {
+				if ( Array.isArray( r.sub ) && r.sub.length ) {
 					$li.append( getRulesHTML( r.sub ) )
 						.addClass( 'apc-list-toggle' );
 				}
@@ -460,7 +460,7 @@ window.APC.rules = window.APC.rules || [];
 							mw.log( r.find, r.replace );
 						}
 					}
-					if ( $.isArray( r.sub ) && r.sub.length ) {
+					if ( Array.isArray( r.sub ) && r.sub.length ) {
 						APC.processRules( r.sub );
 					}
 				} else if ( allowOnlyInsideTemplates && r.where === 'templates' ) {
@@ -484,7 +484,7 @@ window.APC.rules = window.APC.rules || [];
 	};
 
 	APC.addRules = function ( newRules ) {
-		if ( !$.isArray( newRules ) ) {
+		if ( !Array.isArray( newRules ) ) {
 			newRules = [ newRules ];
 		}
 		$.merge( APC.rules, newRules );
