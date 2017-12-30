@@ -3,7 +3,8 @@ Installation as a gadget
 ```javascript
 var siteConf = {
 	siteRulesVersion: '0.1',
-	helpPage: 'Project:Scripts/APC'
+	helpPage: 'Project:Scripts/APC',
+	tag: 'apc'
 };
 siteConf.siteRules = [ {
 	name: 'Site rules',

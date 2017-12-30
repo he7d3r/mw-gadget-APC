@@ -17,7 +17,7 @@
  */
 /*global jQuery, mediaWiki, APC */
 window.APC = window.APC || {};
-window.APC.coreVersion = '0.54';
+window.APC.coreVersion = '0.55';
 /**
  * @type Array.{{
 	name: {string}, // The name of the rule
@@ -257,9 +257,13 @@ window.APC.rules = window.APC.rules || [];
 				$sumField = $( '#wpSummary' ),
 				executeGroup = function ( i ) {
 					return function () {
-						targetText = APC.$target.textSelection( 'getContents' );
+						var originalText = APC.$target.textSelection( 'getContents' );
+						targetText = originalText;
 						APC.processRules( [ APC.rules[ i ] ] );
 						APC.$target.textSelection( 'setContents', targetText );
+						if ( targetText !== originalText ) {
+							APC.addTag();
+						}
 						$sumField.val( $sumField.val() + summaryText );
 					};
 				},
@@ -269,9 +273,13 @@ window.APC.rules = window.APC.rules || [];
 						action: {
 							type: 'callback',
 							execute: function () {
-								targetText = APC.$target.textSelection( 'getContents' );
+								var originalText = APC.$target.textSelection( 'getContents' );
+								targetText = originalText;
 								APC.processRules( APC.rules );
 								APC.$target.textSelection( 'setContents', targetText );
+								if ( targetText !== originalText ) {
+									APC.addTag();
+								}
 								$sumField.val( $sumField.val() + summaryText );
 							}
 						}
@@ -363,7 +371,6 @@ window.APC.rules = window.APC.rules || [];
 		load = function () {
 			if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1 ) {
 				APC.$target = $( '#wpTextbox1' );
-				APC.addTag();
 
 				/* Make sure the required modules are available and then customize the toolbar */
 				mw.loader.using( [ 'user.options', 'mediawiki.RegExp', 'jquery.textSelection' ], function () {
@@ -383,9 +390,13 @@ window.APC.rules = window.APC.rules || [];
 							mw.msg( 'apc-format-desc' )
 						) ).click( function ( e ) {
 							e.preventDefault();
-							targetText = APC.$target.textSelection( 'getContents' );
+							var originalText = APC.$target.textSelection( 'getContents' );
+							targetText = originalText;
 							APC.processRules( APC.rules );
 							APC.$target.textSelection( 'setContents', targetText );
+							if ( targetText !== originalText ) {
+								APC.addTag();
+							}
 						} );
 					}
 				} );
