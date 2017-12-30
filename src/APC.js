@@ -39,7 +39,7 @@ window.APC.rules = window.APC.rules || [];
 
 	/* Translatable strings */
 	mw.messages.set( {
-		'apc-summary-text': ' +[[WP:Scripts/APC|correções]] [[WP:SR|semiautomáticas]] (v$1/$2/$3)',
+		'apc-summary-text': ' +correções [[WP:SR|semiautomáticas]] (v$1/$2/$3)',
 		'apc-button-rules-all': 'Todas',
 		'apc-button-rules-custom': 'Escolher regras...',
 		'apc-button-bug': 'Informar um erro',
@@ -263,8 +263,8 @@ window.APC.rules = window.APC.rules || [];
 						APC.$target.textSelection( 'setContents', targetText );
 						if ( targetText !== originalText ) {
 							APC.addTag();
+							$sumField.val( $sumField.val() + summaryText );
 						}
-						$sumField.val( $sumField.val() + summaryText );
 					};
 				},
 				mainRules = {
@@ -279,8 +279,8 @@ window.APC.rules = window.APC.rules || [];
 								APC.$target.textSelection( 'setContents', targetText );
 								if ( targetText !== originalText ) {
 									APC.addTag();
+									$sumField.val( $sumField.val() + summaryText );
 								}
-								$sumField.val( $sumField.val() + summaryText );
 							}
 						}
 					}
