@@ -17,7 +17,7 @@
  */
 /*global jQuery, mediaWiki, APC */
 window.APC = window.APC || {};
-window.APC.coreVersion = '0.53';
+window.APC.coreVersion = '0.54';
 /**
  * @type Array.{{
 	name: {string}, // The name of the rule
@@ -363,6 +363,7 @@ window.APC.rules = window.APC.rules || [];
 		load = function () {
 			if ( $.inArray( mw.config.get( 'wgAction' ), [ 'edit', 'submit' ] ) !== -1 ) {
 				APC.$target = $( '#wpTextbox1' );
+				APC.addTag();
 
 				/* Make sure the required modules are available and then customize the toolbar */
 				mw.loader.using( [ 'user.options', 'mediawiki.RegExp', 'jquery.textSelection' ], function () {
@@ -505,6 +506,28 @@ window.APC.rules = window.APC.rules || [];
 			updateHtmlList();
 		}
 	};
+
+	/**
+	 * Add the APC revision tag
+	 * (based on [[c:MediaWiki:Gadget-ProveIt.js]])
+	 * @return {void}
+	 */
+	APC.addTag = function () {
+		var tag = APC.tag;
+		if ( !tag ) {
+			return; // No tag defined
+		}
+		if ( $( '#wpChangeTags' ).length > 0 ) {
+			return; // Don't add it twice
+		}
+		var tagInput = $( '<input>' ).attr({
+			'id': 'wpChangeTags',
+			'type': 'hidden',
+			'name': 'wpChangeTags',
+			'value': tag
+		});
+		$( '#editform' ).prepend( tagInput );
+	},
 	$( load );
 
 }( jQuery, mediaWiki, APC ) );
