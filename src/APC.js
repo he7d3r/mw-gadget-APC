@@ -17,7 +17,7 @@
  */
 /*global jQuery, mediaWiki, APC */
 window.APC = window.APC || {};
-window.APC.coreVersion = '0.56';
+window.APC.coreVersion = '0.57';
 /**
  * @type Array.{{
 	name: {string}, // The name of the rule
@@ -376,7 +376,7 @@ window.APC.rules = window.APC.rules || [];
 				mw.loader.using( [ 'user.options', 'mediawiki.RegExp', 'jquery.textSelection' ], function () {
 					// This can be the string "0" if the user disabled the preference ([[phab:T54542#555387]])
 					if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
-						mw.loader.using( 'ext.wikiEditor.toolbar', function () {
+						mw.loader.using( 'ext.wikiEditor', function () {
 							loadedWikiEditor = true;
 							updateToolbar();
 						} );
