@@ -90,12 +90,12 @@ window.APC.rules = window.APC.rules || [];
 			return keywords[ matchedKey ];
 		},
 		applyEscapedKeyWords = function ( matchedKey ) {
-			return mw.RegExp.escape( keywords[ matchedKey ] );
+			return mw.util.escapeRegExp( keywords[ matchedKey ] );
 		},
 		getRegexForKeywords = function () {
 			var keys = [];
 			$.each( keywords, function ( key ) {
-				keys.push( mw.RegExp.escape( key ) );
+				keys.push( mw.util.escapeRegExp( key ) );
 			} );
 			return new RegExp( '(' + keys.join( '|' ) + ')', 'g' );
 		},
@@ -373,7 +373,7 @@ window.APC.rules = window.APC.rules || [];
 				APC.$target = $( '#wpTextbox1' );
 
 				/* Make sure the required modules are available and then customize the toolbar */
-				mw.loader.using( [ 'user.options', 'mediawiki.RegExp', 'jquery.textSelection' ], function () {
+				mw.loader.using( [ 'user.options', 'mediawiki.util', 'jquery.textSelection' ], function () {
 					// This can be the string "0" if the user disabled the preference ([[phab:T54542#555387]])
 					if ( mw.user.options.get( 'usebetatoolbar' ) == 1 ) {
 						mw.loader.using( 'ext.wikiEditor', function () {
