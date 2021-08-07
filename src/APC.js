@@ -426,13 +426,13 @@ window.APC.rules = window.APC.rules || [];
 				&& (
 					!r.ifhas
 					|| ( typeof r.ifhas === 'string' && targetText.indexOf( r.ifhas ) !== -1 )
-					|| ( allowFunctionTests && $.isFunction( r.ifhas ) && r.ifhas( targetText ) )
+					|| ( allowFunctionTests && typeof r.ifhas === "function" && r.ifhas( targetText ) )
 					|| ( typeof r.ifhas === 'object' && r.ifhas.test( targetText ) )
 				)
 				&& (
 					!r.ifnot
 					|| ( typeof r.ifnot === 'string' && targetText.indexOf( r.ifnot ) === -1 )
-					|| ( allowFunctionTests && $.isFunction( r.ifnot ) && !r.ifnot( targetText ) )
+					|| ( allowFunctionTests && typeof r.ifnot === "function" && !r.ifnot( targetText ) )
 					|| ( typeof r.ifnot === 'object' && !r.ifnot.test( targetText ) )
 
 				)
@@ -455,7 +455,7 @@ window.APC.rules = window.APC.rules || [];
 								? 100
 								: r.num;
 						temp = targetText;
-						if ( $.isFunction( r.replace ) ) {
+						if ( typeof r.replace === "function" ) {
 							while ( times > 0 ) {
 								targetText = targetText.replace( r.find, r.replace )
 									.replace( reKeyWords, applyKeyWords );
