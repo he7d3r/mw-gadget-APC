@@ -349,7 +349,7 @@ window.APC.rules = window.APC.rules || [];
 				action: {
 					type: 'callback',
 					execute: function () {
-						mw.loader.using( 'jquery.ui.dialog', openDialog );
+						mw.loader.using( 'jquery.ui', openDialog );
 					}
 				}
 			};
